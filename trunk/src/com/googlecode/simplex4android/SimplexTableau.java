@@ -9,7 +9,19 @@ public class SimplexTableau {
 		this.tableau = tableau;
 		this.target = target;
 	}
+	
+	//getter um einzelnen Wert auszugeben. Evtl. sind noch spalte und Zeile vertauscht
+	public double getField(int zeile, int spalte){
+		return tableau[zeile][spalte];
+	}
+	
+	//setter um einzelnen Wert zu setzen. Evtl. sind noch spalte und Zeile vertauscht
+	public void setField(int zeile, int spalte, double value){
+		tableau[zeile][spalte]=value;
+	}
 
+	//Hier nach nur noch standard getter und setter. Mal schauen welche wir davon überhaupt brauchen
+	
 	public double[][] getTableau() {
 		return tableau;
 	}
