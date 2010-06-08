@@ -5,7 +5,7 @@ public class SimplexTableau {
 	private double[][]tableau;
 	private int[] target;
 	
-	public SimplexTableau(double[][] tableau, int[] target){
+	public SimplexTableau(double[][] tableau, int[] target){ //int[] für die Zielfunktion?
 		this.tableau = tableau;
 		this.target = target;
 	}
@@ -37,6 +37,12 @@ public class SimplexTableau {
 	public void setTarget(int[] target) {
 		this.target = target;
 	}
+
+	public int getNoColumns(){
+		return this.tableau[0].length-1;
+	}
 	
-	
+	public int getNoRows(){
+		return this.tableau.length-1;
+	}
 }
