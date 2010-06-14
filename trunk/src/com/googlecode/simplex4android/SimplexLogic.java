@@ -68,8 +68,10 @@ public class SimplexLogic {
 		return s;
 	}
 	
-	
-	//Pivotspalte finden
+	/**
+	 * Gibt ein Array mit den Pivotspalten aus.
+	 * @return Array mit den Pivotspalten
+	 */
 	public int[] findPivot(){
 		int[] pivots = new int[this.problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
 		int countPivots = 0; //Zähler, wie viele Pivotspalten bereites gefunden wurden
