@@ -35,13 +35,29 @@ public class SimplexLogic {
 	
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
-	 * @param simplex übergebenes SimplexTableau
 	 * @param zeile Zeile des Pivotelements
 	 * @param spalte Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
 	 */
-	public SimplexTableau gauss(SimplexTableau simplex, int zeile, int spalte){
+	public SimplexTableau gauss(int zeile, int spalte){
+		SimplexTableau s = new SimplexTableau();
+		s = this.problem;
 		
+		//Normalisierung der neuen Pivotzeile
+		double faktor = 1/s.getField(zeile, spalte);
+		double[] pivotzeile = s.getRow(zeile);
+		for(int i=0;i<s.getTableau()[zeile].length;i++){
+			pivotzeile[i] = pivotzeile[i]*faktor;
+		}
+		s.setRow(pivotzeile, zeile);
+		
+		//Erzeugen der Nullen in der Pivotspalte
+		for(int i=0;i<s.getTableau()[zeile].length;i++){
+			for(int j=0;j<s.getTableau().length;j++){
+				
+			}
+		}
+		return s;
 	}
 	
 	//Pivotspalte finden
