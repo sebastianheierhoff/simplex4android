@@ -7,11 +7,15 @@ import java.io.IOException;
 //Simplex-Algorithmus 2. Phase
 public class SimplexLogic {
 	
-	SimplexTableau problem;
-	
+	//Problem überflüssig, erstes Element der History nehmen
+
+	private ArrayList history;
+	private SimplexTableau problem;
 	
 	public SimplexLogic(double[][] tableau, int[] target) {
 		this.problem = new SimplexTableau(tableau, target);
+
+
 	}
 	
 	//Implementiert die 2. Phase des Simplex-Algorithmus
@@ -96,7 +100,10 @@ public class SimplexLogic {
 				countPivots++;
 			}
 		}
-		return pivots;
+		this.problem.setPivots(pivots);
+	}
+	
+	public void calcDeltas(){		
 	}
 	
 	//Einheitsvektoren finden, Tableau auffüllen, künstliche Variablen
