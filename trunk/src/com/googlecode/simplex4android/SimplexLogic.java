@@ -40,8 +40,7 @@ public class SimplexLogic {
 	 * @return mit dem Gauﬂ-Algorithmus bearbeitetes SimplexTableau
 	 */
 	public SimplexTableau gauss(int zeile, int spalte) throws IOException{
-		SimplexTableau s = new SimplexTableau();
-		s = this.problem;
+		SimplexTableau s = this.problem;
 		double pivotElement = s.getField(zeile, spalte);
 		
 		//Normalisierung der neuen Pivotzeile
