@@ -31,6 +31,19 @@ public class SimplexLogic {
 
 		
 	}
+	
+	
+	/**
+	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
+	 * @param simplex übergebenes SimplexTableau
+	 * @param zeile Zeile des Pivotelements
+	 * @param spalte Spalte des Pivotelements
+	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
+	 */
+	public SimplexTableau gauss(SimplexTableau simplex, int zeile, int spalte){
+		zeile = zeile++;
+	}
+	
 	//Pivotspalte finden
 	public int[] findPivot(){
 		int[] pivots = new int[this.problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
