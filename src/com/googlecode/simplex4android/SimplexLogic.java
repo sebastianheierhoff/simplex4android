@@ -57,22 +57,15 @@ public class SimplexLogic {
 		s.setRow(pivotZeile, zeile);
 		
 		//Erzeugen der Nullen in der Pivotspalte
-		for(int i=0;i<zeile;i++){
-			if(s.getField(i, spalte)!=0){
+		for(int i=0;i<s.getNoRows();i++){
+			if(i!=zeile && s.getField(i, spalte)!=0){
 				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
 				for(int j=0;j<s.getTableau().length;j++){
 					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
-				}
-			}			
+				}				
+			}						
 		}
-		for(int i=s.getNoRows();i>zeile;i--){
-			if(s.getField(i, spalte)!=0){
-				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
-				for(int j=0;j<s.getTableau().length;j++){
-					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
-				}
-			}	
-		}
+		
 		return s;
 	}
 	
