@@ -5,10 +5,10 @@ package com.googlecode.simplex4android;
  * @author Max Wortmann
  */
 public class SimplexTableau {
-
 	
 	private double[][]tableau;
 	private int[] target;
+	private int[] pivots;
 	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
