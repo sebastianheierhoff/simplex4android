@@ -129,6 +129,22 @@ public class SimplexProblem {
 	public int getNoRows(){
 		return this.tableau.length;
 	}
+
+	/**
+	 * Gibt die Pivotspaltentabelle aus.
+	 * @param zu setzende Pivotspalten
+	 */
+	public void setPivots(int[] pivots) {
+		this.pivots = pivots;
+	}
+
+	/**
+	 * Setzt die Pvotspaltentabelle.
+	 * @return Pivotspalten
+	 */
+	public int[] getPivots() {
+		return pivots;
+	}
 	
 	
 }
