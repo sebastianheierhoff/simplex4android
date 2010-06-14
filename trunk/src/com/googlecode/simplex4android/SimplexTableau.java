@@ -22,22 +22,22 @@ public class SimplexTableau {
 	
 	/**
 	 * Gibt den Inhalt den Feldes in (zeile,spalte) aus.
-	 * @param zeile Zeile im SimplexTableau
-	 * @param spalte Spalte im SimplexTableau
+	 * @param i Index der Zeile im SimplexTableau
+	 * @param j Index der Spalte im SimplexTableau
 	 * @return Inhalt des Feldes in (zeile,spalte)
 	 */
-	public double getField(int zeile, int spalte){
-		return tableau[zeile][spalte];
+	public double getField(int i, int j){
+		return tableau[i][j];
 	}
 	
 	/**
 	 * Setzt den Inhalt in Feld (zeile, spalte) auf den übergebenen double-Wert.
-	 * @param zeile Zeile im SimplexTableau
-	 * @param spalte Spalte im SimplexTableau
+	 * @param i Index der Zeile im SimplexTableau
+	 * @param j Index der Spalte im SimplexTableau
 	 * @param value übergebener Wert
 	 */
-	public void setField(int zeile, int spalte, double value){
-		tableau[zeile][spalte]=value;
+	public void setField(int i, int j, double value){
+		tableau[i][j]=value;
 	}
 	
 	/**
