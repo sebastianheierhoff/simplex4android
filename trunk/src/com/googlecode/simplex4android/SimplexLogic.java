@@ -50,7 +50,7 @@ public class SimplexLogic {
 		}
 		double pivotfaktor = 1/s.getField(zeile, spalte);
 		double[] pivotZeile = s.getRow(zeile);
-		for(int i=0;i<s.getTableau()[zeile].length;i++){
+		for(int i=0;i<s.getNoColumns();i++){
 			pivotZeile[i] = pivotZeile[i]*pivotfaktor;
 		}
 		s.setRow(pivotZeile, zeile);
@@ -59,7 +59,7 @@ public class SimplexLogic {
 		for(int i=0;i<s.getNoRows();i++){
 			if(i!=zeile && s.getField(i, spalte)!=0){
 				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
-				for(int j=0;j<s.getTableau().length;j++){
+				for(int j=0;j<s.getNoRows();j++){
 					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
 				}				
 			}						
