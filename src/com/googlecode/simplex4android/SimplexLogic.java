@@ -41,7 +41,7 @@ public class SimplexLogic {
 	 * @return mit dem Gauﬂ-Algorithmus bearbeitetes SimplexTableau
 	 */
 	public SimplexTableau gauss(SimplexTableau simplex, int zeile, int spalte){
-		zeile = zeile++;
+		
 	}
 	
 	//Pivotspalte finden
