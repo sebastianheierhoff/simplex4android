@@ -21,6 +21,14 @@ public class SimplexTableau {
 	}
 	
 	/**
+	 * Erstellt ein Standardtableau
+	 */
+	public SimplexTableau() {
+		this.tableau = new double[7][3];
+		this.target = new int[3];
+	}
+
+	/**
 	 * Gibt den Inhalt den Feldes in (zeile,spalte) aus.
 	 * @param i Index der Zeile im SimplexTableau
 	 * @param j Index der Spalte im SimplexTableau
