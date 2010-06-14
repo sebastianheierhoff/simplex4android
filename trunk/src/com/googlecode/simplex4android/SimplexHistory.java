@@ -8,37 +8,37 @@ import java.util.ArrayList;
  */
 public class SimplexHistory {
 
-	private ArrayList<SimplexTableau> history;
+	private ArrayList<SimplexProblem> history;
 	
 	public SimplexHistory(){
-		this.history = new ArrayList<SimplexTableau>();
+		this.history = new ArrayList<SimplexProblem>();
 	}
 	
 	/**
 	 * @return
 	 */
-	public SimplexTableau getLastElement(){
+	public SimplexProblem getLastElement(){
 		return this.history.get(this.history.size()-1);
 	}
 	
 	/**
 	 * @return
 	 */
-	public SimplexTableau getFirstElement(){
+	public SimplexProblem getFirstElement(){
 		return this.history.get(0);
 	}
 
 	/**
 	 * @return
 	 */
-	public SimplexTableau getElement(int index) throws java.lang.IndexOutOfBoundsException{
+	public SimplexProblem getElement(int index) throws java.lang.IndexOutOfBoundsException{
 		return this.history.get(index);
 	}
 	
 		/**
 	 * @param tableau
 	 */
-	public void addElement(SimplexTableau tableau){
+	public void addElement(SimplexProblem tableau){
 		this.history.add(tableau);
 	}
 
