@@ -1,5 +1,7 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
+
 //Eingabe verarbeiten/Tableau vervollständigen - Max
 
 //Simplex-Algorithmus 2. Phase
@@ -31,34 +33,49 @@ public class SimplexLogic {
 
 		
 	}
-	
-	
+		
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
 	 * @param zeile Zeile des Pivotelements
 	 * @param spalte Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
 	 */
-	public SimplexTableau gauss(int zeile, int spalte){
+	public SimplexTableau gauss(int zeile, int spalte) throws IOException{
 		SimplexTableau s = new SimplexTableau();
 		s = this.problem;
+		double pivotElement = s.getField(zeile, spalte);
 		
 		//Normalisierung der neuen Pivotzeile
-		double faktor = 1/s.getField(zeile, spalte);
-		double[] pivotzeile = s.getRow(zeile);
-		for(int i=0;i<s.getTableau()[zeile].length;i++){
-			pivotzeile[i] = pivotzeile[i]*faktor;
+		if(pivotElement==0 || pivotElement==Double.POSITIVE_INFINITY || pivotElement==Double.NEGATIVE_INFINITY){
+			throw new IOException("Pivotelement ist gleich Null oder Unendlich.");
 		}
-		s.setRow(pivotzeile, zeile);
+		double pivotfaktor = 1/s.getField(zeile, spalte);
+		double[] pivotZeile = s.getRow(zeile);
+		for(int i=0;i<s.getTableau()[zeile].length;i++){
+			pivotZeile[i] = pivotZeile[i]*pivotfaktor;
+		}
+		s.setRow(pivotZeile, zeile);
 		
 		//Erzeugen der Nullen in der Pivotspalte
-		for(int i=0;i<s.getTableau()[zeile].length;i++){
-			for(int j=0;j<s.getTableau().length;j++){
-				
-			}
+		for(int i=0;i<zeile;i++){
+			if(s.getField(i, spalte)!=0){
+				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
+				for(int j=0;j<s.getTableau().length;j++){
+					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
+				}
+			}			
+		}
+		for(int i=s.getNoRows();i>zeile;i--){
+			if(s.getField(i, spalte)!=0){
+				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
+				for(int j=0;j<s.getTableau().length;j++){
+					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
+				}
+			}	
 		}
 		return s;
 	}
+	
 	
 	//Pivotspalte finden
 	public int[] findPivot(){
