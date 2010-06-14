@@ -8,18 +8,21 @@ import java.io.IOException;
 public class SimplexLogic {
 
 	SimplexHistory history;
-	SimplexProblem problem;
+	SimplexSettings settings;
 	
-	public SimplexLogic(double[][] tableau, int[] target) {
-
-		this.problem = new SimplexProblem(tableau, target);
+	public SimplexLogic() {
+		this.history = new SimplexHistory();
 	}
 	
 	//Implementiert die 2. Phase des Simplex-Algorithmus
 	public static void main(String[] args){
 		double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
 		int[] target = {1,2,7,6,0,0}; //int[] oder double[]
-		SimplexLogic simplex = new SimplexLogic(tableau, target);
+		SimplexProblem problem = new SimplexProblem(tableau, target);
+		
+		SimplexLogic simplex = new SimplexLogic();
+		simplex.history.addElement(problem);
+		
 		//Pivotspalten finden - Sebastian
 		System.out.println(java.util.Arrays.deepToString(simplex.problem.getTableau()));
 		System.out.println(java.util.Arrays.toString(simplex.findPivot()));
