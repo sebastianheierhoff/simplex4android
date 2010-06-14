@@ -1,6 +1,5 @@
 package com.googlecode.simplex4android;
 
-
 /**
  * Datenhaltungsklasse SimplexTableau zur Repräsentation des SimplexTableaus und der Zielfunktion.
  * @author Max Wortmann
@@ -40,8 +39,6 @@ public class SimplexTableau {
 	public void setField(int zeile, int spalte, double value){
 		tableau[zeile][spalte]=value;
 	}
-
-	//Hier nach nur noch standard getter und setter. Mal schauen welche wir davon überhaupt brauchen
 	
 	/**
 	 * Gibt das SimplexTableau aus.
