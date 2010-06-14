@@ -19,14 +19,6 @@ public class SimplexTableau {
 		this.tableau = tableau;
 		this.target = target;
 	}
-	
-	/**
-	 * Erstellt ein Standardtableau
-	 */
-	public SimplexTableau() {
-		this.tableau = new double[7][3];
-		this.target = new int[3];
-	}
 
 	/**
 	 * Gibt den Inhalt den Feldes in (zeile,spalte) aus.
