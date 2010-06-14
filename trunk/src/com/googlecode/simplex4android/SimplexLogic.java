@@ -6,16 +6,13 @@ import java.io.IOException;
 
 //Simplex-Algorithmus 2. Phase
 public class SimplexLogic {
-	
-	//Problem überflüssig, erstes Element der History nehmen
 
-	private ArrayList history;
-	private SimplexTableau problem;
+	SimplexHistory history;
+	SimplexProblem problem;
 	
 	public SimplexLogic(double[][] tableau, int[] target) {
-		this.problem = new SimplexTableau(tableau, target);
 
-
+		this.problem = new SimplexProblem(tableau, target);
 	}
 	
 	//Implementiert die 2. Phase des Simplex-Algorithmus
@@ -43,8 +40,8 @@ public class SimplexLogic {
 	 * @param spalte Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
 	 */
-	public SimplexTableau gauss(int zeile, int spalte) throws IOException{
-		SimplexTableau s = this.problem;
+	public SimplexProblem gauss(int zeile, int spalte) throws IOException{
+		SimplexProblem s = this.problem;
 		double pivotElement = s.getField(zeile, spalte);
 		
 		//Normalisierung der neuen Pivotzeile
