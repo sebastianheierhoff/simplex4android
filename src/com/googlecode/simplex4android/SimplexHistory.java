@@ -8,10 +8,11 @@ import java.util.ArrayList;
  */
 public class SimplexHistory {
 
-	private ArrayList<SimplexProblem> history;
+	private ArrayList<SimplexProblem> history = new ArrayList<SimplexProblem>();
 	
-	public SimplexHistory(){
-		this.history = new ArrayList<SimplexProblem>();
+	public SimplexHistory(double[][] tableau, int[] target){
+		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
+		history.add(firstProblem);
 	}
 	
 	/**
