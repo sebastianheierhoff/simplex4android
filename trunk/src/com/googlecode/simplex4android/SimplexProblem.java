@@ -9,6 +9,7 @@ public class SimplexProblem {
 	private double[][]tableau;
 	private int[] target;
 	private int[] pivots;
+	private double[] xByF;
 	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
@@ -78,8 +79,17 @@ public class SimplexProblem {
 	 * @return Spalte j
 	 */
 	public double[] getColumn(int j){
-		return this.tableau[j];
+		double[] r = new double[this.tableau.length];
+		for(int a=0;a<this.tableau.length;a++){
+			r[a]=this.tableau[a][j];
+		}
+		return r;
 	}
+
+	public double[] getLastColumn(){
+		return getColumn(this.getNoColumns()-1);
+	}
+
 	
 	/**
 	 * Setzt Spalte j.
@@ -102,6 +112,10 @@ public class SimplexProblem {
 		}
 		return r;
 	}
+
+	public double[] getLastRow(){
+		return getRow(this.getNoRows()-1);
+	}
 	
 	/**
 	 * Setzt Zeile i.
@@ -113,7 +127,7 @@ public class SimplexProblem {
 			this.tableau[i][a]=r[a];
 		}
 	}
-
+	
 	/**
 	 * Gibt die Anzahl der Spalten aus.
 	 * @return Anzahl der Spalten
@@ -131,6 +145,14 @@ public class SimplexProblem {
 	}
 
 	/**
+	 * Setzt die Pvotspaltentabelle.
+	 * @return Pivotspalten
+	 */
+	public int[] getPivots() {
+		return pivots;
+	}
+
+	/**
 	 * Gibt die Pivotspaltentabelle aus.
 	 * @param zu setzende Pivotspalten
 	 */
@@ -138,13 +160,11 @@ public class SimplexProblem {
 		this.pivots = pivots;
 	}
 
-	/**
-	 * Setzt die Pvotspaltentabelle.
-	 * @return Pivotspalten
-	 */
-	public int[] getPivots() {
-		return pivots;
+	public double[] getXByF() {
+		return xByF;
 	}
-	
-	
+
+	public void setXByF(double[] xByF) {
+		this.xByF = xByF;
+	}
 }

@@ -1,0 +1,24 @@
+Dokumentation:
+
+- Aufteilung in Klassen:
+SimplexHistory.java: ArrayList mit Objekten des Typs SimplexProblem.
+
+SimplexProblem.java:
+
+SimplexSettings.java: Einstellungen, die zu einem bestimmten Tableau gehören
+
+SimplexLogic.java:
+
+
+
+
+
+- Methoden:
+
+
+
+
+
+- GUI:
+
+
