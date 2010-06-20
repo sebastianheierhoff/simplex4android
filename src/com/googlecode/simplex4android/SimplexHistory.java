@@ -10,6 +10,10 @@ public class SimplexHistory {
 
 	private ArrayList<SimplexProblem> history = new ArrayList<SimplexProblem>();
 	
+	public SimplexHistory(){
+		
+	}
+	
 	public SimplexHistory(double[][] tableau, int[] target){
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
 		history.add(firstProblem);

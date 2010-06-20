@@ -2,14 +2,14 @@ package com.googlecode.simplex4android;
 
 /**
  * Datenhaltungsklasse SimplexTableau zur Repräsentation des SimplexTableaus und der Zielfunktion.
- * @author Max Wortmann
+ * @author
  */
 public class SimplexProblem {
-
-	private double[][]tableau;
-	private int[] target;
-	private int[] pivots;
-	private double[] xByF;
+	private double[][]tableau; //Simplex-Tableau inkl. Delta-Werte. Delta-Werte werden mit 0 initialisiert und dann ersetzt
+	private int[] target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	private int[] pivots; //Basisspalten
+	private double[] xByF; //
+	private boolean optimal;
 	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
@@ -19,6 +19,7 @@ public class SimplexProblem {
 	public SimplexProblem(double[][] tableau, int[] target){ //int[] für die Zielfunktion?
 		this.tableau = tableau;
 		this.target = target;
+		this.optimal = false;
 	}
 	
 	/**
@@ -166,5 +167,13 @@ public class SimplexProblem {
 
 	public void setXByF(double[] xByF) {
 		this.xByF = xByF;
+	}
+	
+	public Boolean getOptimal(){
+		return optimal;
+	}
+	
+	public void setOptimal(){
+		this.optimal = true;
 	}
 }
