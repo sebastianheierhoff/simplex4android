@@ -2,7 +2,10 @@ package com.googlecode.simplex4android;
 
 import java.io.IOException;
 
-//Simplex-Algorithmus 2. Phase
+/**
+ * Klasse SimplexLogic - bekommt ein SimplexProblem übergeben, bearbeitete dieses und gibt ein neues SimplexProbelm zurück.
+ * @author
+ */
 public class SimplexLogic {
 	SimplexProblem problem;
 	

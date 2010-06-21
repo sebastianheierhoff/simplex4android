@@ -3,8 +3,8 @@ package com.googlecode.simplex4android;
 import java.util.ArrayList;
 
 /**
- * @author Sebastian Hanschke
- *
+ * Klasse SimplexHistory - speichert alle Tableaus, von der Eingabe bis zur optimalen Lösung.
+ * @author
  */
 public class SimplexHistory {
 

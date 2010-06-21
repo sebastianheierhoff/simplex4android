@@ -2,6 +2,10 @@ package com.googlecode.simplex4android;
 
 import java.util.Arrays;
 
+/**
+ * Klasse Simplex - legt eine History an, nimmt die Eingabe entgegen, verarbeitet diese, lässt das Problem je nach Settings von SimplexLogic lösen und sorgt für die Ausgabe.
+ * @author
+ */
 public class Simplex {
 	
 	SimplexHistory history;

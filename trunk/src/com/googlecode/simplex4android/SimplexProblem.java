@@ -1,7 +1,7 @@
 package com.googlecode.simplex4android;
 
 /**
- * Datenhaltungsklasse SimplexTableau zur Repräsentation des SimplexTableaus und der Zielfunktion.
+ * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
  * @author
  */
 public class SimplexProblem {
