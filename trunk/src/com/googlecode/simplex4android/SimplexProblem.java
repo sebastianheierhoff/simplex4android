@@ -121,7 +121,7 @@ public class SimplexProblem {
 	/**
 	 * Setzt Zeile i.
 	 * @param r übergebene Zeile
-	 * @param i Index der zu überändernden Zeile
+	 * @param i Index der zu ändernden Zeile
 	 */
 	public void setRow(double[] r, int i){
 		for(int a=0;a<this.tableau[0].length;a++){

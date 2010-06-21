@@ -46,7 +46,7 @@ public class SimplexLogic {
 		if(pivotElement==0 || pivotElement==Double.POSITIVE_INFINITY || pivotElement==Double.NEGATIVE_INFINITY){
 			throw new IOException("Pivotelement ist gleich Null oder Unendlich.");
 		}
-		double pivotfaktor = 1/s.getField(zeile, spalte);
+		double pivotfaktor = 1/pivotElement;
 		double[] pivotZeile = s.getRow(zeile);
 		for(int i=0;i<s.getNoColumns();i++){
 			pivotZeile[i] = pivotZeile[i]*pivotfaktor;
@@ -56,9 +56,9 @@ public class SimplexLogic {
 		//Erzeugen der Nullen in der Pivotspalte
 		for(int i=0;i<s.getNoRows();i++){
 			if(i!=zeile && s.getField(i, spalte)!=0){
-				double zeilenfaktor = s.getField(i, spalte)/pivotElement;
+				double zeilenfaktor = s.getField(i, spalte);
 				for(int j=0;j<s.getNoRows();j++){
-					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*pivotElement));
+					s.setField(i, j, (s.getField(i, j)-zeilenfaktor*s.getField(zeile, j)));
 				}				
 			}						
 		}
