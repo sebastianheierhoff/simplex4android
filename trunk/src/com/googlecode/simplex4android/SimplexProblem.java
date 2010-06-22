@@ -11,6 +11,11 @@ public class SimplexProblem {
 	private double[] xByF; //
 	private boolean optimal;
 	
+	//SETTINGS!!!
+	//normaler Simplex oder Dualer Simplex
+	//automatische/manuelle Wahl der Pivotspalten
+	
+	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
