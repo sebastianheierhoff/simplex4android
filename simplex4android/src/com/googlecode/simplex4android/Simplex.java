@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class Simplex {
 	
 	SimplexHistory history;
+	String test;
 	
 	public Simplex(){
 		this.history = new SimplexHistory();
