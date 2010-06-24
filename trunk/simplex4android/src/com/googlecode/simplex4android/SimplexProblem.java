@@ -212,14 +212,14 @@ public class SimplexProblem {
 	public String targetToString(){
 		String re = "";
 		re += this.target[0]+"x1";
-		for(int i=1;i<this.target.length-1;i++){
+		for(int i=1;i<this.target.length-2;i++){
 			if(this.target[i]<0){
-				re += " " + target[i] + "x" + i;
+				re += " " + target[i] + "x" + (i+1);
 			}else{
-				re += " +" + target[i] + "x" +i;
+				re += " + " + target[i] + "x" +(i+1);
 			}			
 		}
-		re += " = min!";
+		re += " = min";
 		return re;
 	}
 }
