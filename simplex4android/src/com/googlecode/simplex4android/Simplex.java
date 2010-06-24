@@ -31,19 +31,19 @@ public class Simplex {
 		simplex.history.addElement(firstProblem);
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		while(simplex.history.getLastElement().getOptimal() != true){
+		//while(simplex.history.getLastElement().getOptimal() != true){
 			SimplexLogic current = new SimplexLogic(simplex.history.getLastElement());
 			simplex.history.addElement(current.simplex());
 			
 			//Debug-Ausgabe
 			if(debug == true){System.out.println("Tableau: " + Arrays.deepToString(current.problem.getTableau()));} 
-			if(debug == true){System.out.println("Zielfunktion: " + Arrays.toString(current.problem.getTarget()));} 
+			if(debug == true){System.out.println("Zielfunktion: " + current.problem.targetToString());} 
 			if(debug == true){System.out.println("Tableau (Delta-Werte berechnet): " + Arrays.deepToString(current.problem.getTableau()));} //Debug
 			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.problem.getPivots()));}
 			if(debug == true){System.out.println(current.choosePivotRow());}
 			
 
-		}
+		//}
 	}
 
 	
