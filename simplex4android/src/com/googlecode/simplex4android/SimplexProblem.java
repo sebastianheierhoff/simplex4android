@@ -92,6 +92,10 @@ public class SimplexProblem {
 		return r;
 	}
 
+	/**
+	 * Gibt die letzte Spalte des Simplex-Tableaus aus.
+	 * @return letzte Spalte des Simplex-Tableaus
+	 */
 	public double[] getLastColumn(){
 		return getColumn(this.getNoColumns()-1);
 	}
@@ -119,6 +123,10 @@ public class SimplexProblem {
 		return r;
 	}
 
+	/**
+	 * Gibt die letzte Zeile (delta-Werte) aus.
+	 * @return letzte Zeile (delta-Werte)
+	 */
 	public double[] getLastRow(){
 		return getRow(this.getNoRows()-1);
 	}
@@ -166,19 +174,52 @@ public class SimplexProblem {
 		this.pivots = pivots;
 	}
 
+	/**
+	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
+	 * @return Array mit den x/f-Werten für jede Zeile
+	 */
 	public double[] getXByF() {
 		return xByF;
 	}
 
+	/**
+	 * Überschreibt die x/f-Werte.
+	 * @param xByF neue x/f-Werte
+	 */
 	public void setXByF(double[] xByF) {
 		this.xByF = xByF;
 	}
 	
-	public Boolean getOptimal(){
+	/**
+	 * Gibt true, wenn Optimaltableau gefunden, sonst false.
+	 * @return true, wenn Optimaltableau gefunden, sonst false.
+	 */
+	public boolean getOptimal(){
 		return optimal;
 	}
 	
+	/**
+	 * Setzt das Tableau als Optimaltableau.
+	 */
 	public void setOptimal(){
 		this.optimal = true;
+	}
+	
+	/**
+	 * Gibt eine Stringdarstellung der Zielfunktion zurück.
+	 * @return Stringdarstellung der Zielfunktion.
+	 */
+	public String targetToString(){
+		String re = "";
+		re += this.target[0]+"x1";
+		for(int i=1;i<this.target.length-1;i++){
+			if(this.target[i]<0){
+				re += " " + target[i] + "x" + i;
+			}else{
+				re += " +" + target[i] + "x" +i;
+			}			
+		}
+		re += " = min!";
+		return re;
 	}
 }
