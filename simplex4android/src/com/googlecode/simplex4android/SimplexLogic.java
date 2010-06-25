@@ -32,8 +32,8 @@ public abstract class SimplexLogic {
 		
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
-	 * @param zeile Zeile des Pivotelements
-	 * @param spalte Spalte des Pivotelements
+	 * @param zeile Index der Zeile des Pivotelements
+	 * @param spalte Index der Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
 	 */
 	public static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
@@ -54,7 +54,7 @@ public abstract class SimplexLogic {
 		for(int i=0;i<problem.getNoRows();i++){
 			if(i!=zeile && problem.getField(i, spalte)!=0){
 				double zeilenfaktor = problem.getField(i, spalte);
-				for(int j=0;j<problem.getNoRows();j++){
+				for(int j=0;j<problem.getNoColumns();j++){
 					problem.setField(i, j, (problem.getField(i, j)-zeilenfaktor*problem.getField(zeile, j)));
 				}				
 			}						
