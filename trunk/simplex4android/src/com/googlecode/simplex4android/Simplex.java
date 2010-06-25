@@ -39,7 +39,7 @@ public class Simplex {
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
 		for(int i=0;i<2;i++){
 			SimplexProblem current = sh.getLastElement();
-			current = SimplexLogic.doSimplex(current);
+			current = SimplexLogic.simplex(current);
 			
 			//Debug-Ausgabe
 			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
