@@ -12,7 +12,7 @@ public abstract class SimplexLogic {
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public SimplexProblem simplex(SimplexProblem problem){
+	public SimplexProblem doSimplex(SimplexProblem problem){
 		problem.setPivots(findPivots(problem)); 	//Pivotspalten finden		
 		problem = calcDeltas(problem); //Delta-Werte berechnen (1. Durchgang, muss durch Funktion geschehen)
 		problem = calcXByF(problem); //x/f errechnen, 
