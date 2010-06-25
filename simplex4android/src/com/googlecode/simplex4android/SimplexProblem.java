@@ -2,7 +2,7 @@ package com.googlecode.simplex4android;
 
 /**
  * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
- * @author
+ * @author Simplex4Android
  */
 public class SimplexProblem {
 	private double[][]tableau; //Simplex-Tableau inkl. Delta-Werte. Delta-Werte werden mit 0 initialisiert und dann ersetzt
@@ -168,7 +168,7 @@ public class SimplexProblem {
 
 	/**
 	 * Gibt die Pivotspaltentabelle aus.
-	 * @param zu setzende Pivotspalten
+	 * @param pivots zu setzende Pivotspalten
 	 */
 	public void setPivots(int[] pivots) {
 		this.pivots = pivots;
