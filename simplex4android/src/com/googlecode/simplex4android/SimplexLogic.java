@@ -4,13 +4,13 @@ import java.io.IOException;
 
 /**
  * Klasse SimplexLogic - bekommt ein SimplexProblem übergeben, bearbeitete dieses und gibt ein neues SimplexProbelm zurück.
- * @author
+ * @author Simplex4Android
  */
 public abstract class SimplexLogic {
 	
 	/**
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
-	 * @return 
+	 * @return bearbeitetes SimplexProblem
 	 */
 	public SimplexProblem simplex(SimplexProblem problem){
 		problem.setPivots(findPivots(problem)); 	//Pivotspalten finden		
@@ -133,7 +133,7 @@ public abstract class SimplexLogic {
 		
 	/**
 	 * Gibt ein Array mit den Pivotspalten aus.
-	 * @param SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
+	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
 	public int[] findPivots(SimplexProblem problem){
