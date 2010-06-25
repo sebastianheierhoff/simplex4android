@@ -237,4 +237,32 @@ public class SimplexProblem {
 		}		
 		return re;
 	}
+	
+	/**
+	 * Fügt eine weitere Pivospalte an das Ende des Tableaus ein. Die Eins befindet sich dabei in der Zeile mit Index c.
+	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
+	 */
+	public void addPivotColumn(int c){
+		// Pivotspalte ergänzen
+		double[][] tableauNew = new double[this.tableau.length][this.tableau[0].length];
+		for(int i=0;i<this.getNoRows();i++){
+			if(i!=c){
+				tableauNew[i][this.getNoColumns()-1] = 0;
+			}else{
+				tableauNew[i][this.getNoColumns()-1] = 1;
+			}
+		}
+		this.setTableau(tableauNew);
+		
+		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
+		int[] targetNew = new int[this.target.length];
+		targetNew[this.target.length-1] = targetNew[this.target.length-2];
+		targetNew[this.target.length-2] = 0;
+		this.setTarget(targetNew);
+		
+		// Einfügen der neuen Pivotspalte in die Basis
+		int[] pivotsNew = new int[this.pivots.length];
+		pivotsNew[this.pivots.length-1] = this.getNoColumns()-1;
+		this.setPivots(pivotsNew);		
+	}
 }
