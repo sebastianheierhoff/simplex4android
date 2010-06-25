@@ -36,11 +36,11 @@ public class Simplex {
 			simplex.history.addElement(current.simplex());
 			
 			//Debug-Ausgabe
-			if(debug == true){System.out.println("Tableau: " + Arrays.deepToString(current.problem.getTableau()));} 
+			if(debug == true){System.out.println("Tableau: \n" + current.problem.tableauToString());} 
 			if(debug == true){System.out.println("Zielfunktion: " + current.problem.targetToString());} 
 			if(debug == true){System.out.println("Tableau (Delta-Werte berechnet): " + Arrays.deepToString(current.problem.getTableau()));} //Debug
 			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.problem.getPivots()));}
-			if(debug == true){System.out.println(current.choosePivotRow());}
+			if(debug == true){System.out.println("Aktuell gewählte Pivotspalte: "+current.choosePivotRow());}
 			
 
 		//}

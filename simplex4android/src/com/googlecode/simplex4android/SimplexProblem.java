@@ -214,12 +214,27 @@ public class SimplexProblem {
 		re += this.target[0]+"x1";
 		for(int i=1;i<this.target.length-2;i++){
 			if(this.target[i]<0){
-				re += " " + target[i] + "x" + (i+1);
+				re += " " +target[i] +"x" +(i+1);
 			}else{
-				re += " + " + target[i] + "x" +(i+1);
+				re += " + " +target[i] +"x" +(i+1);
 			}			
 		}
 		re += " = min";
+		return re;
+	}
+	
+	/**
+	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
+	 * @return Stringdarstellung des SimplexTableaus
+	 */
+	public String tableauToString(){
+		String re ="";
+		for(int i=0;i<this.tableau.length;i++){
+			for(int j=0;j<this.tableau[0].length-1;j++){
+				re += " " +this.tableau[i][j];
+			}
+			re += " | " +this.tableau[i][this.tableau[0].length-1] +"\n";
+		}		
 		return re;
 	}
 }
