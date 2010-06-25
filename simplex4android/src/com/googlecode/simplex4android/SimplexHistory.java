@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Klasse SimplexHistory - speichert SimplexProbleme.
- * @author
+ * @author Simplex4Android
  */
 public class SimplexHistory {
 
