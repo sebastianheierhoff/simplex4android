@@ -27,6 +27,7 @@ public class Simplex {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
+		firstProblem.addPivotColumn(1);
 			
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
