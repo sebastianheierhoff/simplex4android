@@ -219,7 +219,7 @@ public class SimplexProblem {
 				re += " + " +target[i] +"x" +(i+1);
 			}			
 		}
-		re += " = min";
+		re += " = min \n";
 		return re;
 	}
 	
