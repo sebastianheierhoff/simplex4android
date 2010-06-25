@@ -13,12 +13,10 @@ public abstract class SimplexLogic {
 	 * @return bearbeitetes SimplexProblem
 	 */
 	public static SimplexProblem doSimplex(SimplexProblem problem){
-		problem.setPivots(findPivots(problem)); 	//Pivotspalten finden		
-		problem = calcDeltas(problem); //Delta-Werte berechnen (1. Durchgang, muss durch Funktion geschehen)
-		problem = calcXByF(problem); //x/f errechnen, 
-		//Minimum berechnen, 
+		problem.setPivots(findPivots(problem));		
+		problem = calcDeltas(problem);
+		problem = calcXByF(problem);
 
-		//Basiswechsel durchführen (Gauß-Algorithmus) - Stefan
 		try {
 			if(problem.getOptimal()!= true){
 				return gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
