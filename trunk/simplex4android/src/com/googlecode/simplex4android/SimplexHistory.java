@@ -1,5 +1,12 @@
 package com.googlecode.simplex4android;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
 import java.util.ArrayList;
 
 /**
@@ -64,4 +71,34 @@ public class SimplexHistory {
 		this.history.add(tableau);
 	}
 
+	/**
+	 * Speichert die ArrayList history in der Datei simplexHistory ab. Kann mit der Methode readHistory wieder eingelesen werden.
+	 * @throws IOException
+	 */
+	
+	
+	public void saveHistory()throws IOException{
+		FileOutputStream fos = new FileOutputStream("simplexHistory.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(history);
+		oos.close();
+	}
+
+	/**
+	 * Methode, die aus der Datei simplexHistory, eine ArrayList<SimplexProblem> ausliest und in history speichert.
+	 *  
+	 * @throws ClassNotFoundException	wird nur geschmissen wenn die Klasse SimplexProblem nicht gefunden wird
+	 * @throws IOException
+	 * @throws FileNotFoundException	muss aufgefangen werden und in GUI behandelt werden falls die Datei simplexHistory.dat nicht im Programmordner gefunden wird.
+	 */
+	
+	@SuppressWarnings("unchecked")
+	public void readHistory()throws ClassNotFoundException, IOException, FileNotFoundException{
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		fis = new FileInputStream("simplexHistory.dat");
+		ois = new ObjectInputStream(fis);
+		history = (ArrayList<SimplexProblem>) ois.readObject();
+		ois.close();
+	}
 }
