@@ -247,49 +247,26 @@ public class SimplexProblem {
 	}
 	
 	/**
-	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an das Ende des Tableaus ein. Die Eins befindet sich dabei in der Zeile mit Index c.
-	 * Die neue Variable wird dabei stehts mit Kosten Null in der Zielfunktion hinzugefügt.
+	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an voletzter Stelle des Tableaus ein. 
+	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird  mit Kosten Null in der Zielfunktion hinzugefügt.
 	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
 	public void addPivotColumn(int c){
 		// Pivotspalte ergänzen
-		double[][] tableauNew = new double[this.tableau.length][this.tableau[0].length+1]; // Array vergrößern
-		System.out.println("Reihen: " +tableauNew.length +", Spalten: " +tableauNew[0].length);
-		for(int i=0;i<this.getNoRows();i++){ // Inhalt kopieren 
-			int j;
-			for(j=0;j<this.getNoColumns()-1;j++){
-				tableauNew[i][j]=this.tableau[i][j];
-			}
-			tableauNew[i][j+1] = this.tableau[i][j];
-		}
-		for(int i=0;i<this.getNoRows();i++){ // neue Pivotspalte setzen
-			if(i!=c){
-				tableauNew[i][this.getNoColumns()-1] = 0;
+		for(int i=0;i<this.tableau.size();i++){
+			if(i==c){
+				this.tableau.get(i).add(this.tableau.size()-2,new Double(1));
 			}else{
-				tableauNew[i][this.getNoColumns()-1] = 1;
+				this.tableau.get(i).add(this.tableau.size()-2,new Double(0));
 			}
+			
 		}
-		this.setTableau(tableauNew);
 		
 		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
-		int[] targetNew = new int[this.target.length+1];
-		{
-			int i;
-			for(i=0;i<this.target.length-1;i++){// Inhalt kopieren
-				targetNew[i] = target[i];
-			}
-			targetNew[i] = 0; // neue Variable in die Zielfunktion
-			targetNew[i+1] = target[i]; // Zielfunktionswert kopieren
-		}
-		this.setTarget(targetNew);
+		this.target.add(c,new Integer(0));
 		
 		// Einfügen der neuen Pivotspalte in die Basis
-		int[] pivotsNew = new int[this.pivots.length+1];
-		for(int i=0;i<this.pivots.length;i++){ // Inhalt kopieren
-			pivotsNew[i] = pivots[i];
-		}
-		pivotsNew[this.pivots.length-1] = this.getNoColumns()-1; // neue Pivotspalte einfügen
-		this.setPivots(pivotsNew);		
+		this.pivots.add(c,new Integer(this.target.size()-2));	
 	}
 	
 	/**
