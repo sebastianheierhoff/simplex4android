@@ -1,14 +1,18 @@
 package com.googlecode.simplex4android;
 
+import java.util.ArrayList;
+
 /**
  * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
+ * 
+ * Das Tableau wird durch eine ArrayList bestehend aus ArrayLists (Zeilen) gefüllt mit DoubleObjekten repräsentiert.
  * @author Simplex4Android
  */
 public class SimplexProblem {
-	private double[][]tableau; //Simplex-Tableau inkl. Delta-Werte. Delta-Werte werden mit 0 initialisiert und dann ersetzt
-	private int[] target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
-	private int[] pivots; //Basisspalten
-	private double[] xByF; //
+	private ArrayList<ArrayList<Double>> tableau; 
+	private ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	private ArrayList<Integer> pivots; //Basisspalten
+	private ArrayList<Double> xByF; //
 	private boolean optimal;
 	
 	//SETTINGS!!!
@@ -21,9 +25,9 @@ public class SimplexProblem {
 	 * @param tableau
 	 * @param target
 	 */
-	public SimplexProblem(double[][] tableau, int[] target){ //int[] für die Zielfunktion?
-		this.tableau = tableau;
-		this.target = target;
+	public SimplexProblem(double[][] tableau, int[] target){ 
+		this.tableau = this.convertTo2DArrayList(tableau);
+		this.target = this.convertToIntArrayList(target);		
 		this.optimal = false;
 	}
 	
@@ -34,7 +38,7 @@ public class SimplexProblem {
 	 * @return Inhalt des Feldes in (zeile,spalte)
 	 */
 	public double getField(int i, int j){
-		return tableau[i][j];
+		return this.tableau.get(i).get(j).doubleValue();
 	}
 	
 	/**
@@ -44,7 +48,7 @@ public class SimplexProblem {
 	 * @param value übergebener Wert
 	 */
 	public void setField(int i, int j, double value){
-		tableau[i][j]=value;
+		this.tableau.get(i).set(j, new Double(value));
 	}
 	
 	/**
@@ -52,6 +56,12 @@ public class SimplexProblem {
 	 * @return SimplexTableau
 	 */
 	public double[][] getTableau() {
+		double[][] tableau = new double[this.tableau.size()][this.tableau.get(0).size()];
+		for(int i=0;i<tableau.length;i++){
+			for(int j=0;j<tableau.length;j++){
+				tableau[i][j] = this.getField(i, j);
+			}
+		}
 		return tableau;
 	}
 	
@@ -60,7 +70,7 @@ public class SimplexProblem {
 	 * @param tableau übergebenes SimplexTableau
 	 */
 	public void setTableau(double[][] tableau) {
-		this.tableau = tableau;
+		this.tableau = this.convertTo2DArrayList(tableau);
 	}
 
 	/**
@@ -68,7 +78,7 @@ public class SimplexProblem {
 	 * @return Zielfunktion
 	 */
 	public int[] getTarget() {
-		return target;
+		return this.convertToIntArray(this.target);
 	}
 
 	/**
@@ -76,7 +86,7 @@ public class SimplexProblem {
 	 * @param target übergebene Zielfunktion
 	 */
 	public void setTarget(int[] target) {
-		this.target = target;
+		this.target = this.convertToIntArrayList(target);
 	}
 	
 	/**
@@ -85,9 +95,9 @@ public class SimplexProblem {
 	 * @return Spalte j
 	 */
 	public double[] getColumn(int j){
-		double[] r = new double[this.tableau.length];
-		for(int a=0;a<this.tableau.length;a++){
-			r[a]=this.tableau[a][j];
+		double[] r = new double[this.tableau.size()];
+		for(int i=0;i<r.length;i++){
+			r[i] = this.tableau.get(i).get(j).doubleValue();
 		}
 		return r;
 	}
@@ -107,7 +117,9 @@ public class SimplexProblem {
 	 * @param j Index der zu verändernden Spalte
 	 */
 	public void setColumn(double[] c, int j){
-		this.tableau[j]=c;
+		for(int i=0;i<c.length;i++){
+			this.tableau.get(i).set(j, new Double(c[i]));
+		}
 	}
 	
 	/**
@@ -116,11 +128,7 @@ public class SimplexProblem {
 	 * @return Zeile i
 	 */
 	public double[] getRow(int i){
-		double[] r = new double[this.tableau[0].length];
-		for(int a=0;a<this.tableau[0].length;a++){
-			r[a]=this.tableau[i][a];
-		}
-		return r;
+		return this.convertToDblArray(this.tableau.get(i));
 	}
 
 	/**
@@ -137,8 +145,8 @@ public class SimplexProblem {
 	 * @param i Index der zu ändernden Zeile
 	 */
 	public void setRow(double[] r, int i){
-		for(int a=0;a<this.tableau[0].length;a++){
-			this.tableau[i][a]=r[a];
+		for(int a=0;a<r.length;a++){
+			this.tableau.get(i).set(a,new Double(r[a]));
 		}
 	}
 	
@@ -147,7 +155,7 @@ public class SimplexProblem {
 	 * @return Anzahl der Spalten
 	 */
 	public int getNoColumns(){
-		return this.tableau[0].length;
+		return this.tableau.get(0).size();
 	}
 	
 	/**
@@ -155,7 +163,7 @@ public class SimplexProblem {
 	 * @return Anzahl der Zeilen
 	 */
 	public int getNoRows(){
-		return this.tableau.length;
+		return this.tableau.size();
 	}
 
 	/**
@@ -163,7 +171,7 @@ public class SimplexProblem {
 	 * @return Pivotspalten
 	 */
 	public int[] getPivots() {
-		return pivots;
+		return this.convertToIntArray(this.pivots);
 	}
 
 	/**
@@ -171,7 +179,7 @@ public class SimplexProblem {
 	 * @param pivots zu setzende Pivotspalten
 	 */
 	public void setPivots(int[] pivots) {
-		this.pivots = pivots;
+		this.pivots = this.convertToIntArrayList(pivots);
 	}
 
 	/**
@@ -179,7 +187,7 @@ public class SimplexProblem {
 	 * @return Array mit den x/f-Werten für jede Zeile
 	 */
 	public double[] getXByF() {
-		return xByF;
+		return this.convertToDblArray(this.xByF);
 	}
 
 	/**
@@ -187,7 +195,7 @@ public class SimplexProblem {
 	 * @param xByF neue x/f-Werte
 	 */
 	public void setXByF(double[] xByF) {
-		this.xByF = xByF;
+		this.xByF = this.convertToDblArrayList(xByF);
 	}
 	
 	/**
@@ -211,12 +219,12 @@ public class SimplexProblem {
 	 */
 	public String targetToString(){
 		String re = "";
-		re += this.target[0]+"x1";
-		for(int i=1;i<this.target.length-2;i++){
-			if(this.target[i]<0){
-				re += " " +target[i] +"x" +(i+1);
+		re += this.target.get(0).intValue() +"x1";
+		for(int i=1;i<this.target.size()-2;i++){
+			if(this.target.get(i)<0){
+				re += " " +this.target.get(i).intValue() +"x" +(i+1);
 			}else{
-				re += " + " +target[i] +"x" +(i+1);
+				re += " + " +this.target.get(i).intValue() +"x" +(i+1);
 			}			
 		}
 		re += " = min \n";
@@ -229,23 +237,32 @@ public class SimplexProblem {
 	 */
 	public String tableauToString(){
 		String re ="";
-		for(int i=0;i<this.tableau.length;i++){
-			for(int j=0;j<this.tableau[0].length-1;j++){
-				re += " " +this.tableau[i][j];
+		for(int i=0;i<this.tableau.size();i++){
+			for(int j=0;j<this.tableau.get(0).size()-1;j++){
+				re += " " +this.tableau.get(i).get(j).doubleValue();
 			}
-			re += " | " +this.tableau[i][this.tableau[0].length-1] +"\n";
+			re += " | " +this.tableau.get(i).get(this.tableau.get(0).size()-1) +"\n";
 		}		
 		return re;
 	}
 	
 	/**
-	 * Fügt eine weitere Pivospalte an das Ende des Tableaus ein. Die Eins befindet sich dabei in der Zeile mit Index c.
+	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an das Ende des Tableaus ein. Die Eins befindet sich dabei in der Zeile mit Index c.
+	 * Die neue Variable wird dabei stehts mit Kosten Null in der Zielfunktion hinzugefügt.
 	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
 	public void addPivotColumn(int c){
 		// Pivotspalte ergänzen
-		double[][] tableauNew = new double[this.tableau.length][this.tableau[0].length];
-		for(int i=0;i<this.getNoRows();i++){
+		double[][] tableauNew = new double[this.tableau.length][this.tableau[0].length+1]; // Array vergrößern
+		System.out.println("Reihen: " +tableauNew.length +", Spalten: " +tableauNew[0].length);
+		for(int i=0;i<this.getNoRows();i++){ // Inhalt kopieren 
+			int j;
+			for(j=0;j<this.getNoColumns()-1;j++){
+				tableauNew[i][j]=this.tableau[i][j];
+			}
+			tableauNew[i][j+1] = this.tableau[i][j];
+		}
+		for(int i=0;i<this.getNoRows();i++){ // neue Pivotspalte setzen
 			if(i!=c){
 				tableauNew[i][this.getNoColumns()-1] = 0;
 			}else{
@@ -255,14 +272,91 @@ public class SimplexProblem {
 		this.setTableau(tableauNew);
 		
 		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
-		int[] targetNew = new int[this.target.length];
-		targetNew[this.target.length-1] = targetNew[this.target.length-2];
-		targetNew[this.target.length-2] = 0;
+		int[] targetNew = new int[this.target.length+1];
+		{
+			int i;
+			for(i=0;i<this.target.length-1;i++){// Inhalt kopieren
+				targetNew[i] = target[i];
+			}
+			targetNew[i] = 0; // neue Variable in die Zielfunktion
+			targetNew[i+1] = target[i]; // Zielfunktionswert kopieren
+		}
 		this.setTarget(targetNew);
 		
 		// Einfügen der neuen Pivotspalte in die Basis
-		int[] pivotsNew = new int[this.pivots.length];
-		pivotsNew[this.pivots.length-1] = this.getNoColumns()-1;
+		int[] pivotsNew = new int[this.pivots.length+1];
+		for(int i=0;i<this.pivots.length;i++){ // Inhalt kopieren
+			pivotsNew[i] = pivots[i];
+		}
+		pivotsNew[this.pivots.length-1] = this.getNoColumns()-1; // neue Pivotspalte einfügen
 		this.setPivots(pivotsNew);		
+	}
+	
+	/**
+	 * Überführt das übergebene zweidimensionale Array in ein ArrayList<ArrayList<Double>>.
+	 * @param array zu überführendes zweidimensionales Array
+	 * @return überführte ArrayList
+	 */
+	private ArrayList<ArrayList<Double>> convertTo2DArrayList(double[][] array){
+		ArrayList<ArrayList<Double>> tableau = new ArrayList<ArrayList<Double>>();
+		for(int i=0;i<array.length;i++){
+			tableau.add(i,new ArrayList<Double>());
+			for(int j=0;j<array[0].length;j++){
+				tableau.get(i).add(j,new Double(array[i][j]));
+			}
+		}
+		return tableau;
+	}
+	
+	/**
+	 * Überführt das übergebene Array in eine ArrayList<Integer>.
+	 * @param array zu überführendes Array
+	 * @return überführte ArrayList
+	 */
+	private ArrayList<Integer> convertToIntArrayList(int[] array){
+		ArrayList<Integer> arrayList = new ArrayList<Integer>();
+		for(int i=0;i<array.length;i++){
+			arrayList.add(i,new Integer(array[i]));
+		}
+		return arrayList;
+	}
+	
+	/**
+	 * Überführt das übergebene Array in eine ArrayList<Double>.
+	 * @param array zu überführendes Array
+	 * @return überführte ArrayList
+	 */
+	private ArrayList<Double> convertToDblArrayList(double[] array){
+		ArrayList<Double> arrayList = new ArrayList<Double>();
+		for(int i=0;i<array.length;i++){
+			arrayList.add(i,new Double(array[i]));
+		}
+		return arrayList;
+	}
+	
+	/**
+	 * Überführt die übergebene ArrayList<Integer> in ein int[].
+	 * @param arrayList zu überführende ArrayList
+	 * @return überführtes Array
+	 */
+	private int[] convertToIntArray(ArrayList<Integer> arrayList){
+		int[] array = new int[arrayList.size()];
+		for(int i=0;i<array.length;i++){
+			array[i] = arrayList.get(i).intValue();
+		}
+		return array;
+	}
+	
+	/**
+	 * Überführt die übergebene ArrayList<Double> in ein double[].
+	 * @param arrayList zu überführende ArrayList
+	 * @return überführtes Array
+	 */
+	private double[] convertToDblArray(ArrayList<Double> arrayList){
+		double[] array = new double[arrayList.size()];
+		for(int i=0;i<array.length;i++){
+			array[i] = arrayList.get(i).doubleValue();
+		}
+		return array;
 	}
 }
