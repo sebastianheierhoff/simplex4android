@@ -30,16 +30,15 @@ public class Simplex {
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
 		
-		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-		if(debug == true){System.out.println("HTML: "+firstProblem.tableauToHtml());}
+		if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
 		do{
 			SimplexProblem current = sh.getLastElement();
 			current = SimplexLogic.simplex(current);
-			
+
 			//Debug-Ausgabe
 			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
 			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}

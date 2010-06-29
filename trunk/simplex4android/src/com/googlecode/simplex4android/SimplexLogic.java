@@ -170,6 +170,4 @@ public abstract class SimplexLogic {
 		}
 		return null;
 	}
-
-
 }
