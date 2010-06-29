@@ -162,11 +162,12 @@ public abstract class SimplexLogic {
 	 * @return bearbeitetes SimplexProblem
 	 */
 	public static SimplexProblem simplex(SimplexProblem problem){	
+		problem.setPivots(findPivots(problem));		
+		problem = calcDeltas(problem);
+		problem = calcXByF(problem);
 		try {
 			if(problem.getOptimal()!= true){
-				problem.setPivots(findPivots(problem));		
-				problem = calcDeltas(problem);
-				problem = calcXByF(problem);
+				
 				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
 				checkOptimal(sp);
 				return sp;
