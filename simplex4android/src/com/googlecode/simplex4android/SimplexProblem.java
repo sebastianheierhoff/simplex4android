@@ -247,8 +247,8 @@ public class SimplexProblem {
 	}
 	
 	/**
-	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an voletzter Stelle des Tableaus ein. 
-	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird  mit Kosten Null in der Zielfunktion hinzugefügt.
+	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
+	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten Null in der Zielfunktion hinzugefügt.
 	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
 	public void addPivotColumn(int c){
