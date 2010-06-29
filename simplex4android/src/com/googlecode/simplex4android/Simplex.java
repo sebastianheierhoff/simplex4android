@@ -27,27 +27,22 @@ public class Simplex {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
-		firstProblem.setPivots(SimplexLogic.findPivots(firstProblem));
-		
-		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());}
-		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 			
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
-		firstProblem = SimplexLogic.calcDeltas(firstProblem);
 		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		for(int i=0;i<2;i++){
+		while(sh.getLastElement().getOptimal()!=true){
 			SimplexProblem current = sh.getLastElement();
 			current = SimplexLogic.simplex(current);
 			
 			//Debug-Ausgabe
 			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
 			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-			if(debug == true){System.out.println("Aktuell gewählte Pivotspalte: "+SimplexLogic.choosePivotRow(current));}
+			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
 			
 			sh.addElement(current);
 		}
