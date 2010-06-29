@@ -32,221 +32,6 @@ public class SimplexProblem {
 	}
 	
 	/**
-	 * Gibt den Inhalt den Feldes in (zeile,spalte) aus.
-	 * @param i Index der Zeile im SimplexTableau
-	 * @param j Index der Spalte im SimplexTableau
-	 * @return Inhalt des Feldes in (zeile,spalte)
-	 */
-	public double getField(int i, int j){
-		return this.tableau.get(i).get(j).doubleValue();
-	}
-	
-	/**
-	 * Setzt den Inhalt in Feld (zeile, spalte) auf den übergebenen double-Wert.
-	 * @param i Index der Zeile im SimplexTableau
-	 * @param j Index der Spalte im SimplexTableau
-	 * @param value übergebener Wert
-	 */
-	public void setField(int i, int j, double value){
-		this.tableau.get(i).set(j, new Double(value));
-	}
-	
-	/**
-	 * Gibt das SimplexTableau aus.
-	 * @return SimplexTableau
-	 */
-	public double[][] getTableau() {
-		double[][] tableau = new double[this.tableau.size()][this.tableau.get(0).size()];
-		for(int i=0;i<tableau.length;i++){
-			for(int j=0;j<tableau.length;j++){
-				tableau[i][j] = this.getField(i, j);
-			}
-		}
-		return tableau;
-	}
-	
-	/**
-	 * Setzt das SimplexTableau.
-	 * @param tableau übergebenes SimplexTableau
-	 */
-	public void setTableau(double[][] tableau) {
-		this.tableau = this.convertTo2DArrayList(tableau);
-	}
-
-	/**
-	 * Gibt die Zielfunktion zurück.
-	 * @return Zielfunktion
-	 */
-	public int[] getTarget() {
-		return this.convertToIntArray(this.target);
-	}
-
-	/**
-	 * Setzt die Zielfunktion.
-	 * @param target übergebene Zielfunktion
-	 */
-	public void setTarget(int[] target) {
-		this.target = this.convertToIntArrayList(target);
-	}
-	
-	/**
-	 * Gibt Spalte j aus.
-	 * @param j Index der auszugebenen Spalte
-	 * @return Spalte j
-	 */
-	public double[] getColumn(int j){
-		double[] r = new double[this.tableau.size()];
-		for(int i=0;i<r.length;i++){
-			r[i] = this.tableau.get(i).get(j).doubleValue();
-		}
-		return r;
-	}
-
-	/**
-	 * Gibt die letzte Spalte des Simplex-Tableaus aus.
-	 * @return letzte Spalte des Simplex-Tableaus
-	 */
-	public double[] getLastColumn(){
-		return getColumn(this.getNoColumns()-1);
-	}
-
-	
-	/**
-	 * Setzt Spalte j.
-	 * @param c übergebene Spalte
-	 * @param j Index der zu verändernden Spalte
-	 */
-	public void setColumn(double[] c, int j){
-		for(int i=0;i<c.length;i++){
-			this.tableau.get(i).set(j, new Double(c[i]));
-		}
-	}
-	
-	/**
-	 * Gibt Zeile i aus.
-	 * @param i Index der auszugebenen Zeile
-	 * @return Zeile i
-	 */
-	public double[] getRow(int i){
-		return this.convertToDblArray(this.tableau.get(i));
-	}
-
-	/**
-	 * Gibt die letzte Zeile (delta-Werte) aus.
-	 * @return letzte Zeile (delta-Werte)
-	 */
-	public double[] getLastRow(){
-		return getRow(this.getNoRows()-1);
-	}
-	
-	/**
-	 * Setzt Zeile i.
-	 * @param r übergebene Zeile
-	 * @param i Index der zu ändernden Zeile
-	 */
-	public void setRow(double[] r, int i){
-		for(int a=0;a<r.length;a++){
-			this.tableau.get(i).set(a,new Double(r[a]));
-		}
-	}
-	
-	/**
-	 * Gibt die Anzahl der Spalten aus.
-	 * @return Anzahl der Spalten
-	 */
-	public int getNoColumns(){
-		return this.tableau.get(0).size();
-	}
-	
-	/**
-	 * Gibt die Anzahl der Zeilen aus.
-	 * @return Anzahl der Zeilen
-	 */
-	public int getNoRows(){
-		return this.tableau.size();
-	}
-
-	/**
-	 * Setzt die Pvotspaltentabelle.
-	 * @return Pivotspalten
-	 */
-	public int[] getPivots() {
-		return this.convertToIntArray(this.pivots);
-	}
-
-	/**
-	 * Gibt die Pivotspaltentabelle aus.
-	 * @param pivots zu setzende Pivotspalten
-	 */
-	public void setPivots(int[] pivots) {
-		this.pivots = this.convertToIntArrayList(pivots);
-	}
-
-	/**
-	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
-	 * @return Array mit den x/f-Werten für jede Zeile
-	 */
-	public double[] getXByF() {
-		return this.convertToDblArray(this.xByF);
-	}
-
-	/**
-	 * Überschreibt die x/f-Werte.
-	 * @param xByF neue x/f-Werte
-	 */
-	public void setXByF(double[] xByF) {
-		this.xByF = this.convertToDblArrayList(xByF);
-	}
-	
-	/**
-	 * Gibt true, wenn Optimaltableau gefunden, sonst false.
-	 * @return true, wenn Optimaltableau gefunden, sonst false.
-	 */
-	public boolean getOptimal(){
-		return optimal;
-	}
-	
-	/**
-	 * Setzt das Tableau als Optimaltableau.
-	 */
-	public void setOptimal(){
-		this.optimal = true;
-	}
-	
-	/**
-	 * Gibt eine Stringdarstellung der Zielfunktion zurück.
-	 * @return Stringdarstellung der Zielfunktion.
-	 */
-	public String targetToString(){
-		String re = "";
-		re += this.target.get(0).intValue() +"x1";
-		for(int i=1;i<this.target.size()-2;i++){
-			if(this.target.get(i)<0){
-				re += " " +this.target.get(i).intValue() +"x" +(i+1);
-			}else{
-				re += " + " +this.target.get(i).intValue() +"x" +(i+1);
-			}			
-		}
-		re += " = min \n";
-		return re;
-	}
-	
-	/**
-	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
-	 * @return Stringdarstellung des SimplexTableaus
-	 */
-	public String tableauToString(){
-		String re ="";
-		for(int i=0;i<this.tableau.size();i++){
-			for(int j=0;j<this.tableau.get(0).size()-1;j++){
-				re += " " +this.tableau.get(i).get(j).doubleValue();
-			}
-			re += " | " +this.tableau.get(i).get(this.tableau.get(0).size()-1) +"\n";
-		}		
-		return re;
-	}
-	
-	/**
 	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
 	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten Null in der Zielfunktion hinzugefügt.
 	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
@@ -286,16 +71,16 @@ public class SimplexProblem {
 	}
 	
 	/**
-	 * Überführt das übergebene Array in eine ArrayList<Integer>.
-	 * @param array zu überführendes Array
-	 * @return überführte ArrayList
+	 * Überführt die übergebene ArrayList<Double> in ein double[].
+	 * @param arrayList zu überführende ArrayList
+	 * @return überführtes Array
 	 */
-	private ArrayList<Integer> convertToIntArrayList(int[] array){
-		ArrayList<Integer> arrayList = new ArrayList<Integer>();
+	private double[] convertToDblArray(ArrayList<Double> arrayList){
+		double[] array = new double[arrayList.size()];
 		for(int i=0;i<array.length;i++){
-			arrayList.add(i,new Integer(array[i]));
+			array[i] = arrayList.get(i).doubleValue();
 		}
-		return arrayList;
+		return array;
 	}
 	
 	/**
@@ -310,7 +95,7 @@ public class SimplexProblem {
 		}
 		return arrayList;
 	}
-	
+
 	/**
 	 * Überführt die übergebene ArrayList<Integer> in ein int[].
 	 * @param arrayList zu überführende ArrayList
@@ -323,17 +108,232 @@ public class SimplexProblem {
 		}
 		return array;
 	}
+
+	/**
+	 * Überführt das übergebene Array in eine ArrayList<Integer>.
+	 * @param array zu überführendes Array
+	 * @return überführte ArrayList
+	 */
+	private ArrayList<Integer> convertToIntArrayList(int[] array){
+		ArrayList<Integer> arrayList = new ArrayList<Integer>();
+		for(int i=0;i<array.length;i++){
+			arrayList.add(i,new Integer(array[i]));
+		}
+		return arrayList;
+	}
 	
 	/**
-	 * Überführt die übergebene ArrayList<Double> in ein double[].
-	 * @param arrayList zu überführende ArrayList
-	 * @return überführtes Array
+	 * Gibt Spalte j aus.
+	 * @param j Index der auszugebenen Spalte
+	 * @return Spalte j
 	 */
-	private double[] convertToDblArray(ArrayList<Double> arrayList){
-		double[] array = new double[arrayList.size()];
-		for(int i=0;i<array.length;i++){
-			array[i] = arrayList.get(i).doubleValue();
+	public double[] getColumn(int j){
+		double[] r = new double[this.tableau.size()];
+		for(int i=0;i<r.length;i++){
+			r[i] = this.tableau.get(i).get(j).doubleValue();
 		}
-		return array;
+		return r;
+	}
+
+	/**
+	 * Gibt den Inhalt den Feldes in (zeile,spalte) aus.
+	 * @param i Index der Zeile im SimplexTableau
+	 * @param j Index der Spalte im SimplexTableau
+	 * @return Inhalt des Feldes in (zeile,spalte)
+	 */
+	public double getField(int i, int j){
+		return this.tableau.get(i).get(j).doubleValue();
+	}
+
+	
+	/**
+	 * Gibt die letzte Spalte des Simplex-Tableaus aus.
+	 * @return letzte Spalte des Simplex-Tableaus
+	 */
+	public double[] getLastColumn(){
+		return getColumn(this.getNoColumns()-1);
+	}
+	
+	/**
+	 * Gibt die letzte Zeile (delta-Werte) aus.
+	 * @return letzte Zeile (delta-Werte)
+	 */
+	public double[] getLastRow(){
+		return getRow(this.getNoRows()-1);
+	}
+
+	/**
+	 * Gibt die Anzahl der Spalten aus.
+	 * @return Anzahl der Spalten
+	 */
+	public int getNoColumns(){
+		return this.tableau.get(0).size();
+	}
+	
+	/**
+	 * Gibt die Anzahl der Zeilen aus.
+	 * @return Anzahl der Zeilen
+	 */
+	public int getNoRows(){
+		return this.tableau.size();
+	}
+	
+	/**
+	 * Gibt true, wenn Optimaltableau gefunden, sonst false.
+	 * @return true, wenn Optimaltableau gefunden, sonst false.
+	 */
+	public boolean getOptimal(){
+		return optimal;
+	}
+	
+	/**
+	 * Setzt die Pvotspaltentabelle.
+	 * @return Pivotspalten
+	 */
+	public int[] getPivots() {
+		return this.convertToIntArray(this.pivots);
+	}
+
+	/**
+	 * Gibt Zeile i aus.
+	 * @param i Index der auszugebenen Zeile
+	 * @return Zeile i
+	 */
+	public double[] getRow(int i){
+		return this.convertToDblArray(this.tableau.get(i));
+	}
+
+	/**
+	 * Gibt das SimplexTableau aus.
+	 * @return SimplexTableau
+	 */
+	public double[][] getTableau() {
+		double[][] tableau = new double[this.tableau.size()][this.tableau.get(0).size()];
+		for(int i=0;i<tableau.length;i++){
+			for(int j=0;j<tableau.length;j++){
+				tableau[i][j] = this.getField(i, j);
+			}
+		}
+		return tableau;
+	}
+
+	/**
+	 * Gibt die Zielfunktion zurück.
+	 * @return Zielfunktion
+	 */
+	public int[] getTarget() {
+		return this.convertToIntArray(this.target);
+	}
+
+	/**
+	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
+	 * @return Array mit den x/f-Werten für jede Zeile
+	 */
+	public double[] getXByF() {
+		return this.convertToDblArray(this.xByF);
+	}
+	
+	/**
+	 * Setzt Spalte j.
+	 * @param c übergebene Spalte
+	 * @param j Index der zu verändernden Spalte
+	 */
+	public void setColumn(double[] c, int j){
+		for(int i=0;i<c.length;i++){
+			this.tableau.get(i).set(j, new Double(c[i]));
+		}
+	}
+	
+	/**
+	 * Setzt den Inhalt in Feld (zeile, spalte) auf den übergebenen double-Wert.
+	 * @param i Index der Zeile im SimplexTableau
+	 * @param j Index der Spalte im SimplexTableau
+	 * @param value übergebener Wert
+	 */
+	public void setField(int i, int j, double value){
+		this.tableau.get(i).set(j, new Double(value));
+	}
+	
+	/**
+	 * Setzt das Tableau als Optimaltableau.
+	 */
+	public void setOptimal(){
+		this.optimal = true;
+	}
+	
+	/**
+	 * Gibt die Pivotspaltentabelle aus.
+	 * @param pivots zu setzende Pivotspalten
+	 */
+	public void setPivots(int[] pivots) {
+		this.pivots = this.convertToIntArrayList(pivots);
+	}
+	
+	/**
+	 * Setzt Zeile i.
+	 * @param r übergebene Zeile
+	 * @param i Index der zu ändernden Zeile
+	 */
+	public void setRow(double[] r, int i){
+		for(int a=0;a<r.length;a++){
+			this.tableau.get(i).set(a,new Double(r[a]));
+		}
+	}
+	
+	/**
+	 * Setzt das SimplexTableau.
+	 * @param tableau übergebenes SimplexTableau
+	 */
+	public void setTableau(double[][] tableau) {
+		this.tableau = this.convertTo2DArrayList(tableau);
+	}
+	
+	/**
+	 * Setzt die Zielfunktion.
+	 * @param target übergebene Zielfunktion
+	 */
+	public void setTarget(int[] target) {
+		this.target = this.convertToIntArrayList(target);
+	}
+	
+	/**
+	 * Überschreibt die x/f-Werte.
+	 * @param xByF neue x/f-Werte
+	 */
+	public void setXByF(double[] xByF) {
+		this.xByF = this.convertToDblArrayList(xByF);
+	}
+	
+	/**
+	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
+	 * @return Stringdarstellung des SimplexTableaus
+	 */
+	public String tableauToString(){
+		String re ="";
+		for(int i=0;i<this.tableau.size();i++){
+			for(int j=0;j<this.tableau.get(0).size()-1;j++){
+				re += " " +this.tableau.get(i).get(j).doubleValue();
+			}
+			re += " | " +this.tableau.get(i).get(this.tableau.get(0).size()-1) +"\n";
+		}		
+		return re;
+	}
+	
+	/**
+	 * Gibt eine Stringdarstellung der Zielfunktion zurück.
+	 * @return Stringdarstellung der Zielfunktion.
+	 */
+	public String targetToString(){
+		String re = "";
+		re += this.target.get(0).intValue() +"x1";
+		for(int i=1;i<this.target.size()-2;i++){
+			if(this.target.get(i)<0){
+				re += " " +this.target.get(i).intValue() +"x" +(i+1);
+			}else{
+				re += " + " +this.target.get(i).intValue() +"x" +(i+1);
+			}			
+		}
+		re += " = min \n";
+		return re;
 	}
 }
