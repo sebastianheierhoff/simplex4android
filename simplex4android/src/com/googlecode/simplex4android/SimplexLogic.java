@@ -159,4 +159,19 @@ public abstract class SimplexLogic {
 		}
 		return pivots;
 	}
+	
+	/**
+	 * Überprüft anhand der Delta-Werte, ob das aktuelle Tableau des SimplexProblem optimal ist.
+	 * @param problem zu prüfendes SimplexProblem
+	 * @return true, wenn optimal, sonst false
+	 */
+	public static boolean checkOptimal(SimplexProblem problem){
+		double[] deltas = problem.getRow(problem.getNoRows()-1);
+		for(int i=0;i<deltas.length;i++){
+			if(deltas[i]>0){
+				return false;
+			}
+		}
+		return true;
+	}
 }
