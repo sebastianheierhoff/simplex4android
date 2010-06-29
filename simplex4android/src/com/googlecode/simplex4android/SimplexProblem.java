@@ -342,13 +342,13 @@ public class SimplexProblem {
 	}
 	
 	public String tableauToHtml(){
-		String html = "\n<html>\n<body>\n<table border=1>\n";
+		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
 		for(int i=0;i<target.size()-1;i++){
 			html = html + "<td>" +target.get(i) + "</td>";
 		}
-		html = html + "<td></td></tr>\n";
+		html = html + "<td></td><td></td></tr>\n";
 		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
 		html = html + "<tr><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
 		for(int i=0;i<target.size()-1;i++){
@@ -375,7 +375,7 @@ public class SimplexProblem {
 		for(int i=0;i<tableau.get(0).size();i++){
 			html = html + "<td>" + tableau.get(tableau.size()-1).get(i) +"</td>";
 		}
-		html = html + "</tr>\n";
+		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
