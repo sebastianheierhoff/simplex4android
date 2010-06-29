@@ -55,5 +55,6 @@
 		android:id="@+id/simplex4android_logo"
 		android:src="@drawable/simplex4android_logo"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content" 
+		android:gravity="bottom"/>
 </RelativeLayout>
