@@ -337,7 +337,7 @@ public class SimplexProblem {
 		return re;
 	}
 	
-	public String tablaeuToHtml(){
+	public String tableauToHtml(){
 		String html = "\n<html>\n<body>\n<table border=1>\n";
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
