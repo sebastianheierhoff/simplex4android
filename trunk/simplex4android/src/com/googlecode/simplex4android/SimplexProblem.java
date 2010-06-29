@@ -338,9 +338,9 @@ public class SimplexProblem {
 	}
 	
 	public String tableToHtml(){
-		String html = "\n <html>\n <body> \n<table border = \"1\">\n";
+		String html = "\n<html>\n<body>\n<table border=1>\n";
 		//1. Zeile: Zielfunktion
-		html = html + "<tr>\n <td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
+		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
 		for(int i=0;i<target.size()-1;i++){
 			html = html + "<td>" +target.get(i) + "</td>";
 		}
@@ -359,7 +359,7 @@ public class SimplexProblem {
 			}
 			//x/f noch hinten dran hängen
 			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
-				html = html + "<td> -- </td>";
+				html = html + "<td>\u2013</td>";
 			}
 			else{
 				html = html + "<td>"+ xByF.get(i)+"</td>";
@@ -372,7 +372,7 @@ public class SimplexProblem {
 			html = html + "<td>" + tableau.get(tableau.size()-1).get(i) +"</td>";
 		}
 		html = html + "</tr>\n";
-		html = html + "</table> \n</body>\n</html>";
+		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
 }
