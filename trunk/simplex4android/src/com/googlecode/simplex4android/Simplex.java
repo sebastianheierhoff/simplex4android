@@ -27,12 +27,17 @@ public class Simplex {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
+		firstProblem.setPivots(SimplexLogic.findPivots(firstProblem));		
+		firstProblem = SimplexLogic.calcDeltas(firstProblem);
+		firstProblem = SimplexLogic.calcXByF(firstProblem);
 			
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
 		
+		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		if(debug == true){System.out.println("HTML: "+firstProblem.tableToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
 		while(sh.getLastElement().getOptimal()!=true){
