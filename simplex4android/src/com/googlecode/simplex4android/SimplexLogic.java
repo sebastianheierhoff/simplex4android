@@ -161,21 +161,20 @@ public abstract class SimplexLogic {
 	public static SimplexProblem simplex(SimplexProblem problem){	
 		try{
 			problem.getPivots(); // Prüfung, ob erstes SimplexProblem, für das noch Pivot-, delta- und xByF-Werte fehlen.
-		}
-		catch(NullPointerException e){
+		}catch(NullPointerException e){ // wirft getPivots() eine NullPointerException, wurde diese noch nicht berechnet.
 			problem.setPivots(findPivots(problem));		
 			problem = calcDeltas(problem);
 			problem = calcXByF(problem);
 		}				
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
+				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
 				sp.setPivots(findPivots(sp));
 				checkOptimal(sp);
 				sp = calcXByF(sp);
 				return sp;
 			}
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
