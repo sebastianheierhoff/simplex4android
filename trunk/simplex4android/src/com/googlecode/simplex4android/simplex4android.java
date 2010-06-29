@@ -15,7 +15,7 @@ public class simplex4android extends Activity {
 		double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}}; 
 		int[] target = {1,2,7,5,0,0,0}; 
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
-	    
+		
 	    mWebView = (WebView) findViewById(R.id.tableau);
 	    //mWebView.setWebViewClient(new HelloWebViewClient());
 	    //mWebView.getSettings().setJavaScriptEnabled(true);
