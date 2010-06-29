@@ -29,8 +29,6 @@ public class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		this.target = this.convertToIntArrayList(target);		
 		this.optimal = false;
-		this.pivots = this.convertToIntArrayList((SimplexLogic.findPivots(this)));
-		this.xByF = this.convertToDblArrayList(SimplexLogic.calcXByF(this));
 	}
 	
 	/**
@@ -360,8 +358,12 @@ public class SimplexProblem {
 				html = html + "<td>" + tableau.get(i).get(j)+"</td>";
 			}
 			//x/f noch hinten dran hängen
-			html = html + "<td>"+ xByF.get(i)+"</td>";
-			
+			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
+				html = html + "<td> -- </td>";
+			}
+			else{
+				html = html + "<td>"+ xByF.get(i)+"</td>";
+			}
 			html = html + "</tr>\n";
 		}
 		// Letzte Zeile: extra behandlung für delta-Wert
