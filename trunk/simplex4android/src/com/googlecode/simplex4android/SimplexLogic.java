@@ -31,7 +31,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public static SimplexProblem calcXByF(SimplexProblem problem){
+	public static void calcXByF(SimplexProblem problem){
 		if(problem.getOptimal()!=true){
 			int pivotColumn = choosePivotColumn(problem);
 			double[] xByF = new double[problem.getNoRows()-1];
@@ -41,7 +41,6 @@ public abstract class SimplexLogic {
 			}
 			problem.setXByF(xByF);
 		}
-		return problem;
 	}
 	
 	/**
@@ -161,17 +160,17 @@ public abstract class SimplexLogic {
 	public static SimplexProblem simplex(SimplexProblem problem){	
 		try{
 			problem.getPivots(); // Prüfung, ob erstes SimplexProblem, für das noch Pivot-, delta- und xByF-Werte fehlen.
-		}catch(NullPointerException e){ // wirft getPivots() eine NullPointerException, wurde diese noch nicht berechnet.
+		}catch(NullPointerException e){ // wirft getPivots() eine NullPointerException, wurden diese noch nicht berechnet.
 			problem.setPivots(findPivots(problem));		
 			problem = calcDeltas(problem);
-			problem = calcXByF(problem);
+			calcXByF(problem);
 		}				
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
 				sp.setPivots(findPivots(sp));
 				checkOptimal(sp);
-				sp = calcXByF(sp);
+				calcXByF(sp);
 				return sp;
 			}
 		}catch (IOException e) {
