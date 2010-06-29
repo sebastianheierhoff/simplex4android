@@ -16,7 +16,7 @@ public class Constraint {
 	/**
 	 * Legt für ein übergebenes int-Array und ein Vergleichssymbol eine Nebenbedingung an.
 	 * @param c int-Array mit den a-Werten der Nebenbedingung, an letzter Stelle steht b
-	 * @param s Vergleichssymbol ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
+	 * @param s Vergleichssymbol ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">=")
 	 */
 	public Constraint(double[] c, int sign){
 		this.values = convertToDblArrayList(c);
@@ -36,8 +36,9 @@ public class Constraint {
 	 * Fügt der Nebenbedingung an Index i ein neues Element hinzu. Alle darauffolgenden Elemente werden um einen Index verschoben.
 	 * @param i Index,an dem das Element eingefügt werden soll.
 	 * @param value hinzuzufügendes Element
+	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public void add(int i, Double value){
+	public void add(int i, Double value) throws IndexOutOfBoundsException{
 		this.values.add(i, value);
 	}
 
@@ -65,8 +66,9 @@ public class Constraint {
 	/**
 	 * Gibt den Wert der Nebenbedingung an Index j zurück.
 	 * @return Wert der Nebenbedingung an Index j
+	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public double get(int j){
+	public double get(int j) throws IndexOutOfBoundsException{
 		return this.values.get(j);
 	}
 	
@@ -87,11 +89,21 @@ public class Constraint {
 	}
 	
 	/**
+	 * Setzt das Vergleichssymbol und daraufhin die ggf. benötigte Schlupfvariable, um die Nebenbedingung in Standardform zu bringen.
+	 * @param s "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
+	 */
+	public void setSign(int s){
+		this.sign = s;
+		this.normalise();
+	}
+	
+	/**
 	 * Setzt den Wert an Index j auf den übergebenen double-Wert.
 	 * @param j Index des zu setzenden Elements
 	 * @param value Wert, auf den das Element gestetzt werden soll.
+	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public void set(int j, double value) throws IndexOutOfBoundsException{
+	public void setValue(int j, double value) throws IndexOutOfBoundsException{
 		this.values.set(j, value);
 	}
 
