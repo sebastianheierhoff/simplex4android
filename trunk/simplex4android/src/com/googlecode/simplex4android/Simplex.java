@@ -43,6 +43,7 @@ public class Simplex {
 			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
 			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
 			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+			if(debug == true){System.out.println("HTML: "+current.tableToHtml());}
 			
 			sh.addElement(current);
 		}
