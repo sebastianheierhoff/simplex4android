@@ -9,59 +9,6 @@ import java.io.IOException;
 public abstract class SimplexLogic {
 	
 	/**
-	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
-	 * @return bearbeitetes SimplexProblem
-	 */
-	public static SimplexProblem simplex(SimplexProblem problem){	
-		try {
-			if(problem.getOptimal()!= true){
-				problem.setPivots(findPivots(problem));		
-				problem = calcDeltas(problem);
-				problem = calcXByF(problem);
-				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
-				checkOptimal(sp);
-				return sp;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-		
-	/**
-	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
-	 * @param zeile Index der Zeile des Pivotelements
-	 * @param spalte Index der Spalte des Pivotelements
-	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
-	 */
-	private static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
-		double pivotElement = problem.getField(zeile, spalte);
-		
-		//Normalisierung der neuen Pivotzeile
-		if(pivotElement==0 || pivotElement==Double.POSITIVE_INFINITY || pivotElement==Double.NEGATIVE_INFINITY){
-			throw new IOException("Pivotelement ist gleich Null oder Unendlich.");
-		}
-		double pivotfaktor = 1/pivotElement;
-		double[] pivotZeile = problem.getRow(zeile);
-		for(int i=0;i<problem.getNoColumns();i++){
-			pivotZeile[i] = pivotZeile[i]*pivotfaktor;
-		}
-		problem.setRow(pivotZeile, zeile);
-		
-		//Erzeugen der Nullen in der Pivotspalte
-		for(int i=0;i<problem.getNoRows();i++){
-			if(i!=zeile && problem.getField(i, spalte)!=0){
-				double zeilenfaktor = problem.getField(i, spalte);
-				for(int j=0;j<problem.getNoColumns();j++){
-					problem.setField(i, j, (problem.getField(i, j)-zeilenfaktor*problem.getField(zeile, j)));
-				}				
-			}						
-		}
-		return problem;
-	}
-	
-	/**
 	 * Berechnet die delta-Werte in der letzten Zeile des SimplexTableaus
 	 * @param problem zu bearbeitendes SimplexTableau
 	 * @return bearbeitetes SimplexTableau
@@ -77,7 +24,8 @@ public abstract class SimplexLogic {
 		}
 		return problem;
 	}
-	
+
+		
 	/**
 	 * Berechnet die x/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
@@ -94,6 +42,22 @@ public abstract class SimplexLogic {
 			problem.setXByF(xByF);
 		}
 		return problem;
+	}
+	
+	/**
+	 * Überprüft anhand der Delta-Werte, ob das aktuelle Tableau des SimplexProblem optimal ist, und setzt dieses dann ggf. optimal.
+	 * @param problem zu prüfendes SimplexProblem
+	 * @return true, wenn optimal, sonst false
+	 */
+	private static boolean checkOptimal(SimplexProblem problem){
+		double[] deltas = problem.getRow(problem.getNoRows()-1);
+		for(int i=0;i<deltas.length-1;i++){
+			if(deltas[i]>0){
+				return false;
+			}
+		}
+		problem.setOptimal();
+		return true;
 	}
 	
 	/**
@@ -128,8 +92,8 @@ public abstract class SimplexLogic {
 			}
 		}
 		return row;
-	}	
-		
+	}
+	
 	/**
 	 * Gibt ein Array mit den Pivotspalten aus.
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
@@ -159,21 +123,57 @@ public abstract class SimplexLogic {
 			}
 		}
 		return pivots;
+	}	
+		
+	/**
+	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
+	 * @param zeile Index der Zeile des Pivotelements
+	 * @param spalte Index der Spalte des Pivotelements
+	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
+	 */
+	private static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
+		double pivotElement = problem.getField(zeile, spalte);
+		
+		//Normalisierung der neuen Pivotzeile
+		if(pivotElement==0 || pivotElement==Double.POSITIVE_INFINITY || pivotElement==Double.NEGATIVE_INFINITY){
+			throw new IOException("Pivotelement ist gleich Null oder Unendlich.");
+		}
+		double pivotfaktor = 1/pivotElement;
+		double[] pivotZeile = problem.getRow(zeile);
+		for(int i=0;i<problem.getNoColumns();i++){
+			pivotZeile[i] = pivotZeile[i]*pivotfaktor;
+		}
+		problem.setRow(pivotZeile, zeile);
+		
+		//Erzeugen der Nullen in der Pivotspalte
+		for(int i=0;i<problem.getNoRows();i++){
+			if(i!=zeile && problem.getField(i, spalte)!=0){
+				double zeilenfaktor = problem.getField(i, spalte);
+				for(int j=0;j<problem.getNoColumns();j++){
+					problem.setField(i, j, (problem.getField(i, j)-zeilenfaktor*problem.getField(zeile, j)));
+				}				
+			}						
+		}
+		return problem;
 	}
 	
 	/**
-	 * Überprüft anhand der Delta-Werte, ob das aktuelle Tableau des SimplexProblem optimal ist, und setzt dieses dann ggf. optimal.
-	 * @param problem zu prüfendes SimplexProblem
-	 * @return true, wenn optimal, sonst false
+	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
+	 * @return bearbeitetes SimplexProblem
 	 */
-	private static boolean checkOptimal(SimplexProblem problem){
-		double[] deltas = problem.getRow(problem.getNoRows()-1);
-		for(int i=0;i<deltas.length-1;i++){
-			if(deltas[i]>0){
-				return false;
+	public static SimplexProblem simplex(SimplexProblem problem){	
+		try {
+			if(problem.getOptimal()!= true){
+				problem.setPivots(findPivots(problem));		
+				problem = calcDeltas(problem);
+				problem = calcXByF(problem);
+				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
+				checkOptimal(sp);
+				return sp;
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		problem.setOptimal();
-		return true;
+		return null;
 	}
 }

@@ -38,21 +38,13 @@ public class SimplexHistory {
 	}
 	
 	/**
-	 * Gibt das letzte Element der SimplexHistory zurück.
-	 * @return letztes Element der SimplexHistory
+	 * Fügt der SimplexHistory ein neues Element hinzu.
+	 * @param tableau einzufügendes SimplexProblem
 	 */
-	public SimplexProblem getLastElement(){
-		return this.history.get(this.history.size()-1);
+	public void addElement(SimplexProblem tableau){
+		this.history.add(tableau);
 	}
 	
-	/**
-	 * Gibt das erste Element der SimplexHistory zurück.
-	 * @return erstes Element der SimplexHistory
-	 */
-	public SimplexProblem getFirstElement(){
-		return this.history.get(0);
-	}
-
 	/**
 	 * Gibt das Element mit dem Index index zurück.
 	 * @param index Index des auszugebenen Elements
@@ -62,26 +54,21 @@ public class SimplexHistory {
 	public SimplexProblem getElement(int index) throws java.lang.IndexOutOfBoundsException{
 		return this.history.get(index);
 	}
-	
-	/**
-	 * Fügt der SimplexHistory ein neues Element hinzu.
-	 * @param tableau einzufügendes SimplexProblem
-	 */
-	public void addElement(SimplexProblem tableau){
-		this.history.add(tableau);
-	}
 
 	/**
-	 * Speichert die ArrayList history in der Datei simplexHistory ab. Kann mit der Methode readHistory wieder eingelesen werden.
-	 * @throws IOException
+	 * Gibt das erste Element der SimplexHistory zurück.
+	 * @return erstes Element der SimplexHistory
 	 */
+	public SimplexProblem getFirstElement(){
+		return this.history.get(0);
+	}
 	
-	
-	public void saveHistory()throws IOException{
-		FileOutputStream fos = new FileOutputStream("simplexHistory.dat");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(history);
-		oos.close();
+	/**
+	 * Gibt das letzte Element der SimplexHistory zurück.
+	 * @return letztes Element der SimplexHistory
+	 */
+	public SimplexProblem getLastElement(){
+		return this.history.get(this.history.size()-1);
 	}
 
 	/**
@@ -100,5 +87,18 @@ public class SimplexHistory {
 		ois = new ObjectInputStream(fis);
 		history = (ArrayList<SimplexProblem>) ois.readObject();
 		ois.close();
+	}
+
+	/**
+	 * Speichert die ArrayList history in der Datei simplexHistory ab. Kann mit der Methode readHistory wieder eingelesen werden.
+	 * @throws IOException
+	 */
+	
+	
+	public void saveHistory()throws IOException{
+		FileOutputStream fos = new FileOutputStream("simplexHistory.dat");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(history);
+		oos.close();
 	}
 }
