@@ -1,6 +1,5 @@
 package com.googlecode.simplex4android;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -27,10 +26,7 @@ public class Simplex {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
-		firstProblem.setPivots(SimplexLogic.findPivots(firstProblem));		
-		firstProblem = SimplexLogic.calcDeltas(firstProblem);
-		SimplexLogic.calcXByF(firstProblem);
-			
+
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
 		
@@ -40,7 +36,7 @@ public class Simplex {
 		if(debug == true){System.out.println("HTML: "+firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		while(sh.getLastElement().getOptimal()!=true){
+		do{
 			SimplexProblem current = sh.getLastElement();
 			current = SimplexLogic.simplex(current);
 			
@@ -52,8 +48,6 @@ public class Simplex {
 			
 			sh.addElement(current);
 		}
-	}
-
-	
-	
+		while(sh.getLastElement().getOptimal()!=true);
+	}	
 }

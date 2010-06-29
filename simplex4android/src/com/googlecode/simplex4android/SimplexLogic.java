@@ -11,9 +11,8 @@ public abstract class SimplexLogic {
 	/**
 	 * Berechnet die delta-Werte in der letzten Zeile des SimplexTableaus
 	 * @param problem zu bearbeitendes SimplexTableau
-	 * @return bearbeitetes SimplexTableau
 	 */
-	public static SimplexProblem calcDeltas(SimplexProblem problem){
+	public static void calcDeltas(SimplexProblem problem){
 		for(int i = 0; i<problem.getNoColumns(); i++){ //durchläuft alle Spalten
 			double delta = 0;
 			for(int k = 0; k<problem.getNoRows()-1; k++){
@@ -22,14 +21,12 @@ public abstract class SimplexLogic {
 			delta = delta - problem.getTarget()[i];
 			problem.setField(problem.getNoRows()-1, i, delta);	
 		}
-		return problem;
 	}
 
 		
 	/**
 	 * Berechnet die x/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
-	 * @return bearbeitetes SimplexProblem
 	 */
 	public static void calcXByF(SimplexProblem problem){
 		if(problem.getOptimal()!=true){
@@ -60,17 +57,19 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
+	 * Wählt am weitesten links stehendes Element
 	 * Findet die neue Pivotspalte und gib diese aus.
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
 	 * @return neue Pivotspalte
 	 */
 	public static int choosePivotColumn(SimplexProblem problem){
+		int column = -1;
 		for(int i = 0; i<problem.getNoColumns()-1; i++){
 			if(problem.getTableau()[problem.getNoRows()-1][i] >0){
-				return i;
+				column = i;
 			}
 		}
-		return -1;
+		return column;
 	}
 	
 	/**
@@ -95,7 +94,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
-	public static int[] findPivots(SimplexProblem problem){
+	public static void findPivots(SimplexProblem problem){
 		int[] pivots = new int[problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
 		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
@@ -118,7 +117,7 @@ public abstract class SimplexLogic {
 				pivots[posOfOne] = i;
 			}
 		}
-		return pivots;
+		problem.setPivots(pivots);
 	}	
 		
 	/**
@@ -158,17 +157,10 @@ public abstract class SimplexLogic {
 	 * @return bearbeitetes SimplexProblem
 	 */
 	public static SimplexProblem simplex(SimplexProblem problem){	
-		try{
-			problem.getPivots(); // Prüfung, ob erstes SimplexProblem, für das noch Pivot-, delta- und xByF-Werte fehlen.
-		}catch(NullPointerException e){ // wirft getPivots() eine NullPointerException, wurden diese noch nicht berechnet.
-			problem.setPivots(findPivots(problem));		
-			problem = calcDeltas(problem);
-			calcXByF(problem);
-		}				
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
-				sp.setPivots(findPivots(sp));
+				findPivots(sp);
 				checkOptimal(sp);
 				calcXByF(sp);
 				return sp;
