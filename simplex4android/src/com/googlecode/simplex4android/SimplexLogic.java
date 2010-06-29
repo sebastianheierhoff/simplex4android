@@ -13,7 +13,7 @@ public abstract class SimplexLogic {
 	 * @param problem zu bearbeitendes SimplexTableau
 	 * @return bearbeitetes SimplexTableau
 	 */
-	protected static SimplexProblem calcDeltas(SimplexProblem problem){
+	private static SimplexProblem calcDeltas(SimplexProblem problem){
 		for(int i = 0; i<problem.getNoColumns(); i++){ //durchläuft alle Spalten
 			double delta = 0;
 			for(int k = 0; k<problem.getNoRows()-1; k++){
@@ -31,17 +31,17 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	protected static double[] calcXByF(SimplexProblem problem){
-		double[] xByF = new double[problem.getNoRows()-1];;
+	private static SimplexProblem calcXByF(SimplexProblem problem){
 		if(!problem.getOptimal()){
-			int pivotColumn = choosePivotColumn(problem);			
+			int pivotColumn = choosePivotColumn(problem);
+			double[] xByF = new double[problem.getNoRows()-1];
 			double[] f = problem.getLastColumn();
 			for(int i = 0; i<problem.getNoRows()-1; i++){
 				xByF[i] = (f[i] / problem.getField(i, pivotColumn));
 			}
 			problem.setXByF(xByF);
 		}
-		return xByF;
+		return problem;
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public abstract class SimplexLogic {
 	 * @param problem zu prüfendes SimplexProblem
 	 * @return true, wenn optimal, sonst false
 	 */
-	protected static boolean checkOptimal(SimplexProblem problem){
+	private static boolean checkOptimal(SimplexProblem problem){
 		double[] deltas = problem.getRow(problem.getNoRows()-1);
 		for(int i=0;i<deltas.length-1;i++){
 			if(deltas[i]>0){
@@ -65,7 +65,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
 	 * @return neue Pivotspalte
 	 */
-	protected static int choosePivotColumn(SimplexProblem problem){
+	private static int choosePivotColumn(SimplexProblem problem){
 		for(int i = 0; i<problem.getNoColumns()-1; i++){
 			if(problem.getTableau()[problem.getNoRows()-1][i] >0){
 				return i;
@@ -80,7 +80,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
 	 * @return neue Pivotzeile
 	 */
-	protected static int choosePivotRow(SimplexProblem problem){
+	private static int choosePivotRow(SimplexProblem problem){
 		int row = -1;
 		if(!problem.getOptimal()){
 			double min = Double.MAX_VALUE;
@@ -99,7 +99,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
-	protected static int[] findPivots(SimplexProblem problem){
+	private static int[] findPivots(SimplexProblem problem){
 		int[] pivots = new int[problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
 		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
@@ -131,7 +131,7 @@ public abstract class SimplexLogic {
 	 * @param spalte Index der Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
 	 */
-	protected static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
+	private static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
 		double pivotElement = problem.getField(zeile, spalte);
 		
 		//Normalisierung der neuen Pivotzeile
@@ -162,12 +162,14 @@ public abstract class SimplexLogic {
 	 * @return bearbeitetes SimplexProblem
 	 */
 	public static SimplexProblem simplex(SimplexProblem problem){	
+		problem.setPivots(findPivots(problem));		
+		problem = calcDeltas(problem);
+		problem = calcXByF(problem);
 		try {
-			if(problem.getOptimal()!= true){				
+			if(problem.getOptimal()!= true){
+				
 				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem)); //neues Pivotelement (Zeile/Spalte) bestimmen
 				checkOptimal(sp);
-				problem.setPivots(findPivots(problem));
-				problem.setXByF(calcXByF(problem));
 				return sp;
 			}
 		} catch (IOException e) {
@@ -175,4 +177,6 @@ public abstract class SimplexLogic {
 		}
 		return null;
 	}
+
+
 }
