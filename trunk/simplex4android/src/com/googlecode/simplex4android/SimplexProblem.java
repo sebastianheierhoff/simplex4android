@@ -29,6 +29,8 @@ public class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		this.target = this.convertToIntArrayList(target);		
 		this.optimal = false;
+		this.pivots = this.convertToIntArrayList((SimplexLogic.findPivots(this)));
+		this.xByF = this.convertToDblArrayList(SimplexLogic.calcXByF(this));
 	}
 	
 	/**
