@@ -29,7 +29,7 @@ public class Simplex {
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
 		firstProblem.setPivots(SimplexLogic.findPivots(firstProblem));		
 		firstProblem = SimplexLogic.calcDeltas(firstProblem);
-		firstProblem = SimplexLogic.calcXByF(firstProblem);
+		SimplexLogic.calcXByF(firstProblem);
 			
 		//SimplexProblem in History einfügen
 		sh.addElement(firstProblem);
