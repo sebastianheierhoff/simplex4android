@@ -68,7 +68,7 @@ public class Constraint {
 	 * @return Wert der Nebenbedingung an Index j
 	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public double get(int j) throws IndexOutOfBoundsException{
+	public double getValue(int j) throws IndexOutOfBoundsException{
 		return this.values.get(j);
 	}
 	
