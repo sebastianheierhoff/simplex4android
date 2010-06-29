@@ -363,7 +363,7 @@ public class SimplexProblem {
 			}
 			//x/f noch hinten dran hängen
 			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
-				html = html + "<td>\u2013</td>";
+				html = html + "<td> &#8211; </td>";
 			}
 			else{
 				html = html + "<td>"+ xByF.get(i)+"</td>";
