@@ -346,7 +346,7 @@ public class SimplexProblem {
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
 		for(int i=0;i<target.size()-1;i++){
-			html = html + "<td>" +target.get(i) + "</td>";
+			html = html + "<td>" + (Math.round(target.get(i)*100.)/100.) + "</td>";
 		}
 		html = html + "<td></td><td></td></tr>\n";
 		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
@@ -359,21 +359,21 @@ public class SimplexProblem {
 		for(int i=0;i<tableau.size()-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
 			html = html + "<tr><td>"+ target.get(pivots.get(i))+"</td><td>" +(pivots.get(i)+1) +"</td>";
 			for(int j=0;j<tableau.get(0).size();j++){
-				html = html + "<td>" + tableau.get(i).get(j)+"</td>";
+				html = html + "<td>" + (Math.round((tableau.get(i).get(j))*100.)/100.)+"</td>";
 			}
 			//x/f noch hinten dran hängen
 			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
 				html = html + "<td> &#8211; </td>";
 			}
 			else{
-				html = html + "<td>"+ xByF.get(i)+"</td>";
+				html = html + "<td>"+ (Math.round(xByF.get(i)*100.)/100.)+"</td>";
 			}
 			html = html + "</tr>\n";
 		}
 		// Letzte Zeile: extra behandlung für delta-Wert
 		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<tableau.get(0).size();i++){
-			html = html + "<td>" + tableau.get(tableau.size()-1).get(i) +"</td>";
+			html = html + "<td>" + (Math.round((tableau.get(tableau.size()-1).get(i))*100.)/100.) +"</td>";
 		}
 		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
