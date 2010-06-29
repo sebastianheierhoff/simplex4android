@@ -13,6 +13,7 @@ public class SimplexProblem {
 	private ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
 	private ArrayList<Integer> pivots; //Basisspalten
 	private ArrayList<Double> xByF; //
+	private ArrayList<Double> deltaByF; //Zeile unter dem Tableau für den dualen Simplex
 	private boolean optimal;
 	
 	//SETTINGS!!!
@@ -238,6 +239,14 @@ public class SimplexProblem {
 	}
 	
 	/**
+	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
+	 * @return Array mit den x/f-Werten für jede Zeile
+	 */
+	public double[] getDeltaByF() {
+		return this.convertToDblArray(this.deltaByF);
+	}
+		
+	/**
 	 * Setzt Spalte j.
 	 * @param c übergebene Spalte
 	 * @param j Index der zu verändernden Spalte
@@ -306,6 +315,14 @@ public class SimplexProblem {
 	 */
 	public void setXByF(double[] xByF) {
 		this.xByF = this.convertToDblArrayList(xByF);
+	}
+	
+	/**
+	 * Überschreibt die delta/f-Werte.
+	 * @param deltaByF neue delta/f-Werte
+	 */
+	public void setDeltaByF(double[] deltaByF) {
+		this.deltaByF = this.convertToDblArrayList(deltaByF);
 	}
 	
 	/**

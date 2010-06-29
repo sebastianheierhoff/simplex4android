@@ -170,4 +170,58 @@ public abstract class SimplexLogic {
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * Wählt am weitesten oben stehendes Element
+	 * Findet die neue Zeile, in der das Pivotelement verschoben wird
+	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
+	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
+	 */
+	public static int chooseRowDualSimplex(SimplexProblem problem){
+		int row = -1;
+		for(int i = 0; i<problem.getNoRows()-1; i++){
+			if(problem.getTableau()[problem.getNoColumns()-1][i]>0){
+				row = i;
+			}
+		}
+		return row;
+	}
+	
+	/**
+	 * Berechnet die delta/f-Werte des SimplexProblems.
+	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
+	 */
+	public static void calcDeltaByF(SimplexProblem problem){
+		if(problem.getOptimal()!=true){
+			int row = chooseRowDualSimplex(problem);
+			double[] deltaByF = new double[problem.getNoColumns()-1];
+			double[] delta = problem.getLastRow();
+			for(int i = 0; i<problem.getNoColumns()-1; i++){
+				if(problem.getField(row, i)<0) deltaByF[i] = (delta[i] / problem.getField(row, i));
+				else{
+					deltaByF[i] = -1;
+				}
+			}
+			problem.setDeltaByF(deltaByF);
+		}
+	}
+	
+	/**
+	 * Findet die Spalte, die in die Basis geht und gibt diese aus.
+	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
+	 * @return Spalte, die in die Basis geht
+	 */
+	public static int choosePivotColumnDualSimplex(SimplexProblem problem){
+		int column = -1;
+		double min = Double.MAX_VALUE;
+		for(int i = 0; i<problem.getDeltaByF().length; i++){
+			if(problem.getDeltaByF()[i]<min && problem.getDeltaByF()[i] > 0){
+				min = problem.getXByF()[i];
+				column = i;				
+			}
+		}
+		return column;
+	}
+	
 }
