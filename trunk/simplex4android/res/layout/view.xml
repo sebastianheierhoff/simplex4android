@@ -49,12 +49,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/first"
-        android:layout_alignTop="@id/first"
+        android:layout_alignBaseline="@id/first"
         android:text="Navigation:"/>
     <ImageView
 		android:id="@+id/simplex4android_logo"
 		android:src="@drawable/simplex4android_logo"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" 
 		android:gravity="bottom"/>
 </RelativeLayout>

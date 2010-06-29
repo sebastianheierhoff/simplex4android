@@ -2,5 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10px" >
+    android:padding="10px" 
+    android:background="#FFFFFF" >
+
+    <!-- Herzlich Willkommen -->
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Herzlich Willkommen zu:"/>
+    <ImageView
+		android:id="@+id/simplex4android_logo"
+		android:src="@drawable/simplex4android_logo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/label"
+		android:layout_centerHorizontal="true" />
+
+    <!-- Neues Problem -->
+    <Button
+    	android:id="@+id/button_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/simplex4android_logo"
+        android:layout_toLeftOf="@id/simplex4android_logo"
+        android:text="Neues Problem" />
+
+    <!-- Problem laden-->
+    <Button
+        android:id="@+id/button_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/simplex4android_logo"
+        android:layout_alignParentRight="true"
+        android:text="Problem laden" />
 </RelativeLayout>
