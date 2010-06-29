@@ -1,1 +1,4 @@
 com.googlecode.simplex4android
+org.apache.commons.math
+org.apache.commons.math.fraction
+org.apache.commons.math.util
