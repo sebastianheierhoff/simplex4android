@@ -357,7 +357,10 @@ public class SimplexProblem {
 		re += " = min \n";
 		return re;
 	}
-	
+	/**erstellt HTML-Code als String für das primale Problem.
+	 * 
+	 * @return komplettes Tableau als String in Html 
+	 */
 	public String tableauToHtml(){
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion
@@ -397,6 +400,10 @@ public class SimplexProblem {
 		return html;
 	}
 	
+	/**Methode die das komplette Simplex-Tableau für den dualen Simplex als HTML-String zurückgibt.
+	 * 
+	 * @return komplettes Tableau als Duales Problem als String in Html 
+	 */
 	public String tableauToHtmlDual(){
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion

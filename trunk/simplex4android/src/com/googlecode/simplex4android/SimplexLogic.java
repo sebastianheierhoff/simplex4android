@@ -173,7 +173,8 @@ public abstract class SimplexLogic {
 	
 	
 	/**
-	 * Wählt am weitesten oben stehendes Element
+	 * Wählt am weitesten oben stehendes Element dass kleiner null ist und
+	 * in dessen Zeile mindestens ein f-Wert kleiner null ist
 	 * Findet die neue Zeile, in der das Pivotelement verschoben wird
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
 	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
@@ -181,13 +182,29 @@ public abstract class SimplexLogic {
 	public static int chooseRowDualSimplex(SimplexProblem problem){
 		int row = -1;
 		for(int i = 0; i<problem.getNoRows()-1; i++){
-			if(problem.getTableau()[problem.getNoColumns()-1][i]>0){
-				row = i;
+			if((problem.getTableau()[problem.getNoColumns()-1][i]>0)){
+				boolean fSmallerNull = false;	//mindestens ein F-Wert ist kleiner null
+				for(int j=0;j<problem.getRow(i).length;j++){
+					if(problem.getRow(i)[j]<0){
+						fSmallerNull = true;
+						j = problem.getRow(i).length;
+					}
+				}
+				if(fSmallerNull==true)row = i;
 			}
 		}
 		return row;
 	}
 	
+	/**überprüft ob Problem nach dem dualen Simplex optimal ist.
+	 * 
+	 * @param problem
+	 * @return boolean ob optimal
+	 */
+	public static boolean checkDualOptimal(SimplexProblem problem){
+		if(chooseRowDualSimplex(problem)==-1)return true;
+		else return false;
+	}
 	/**
 	 * Berechnet die delta/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
@@ -218,10 +235,22 @@ public abstract class SimplexLogic {
 		for(int i = 0; i<problem.getDeltaByF().length; i++){
 			if(problem.getDeltaByF()[i]<min && problem.getDeltaByF()[i] > 0){
 				min = problem.getXByF()[i];
-				column = i;				
+				column = i;
 			}
 		}
 		return column;
 	}
 	
+	/**stellt fest ob Problem primal zulässig ist
+	 * 
+	 * @param SimplexProblem
+	 * @return boolean ob zulässig oder nicht
+	 */
+	public static boolean primalValid(SimplexProblem problem){
+		boolean valid = true;
+		for(int i=0;i<problem.getLastColumn().length;i++){
+			if(problem.getLastColumn()[i]<0)valid = false;
+		}
+		return valid;
+	}
 }
