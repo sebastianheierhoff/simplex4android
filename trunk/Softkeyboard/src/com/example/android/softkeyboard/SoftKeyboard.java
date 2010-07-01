@@ -68,6 +68,7 @@ public class SoftKeyboard extends InputMethodService
     private LatinKeyboard mSymbolsKeyboard;
     private LatinKeyboard mSymbolsShiftedKeyboard;
     private LatinKeyboard mQwertyKeyboard;
+    private LatinKeyboard mNumberKeyboard;
     
     private LatinKeyboard mCurKeyboard;
     
@@ -98,6 +99,7 @@ public class SoftKeyboard extends InputMethodService
         mQwertyKeyboard = new LatinKeyboard(this, R.xml.qwerty);
         mSymbolsKeyboard = new LatinKeyboard(this, R.xml.symbols);
         mSymbolsShiftedKeyboard = new LatinKeyboard(this, R.xml.symbols_shift);
+        mNumberKeyboard = new LatinKeyboard(this, R.xml.simplexkeyboard);
     }
     
     /**
@@ -151,6 +153,8 @@ public class SoftKeyboard extends InputMethodService
         // text being edited.
         switch (attribute.inputType&EditorInfo.TYPE_MASK_CLASS) {
             case EditorInfo.TYPE_CLASS_NUMBER:
+                mCurKeyboard = mNumberKeyboard;
+                break;
             case EditorInfo.TYPE_CLASS_DATETIME:
                 // Numbers and dates default to the symbols keyboard, with
                 // no extra features.
