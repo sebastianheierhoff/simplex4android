@@ -4,80 +4,28 @@
     android:layout_height="fill_parent"
     android:padding="10px"
     android:background="#FFFFFF" >
-<EditText
-android:id="@+id/widget35"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="42"
-android:textSize="18sp"
-android:layout_alignTop="@+id/widget30"
-android:layout_toLeftOf="@+id/widget34"
->
-</EditText>
-
-<Button
-android:id="@+id/widget34"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="-"
-android:layout_below="@+id/widget33"
-android:layout_alignLeft="@+id/widget33"
->
-</Button>
-<Button
-android:id="@+id/widget33"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="+"
-android:layout_alignBaseline="@+id/widget30"
-android:layout_alignLeft="@+id/widget32"
->
-</Button>
-<EditText
-android:id="@+id/widget30"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="X1"
-android:textSize="18sp"
-android:layout_above="@+id/widget29"
-android:layout_toRightOf="@+id/widget29"
->
-</EditText>
-<Button
-android:id="@+id/widget31"
-android:layout_width="120px"
-android:layout_height="wrap_content"
-android:text="Hinzufügen"
-android:layout_above="@+id/widget29"
-android:layout_alignRight="@+id/widget32"
->
-</Button>
-<Button
-android:id="@+id/widget29"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="-"
-android:layout_below="@+id/widget28"
-android:layout_alignLeft="@+id/widget28"
->
-</Button>
-<Button
-android:id="@+id/widget28"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="+"
-android:layout_below="@+id/widget32"
-android:layout_centerHorizontal="true"
->
-</Button>
-<EditText
-android:id="@+id/widget32"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text=""
-android:textSize="18sp"
-android:layout_alignParentTop="true"
-android:layout_centerHorizontal="true"
->
-</EditText>
+	<TextView
+        android:id="@+id/label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Zielfunktion eingeben:"/>
+	<EditText 
+		android:text="" 
+		android:id="@+id/target" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+        android:hint="Zielfunktion, z.B. 7x1 + 13x2 + 12x3 = 10"
+        android:layout_below="@id/target" />
+    <include android:id="@+id/keyboard"
+    		 layout="@layout/keyboard"/>
+<!--    
+    <ImageView
+		android:id="@+id/simplex4android_logo"
+		android:src="@drawable/simplex4android_logo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" 
+		android:gravity="bottom"/>
+-->
 </RelativeLayout>
