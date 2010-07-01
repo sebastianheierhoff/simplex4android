@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10px"
+    android:background="#FFFFFF" >
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="Aktuelles Tableau:"/>
+    <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+  	  	android:id="@+id/tableau"
+		android:layout_below="@id/label"
+		android:layout_margin="5dip"
+   		android:layout_width="fill_parent"
+   		android:layout_height="200dip"	/>
+    <Button
+    	android:id="@+id/last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tableau"
+        android:layout_alignParentRight="true"
+        android:text="&gt;&gt;" />
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/last"
+        android:layout_alignTop="@id/last"
+        android:text="&gt;" />
+    <Button
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/next"
+        android:layout_alignTop="@id/next"
+        android:text="&lt;" />
+    <Button
+        android:id="@+id/first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/previous"
+        android:layout_alignTop="@id/previous"
+        android:text="&lt;&lt;" />
+    <TextView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/first"
+        android:layout_alignBaseline="@id/first"
+        android:text="Navigation:"/>
+    <ImageView
+		android:id="@+id/simplex4android_logo"
+		android:src="@drawable/simplex4android_logo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" 
+		android:gravity="bottom"/>
+</RelativeLayout>
