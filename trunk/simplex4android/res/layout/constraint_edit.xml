@@ -16,7 +16,7 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
         android:hint="Zielfunktion, z.B. 7x1 + 13x2 + 12x3 = 10"
-        android:layout_below="@id/target" />
+        android:layout_below="@id/label" />
     <include android:id="@+id/keyboard"
     		 layout="@layout/keyboard"/>
 <!--    

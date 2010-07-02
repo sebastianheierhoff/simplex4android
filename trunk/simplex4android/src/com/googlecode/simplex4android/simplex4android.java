@@ -42,6 +42,7 @@ public class simplex4android extends Activity {
 	        }
 	    });
 	    
+	    
 //    	final Button button_tutorial = (Button) findViewById(R.id.button_tutorial);
 //	    button_tutorial.setOnClickListener(new OnClickListener() {
 //	        public void onClick(View v) {
