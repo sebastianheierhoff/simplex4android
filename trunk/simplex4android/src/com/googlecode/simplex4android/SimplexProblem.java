@@ -54,7 +54,7 @@ public class SimplexProblem {
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
 	 * @param column neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an letzter Stelle der Zielwert b
 	 */
-	public void addColumn(double[] c){
+	public void addRow(double[] c){
 		ArrayList<Double> column = this.convertToDblArrayList(c);
 		
 		int size = this.tableau.get(0).size();
