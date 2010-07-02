@@ -26,27 +26,32 @@ public class SimplexLocal {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
+		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexProblem in History einfügen
-		sh.addElement(firstProblem);
+		//sh.addElement(firstProblem);
+		double[] c = {1,1,1,1,1,1,1,1,1,1};
+		firstProblem.addColumn(c);
 		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-		if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
+		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		do{
-			SimplexProblem current = sh.getLastElement();
-			current = SimplexLogic.simplex(current);
-
-			//Debug-Ausgabe
-			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-			
-			sh.addElement(current);
-		}
-		while(sh.getLastElement().getOptimal()!=true);
+//		do{
+//			SimplexProblem current = sh.getLastElement();
+//			current = SimplexLogic.simplex(current);
+//
+//			//Debug-Ausgabe
+//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+//			
+//			sh.addElement(current);
+//		}
+//		while(sh.getLastElement().getOptimal()!=true);
 	}	
 }

@@ -20,6 +20,19 @@ public class SimplexProblem {
 	//normaler Simplex oder Dualer Simplex
 	//automatische/manuelle Wahl der Pivotspalten
 	
+	/**
+	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
+	 * Die Zeile der delta-Werte ist bereits enthalten.
+	 */
+	public SimplexProblem(){
+		this.tableau = new ArrayList<ArrayList<Double>>();
+		this.tableau.add(new ArrayList<Double>()); // Zeile der delta-Werte hinzufügen
+		this.target = new ArrayList<Integer>();
+		this.pivots = new ArrayList<Integer>();
+		this.xByF = new ArrayList<Double>();
+		this.deltaByF = new ArrayList<Double>();
+		this.optimal = false;
+	}
 	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
@@ -34,6 +47,31 @@ public class SimplexProblem {
 		SimplexLogic.findPivots(this);
 	    SimplexLogic.calcDeltas(this);
 	    SimplexLogic.calcXByF(this);
+	}
+	
+	/**
+	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die Zeile der delta-Werte.
+	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
+	 * @param column neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an letzter Stelle der Zielwert b
+	 */
+	public void addColumn(double[] c){
+		ArrayList<Double> column = this.convertToDblArrayList(c);
+		
+		int size = this.tableau.get(0).size();
+		if(c.length<size){ // neue Zeile ist zu kurz
+			for(int i=(c.length);i<size;i++){ // Einfügen der fehlenden Nullen an vorletzter Stelle
+				column.add(column.size()-1, new Double(0));
+			}
+		}else if(c.length>size){ // neue Zeile ist zu lang
+			int anzahl = c.length-size; // Anzahl neu hinzuzufügender Nullen in den bestehenden Zeilen
+			for(int i=0;i<this.tableau.size();i++){
+				for(int x=1;x<=anzahl;x++){
+					this.tableau.get(i).add(size-1, new Double(0));
+				}
+			}
+		}
+		this.tableau.add(this.tableau.size()-1, column); // Hinzufügen der Zeile an vorletzter Stelle
+		
 	}
 	
 	/**
