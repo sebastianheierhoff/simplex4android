@@ -1,7 +1,6 @@
 package com.googlecode.simplex4android.test;
 
 import com.googlecode.simplex4android.SimplexProblem;
-
 import junit.framework.TestCase;
 
 public class TestSimplexProblem extends TestCase {
