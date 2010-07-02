@@ -33,7 +33,7 @@ public class SimplexLocal {
 		//SimplexProblem in History einfügen
 		//sh.addElement(firstProblem);
 		double[] c = {1,1,1,1,1,1,1,1,1,1};
-		firstProblem.addColumn(c);
+		firstProblem.addRow(c);
 		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
