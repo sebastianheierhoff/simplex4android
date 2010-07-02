@@ -212,6 +212,13 @@ public class SimplexProblem {
 	}
 
 	/**
+	 * 
+	 * @return Namen des Problems
+	 */
+	public String getName(){
+		return this.name;
+	}
+	/**
 	 * Gibt die Anzahl der Spalten aus.
 	 * @return Anzahl der Spalten
 	 */
