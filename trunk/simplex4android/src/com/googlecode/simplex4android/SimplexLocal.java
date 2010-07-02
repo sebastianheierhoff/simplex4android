@@ -32,11 +32,11 @@ public class SimplexLocal {
 
 		//SimplexProblem in History einfügen
 		//sh.addElement(firstProblem);
-		double[] c = {1,1,1,1,1,1,1,1,1,1};
-		firstProblem.addRow(c);
 		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		
+		System.out.println(SimplexLogic.checkString("2.0"));
 		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
