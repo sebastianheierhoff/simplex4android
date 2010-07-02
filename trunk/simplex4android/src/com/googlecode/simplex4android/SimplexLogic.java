@@ -217,6 +217,24 @@ public abstract class SimplexLogic {
 		return null;
 	}
 	
+	/**
+	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
+	 * @return bearbeitetes SimplexProblem
+	 */
+	public static SimplexProblem dualSimplex(SimplexProblem problem){	
+		try {
+			if(problem.getOptimal()!= true){				
+				SimplexProblem sp = gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
+				findPivots(sp);
+				checkDualOptimal(sp);
+				calcDeltaByF(sp);
+				return sp;
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	/**
 	 * Wählt am weitesten oben stehendes Element dass kleiner null ist und
@@ -248,8 +266,7 @@ public abstract class SimplexLogic {
 	 * @return boolean ob optimal
 	 */
 	public static boolean checkDualOptimal(SimplexProblem problem){
-		if(chooseRowDualSimplex(problem)==-1)return true;
-		else return false;
+		return primalValid(problem);
 	}
 	/**
 	 * Berechnet die delta/f-Werte des SimplexProblems.
@@ -296,6 +313,19 @@ public abstract class SimplexLogic {
 		boolean valid = true;
 		for(int i=0;i<problem.getLastColumn().length;i++){
 			if(problem.getLastColumn()[i]<0)valid = false;
+		}
+		return valid;
+	}
+	
+	/**stellt fest ob Problem dual zulässig ist
+	 * 
+	 * @param SimplexProblem
+	 * @return boolean ob zulässig oder nicht
+	 */
+	public static boolean dualValid(SimplexProblem problem){
+		boolean valid = false;
+		for(int i=0;i<problem.getLastRow().length;i++){
+			if(problem.getLastRow()[i]<0)valid = true;
 		}
 		return valid;
 	}
