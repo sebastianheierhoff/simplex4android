@@ -15,6 +15,8 @@ public class SimplexProblem {
 	private ArrayList<Double> xByF; //
 	private ArrayList<Double> deltaByF; //Zeile unter dem Tableau für den dualen Simplex
 	private boolean optimal;
+	private String name = "Simplex-Problem Nr: ";
+	private int problemNr = 1;
 	
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
@@ -32,6 +34,8 @@ public class SimplexProblem {
 		this.xByF = new ArrayList<Double>();
 		this.deltaByF = new ArrayList<Double>();
 		this.optimal = false;
+		this.name = name + problemNr;
+		problemNr++;
 	}
 	
 	/**
@@ -43,6 +47,8 @@ public class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		this.target = this.convertToIntArrayList(target);		
 		this.optimal = false;
+		this.name = name + problemNr;
+		problemNr++;
 
 		SimplexLogic.findPivots(this);
 	    SimplexLogic.calcDeltas(this);
@@ -361,6 +367,10 @@ public class SimplexProblem {
 	 */
 	public void setDeltaByF(double[] deltaByF) {
 		this.deltaByF = this.convertToDblArrayList(deltaByF);
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	/**
