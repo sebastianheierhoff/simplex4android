@@ -258,7 +258,7 @@ public abstract class SimplexProblem {
 	public double[][] getTableau() {
 		double[][] tableau = new double[this.tableau.size()][this.tableau.get(0).size()];
 		for(int i=0;i<tableau.length;i++){
-			for(int j=0;j<tableau.length;j++){
+			for(int j=0;j<tableau[0].length;j++){
 				tableau[i][j] = this.getField(i, j);
 			}
 		}
@@ -373,6 +373,10 @@ public abstract class SimplexProblem {
 		return re;
 	}
 
-	
+	/**
+	 * abstrakte Html ausgabemethode
+	 * @return HTML-Code in einem String
+	 */
+	public abstract String tableauToHtml();
 
 }
