@@ -248,15 +248,19 @@ public abstract class SimplexLogic {
 	public static int chooseRowDualSimplex(SimplexProblem problem){
 		int row = -1;
 		for(int i = 0; i<problem.getNoRows()-1; i++){
-			if((problem.getTableau()[problem.getNoColumns()-1][i]>0)){
+			if((problem.getTableau()[i][problem.getNoColumns()-1]<0)){
 				boolean fSmallerNull = false;	//mindestens ein F-Wert ist kleiner null
 				for(int j=0;j<problem.getRow(i).length;j++){
+					System.out.println("f= "+ problem.getRow(i)[j]);
 					if(problem.getRow(i)[j]<0){
 						fSmallerNull = true;
 						j = problem.getRow(i).length;
 					}
 				}
-				if(fSmallerNull==true)row = i;
+				if(fSmallerNull==true){
+					row = i;
+					i = problem.getNoRows()-1;
+				}
 			}
 		}
 		return row;
@@ -267,8 +271,8 @@ public abstract class SimplexLogic {
 	 * @param problem
 	 * @return boolean ob optimal
 	 */
-	public static boolean checkDualOptimal(SimplexProblem problem){
-		return primalValid(problem);
+	public static void checkDualOptimal(SimplexProblem problem){
+		 if(primalValid(problem))problem.setOptimal();
 	}
 	/**
 	 * Berechnet die delta/f-Werte des SimplexProblems.
