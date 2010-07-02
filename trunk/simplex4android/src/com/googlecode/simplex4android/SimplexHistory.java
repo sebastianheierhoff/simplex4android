@@ -28,16 +28,6 @@ public class SimplexHistory {
 	}
 	
 	/**
-	 * Legt eine SimplexHistory zur Verwaltung von SimplexProblemen.
-	 * @param tableau Start-SimplexProblem
-	 * @param target Zielfunktion
-	 */
-	public SimplexHistory(double[][] tableau, int[] target){
-		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
-		history.add(firstProblem);
-	}
-	
-	/**
 	 * Fügt der SimplexHistory ein neues Element hinzu.
 	 * @param tableau einzufügendes SimplexProblem
 	 */
