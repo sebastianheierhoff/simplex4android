@@ -1,5 +1,6 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -60,24 +61,51 @@ public class SimplexProblem {
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
 	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an letzter Stelle der Zielwert b
 	 */
-	public void addRow(double[] r){
-		ArrayList<Double> column = this.convertToDblArrayList(r);
-		
+	public void addRow(ArrayList<Double> row){		
 		int size = this.tableau.get(0).size();
-		if(r.length<size){ // neue Zeile ist zu kurz
-			for(int i=(r.length);i<size;i++){ // Einfügen der fehlenden Nullen an vorletzter Stelle
-				column.add(column.size()-1, new Double(0));
+		if(row.size()<size){ // neue Zeile ist zu kurz
+			for(int i=(row.size());i<size;i++){ // Einfügen der fehlenden Nullen an vorletzter Stelle
+				row.add(row.size()-1, new Double(0));
 			}
-		}else if(r.length>size){ // neue Zeile ist zu lang
-			int anzahl = r.length-size; // Anzahl neu hinzuzufügender Nullen in den bestehenden Zeilen
+		}else if(row.size()>size){ // neue Zeile ist zu lang
+			int anzahl = row.size()-size; // Anzahl neu hinzuzufügender Nullen in den bestehenden Zeilen
 			for(int i=0;i<this.tableau.size();i++){
 				for(int x=1;x<=anzahl;x++){
 					this.tableau.get(i).add(size-1, new Double(0));
 				}
 			}
 		}
-		this.tableau.add(this.tableau.size()-1, column); // Hinzufügen der Zeile an vorletzter Stelle
+		this.tableau.add(this.tableau.size()-1, row); // Hinzufügen der Zeile an vorletzter Stelle
 		
+	}
+	
+	/**
+	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge eingegeben als String hinzu.
+	 * @param s Eingabestring der Nebenbedingung (Bsp.: 2x1 + -4x3 - 2/5x4 = 6), x0 ist nicht erlaubt
+	 * @throws bei ungültiger Eingabe
+	 */
+	public void addRow(String s) throws IOException{
+		// größtes x finden und ArrayList<Double> mit entsprechender Größte anlegen
+		ArrayList<Integer> vars = new ArrayList<Integer>(); // enthält die x-Variablen der Stringeingabe
+		int max = 0;
+		for(int i=0;i<s.length();i++){ // ganzen String nach Variablen durchsuchen
+			if(s.charAt(i)=='x'){
+				int j=i; // Index der letzten Ziffer der Variablenbenennung
+				while(s.charAt(j)!=' '){
+					
+				}
+			}
+		}
+		ArrayList<Double> row = new ArrayList<Double>();
+		
+		
+		int op = 0;
+		for(int i=op+3;i<s.length();i++){ // nächsten Operator finden (Index um 3 erhöhen, um evtl. "-" zu überspringen)
+			if(s.charAt(i)=='+'){
+				op = i; // Index des aktuellen Operators setzen
+				
+			}
+		}
 	}
 	
 	/**
@@ -212,12 +240,13 @@ public class SimplexProblem {
 	}
 
 	/**
-	 * 
+	 * Gibt den Namen des Tableaus zurück.
 	 * @return Namen des Problems
 	 */
 	public String getName(){
 		return this.name;
 	}
+	
 	/**
 	 * Gibt die Anzahl der Spalten aus.
 	 * @return Anzahl der Spalten
@@ -375,6 +404,7 @@ public class SimplexProblem {
 	public void setDeltaByF(double[] deltaByF) {
 		this.deltaByF = this.convertToDblArrayList(deltaByF);
 	}
+	
 	
 	public void setName(String name){
 		this.name = name;
