@@ -62,15 +62,17 @@ public abstract class SimplexLogic {
 	 * @return true, wenn Eingabestring s gültig, sonst false
 	 */
 	public static boolean checkString(String s){
-		if((s.startsWith("-") && (s.lastIndexOf("-")==0))){ 	// Wenn "-" vorhanden, dann nur an erster Stelle?
-			return false;
+		if(s.startsWith("-")){ 	// Wenn "-" vorhanden, dann nur an erster Stelle?
+			if((s.lastIndexOf("-")!=0)){
+				return false;
+			}			
 		}
 		if(s.indexOf(".")!=-1){ // "." überhaupt enthalten?
-			if(!(s.indexOf(".")==s.lastIndexOf("."))){ // Mehr als ein "."?
+			if(s.indexOf(".")!=s.lastIndexOf(".")){ // Mehr als ein "."?
 				return false;
 			}else{
 				int i=s.indexOf(".");
-				if((i-1)<0 || (int)s.charAt(i-1)>9 || (int)s.charAt(i+1)>9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
+				if((i-1)<0 || Integer.parseInt(s.substring(i-1,i))>9 || Integer.parseInt(s.substring(i+1,i+2))>9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
 					return false;
 				}
 			}
@@ -81,7 +83,7 @@ public abstract class SimplexLogic {
 			}else{
 				int i=s.indexOf("/");
 				try{
-					if((int)s.charAt(i-1)>9 || (int)s.charAt(i+1)>9 || (int)s.charAt(i+1)==0){ // "/" an falscher Stelle oder Zeichen davor nicht in [0,9] oder Zeichen dahinter nicht in [1,9]
+					if(Integer.parseInt(s.substring(i-1,i))>9 || Integer.parseInt(s.substring(i+1,i+2))>9 || Integer.parseInt(s.substring(i+1,i+2))==0){ // "/" an falscher Stelle oder Zeichen davor nicht in [0,9] oder Zeichen dahinter nicht in [1,9]
 						return false;
 					}
 				}catch(Exception e){
