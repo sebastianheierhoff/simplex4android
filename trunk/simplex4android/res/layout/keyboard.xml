@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
+  android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   android:layout_margin="0px"
   android:padding="0px"
   android:orientation="vertical"
   android:layout_alignParentBottom="true">
+
   <LinearLayout
   	android:layout_centerHorizontal="true" 
   	android:layout_height="wrap_content"
@@ -14,208 +15,108 @@
   	android:orientation="horizontal"
 	android:gravity="center_horizontal">
     <Button
+		android:id="@+id/button_minus"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
+		android:layout_margin="0dip"
+  		android:text="-"
+  		android:tag="-"/>
+    <Button
 		android:id="@+id/button_1"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
     	android:text="1"
     	android:tag="1"/>
     <Button
 		android:id="@+id/button_2"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="2"
   		android:tag="2"/>
     <Button
 		android:id="@+id/button_3"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="3"
   		android:tag="3"/>
     <Button
 		android:id="@+id/button_4"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="4"
   		android:tag="4"/>
     <Button
 		android:id="@+id/button_5"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
 		android:text="5"
 		android:tag="5"/>
+	<Button
+		android:id="@+id/button_divide"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
+		android:layout_margin="0dip"
+  		android:text="/"
+  		android:tag="/"/>
+	</LinearLayout>
+  	<LinearLayout
+  		android:layout_centerHorizontal="true" 
+  		android:layout_height="wrap_content"
+  		android:layout_width="fill_parent"
+  		android:orientation="horizontal"
+		android:gravity="center_horizontal">
+     <Button
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
+		android:layout_margin="0dip"
+  		android:enabled="false"/>
     <Button
 		android:id="@+id/button_6"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="6"
   		android:tag="6"/>
     <Button
 		android:id="@+id/button_7"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
 		android:text="7"
 		android:tag="7"/>
     <Button
 		android:id="@+id/button_8"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="8"
   		android:tag="8"/>
     <Button
 		android:id="@+id/button_9"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="9"
   		android:tag="9"/>
-    <Button
+      <Button
 		android:id="@+id/button_0"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
   		android:text="0"
   		android:tag="0"/>
-    </LinearLayout>
-  <LinearLayout
-  	android:layout_centerHorizontal="true" 
-  	android:layout_height="wrap_content"
-  	android:layout_width="fill_parent"
-  	android:orientation="horizontal"
-	android:gravity="center_horizontal">
-    <Button
-		android:id="@+id/button_x1"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="x1"
-  		android:tag="x1"/>
-    <Button
-		android:id="@+id/button_x2"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-		android:text="x2"
-		android:tag="x2"/>
-    <Button
-		android:id="@+id/button_x3"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="x3"
-  		android:tag="x3"/>
-    <Button
-		android:id="@+id/button_x4"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="x4"
-  		android:tag="x4"/>
-    <Button
-		android:id="@+id/button_xi"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="xi"
-  		android:tag="x"/>
-    <Button
-		android:id="@+id/button_plus"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="+"
-  		android:tag=" + "/>
     <Button
 		android:id="@+id/button_decimal"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
+		android:layout_width="45dip"
+	    android:layout_height="45dip"
 		android:layout_margin="0dip"
-  		android:text=","
-  		android:tag=","/>
-    <Button
-		android:id="@+id/button_divide"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="/"
-  		android:tag="/"/>
-    <Button
-		android:id="@+id/button_minus"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="-" 
-  		android:tag="-"/>
+  		android:text="."
+  		android:tag="."/>
 	</LinearLayout>
-	<LinearLayout
-		android:layout_centerHorizontal="true" 
-		android:layout_height="wrap_content"
-  		android:layout_width="fill_parent"
-  		android:orientation="horizontal"
-  		android:gravity="center_horizontal">
-    <Button
-		android:id="@+id/button_lt"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-		android:text="&lt;" 
-		android:tag="&lt;"/>
-    <Button
-		android:id="@+id/button_leq"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="&lt;=" 
-  		android:tag="&lt;="/>
-    <Button
-		android:id="@+id/button_eq"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="="
-  		android:tag="="/>
-    <Button
-		android:id="@+id/button_geq"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="&gt;="
-  		android:tag="&gt;="/>
-    <Button
-		android:id="@+id/button_gt"
-		android:layout_width="40dip"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="&gt;"
-  		android:tag="&gt;"/>
-    <Button
-		android:id="@+id/button_min"
-		android:layout_width="wrap_content"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="min"
-  		android:tag="min"/>
-  	<Button
-		android:id="@+id/button_max"
-		android:layout_width="wrap_content"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="max"
-  		android:tag="max"/>
-  	<Button
-		android:id="@+id/button_backspace"
-		android:layout_width="wrap_content"
-	    android:layout_height="50dip"
-		android:layout_margin="0dip"
-  		android:text="&lt;--"
-  		android:tag="backspace"/>
-  	</LinearLayout>
 </LinearLayout>
 
