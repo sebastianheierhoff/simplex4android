@@ -28,7 +28,7 @@ public abstract class SimplexLogic {
 	 * Berechnet die x/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
 	 */
-	public static void calcXByF(SimplexProblem problem){
+	public static void calcXByF(PrimalSimplexProblem problem){
 		if(problem.getOptimal()!=true){
 			int pivotColumn = choosePivotColumn(problem);
 			double[] xByF = new double[problem.getNoRows()-1];
@@ -125,7 +125,7 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
 	 * @return neue Pivotzeile
 	 */
-	public static int choosePivotRow(SimplexProblem problem){
+	public static int choosePivotRow(PrimalSimplexProblem problem){
 		int row = -1;
 		double min = Double.MAX_VALUE;
 		for(int i = 0; i<problem.getXByF().length; i++){
@@ -204,14 +204,14 @@ public abstract class SimplexLogic {
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public static SimplexProblem simplex(SimplexProblem problem){	
+	public static PrimalSimplexProblem simplex(PrimalSimplexProblem problem){	
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblem sp = gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
-				findPivots(sp);
-				checkOptimal(sp);
-				calcXByF(sp);
-				return sp;
+				PrimalSimplexProblem psp = (PrimalSimplexProblem)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
+				findPivots(psp);
+				checkOptimal(psp);
+				calcXByF(psp);
+				return psp;
 			}
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -223,14 +223,14 @@ public abstract class SimplexLogic {
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public static SimplexProblem dualSimplex(SimplexProblem problem){	
+	public static DualSimplexProblem simplex(DualSimplexProblem problem){	
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblem sp = gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
-				findPivots(sp);
-				checkDualOptimal(sp);
-				calcDeltaByF(sp);
-				return sp;
+				DualSimplexProblem dsp = (DualSimplexProblem)gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
+				findPivots(dsp);
+				checkDualOptimal(dsp);
+				calcDeltaByF(dsp);
+				return dsp;
 			}
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -274,7 +274,7 @@ public abstract class SimplexLogic {
 	 * Berechnet die delta/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
 	 */
-	public static void calcDeltaByF(SimplexProblem problem){
+	public static void calcDeltaByF(DualSimplexProblem problem){
 		if(problem.getOptimal()!=true){
 			int row = chooseRowDualSimplex(problem);
 			double[] deltaByF = new double[problem.getNoColumns()-1];
@@ -294,12 +294,12 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
 	 * @return Spalte, die in die Basis geht
 	 */
-	public static int choosePivotColumnDualSimplex(SimplexProblem problem){
+	public static int choosePivotColumnDualSimplex(DualSimplexProblem problem){
 		int column = -1;
 		double min = Double.MAX_VALUE;
 		for(int i = 0; i<problem.getDeltaByF().length; i++){
 			if(problem.getDeltaByF()[i]<min && problem.getDeltaByF()[i] > 0){
-				min = problem.getXByF()[i];
+				min = problem.getDeltaByF()[i];
 				column = i;
 			}
 		}
