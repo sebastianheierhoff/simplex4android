@@ -9,15 +9,13 @@ import java.util.ArrayList;
  * Das Tableau wird durch eine ArrayList bestehend aus ArrayLists (Zeilen) gefüllt mit DoubleObjekten repräsentiert.
  * @author Simplex4Android
  */
-public class SimplexProblem {
-	private ArrayList<ArrayList<Double>> tableau; 
-	private ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
-	private ArrayList<Integer> pivots; //Basisspalten
-	private ArrayList<Double> xByF; //
-	private ArrayList<Double> deltaByF; //Zeile unter dem Tableau für den dualen Simplex
-	private boolean optimal;
-	private String name = "Simplex-Problem Nr: ";
-	private int problemNr = 1;
+public abstract class SimplexProblem {
+	protected ArrayList<ArrayList<Double>> tableau; 
+	protected ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	protected ArrayList<Integer> pivots; //Basisspalten
+	protected boolean optimal;
+	protected String name = "Simplex-Problem Nr: ";
+	protected int problemNr = 1;
 	
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
@@ -32,8 +30,6 @@ public class SimplexProblem {
 		this.tableau.add(new ArrayList<Double>()); // Zeile der delta-Werte hinzufügen
 		this.target = new ArrayList<Integer>();
 		this.pivots = new ArrayList<Integer>();
-		this.xByF = new ArrayList<Double>();
-		this.deltaByF = new ArrayList<Double>();
 		this.optimal = false;
 		this.name = name + problemNr;
 		problemNr++;
@@ -50,14 +46,10 @@ public class SimplexProblem {
 		this.optimal = false;
 		this.name = name + problemNr;
 		problemNr++;
-
-		SimplexLogic.findPivots(this);
-	    SimplexLogic.calcDeltas(this);
-	    SimplexLogic.calcXByF(this);
 	}
 	
 	/**
-	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
+	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die Zeile der delta-Werte.
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
 	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an letzter Stelle der Zielwert b
 	 */
@@ -107,7 +99,7 @@ public class SimplexProblem {
 	 * @param array zu überführendes zweidimensionales Array
 	 * @return überführte ArrayList
 	 */
-	private ArrayList<ArrayList<Double>> convertTo2DArrayList(double[][] array){
+	protected ArrayList<ArrayList<Double>> convertTo2DArrayList(double[][] array){
 		ArrayList<ArrayList<Double>> tableau = new ArrayList<ArrayList<Double>>();
 		for(int i=0;i<array.length;i++){
 			tableau.add(i,new ArrayList<Double>());
@@ -123,7 +115,7 @@ public class SimplexProblem {
 	 * @param arrayList zu überführende ArrayList
 	 * @return überführtes Array
 	 */
-	private double[] convertToDblArray(ArrayList<Double> arrayList){
+	protected double[] convertToDblArray(ArrayList<Double> arrayList){
 		double[] array = new double[arrayList.size()];
 		for(int i=0;i<array.length;i++){
 			array[i] = arrayList.get(i).doubleValue();
@@ -136,7 +128,7 @@ public class SimplexProblem {
 	 * @param array zu überführendes Array
 	 * @return überführte ArrayList
 	 */
-	private ArrayList<Double> convertToDblArrayList(double[] array){
+	protected ArrayList<Double> convertToDblArrayList(double[] array){
 		ArrayList<Double> arrayList = new ArrayList<Double>();
 		for(int i=0;i<array.length;i++){
 			arrayList.add(i,new Double(array[i]));
@@ -149,7 +141,7 @@ public class SimplexProblem {
 	 * @param arrayList zu überführende ArrayList
 	 * @return überführtes Array
 	 */
-	private int[] convertToIntArray(ArrayList<Integer> arrayList){
+	protected int[] convertToIntArray(ArrayList<Integer> arrayList){
 		int[] array = new int[arrayList.size()];
 		for(int i=0;i<array.length;i++){
 			array[i] = arrayList.get(i).intValue();
@@ -162,7 +154,7 @@ public class SimplexProblem {
 	 * @param array zu überführendes Array
 	 * @return überführte ArrayList
 	 */
-	private ArrayList<Integer> convertToIntArrayList(int[] array){
+	protected ArrayList<Integer> convertToIntArrayList(int[] array){
 		ArrayList<Integer> arrayList = new ArrayList<Integer>();
 		for(int i=0;i<array.length;i++){
 			arrayList.add(i,new Integer(array[i]));
@@ -282,22 +274,6 @@ public class SimplexProblem {
 	}
 
 	/**
-	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
-	 * @return Array mit den x/f-Werten für jede Zeile
-	 */
-	public double[] getXByF() {
-		return this.convertToDblArray(this.xByF);
-	}
-	
-	/**
-	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
-	 * @return Array mit den x/f-Werten für jede Zeile
-	 */
-	public double[] getDeltaByF() {
-		return this.convertToDblArray(this.deltaByF);
-	}
-		
-	/**
 	 * Setzt Spalte j.
 	 * @param c übergebene Spalte
 	 * @param j Index der zu verändernden Spalte
@@ -360,23 +336,6 @@ public class SimplexProblem {
 		this.target = this.convertToIntArrayList(target);
 	}
 	
-	/**
-	 * Überschreibt die x/f-Werte.
-	 * @param xByF neue x/f-Werte
-	 */
-	public void setXByF(double[] xByF) {
-		this.xByF = this.convertToDblArrayList(xByF);
-	}
-	
-	/**
-	 * Überschreibt die delta/f-Werte.
-	 * @param deltaByF neue delta/f-Werte
-	 */
-	public void setDeltaByF(double[] deltaByF) {
-		this.deltaByF = this.convertToDblArrayList(deltaByF);
-	}
-	
-	
 	public void setName(String name){
 		this.name = name;
 	}
@@ -413,88 +372,7 @@ public class SimplexProblem {
 		re += " = min \n";
 		return re;
 	}
-	/**erstellt HTML-Code als String für das primale Problem.
-	 * 
-	 * @return komplettes Tableau als String in Html 
-	 */
-	public String tableauToHtml(){
-		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
-		//1. Zeile: Zielfunktion
-		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
-		for(int i=0;i<target.size()-1;i++){
-			html = html + "<td>" + (Math.round(target.get(i)*100.)/100.) + "</td>";
-		}
-		html = html + "<td></td><td></td></tr>\n";
-		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
-		html = html + "<tr><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
-		for(int i=0;i<target.size()-1;i++){
-			html = html +"<td>"+ (i+1) +"</td>";
-		}
-		html = html + "<td>x</td><td>x/f</td>";
-		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
-		for(int i=0;i<tableau.size()-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ target.get(pivots.get(i))+"</td><td>" +(pivots.get(i)+1) +"</td>";
-			for(int j=0;j<tableau.get(0).size();j++){
-				html = html + "<td>" + (Math.round((tableau.get(i).get(j))*100.)/100.)+"</td>";
-			}
-			//x/f noch hinten dran hängen
-			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
-				html = html + "<td> &#8211; </td>";
-			}
-			else{
-				html = html + "<td>"+ (Math.round(xByF.get(i)*100.)/100.)+"</td>";
-			}
-			html = html + "</tr>\n";
-		}
-		// Letzte Zeile: extra behandlung für delta-Wert
-		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
-		for(int i=0;i<tableau.get(0).size();i++){
-			html = html + "<td>" + (Math.round((tableau.get(tableau.size()-1).get(i))*100.)/100.) +"</td>";
-		}
-		html = html + "<td></td></tr>\n";
-		html = html + "</table>\n</body>\n</html>";
-		return html;
-	}
+
 	
-	/**Methode die das komplette Simplex-Tableau für den dualen Simplex als HTML-String zurückgibt.
-	 * 
-	 * @return komplettes Tableau als Duales Problem als String in Html 
-	 */
-	public String tableauToHtmlDual(){
-		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
-		//1. Zeile: Zielfunktion
-		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
-		for(int i=0;i<target.size()-1;i++){
-			html = html + "<td>" + (Math.round(target.get(i)*100.)/100.) + "</td>";
-		}
-		html = html + "<td></td></tr>\n";
-		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
-		html = html + "<tr><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
-		for(int i=0;i<target.size()-1;i++){
-			html = html +"<td>"+ (i+1) +"</td>";
-		}
-		html = html + "<td>x</td>";
-		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
-		for(int i=0;i<tableau.size()-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ target.get(pivots.get(i))+"</td><td>" +(pivots.get(i)+1) +"</td>";
-			for(int j=0;j<tableau.get(0).size();j++){
-				html = html + "<td>" + (Math.round((tableau.get(i).get(j))*100.)/100.)+"</td>";
-			}
-			html = html + "</tr>\n";
-		}
-		// Letzte Zeile: extra behandlung für delta-Wert
-		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
-		for(int i=0;i<tableau.get(0).size();i++){
-			html = html + "<td>" + (Math.round((tableau.get(tableau.size()-1).get(i))*100.)/100.) +"</td>";
-		}
-		html = html + "</tr>\n";
-		// allerletzte Zeile mit den delta/f-Werten
-		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
-		for(int i=0;i<deltaByF.size();i++){
-			html = html + "<td>" + (Math.round((deltaByF.get(i)*100.)/100.)) +"</td>";
-		}
-		html = html + "</tr>\n";
-		html = html + "</table>\n</body>\n</html>";
-		return html;
-	}
+
 }
