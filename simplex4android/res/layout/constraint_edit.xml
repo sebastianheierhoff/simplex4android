@@ -1,31 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="10px"
-    android:background="#FFFFFF" >
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
 	<TextView
         android:id="@+id/label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:text="Zielfunktion eingeben:"/>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 	<EditText 
 		android:text="" 
-		android:id="@+id/target" 
-		android:layout_width="fill_parent" 
+		android:id="@+id/target"
+		android:focusable="false"
+		android:enabled="false"
 		android:layout_height="wrap_content"
-        android:hint="Zielfunktion, z.B. 7x1 + 13x2 + 12x3 = 10"
-        android:layout_below="@id/label" />
-    <include android:id="@+id/keyboard"
-    		 layout="@layout/keyboard"/>
-<!--    
-    <ImageView
-		android:id="@+id/simplex4android_logo"
-		android:src="@drawable/simplex4android_logo"
+        android:hint="z.B. 7x1 + 13x2 + 12x3 = 10" android:layout_width="320dip"/>
+	<TextView
+		android:text="="
+        android:textColor="#000000"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true" 
-		android:gravity="bottom"/>
--->
+		android:layout_height="wrap_content" android:textSize="20px"/>	
+	<Spinner
+ 		android:id="@+id/spinner_minmax"
+ 		android:layout_height="wrap_content"
+ 		android:drawSelectorOnTop="false" android:layout_width="fill_parent"/>
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_height="wrap_content" android:layout_width="wrap_content">
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="wrap_content" android:layout_height="fill_parent">
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+		<TextView
+			android:text="+"
+	        android:textColor="#000000"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="20px"/>	
+	   	<EditText 
+			android:text="" 
+			android:id="@+id/target_element" 
+			android:layout_height="wrap_content"
+	        android:gravity="bottom" android:hint="z.B. 10" android:layout_width="95dip"/>
+	   	<EditText 
+			android:text="x1" 
+			android:id="@+id/target_element" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+	        android:gravity="bottom" />
+		<Button
+			android:id="@+id/button_plus"
+			android:layout_height="wrap_content"
+		    android:text="+" android:layout_gravity="bottom" android:layout_width="40px"/>
+		<Button
+			android:id="@+id/button_minus"
+			android:layout_height="wrap_content"
+		    android:text="-" android:layout_gravity="bottom" android:layout_width="40px"/>
+		<Button
+			android:id="@+id/button_add"
+			android:layout_height="wrap_content"
+		    android:text="Hinzufügen" android:layout_gravity="bottom" android:layout_width="wrap_content"/>
+		</LinearLayout>	
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_height="fill_parent" 
+			android:layout_width="fill_parent" android:layout_gravity="center_horizontal" android:layout_marginLeft="3px">
+		<include 
+    		android:visibility="visible"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		layout_weight="1"
+    		android:id="@+id/keyboard"
+    		layout="@layout/keyboard"/>
+		</LinearLayout>
+	</LinearLayout> 	
+</LinearLayout>
+</LinearLayout>
+	<LinearLayout android:layout_alignParentBottom="true" android:orientation="horizontal" android:layout_gravity="right" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentRight="true">
+		<Button android:id="@+id/button_back" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Zurück"/>
+		<Button android:id="@+id/button_add" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fertig"/>
+	</LinearLayout>
+	<ImageView android:id="@+id/simplex4android_logo" android:src="@drawable/simplex4android_logo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom" android:layout_alignParentBottom="true"/>
 </RelativeLayout>
