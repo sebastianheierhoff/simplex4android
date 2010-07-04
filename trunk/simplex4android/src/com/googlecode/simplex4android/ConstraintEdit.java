@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class ConstraintEdit extends Activity {
 
@@ -17,20 +18,22 @@ public class ConstraintEdit extends Activity {
 	    setContentView(R.layout.constraint_edit);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	
-	    EditText target = (EditText) findViewById(R.id.target);
+	    //if(!OptionbeimAufrufenabfragen! != target)
+	    	findViewById(R.id.spinner_minmax).setVisibility(View.INVISIBLE);
+	    	findViewById(R.id.text_eq).setVisibility(View.INVISIBLE);
+	    	findViewById(R.id.spinner_gtltoreq).setVisibility(View.VISIBLE);
+	    	findViewById(R.id.edittext_constraint_target_value).setVisibility(View.VISIBLE);
+	    	((TextView) findViewById(R.id.label)).setText("Nebenbedingung eingeben");
+	    //else 
+	    
+	    EditText target = (EditText) findViewById(R.id.edittext_target_element);
 	    target.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
-		    		findViewById(R.id.button_back).setVisibility(View.INVISIBLE);
-		    		findViewById(R.id.button_add).setVisibility(View.INVISIBLE);
-		    		findViewById(R.id.simplex4android_logo).setVisibility(View.INVISIBLE);
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
-		    		findViewById(R.id.button_back).setVisibility(View.VISIBLE);
-		    		findViewById(R.id.button_add).setVisibility(View.VISIBLE);
-		    		findViewById(R.id.simplex4android_logo).setVisibility(View.VISIBLE);
 	    		}
 	    	}
 		});
@@ -42,8 +45,8 @@ public class ConstraintEdit extends Activity {
 //	    });
 	    
 		//Zielfunktion: ausgrauen von <, <=, >=, >
-		int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, R.id.button_5,
-									R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
+		int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
+									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
 									R.id.button_minus, R.id.button_divide, R.id.button_decimal};
 		
 		for(int i=0; i<keyboardButtons.length; i++){
@@ -74,6 +77,25 @@ public class ConstraintEdit extends Activity {
 	        	finish();
 	        }
 	    });
+	    
+	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
+	    add_target_element.setOnClickListener (new OnClickListener(){
+	    	public void onClick(View V){
+	    		//Eingabe prüfen
+	    	}
+	    });
+	    
+	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
+	    x_plus.setOnClickListener (new OnClickListener(){
+	    	public void onClick(View V){
+	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+	    		int edittext_x_value = edittext_x.getText().toString().substring(1); //to intValue;
+	    		edittext_x_value++;//inkrementieren
+	    		edittext_x.setText("x" + edittext_x_value);
+	    				//Value aus ArrayList abfragen und ins Textfeld eintragen
+	    	}
+	    });
+	    
 		
 	}	
 //		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).getCurrentInputConnection()
