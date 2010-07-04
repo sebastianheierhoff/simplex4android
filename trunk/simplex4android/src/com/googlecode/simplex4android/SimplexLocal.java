@@ -25,7 +25,7 @@ public class SimplexLocal {
 		int[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblem firstProblem = new SimplexProblem(tableau, target);
+		SimplexProblem firstProblem = new PrimalSimplexProblem(tableau, target);
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
