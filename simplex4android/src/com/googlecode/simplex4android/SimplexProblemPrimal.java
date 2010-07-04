@@ -2,7 +2,7 @@ package com.googlecode.simplex4android;
 
 import java.util.ArrayList;
 
-public class PrimalSimplexProblem extends SimplexProblem {
+public class SimplexProblemPrimal extends SimplexProblem {
 
 	private ArrayList<Double> xByF; //
 	
@@ -10,7 +10,7 @@ public class PrimalSimplexProblem extends SimplexProblem {
 	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
 	 * Die Zeile der delta-Werte ist bereits enthalten.
 	 */
-	public PrimalSimplexProblem(){
+	public SimplexProblemPrimal(){
 		super();
 		this.xByF = new ArrayList<Double>();
 	}
@@ -20,7 +20,7 @@ public class PrimalSimplexProblem extends SimplexProblem {
 	 * @param tableau
 	 * @param target
 	 */
-	public PrimalSimplexProblem(double[][] tableau, int[] target){ 
+	public SimplexProblemPrimal(double[][] tableau, int[] target){ 
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
 	    SimplexLogic.calcDeltas(this);

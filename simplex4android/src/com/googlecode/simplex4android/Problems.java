@@ -65,7 +65,7 @@ public class Problems {
 	 */
 	
 	@SuppressWarnings("unchecked")
-	public void readProblmes()throws ClassNotFoundException, IOException, FileNotFoundException{
+	public void readProblems()throws ClassNotFoundException, IOException, FileNotFoundException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		fis = new FileInputStream("simplexProbleme.dat");
