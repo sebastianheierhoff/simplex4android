@@ -49,11 +49,13 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die Zeile der delta-Werte.
+	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
-	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an letzter Stelle der Zielwert b
+	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an vorletzter Stellt der Vergleichsoperator ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">=")) und an letzter Stelle der Zielwert b
 	 */
-	public void addRow(ArrayList<Double> row){		
+	public void addRow(ArrayList<Double> row){
+		int sign = row.get(row.size()-2).intValue(); // Vergleichsoperator abfragen
+		
 		int size = this.tableau.get(0).size();
 		if(row.size()<size){ // neue Zeile ist zu kurz
 			for(int i=(row.size());i<size;i++){ // Einfügen der fehlenden Nullen an vorletzter Stelle
@@ -371,12 +373,6 @@ public abstract class SimplexProblem {
 		}
 		re += " = min \n";
 		return re;
-	}
-
-	/**
-	 * abstrakte Html ausgabemethode
-	 * @return HTML-Code in einem String
-	 */
-	public abstract String tableauToHtml();
+	}	public abstract String tableauToHtml();
 
 }
