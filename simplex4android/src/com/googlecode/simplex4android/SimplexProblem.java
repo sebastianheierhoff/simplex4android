@@ -55,7 +55,11 @@ public abstract class SimplexProblem {
 	 */
 	public void addRow(ArrayList<Double> row){
 		int sign = row.get(row.size()-2).intValue(); // Vergleichsoperator abfragen
-		row.add(row.size()-1,new Double(sign*(-1))); // Schlupfvariable einfügen
+		if(sign==0){
+			row.remove(row.size()-2);
+		}else{
+			row.set(row.size()-2, new Double(sign*(-1)));
+		}
 		
 		int size = this.tableau.get(0).size();
 		if(row.size()<size){ // neue Zeile ist zu kurz
