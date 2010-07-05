@@ -26,13 +26,13 @@ public class SimplexLocal {
 		int[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblem firstProblem = new SimplexProblemPrimal(tableau, target);
+		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexProblem in History einfügen
-		//sh.addElement(firstProblem);
+		sh.addElement(firstProblem);
 		
 		double[] add = {5,10,0,0,0,0,-1,20};
 		double[] e = {5,10,0,0,0,0,1,20};
@@ -58,18 +58,18 @@ public class SimplexLocal {
 		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-//		do{
-//			SimplexProblem current = sh.getLastElement();
-//			current = SimplexLogic.simplex(current);
-//
-//			//Debug-Ausgabe
-//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-//			
-//			sh.addElement(current);
-//		}
-//		while(sh.getLastElement().getOptimal()!=true);
+		do{
+			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+			current = SimplexLogic.simplex(current);
+
+			//Debug-Ausgabe
+			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+			
+			sh.addElement(current);
+		}
+		while(sh.getLastElement().getOptimal()!=true);
 	}	
 }
