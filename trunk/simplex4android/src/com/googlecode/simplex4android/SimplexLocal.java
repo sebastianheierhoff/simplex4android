@@ -1,5 +1,6 @@
 package com.googlecode.simplex4android;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -33,6 +34,22 @@ public class SimplexLocal {
 		//SimplexProblem in History einfügen
 		//sh.addElement(firstProblem);
 		
+		double[] add = {5,10,0,0,0,0,-1,20};
+		double[] e = {5,10,0,0,0,0,1,20};
+		ArrayList<Double> row = new ArrayList<Double>();
+		for(int i=0;i<add.length;i++){
+			row.add(new Double(add[i]));
+		}
+		firstProblem.addRow(row);
+		boolean bool = true;
+		double[] inserted = firstProblem.getRow(firstProblem.getTableau().length-2);
+		for(int i=0;i<inserted.length;i++){
+			if(inserted[i]!=e[i]){
+				bool = false;
+			}
+		}		
+		System.out.println(bool);
+	
 		
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
