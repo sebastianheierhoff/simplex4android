@@ -7,24 +7,38 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 public class ConstraintEdit extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.constraint_edit);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	
-	    //if(!OptionbeimAufrufenabfragen! != target)
-	    	findViewById(R.id.spinner_minmax).setVisibility(View.INVISIBLE);
-	    	findViewById(R.id.text_eq).setVisibility(View.INVISIBLE);
-	    	findViewById(R.id.spinner_gtltoreq).setVisibility(View.VISIBLE);
-	    	findViewById(R.id.edittext_constraint_target_value).setVisibility(View.VISIBLE);
-	    	((TextView) findViewById(R.id.label)).setText("Nebenbedingung eingeben");
+	    
+	  //if(!OptionbeimAufrufenabfragen! != target)
+	    setContentView(R.layout.constraint_edit);
 	    //else 
+	    setContentView(R.layout.target_edit);
+	    
+	    //Spinner minmax
+	    Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
+	    ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
+	    adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    minmax.setAdapter(adapter_minmax);
+
+	    //Spinner gtltoreq
+	    Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
+	    ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
+	    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    gtltoreq.setAdapter(adapter_gtltoreq);
+	    
+	    
+	    
+	    
+	    
 	    
 	    EditText target = (EditText) findViewById(R.id.edittext_target_element);
 	    target.setOnFocusChangeListener(new OnFocusChangeListener(){

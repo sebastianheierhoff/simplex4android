@@ -1,9 +1,10 @@
 package com.googlecode.simplex4android;
 
-import com.googlecode.simplex4android.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,18 +19,37 @@ public class simplex4android extends Activity {
 			
 			laden Ausgabe, Zurückbutton, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
 */	
-	
-    @Override
+    static final int PICK_CONTACT_REQUEST = 0;
+
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                // A contact was picked.  Here we will just display it
+                // to the user.
+                startActivity(new Intent(Intent.ACTION_VIEW, data));
+            }
+        }
+    }	
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
-	    
-    	final Button button_new = (Button) findViewById(R.id.button_new);
+
+	    final Button button_new = (Button) findViewById(R.id.button_new);
 	    button_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	            Intent ConstraintEditIntent = new Intent();
+
+	        	startActivityForResult(
+	                      new Intent(Intent.ACTION_PICK,
+	                      new Uri("content://contacts")),
+	                      PICK_CONTACT_REQUEST);
+	                 return true;
+	      	    
+	        	Intent ConstraintEditIntent = new Intent();
 	            ConstraintEditIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-	        	startActivity(ConstraintEditIntent);
+	        	startActivityForResult(ConstraintEditIntent, requestCode);
 	        }
 	    });
 	    	    
@@ -106,7 +126,7 @@ public class simplex4android extends Activity {
 //    }
 	
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == PICK_CONTACT) {
 //            if (resultCode == RESULT_OK) {
                 //Cursor contact = getContentResolver().query(data.getData(), null, null, null, null);
