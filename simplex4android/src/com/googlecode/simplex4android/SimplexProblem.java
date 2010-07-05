@@ -56,9 +56,9 @@ public abstract class SimplexProblem {
 	public void addRow(ArrayList<Double> row){
 		int sign = row.get(row.size()-2).intValue(); // Vergleichsoperator abfragen
 		if(sign==0){
-			row.remove(row.size()-2);
+			row.remove(row.size()-2); // Entfernen des Vergleichsoperator, wenn bereits Gleichform vorliegt.
 		}else{
-			row.set(row.size()-2, new Double(sign*(-1)));
+			row.set(row.size()-2, new Double(sign*(-1))); // Ändern des Vergleichsoperators auf Schlupfvariable
 		}
 		
 		int size = this.tableau.get(0).size();
@@ -72,6 +72,9 @@ public abstract class SimplexProblem {
 				for(int x=1;x<=anzahl;x++){
 					this.tableau.get(i).add(size-1, new Double(0));
 				}
+			}
+			for(int i=0;i<anzahl;i++){
+				this.target.add(this.target.size()-2, new Integer(0)); // Hinzufügen der Schlupfvariablen in der Zielfunktion
 			}
 		}
 		this.tableau.add(this.tableau.size()-1, row); // Hinzufügen der Zeile an vorletzter Stelle
