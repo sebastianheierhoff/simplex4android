@@ -18,30 +18,33 @@ public class ConstraintEdit extends Activity {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	    
-	  //if(!OptionbeimAufrufenabfragen! != target)
-	    setContentView(R.layout.constraint_edit);
-	    //else 
-	    setContentView(R.layout.target_edit);
+	    boolean target = this.getIntent().getBooleanExtra("target", false);
 	    
-	    //Spinner minmax
-	    Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
-	    ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
-	    adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    minmax.setAdapter(adapter_minmax);
+	    //if(!OptionbeimAufrufenabfragen! != target)
+	    if(target){
+		    setContentView(R.layout.target_edit);
 
-	    //Spinner gtltoreq
-	    Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
-	    ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
-	    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    gtltoreq.setAdapter(adapter_gtltoreq);
+		    //Spinner minmax
+		    Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
+		    ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
+		    adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    minmax.setAdapter(adapter_minmax);
+	    
+	    }
+	    else{
+	    	setContentView(R.layout.constraint_edit);
+
+	    	//Spinner gtltoreq
+		    Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
+		    ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
+		    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    gtltoreq.setAdapter(adapter_gtltoreq);
+	    
+	    }
 	    
 	    
-	    
-	    
-	    
-	    
-	    EditText target = (EditText) findViewById(R.id.edittext_target_element);
-	    target.setOnFocusChangeListener(new OnFocusChangeListener(){
+	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
@@ -52,14 +55,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-//	    target.setOnClickListener(new OnClickListener() {
-//	    	public void onClick(View v){
-//	    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
-//	    	}
-//	    });
-	    
-		//Zielfunktion: ausgrauen von <, <=, >=, >
-		int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
+	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
 									R.id.button_minus, R.id.button_divide, R.id.button_decimal};
 		
@@ -68,19 +64,10 @@ public class ConstraintEdit extends Activity {
 			buttons[i] = (Button) findViewById(keyboardButtons[i]);
 		    buttons[i].setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
-		        	EditText text = (EditText) findViewById(R.id.target_element);
+		        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
 		        	String newtext = text.getText().toString(); 
-		        	//Verbesserungsmöglichkeit: Taste gedrückt?
-		        	if(v.getTag().equals("backspace")){
-		        		if(newtext.length() > 0){
-		        			newtext = newtext.substring(0, newtext.length()-1);
-		        		}
-		        	}
-		        	else{
-		        		newtext += v.getTag();
-		        	}
+		        	newtext += v.getTag();
 		        	text.setText(newtext);
-		        	Selection.setSelection(text.getText(), text.length());
 		        }
 		    });
 		}
@@ -103,25 +90,29 @@ public class ConstraintEdit extends Activity {
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
-	    		int edittext_x_value = edittext_x.getText().toString().substring(1); //to intValue;
+	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue(); //to intValue;
 	    		edittext_x_value++;//inkrementieren
 	    		edittext_x.setText("x" + edittext_x_value);
 	    				//Value aus ArrayList abfragen und ins Textfeld eintragen
 	    	}
 	    });
-	    
-		
+
+	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
+	    x_minus.setOnClickListener (new OnClickListener(){
+	    	public void onClick(View V){
+	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue(); //to intValue;
+	    		if(edittext_x_value>1){
+	    			edittext_x_value--;//inkrementieren
+	    			edittext_x.setText("x" + edittext_x_value);
+		    		//Value aus ArrayList abfragen und ins Textfeld eintragen
+	    		}
+	    	}
+	    });
+
+	
+	
 	}	
-//		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).getCurrentInputConnection()
-	    
-//	    try{
-//	    	KeyboardView mInputView = (KeyboardView) getLayoutInflater().inflate(R.layout.constraint_edit, null);
-//		    Keyboard simplexkeyboard = new Keyboard(this, R.layout.simplexkeyboard);
-//		    mInputView.setKeyboard(simplexkeyboard);
-//	    }
-//	    catch(Exception e){
-//	        Toast.makeText(ConstraintEdit.this, "Fehler", Toast.LENGTH_LONG).show();
-//	    }
 }
 	
 	
