@@ -1,6 +1,7 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
@@ -95,7 +96,11 @@ public class ConstraintEdit extends Activity {
 		        		newtext += v.getTag();
 		        	}
 		        	if(!SimplexLogic.checkInput(newtext)){
-		        		text.setBackgroundResource(R.color.yellow1);
+		        		//Drawable d = Drawable.createFromPath()
+		        		//text.setBackgroundDrawable();
+		        	}
+		        	else{
+		        		text.setBackgroundResource(android.R.drawable.editbox_background_normal);
 		        	}
 	        		text.setText(newtext);
 	        		Selection.setSelection(text.getText(), text.length());
