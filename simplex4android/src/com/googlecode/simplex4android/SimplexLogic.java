@@ -61,7 +61,7 @@ public abstract class SimplexLogic {
 	 * @param s Teileingabestring einer Nebenbedingung
 	 * @return true, wenn Eingabestring s gültig, sonst false
 	 */
-	public static boolean checkString(String s){
+	public static boolean checkInput(String s){
 		if(s.startsWith("-")){ 	// Wenn "-" vorhanden, dann nur an erster Stelle?
 			if((s.lastIndexOf("-")!=0)){
 				return false;
