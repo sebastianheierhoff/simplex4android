@@ -40,9 +40,13 @@ public class Constraint {
 	 * Fügt der Nebenbedingung an Index i ein neues Element hinzu. Alle darauffolgenden Elemente werden um einen Index verschoben.
 	 * @param i Index,an dem das Element eingefügt werden soll.
 	 * @param value hinzuzufügendes Element
-	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public void add(int i, Double value) throws IndexOutOfBoundsException{
+	public void add(int i, Double value){
+		if(i>=this.values.size()){
+			for(int j=this.values.size();j<i;j++){
+				this.values.add(new Double(0));
+			}
+		}
 		this.values.add(i, value);
 	}
 
