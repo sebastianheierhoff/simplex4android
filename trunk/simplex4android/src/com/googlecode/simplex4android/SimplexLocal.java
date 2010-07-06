@@ -27,7 +27,7 @@ public class SimplexLocal {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
-		SimplexHistory sh = SimplexLogic.zweiPhasenSimplex(firstProblem);
+		SimplexHistory sh = SimplexLogic.twoPhaseSimplex(firstProblem);
 		sh.toString();
 //		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 //		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}

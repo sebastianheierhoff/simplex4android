@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -34,7 +35,15 @@ public class ConstraintEdit extends Activity {
 		    ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
 		    adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		    minmax.setAdapter(adapter_minmax);
-	    
+
+	    	minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    	 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		    		 TextView item = (TextView) arg1;
+		    		 Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show();
+		    	 }
+		    	 
+		    	 public void onNothingSelected(AdapterView<?> arg0) {}
+		    	    });
 	    }
 	    else{
 	    	setContentView(R.layout.constraint_edit);
@@ -44,23 +53,17 @@ public class ConstraintEdit extends Activity {
 		    ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
 		    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		    gtltoreq.setAdapter(adapter_gtltoreq);
-	    
-		    gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener(){
-		    	public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					constraint.setSign();
-				}
 
-				public void onNothingSelected(AdapterView<?> arg0) {
-					
-				}
-		    	
-		    	
-		    	
-		    });
-		    
-	    }
-	    
+	    	gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    	 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		    		 TextView item = (TextView) arg1;
+		    		 Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show();
+		    		 
+		    	 }
+		    	 
+		    	 public void onNothingSelected(AdapterView<?> arg0) {}
+		    	    });
+	    	}
 	    
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
