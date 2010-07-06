@@ -103,7 +103,7 @@ public class Constraint {
 	public String valuesToString(){
 		String re = "";
 		re += this.values.get(0) +"x1";
-		for(int i=1;i<this.values.size()-2;i++){
+		for(int i=1;i<this.values.size();i++){
 			if(this.values.get(i)<0){
 				re += " " +this.values.get(i).intValue() +"x" +(i+1);
 			}else{
