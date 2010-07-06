@@ -98,10 +98,10 @@ public class ConstraintEdit extends Activity {
 		        		newtext += v.getTag();
 		        	}
 		        	if(!SimplexLogic.checkInput(newtext)){
-		        		//Hintergrund rot
+		        		text.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
 		        	}
 		        	else{
-		        		text.setBackgroundResource(android.R.drawable.editbox_background_normal);
+		        		text.setBackgroundResource(R.drawable.textfield_default);
 		        	}
 	        		text.setText(newtext);
 	        		Selection.setSelection(text.getText(), text.length());
@@ -119,17 +119,19 @@ public class ConstraintEdit extends Activity {
 	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
-	        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
-	    		if(SimplexLogic.checkInput(text.getText().toString())){
-	    			EditText target = (EditText) findViewById(R.id.edittext_target);
-		    		String i = ((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1);
-	    			getIntent().putExtras(extras);
-	    			target.setText(String.valueOf(getIntent().getExtras().getDouble(i)));
-	    		}
-	    		else
+	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	        	EditText target = (EditText) findViewById(R.id.edittext_target);
+	        	if(SimplexLogic.checkInput(target.getText().toString())){
+	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
+	        		double value = Double.valueOf(target_element.getText().toString());
+		        	constraint.add(i, value);
+	    			target.setText(constraint.valuesToString());
+	        	}
+	    		else{
 	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
+	    		}
 	    	}
-	    });
+		});
 	    
 	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
 	    x_plus.setOnClickListener (new OnClickListener(){
