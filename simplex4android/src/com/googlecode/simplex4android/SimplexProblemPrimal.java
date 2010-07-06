@@ -51,21 +51,21 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
-		for(int i=0;i<target.size()-1;i++){
-			html = html + "<td>" + (Math.round(target.get(i)*100.)/100.) + "</td>";
+		for(int i=0;i<this.getTarget().length-1;i++){
+			html = html + "<td>" + (Math.round(this.getTarget()[i]*100.)/100.) + "</td>";
 		}
 		html = html + "<td></td><td></td></tr>\n";
 		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
 		html = html + "<tr><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
-		for(int i=0;i<target.size()-1;i++){
+		for(int i=0;i<this.getTarget().length-1;i++){
 			html = html +"<td>"+ (i+1) +"</td>";
 		}
 		html = html + "<td>x</td><td>x/f</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
-		for(int i=0;i<tableau.size()-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ target.get(pivots.get(i))+"</td><td>" +(pivots.get(i)+1) +"</td>";
-			for(int j=0;j<tableau.get(0).size();j++){
-				html = html + "<td>" + (Math.round((tableau.get(i).get(j))*100.)/100.)+"</td>";
+		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
+			html = html + "<tr><td>"+ this.getTarget()[this.getPivots()[i]]+"</td><td>" +(this.getPivots()[i]+1) +"</td>";
+			for(int j=0;j<this.getTableau()[0].length;j++){
+				html = html + "<td>" + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
 			//x/f noch hinten dran hängen
 			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
@@ -78,8 +78,8 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		}
 		// Letzte Zeile: extra behandlung für delta-Wert
 		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
-		for(int i=0;i<tableau.get(0).size();i++){
-			html = html + "<td>" + (Math.round((tableau.get(tableau.size()-1).get(i))*100.)/100.) +"</td>";
+		for(int i=0;i<this.getTableau()[0].length;i++){
+			html = html + "<td>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
 		}
 		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
