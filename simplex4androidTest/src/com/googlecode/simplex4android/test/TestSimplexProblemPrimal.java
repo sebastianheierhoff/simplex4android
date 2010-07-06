@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class TestSimplexProblemPrimal extends TestCase {
 	private double[][] tableau;
-	private int[] target;
+	private double[] target;
 	private SimplexProblemPrimal problem;
 
 	
@@ -18,7 +18,7 @@ public class TestSimplexProblemPrimal extends TestCase {
 	public void setUp(){
 		double[][] tab = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
 		this.tableau = tab;
-		int[] tar = {1,2,7,5,0,0,0};
+		double[] tar = {1,2,7,5,0,0,0};
 		this.target = tar;
 		this.problem = new SimplexProblemPrimal(tableau, target);
 	}

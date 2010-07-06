@@ -13,15 +13,15 @@ public class TestSimplexLogic extends TestCase {
 	public void tearDown(){
 	}
 	
-	public void testCheckString(){
-		assertTrue(SimplexLogic.checkString("0"));
-		assertTrue(SimplexLogic.checkString("2"));
-		assertTrue(SimplexLogic.checkString("2.0"));
-		assertTrue(SimplexLogic.checkString("-2/5"));
-		assertTrue(!SimplexLogic.checkString("2/0"));
-		assertTrue(!SimplexLogic.checkString("/2"));
-		assertTrue(!SimplexLogic.checkString("2/4/"));
-		assertTrue(!SimplexLogic.checkString("-2-"));
-		assertTrue(!SimplexLogic.checkString("2.0."));
+	public void testcheckInput(){
+		assertTrue(SimplexLogic.checkInput("0"));
+		assertTrue(SimplexLogic.checkInput("2"));
+		assertTrue(SimplexLogic.checkInput("2.0"));
+		assertTrue(SimplexLogic.checkInput("-2/5"));
+		assertTrue(!SimplexLogic.checkInput("2/0"));
+		assertTrue(!SimplexLogic.checkInput("/2"));
+		assertTrue(!SimplexLogic.checkInput("2/4/"));
+		assertTrue(!SimplexLogic.checkInput("-2-"));
+		assertTrue(!SimplexLogic.checkInput("2.0."));
 	}
 }
