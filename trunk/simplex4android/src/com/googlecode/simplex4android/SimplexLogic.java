@@ -49,6 +49,26 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
+	 * Berechnet die delta/f-Werte des SimplexProblems.
+	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
+	 */
+	public static void calcDeltaByF(SimplexProblemDual problem){
+		if(problem.getOptimal()!=true){
+			int row = chooseRowDualSimplex(problem);
+			double[] deltaByF = new double[problem.getNoColumns()-1];
+			double[] delta = problem.getLastRow();
+			for(int i = 0; i<problem.getNoColumns()-1; i++){
+				if(problem.getField(row, i)<0) deltaByF[i] = (delta[i] / problem.getField(row, i));
+				else{
+					deltaByF[i] = -1;
+				}
+			}
+			problem.setDeltaByF(deltaByF);
+		}
+	}
+
+		
+	/**
 	 * Berechnet die delta-Werte in der letzten Zeile des SimplexTableaus
 	 * @param problem zu bearbeitendes SimplexTableau
 	 */
@@ -62,8 +82,7 @@ public abstract class SimplexLogic {
 			problem.setField(problem.getNoRows()-1, i, delta);	
 		}
 	}
-
-		
+	
 	/**
 	 * Berechnet die x/f-Werte des SimplexProblems.
 	 * @param problem SimplexProblem, in dem x/f-Werte berechnet werden sollen.
@@ -80,21 +99,23 @@ public abstract class SimplexLogic {
 		}
 	}
 	
-	/**
-	 * Überprüft anhand der Delta-Werte, ob das aktuelle Tableau des SimplexProblem optimal ist, und setzt dieses dann ggf. optimal.
-	 * @param problem zu prüfendes SimplexProblem
-	 * @return true, wenn optimal, sonst false
+	/**überprüft ob Problem nach dem dualen Simplex optimal ist.
+	 * 
+	 * @param problem
+	 * @return boolean ob optimal
 	 */
-	public static boolean checkOptimal(SimplexProblem problem){
-		double[] deltas = problem.getRow(problem.getNoRows()-1);
-		for(int i=0;i<deltas.length-1;i++){
-			if(deltas[i]>0){
-				return false;
-			}
-		}
-		problem.setOptimal();
-		return true;
+	public static void checkDualOptimal(SimplexProblem problem){
+		 if(primalValid(problem))problem.setOptimal();
 	}
+	
+//	/**
+//	 * Prüft den Eingabestring einer Zielfunktion auf seine Zulässigkeit
+//	 * @param s Eingabestring einer Zielfunktion
+//	 * @return true, wenn Eingabestring s gültig, sonst false
+//	 */
+//	public static boolean checkTarget(String s){
+//		
+//	}
 	
 	/**
 	 * Prüft den Teileingabestring einer Nebenbedingung auf seine Zulässigkeit
@@ -135,14 +156,21 @@ public abstract class SimplexLogic {
 		return true;
 	}
 	
-//	/**
-//	 * Prüft den Eingabestring einer Zielfunktion auf seine Zulässigkeit
-//	 * @param s Eingabestring einer Zielfunktion
-//	 * @return true, wenn Eingabestring s gültig, sonst false
-//	 */
-//	public static boolean checkTarget(String s){
-//		
-//	}
+	/**
+	 * Überprüft anhand der Delta-Werte, ob das aktuelle Tableau des SimplexProblem optimal ist, und setzt dieses dann ggf. optimal.
+	 * @param problem zu prüfendes SimplexProblem
+	 * @return true, wenn optimal, sonst false
+	 */
+	public static boolean checkOptimal(SimplexProblem problem){
+		double[] deltas = problem.getRow(problem.getNoRows()-1);
+		for(int i=0;i<deltas.length-1;i++){
+			if(deltas[i]>0){
+				return false;
+			}
+		}
+		problem.setOptimal();
+		return true;
+	}
 	
 	/**
 	 * Wählt am weitesten links stehendes Element
@@ -154,6 +182,23 @@ public abstract class SimplexLogic {
 		int column = -1;
 		for(int i = 0; i<problem.getNoColumns()-1; i++){
 			if(problem.getTableau()[problem.getNoRows()-1][i] >0){
+				column = i;
+			}
+		}
+		return column;
+	}	
+		
+	/**
+	 * Findet die Spalte, die in die Basis geht und gibt diese aus.
+	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
+	 * @return Spalte, die in die Basis geht
+	 */
+	public static int choosePivotColumnDualSimplex(SimplexProblemDual problem){
+		int column = -1;
+		double min = Double.MAX_VALUE;
+		for(int i = 0; i<problem.getDeltaByF().length; i++){
+			if(problem.getDeltaByF()[i]<min && problem.getDeltaByF()[i] > 0){
+				min = problem.getDeltaByF()[i];
 				column = i;
 			}
 		}
@@ -175,6 +220,47 @@ public abstract class SimplexLogic {
 			}
 		}
 		return row;
+	}
+	
+	/**
+	 * Wählt am weitesten oben stehendes Element dass kleiner null ist und
+	 * in dessen Zeile mindestens ein f-Wert kleiner null ist
+	 * Findet die neue Zeile, in der das Pivotelement verschoben wird
+	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
+	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
+	 */
+	public static int chooseRowDualSimplex(SimplexProblem problem){
+		int row = -1;
+		for(int i = 0; i<problem.getNoRows()-1; i++){
+			if((problem.getTableau()[i][problem.getNoColumns()-1]<0)){
+				boolean fSmallerNull = false;	//mindestens ein F-Wert ist kleiner null
+				for(int j=0;j<problem.getRow(i).length;j++){
+					System.out.println("f= "+ problem.getRow(i)[j]);
+					if(problem.getRow(i)[j]<0){
+						fSmallerNull = true;
+						j = problem.getRow(i).length;
+					}
+				}
+				if(fSmallerNull==true){
+					row = i;
+					i = problem.getNoRows()-1;
+				}
+			}
+		}
+		return row;
+	}
+	
+	/**stellt fest ob Problem dual zulässig ist
+	 * 
+	 * @param SimplexProblem
+	 * @return boolean ob zulässig oder nicht
+	 */
+	public static boolean dualValid(SimplexProblem problem){
+		boolean valid = false;
+		for(int i=0;i<problem.getLastRow().length;i++){
+			if(problem.getLastRow()[i]<0)valid = true;
+		}
+		return valid;
 	}
 	
 	/**
@@ -207,8 +293,7 @@ public abstract class SimplexLogic {
 			}
 		}
 		problem.setPivots(pivots);
-	}	
-		
+	}
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
 	 * @param zeile Index der Zeile des Pivotelements
@@ -241,23 +326,17 @@ public abstract class SimplexLogic {
 		return problem;
 	}
 	
-	/**
-	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
-	 * @return bearbeitetes SimplexProblem
+	/**stellt fest ob Problem primal zulässig ist
+	 * 
+	 * @param SimplexProblem
+	 * @return boolean ob zulässig oder nicht
 	 */
-	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){	
-		try {
-			if(problem.getOptimal()!= true){				
-				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
-				findPivots(spp);
-				checkOptimal(spp);
-				calcXByF(spp);
-				return spp;
-			}
-		}catch (IOException e) {
-			e.printStackTrace();
+	public static boolean primalValid(SimplexProblem problem){
+		boolean valid = true;
+		for(int i=0;i<problem.getLastColumn().length;i++){
+			if(problem.getLastColumn()[i]<0)valid = false;
 		}
-		return null;
+		return valid;
 	}
 	
 	/**
@@ -280,101 +359,22 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
-	 * Wählt am weitesten oben stehendes Element dass kleiner null ist und
-	 * in dessen Zeile mindestens ein f-Wert kleiner null ist
-	 * Findet die neue Zeile, in der das Pivotelement verschoben wird
-	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
-	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
+	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
+	 * @return bearbeitetes SimplexProblem
 	 */
-	public static int chooseRowDualSimplex(SimplexProblem problem){
-		int row = -1;
-		for(int i = 0; i<problem.getNoRows()-1; i++){
-			if((problem.getTableau()[i][problem.getNoColumns()-1]<0)){
-				boolean fSmallerNull = false;	//mindestens ein F-Wert ist kleiner null
-				for(int j=0;j<problem.getRow(i).length;j++){
-					System.out.println("f= "+ problem.getRow(i)[j]);
-					if(problem.getRow(i)[j]<0){
-						fSmallerNull = true;
-						j = problem.getRow(i).length;
-					}
-				}
-				if(fSmallerNull==true){
-					row = i;
-					i = problem.getNoRows()-1;
-				}
+	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){	
+		try {
+			if(problem.getOptimal()!= true){				
+				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
+				findPivots(spp);
+				checkOptimal(spp);
+				calcXByF(spp);
+				return spp;
 			}
+		}catch (IOException e) {
+			e.printStackTrace();
 		}
-		return row;
-	}
-	
-	/**überprüft ob Problem nach dem dualen Simplex optimal ist.
-	 * 
-	 * @param problem
-	 * @return boolean ob optimal
-	 */
-	public static void checkDualOptimal(SimplexProblem problem){
-		 if(primalValid(problem))problem.setOptimal();
-	}
-	/**
-	 * Berechnet die delta/f-Werte des SimplexProblems.
-	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
-	 */
-	public static void calcDeltaByF(SimplexProblemDual problem){
-		if(problem.getOptimal()!=true){
-			int row = chooseRowDualSimplex(problem);
-			double[] deltaByF = new double[problem.getNoColumns()-1];
-			double[] delta = problem.getLastRow();
-			for(int i = 0; i<problem.getNoColumns()-1; i++){
-				if(problem.getField(row, i)<0) deltaByF[i] = (delta[i] / problem.getField(row, i));
-				else{
-					deltaByF[i] = -1;
-				}
-			}
-			problem.setDeltaByF(deltaByF);
-		}
-	}
-	
-	/**
-	 * Findet die Spalte, die in die Basis geht und gibt diese aus.
-	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
-	 * @return Spalte, die in die Basis geht
-	 */
-	public static int choosePivotColumnDualSimplex(SimplexProblemDual problem){
-		int column = -1;
-		double min = Double.MAX_VALUE;
-		for(int i = 0; i<problem.getDeltaByF().length; i++){
-			if(problem.getDeltaByF()[i]<min && problem.getDeltaByF()[i] > 0){
-				min = problem.getDeltaByF()[i];
-				column = i;
-			}
-		}
-		return column;
-	}
-	
-	/**stellt fest ob Problem primal zulässig ist
-	 * 
-	 * @param SimplexProblem
-	 * @return boolean ob zulässig oder nicht
-	 */
-	public static boolean primalValid(SimplexProblem problem){
-		boolean valid = true;
-		for(int i=0;i<problem.getLastColumn().length;i++){
-			if(problem.getLastColumn()[i]<0)valid = false;
-		}
-		return valid;
-	}
-	
-	/**stellt fest ob Problem dual zulässig ist
-	 * 
-	 * @param SimplexProblem
-	 * @return boolean ob zulässig oder nicht
-	 */
-	public static boolean dualValid(SimplexProblem problem){
-		boolean valid = false;
-		for(int i=0;i<problem.getLastRow().length;i++){
-			if(problem.getLastRow()[i]<0)valid = true;
-		}
-		return valid;
+		return null;
 	}
 	
 	/**
@@ -384,7 +384,7 @@ public abstract class SimplexLogic {
 	 * @param problem
 	 * @return SimplexHistory mit dem kompletten Verlauf inkl. der beiden Phasen
 	 */
-	public static SimplexHistory zweiPhasenSimplex(SimplexProblem problem){ 
+	public static SimplexHistory twoPhaseSimplex(SimplexProblem problem){ 
 		SimplexHistory sh = new SimplexHistory();
 		sh.addElement(problem.clone());
 		boolean variant; //variant gibt an mit welche Methode das Problem gelöst werden soll. true für primal, false für dual
