@@ -387,7 +387,7 @@ public abstract class SimplexLogic {
 	 * damit nicht immer das gleiche Objekt drinliegt!!!!!!
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem
-	 * @return SimplexHistory mit dem kompletten Verlauf
+	 * @return SimplexHistory mit dem kompletten Verlauf inkl. der beiden Phasen
 	 */
 	public static SimplexHistory zweiPhasenSimplex(SimplexProblem problem){ 
 		SimplexHistory sh = new SimplexHistory();
