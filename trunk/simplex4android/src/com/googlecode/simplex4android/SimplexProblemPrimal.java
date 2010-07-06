@@ -87,10 +87,14 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	@Override
 	public SimplexProblem clone() {
 		SimplexProblemPrimal clone = new SimplexProblemPrimal();
+		try{
 		clone.setXByF(this.getXByF());
 		clone.setTableau(this.getTableau());
 		clone.setTarget(this.getTarget());
 		clone.setPivots(this.getPivots());
+		}catch(Exception e){e.toString();
+			
+		}
 		return clone;
 	}
 }
