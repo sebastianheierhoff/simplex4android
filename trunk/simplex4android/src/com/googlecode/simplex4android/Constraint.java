@@ -56,13 +56,26 @@ public class Constraint {
 	 * @throws IOException falls kein "/" im übergebenen String enthalten
 	 */
 	public static double fractionToDbl(String s) throws IOException{
-		int index = s.indexOf("/");
-		if(index==-1){
+		int slash = s.indexOf("/");
+		int firstDigit = 0;
+		int lastDigit = 0;
+		if(slash==-1){
 			throw new IOException("Kein '/' enthalten");
 		}
-		for(int i=index-1;i>=0;i--){ // Anfangsindex der Zahl vor dem "/" finden
-			
+		for(int i=slash-1;i>0;i--){ // Anfangsindex der Zahl vor dem "/" finden
+			if(Integer.valueOf(s.substring(i-1,i))>=0 && Integer.valueOf(s.substring(i-1,i))<=9){
+				firstDigit = i-1;
+			}
 		}
+		for(int i=slash+1;i<s.length();i++){
+			if(Integer.valueOf(s.substring(i,i+1))>=0 && Integer.valueOf(s.substring(i,i+1))<=9){
+				lastDigit = i;
+			}
+		}
+		double numerator = Integer.valueOf(s.substring(firstDigit, slash));
+		double denomerator = Integer.valueOf(s.substring(slash+1, lastDigit+1));
+		double dbl = numerator/denomerator;
+		return dbl;
 	}
 		
 	/**
