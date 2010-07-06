@@ -44,18 +44,18 @@ public class SimplexLocal {
 		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		do{
-			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
-			current = SimplexLogic.simplex(current);
-
-			//Debug-Ausgabe
-			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-			
-			sh.addElement(current);
-		}
-		while(sh.getLastElement().getOptimal()!=true);
+//		do{
+//			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+//			current = SimplexLogic.simplex(current);
+//
+//			//Debug-Ausgabe
+//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+//			
+//			sh.addElement(current);
+//		}
+//		while(sh.getLastElement().getOptimal()!=true);
 	}	
 }
