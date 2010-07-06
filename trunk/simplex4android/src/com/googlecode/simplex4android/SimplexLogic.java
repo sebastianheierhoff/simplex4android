@@ -381,4 +381,108 @@ public abstract class SimplexLogic {
 		}
 		return valid;
 	}
+	
+	/**
+	 * sh.add() muss noch ersetzt werden durch einen Konstruktor für neues Objekt
+	 * damit nicht immer das gleiche Objekt drinliegt!!!!!!
+	 * Führt ZweiphasenSimplex durch
+	 * @param problem
+	 * @return SimplexHistory mit dem kompletten Verlauf
+	 */
+	public static SimplexHistory zweiPhasenSimplex(SimplexProblem problem){ 
+		SimplexHistory sh = new SimplexHistory();
+		sh.addElement(problem);
+		boolean variant; //variant gibt an mit welche Methode das Problem gelöst werden soll. true für primal, false für dual
+		String nameOfClass = problem.getClass().getName();
+		if(nameOfClass=="SimplexProblemDual"){
+			variant = false;
+		}else{
+			variant = true;
+		}
+		if(addArtificialVars(problem)!=null){		//wenn künstliche Variablen hinzugefügt wurden
+			if(variant == true){
+				SimplexProblemPrimal phaseOneProblem = (SimplexProblemPrimal)addArtificialVars(problem);
+				sh.addElement(phaseOneProblem);
+				findPivots(phaseOneProblem);
+			    calcDeltas(phaseOneProblem);
+			    calcXByF(phaseOneProblem);
+			    sh.addElement(phaseOneProblem);
+				do{
+					SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+					current = SimplexLogic.simplex(current);
+					sh.addElement(current);
+				}
+				while(sh.getLastElement().getOptimal()!=true);
+			}else{
+				SimplexProblemDual phaseOneProblem = (SimplexProblemDual)addArtificialVars(problem);
+				sh.addElement(phaseOneProblem);
+				findPivots(phaseOneProblem);
+			    calcDeltas(phaseOneProblem);
+			    calcDeltaByF(phaseOneProblem);
+			    sh.addElement(phaseOneProblem);
+				do{
+					SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+					current = SimplexLogic.simplex(current);
+					sh.addElement(current);
+				}
+				while(sh.getLastElement().getOptimal()!=true);
+			}
+			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
+			SimplexProblem firstProblem = sh.getFirstElement();
+			SimplexProblem problemEndFirstPhase = sh.getLastElement();
+			double[] targetFirstPhase = problemEndFirstPhase.getTarget();
+			double[][] tableau = firstProblem.getTableau();  //nur um garantiert die richtige Größe zu bekommen :)
+			if(variant==true){	//solange nullen in der Zielfunktion stehen werden die Spalten kopiert 
+				SimplexProblemPrimal phaseTwoProblem = new SimplexProblemPrimal(tableau, firstProblem.getTarget());
+				for(int i=0;i<targetFirstPhase.length;i++){
+					if(targetFirstPhase[i]==0){
+						phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
+					}else{
+						i = targetFirstPhase.length;
+					}
+				}
+				sh.addElement(phaseTwoProblem);
+			}else{	//hier der Spaß nochmal für das duale Prolbem. Geht bestimmt auch in einem 
+				SimplexProblemDual phaseTwoProblem = new SimplexProblemDual(tableau, firstProblem.getTarget());
+				for(int i=0;i<targetFirstPhase.length;i++){
+					if(targetFirstPhase[i]==0){
+						phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
+					}else{
+						i = targetFirstPhase.length;
+					}
+				}
+				sh.addElement(phaseTwoProblem);
+			}
+		} //hier gehts weiter falls die erste Phase nicht benötigt wurde
+		SimplexProblem phaseTwoProblem = sh.getLastElement();
+		findPivots(phaseTwoProblem);
+		calcDeltas(phaseTwoProblem);
+		//erneute Unterteilung in Verlauf für duales und primales Problem
+		if(variant==true){
+			SimplexProblemPrimal phaseTwoProblemPrimal = (SimplexProblemPrimal)phaseTwoProblem;
+			calcXByF(phaseTwoProblemPrimal);
+			sh.addElement(phaseTwoProblemPrimal);
+			//Simplex durchführen bis optimal
+			do{
+				SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+				current = SimplexLogic.simplex(current);
+				sh.addElement(current);
+			}
+			while(sh.getLastElement().getOptimal()!=true);
+
+		}else{
+			SimplexProblemDual phaseTwoProblemDual = (SimplexProblemDual)phaseTwoProblem;
+			calcDeltaByF(phaseTwoProblemDual);
+			sh.addElement(phaseTwoProblemDual);
+			//Simplex durchführen bis optimal
+			do{
+				SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+				current = SimplexLogic.simplex(current);
+				sh.addElement(current);
+			}
+			while(sh.getLastElement().getOptimal()!=true);
+		}
+		return sh;
+		
+	}
 }
