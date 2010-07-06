@@ -1,6 +1,8 @@
 package com.googlecode.simplex4android.test;
 
 import com.googlecode.simplex4android.SimplexLogic;
+import com.googlecode.simplex4android.SimplexProblemPrimal;
+
 import junit.framework.TestCase;
 
 public class TestSimplexLogic extends TestCase {
@@ -23,5 +25,13 @@ public class TestSimplexLogic extends TestCase {
 		assertTrue(!SimplexLogic.checkInput("2/4/"));
 		assertTrue(!SimplexLogic.checkInput("-2-"));
 		assertTrue(!SimplexLogic.checkInput("2.0."));
+	}
+	
+	public void testAddArtificialVars(){
+		double[][] tableau = {{-1.5,3,0,0,5,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
+		double[] target = {1,2,7,5,0,0,0};
+		SimplexProblemPrimal problem = new SimplexProblemPrimal(tableau, target);
+		problem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(problem);
+		
 	}
 }
