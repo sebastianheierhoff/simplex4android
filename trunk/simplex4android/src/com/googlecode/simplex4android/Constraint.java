@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Constraint {
 	private ArrayList<Double> values;
+	private double targetValue;
 	private int sign;
 	private int slack; // Gibt an, ob eine Schlupfvariable eingefügt wurde ("0" -> keine, "-1" -> negative, "1" -> positive)
 	
@@ -21,7 +22,6 @@ public class Constraint {
 	public Constraint(double[] c, int sign){
 		this.values = convertToDblArrayList(c);
 		this.sign = sign;
-		this.normalise();
 	}
 	
 	public Constraint() {
@@ -68,6 +68,14 @@ public class Constraint {
 	}
 	
 	/**
+	 * Gibt den Zielfunktionswert zurück.
+	 * @return Zielfunktionswert
+	 */
+	public double getTargetValue(){
+		return this.targetValue;
+	}
+	
+	/**
 	 * Gibt den Wert der Nebenbedingung an Index j zurück.
 	 * @return Wert der Nebenbedingung an Index j
 	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
@@ -102,6 +110,14 @@ public class Constraint {
 	}
 	
 	/**
+	 * Setzt den Zielfunktionswert.
+	 * @param value zu setzender Zielfunktionswert
+	 */
+	public void setTargetValue(double value){
+		this.targetValue = value;
+	}
+	
+	/**
 	 * Setzt den Wert an Index j auf den übergebenen double-Wert.
 	 * @param j Index des zu setzenden Elements
 	 * @param value Wert, auf den das Element gestetzt werden soll.
@@ -112,10 +128,20 @@ public class Constraint {
 	}
 
 	
-	//TODO: toString() implementieren
-	public String toString(){
-		String string;
-		string = "Pommes";
-		return string;
+	/**
+	 * Gibt eine Stringdarstellung der x1..xn aus.
+	 * @return Stringdarstellung der x1..xn
+	 */
+	public String valuesToString(){
+		String re = "";
+		re += this.values.get(0) +"x1";
+		for(int i=1;i<this.values.size()-2;i++){
+			if(this.values.get(i)<0){
+				re += " " +this.values.get(i).intValue() +"x" +(i+1);
+			}else{
+				re += " + " +this.values.get(i).intValue() +"x" +(i+1);
+			}			
+		}
+		return re;
 	}
 }
