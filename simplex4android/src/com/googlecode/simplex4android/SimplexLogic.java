@@ -2,7 +2,6 @@ package com.googlecode.simplex4android;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Klasse SimplexLogic - bekommt ein SimplexProblem übergeben, bearbeitete dieses und gibt ein neues SimplexProbelm zurück.
@@ -15,21 +14,18 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblem addArtificialVars(SimplexProblem problem){
-		// kaputt, findet nicht die Zeilen Indizes!!!
 		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
-		
 		int[] pivots = new int[problem.getPivots().length];
-		for(int i=0;i<problem.getPivots().length-1;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
-			double[] column = problem.getColumn(i);
+		for(int i=0;i<problem.getPivots().length;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
+		double[] column = problem.getColumn(problem.getPivots()[i]);
 			for(int j=0;j<column.length;j++){ // Durch die Spalten
 				if(column[j]==1){ // Eins gefunden
 					pivots[i] = j;
 				}
 			}
 		}
-		System.out.println(Arrays.toString(pivots));
 		
 		double[] target = problem.getTarget();
 		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
