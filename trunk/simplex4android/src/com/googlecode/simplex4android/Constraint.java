@@ -47,7 +47,7 @@ public class Constraint {
 				this.values.add(new Double(0));
 			}
 		}
-		this.values.add(i, value);
+		this.values.set(i, value);
 	}
 
 	/**
