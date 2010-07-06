@@ -391,7 +391,7 @@ public abstract class SimplexLogic {
 	 */
 	public static SimplexHistory zweiPhasenSimplex(SimplexProblem problem){ 
 		SimplexHistory sh = new SimplexHistory();
-		sh.addElement(problem);
+		sh.addElement(problem.clone());
 		boolean variant; //variant gibt an mit welche Methode das Problem gelöst werden soll. true für primal, false für dual
 		String nameOfClass = problem.getClass().getName();
 		if(nameOfClass=="SimplexProblemDual"){
@@ -402,28 +402,28 @@ public abstract class SimplexLogic {
 		if(addArtificialVars(problem)!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			if(variant == true){
 				SimplexProblemPrimal phaseOneProblem = (SimplexProblemPrimal)addArtificialVars(problem);
-				sh.addElement(phaseOneProblem);
+				sh.addElement(phaseOneProblem.clone());
 				findPivots(phaseOneProblem);
 			    calcDeltas(phaseOneProblem);
 			    calcXByF(phaseOneProblem);
-			    sh.addElement(phaseOneProblem);
+			    sh.addElement(phaseOneProblem.clone());
 				do{
 					SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
 					current = SimplexLogic.simplex(current);
-					sh.addElement(current);
+					sh.addElement(current.clone());
 				}
 				while(sh.getLastElement().getOptimal()!=true);
 			}else{
 				SimplexProblemDual phaseOneProblem = (SimplexProblemDual)addArtificialVars(problem);
-				sh.addElement(phaseOneProblem);
+				sh.addElement(phaseOneProblem.clone());
 				findPivots(phaseOneProblem);
 			    calcDeltas(phaseOneProblem);
 			    calcDeltaByF(phaseOneProblem);
-			    sh.addElement(phaseOneProblem);
+			    sh.addElement(phaseOneProblem.clone());
 				do{
 					SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
 					current = SimplexLogic.simplex(current);
-					sh.addElement(current);
+					sh.addElement(current.clone());
 				}
 				while(sh.getLastElement().getOptimal()!=true);
 			}
@@ -441,7 +441,7 @@ public abstract class SimplexLogic {
 						i = targetFirstPhase.length;
 					}
 				}
-				sh.addElement(phaseTwoProblem);
+				sh.addElement(phaseTwoProblem.clone());
 			}else{	//hier der Spaß nochmal für das duale Prolbem. Geht bestimmt auch in einem 
 				SimplexProblemDual phaseTwoProblem = new SimplexProblemDual(tableau, firstProblem.getTarget());
 				for(int i=0;i<targetFirstPhase.length;i++){
@@ -451,7 +451,7 @@ public abstract class SimplexLogic {
 						i = targetFirstPhase.length;
 					}
 				}
-				sh.addElement(phaseTwoProblem);
+				sh.addElement(phaseTwoProblem.clone());
 			}
 		} //hier gehts weiter falls die erste Phase nicht benötigt wurde
 		SimplexProblem phaseTwoProblem = sh.getLastElement();
@@ -461,7 +461,7 @@ public abstract class SimplexLogic {
 		if(variant==true){
 			SimplexProblemPrimal phaseTwoProblemPrimal = (SimplexProblemPrimal)phaseTwoProblem;
 			calcXByF(phaseTwoProblemPrimal);
-			sh.addElement(phaseTwoProblemPrimal);
+			sh.addElement(phaseTwoProblemPrimal.clone());
 			//Simplex durchführen bis optimal
 			do{
 				SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
@@ -473,7 +473,7 @@ public abstract class SimplexLogic {
 		}else{
 			SimplexProblemDual phaseTwoProblemDual = (SimplexProblemDual)phaseTwoProblem;
 			calcDeltaByF(phaseTwoProblemDual);
-			sh.addElement(phaseTwoProblemDual);
+			sh.addElement(phaseTwoProblemDual.clone());
 			//Simplex durchführen bis optimal
 			do{
 				SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
