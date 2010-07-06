@@ -23,8 +23,6 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	public SimplexProblemPrimal(double[][] tableau, double[] target){ 
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
-	    SimplexLogic.calcDeltas(this);
-	    SimplexLogic.calcXByF(this);
 	}
 	
 	/**
