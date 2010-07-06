@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
-import java.io.OptionalDataException;
 import java.util.ArrayList;
 
 /**
@@ -90,6 +89,14 @@ public class SimplexHistory {
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(history);
 		oos.close();
+	}
+	
+	/**
+	 * Gibt die Größe der History zurück
+	 * @return Größe der History
+	 */
+	public int size(){
+		return this.history.size();
 	}
 	
 	public String toString(){
