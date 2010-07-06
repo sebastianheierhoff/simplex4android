@@ -49,6 +49,27 @@ public abstract class SimplexProblem {
 	}
 		
 	/**
+	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
+	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten 1 in der Zielfunktion hinzugefügt.
+	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
+	 */
+	public void addArtificialVar(int c){
+		// Pivotspalte ergänzen
+		for(int i=0;i<this.tableau.size();i++){
+			if(i==c){
+				this.tableau.get(c).add(this.tableau.get(c).size()-1,new Double(1));
+			}else{
+				this.tableau.get(i).add(this.tableau.get(i).size()-1,new Double(0));
+			}
+			
+		}
+		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
+		this.target.add(this.target.size()-2,new Double(1));
+		// Einfügen der neuen Pivotspalte in die Basis
+		this.pivots.add(c,new Integer(this.target.size()-2));	
+	}
+	
+	/**
 	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
 	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an vorletzter Stellt der Vergleichsoperator ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">=")) und an letzter Stelle der Zielwert b
@@ -82,25 +103,6 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
-	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird nicht in der Zielfunktion hinzugefügt.
-	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
-	 */
-	public void addArtificialVar(int c){
-		// Pivotspalte ergänzen
-		for(int i=0;i<this.tableau.size();i++){
-			if(i==c){
-				this.tableau.get(i).add(this.tableau.size()-2,new Double(1));
-			}else{
-				this.tableau.get(i).add(this.tableau.size()-2,new Double(0));
-			}
-			
-		}		
-		// Einfügen der neuen Pivotspalte in die Basis
-		this.pivots.add(c,new Integer(this.target.size()-2));	
-	}
-	
-	/**
 	 * Überführt das übergebene zweidimensionale Array in ein ArrayList<ArrayList<Double>>.
 	 * @param array zu überführendes zweidimensionales Array
 	 * @return überführte ArrayList
@@ -115,7 +117,7 @@ public abstract class SimplexProblem {
 		}
 		return tableau;
 	}
-	
+
 	/**
 	 * Überführt die übergebene ArrayList<Double> in ein double[].
 	 * @param arrayList zu überführende ArrayList
@@ -128,7 +130,7 @@ public abstract class SimplexProblem {
 		}
 		return array;
 	}
-	
+
 	/**
 	 * Überführt das übergebene Array in eine ArrayList<Double>.
 	 * @param array zu überführendes Array
@@ -154,7 +156,7 @@ public abstract class SimplexProblem {
 		}
 		return array;
 	}
-
+	
 	/**
 	 * Überführt das übergebene Array in eine ArrayList<Integer>.
 	 * @param array zu überführendes Array
@@ -191,7 +193,6 @@ public abstract class SimplexProblem {
 		return this.tableau.get(i).get(j).doubleValue();
 	}
 
-	
 	/**
 	 * Gibt die letzte Spalte des Simplex-Tableaus aus.
 	 * @return letzte Spalte des Simplex-Tableaus
@@ -215,6 +216,7 @@ public abstract class SimplexProblem {
 	public String getName(){
 		return this.name;
 	}
+
 	
 	/**
 	 * Gibt die Anzahl der Spalten aus.
@@ -231,7 +233,7 @@ public abstract class SimplexProblem {
 	public int getNoRows(){
 		return this.tableau.size();
 	}
-	
+
 	/**
 	 * Gibt true, wenn Optimaltableau gefunden, sonst false.
 	 * @return true, wenn Optimaltableau gefunden, sonst false.
@@ -247,7 +249,7 @@ public abstract class SimplexProblem {
 	public int[] getPivots() {
 		return this.convertToIntArray(this.pivots);
 	}
-
+	
 	/**
 	 * Gibt Zeile i aus.
 	 * @param i Index der auszugebenen Zeile
@@ -256,7 +258,7 @@ public abstract class SimplexProblem {
 	public double[] getRow(int i){
 		return this.convertToDblArray(this.tableau.get(i));
 	}
-
+	
 	/**
 	 * Gibt das SimplexTableau aus.
 	 * @return SimplexTableau
@@ -289,7 +291,7 @@ public abstract class SimplexProblem {
 			this.tableau.get(i).set(j, new Double(c[i]));
 		}
 	}
-	
+
 	/**
 	 * Setzt den Inhalt in Feld (zeile, spalte) auf den übergebenen double-Wert.
 	 * @param i Index der Zeile im SimplexTableau
@@ -299,12 +301,28 @@ public abstract class SimplexProblem {
 	public void setField(int i, int j, double value){
 		this.tableau.get(i).set(j, new Double(value));
 	}
-	
+
+	/**
+	 * Methode um den Namen eines Problems zu verändern.
+	 * @param name String mit neuem Namen
+	 */
+	public void setName(String name){
+		this.name = name;
+	}
+
 	/**
 	 * Setzt das Tableau als Optimaltableau.
 	 */
 	public void setOptimal(){
 		this.optimal = true;
+	}
+	
+	/**
+	 * Gibt die Pivotspaltentabelle aus.
+	 * @param pivots Indizes der zu setzendenden Pivotspalten
+	 */
+	public void setPivots(ArrayList<Integer> pivots) {
+		this.pivots = pivots;
 	}
 	
 	/**
@@ -330,8 +348,24 @@ public abstract class SimplexProblem {
 	 * Setzt das SimplexTableau.
 	 * @param tableau übergebenes SimplexTableau
 	 */
+	public void setTableau(ArrayList<ArrayList<Double>> tableau) {
+		this.tableau = tableau;
+	}
+	
+	/**
+	 * Setzt das SimplexTableau.
+	 * @param tableau übergebenes SimplexTableau
+	 */
 	public void setTableau(double[][] tableau) {
 		this.tableau = this.convertTo2DArrayList(tableau);
+	}
+	
+	/**
+	 * Setzt die Zielfunktion.
+	 * @param target übergebene Zielfunktion
+	 */
+	public void setTarget(ArrayList<Double> target) {
+		this.target = target;
 	}
 	
 	/**
@@ -341,6 +375,8 @@ public abstract class SimplexProblem {
 	public void setTarget(double[] target) {
 		this.target = this.convertToDblArrayList(target);
 	}
+	
+	public abstract String tableauToHtml();	
 	
 	/**
 	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
@@ -373,13 +409,5 @@ public abstract class SimplexProblem {
 		}
 		re += " = min \n";
 		return re;
-	}	public abstract String tableauToHtml();
-	
-	/**
-	 * Methode um den Namen eines Problems zu verändern.
-	 * @param name String mit neuem Namen
-	 */
-	public void setName(String name){
-		this.name = name;
 	}
 }
