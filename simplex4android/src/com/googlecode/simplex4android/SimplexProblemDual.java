@@ -83,4 +83,14 @@ public class SimplexProblemDual extends SimplexProblem {
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
+
+	@Override
+	public SimplexProblem clone() {
+		SimplexProblemDual clone = new SimplexProblemDual();
+		clone.setDeltaByF(this.getDeltaByF());
+		clone.setTableau(this.getTableau());
+		clone.setTarget(this.getTarget());
+		clone.setPivots(this.getPivots());
+		return clone;
+	}
 }

@@ -22,6 +22,7 @@ public abstract class SimplexProblem {
 	//automatische/manuelle Wahl der Pivotspalten
 	
 	/**
+	 * Der leere Konstruktor sollte nur zum klonen eins Objektes benutzt werden!!!
 	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
 	 * Die Zeile der delta-Werte ist bereits enthalten.
 	 */
@@ -31,8 +32,6 @@ public abstract class SimplexProblem {
 		this.target = new ArrayList<Double>();
 		this.pivots = new ArrayList<Integer>();
 		this.optimal = false;
-		this.name = name + problemNr;
-		problemNr++;
 	}
 	
 	/**
@@ -118,6 +117,11 @@ public abstract class SimplexProblem {
 		return tableau;
 	}
 
+	/**
+	 * abstrakte Methode um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können
+	 */
+	public abstract SimplexProblem clone();
+	
 	/**
 	 * Überführt die übergebene ArrayList<Double> in ein double[].
 	 * @param arrayList zu überführende ArrayList
@@ -376,6 +380,10 @@ public abstract class SimplexProblem {
 		this.target = this.convertToDblArrayList(target);
 	}
 	
+	/**
+	 * abstrakte Methode um das Tableau in HTML darzustellen
+	 * @return String mit HTML-Code als Inhalt für eine Tabelle
+	 */
 	public abstract String tableauToHtml();	
 	
 	/**
