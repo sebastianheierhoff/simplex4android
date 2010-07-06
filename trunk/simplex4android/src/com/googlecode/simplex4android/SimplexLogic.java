@@ -402,10 +402,14 @@ public abstract class SimplexLogic {
 			if(variant == true){
 				SimplexProblemPrimal phaseOneProblem = (SimplexProblemPrimal)addArtificialVars(problem);
 				sh.addElement(phaseOneProblem.clone());
+				
+				//debug
+				//System.out.println(phaseOneProblem.tableauToString());
+				
 				findPivots(phaseOneProblem);
-			    calcDeltas(phaseOneProblem);
-			    calcXByF(phaseOneProblem);
-			    sh.addElement(phaseOneProblem.clone());
+				calcDeltas(phaseOneProblem);
+				calcXByF(phaseOneProblem);
+				sh.addElement(phaseOneProblem.clone());
 				do{
 					SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
 					current = SimplexLogic.simplex(current);
@@ -416,9 +420,9 @@ public abstract class SimplexLogic {
 				SimplexProblemDual phaseOneProblem = (SimplexProblemDual)addArtificialVars(problem);
 				sh.addElement(phaseOneProblem.clone());
 				findPivots(phaseOneProblem);
-			    calcDeltas(phaseOneProblem);
-			    calcDeltaByF(phaseOneProblem);
-			    sh.addElement(phaseOneProblem.clone());
+				calcDeltas(phaseOneProblem);
+				calcDeltaByF(phaseOneProblem);
+				sh.addElement(phaseOneProblem.clone());
 				do{
 					SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
 					current = SimplexLogic.simplex(current);
