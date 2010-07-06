@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public abstract class SimplexProblem {
 	private ArrayList<ArrayList<Double>> tableau; 
-	private ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
 	private ArrayList<Integer> pivots; //Basisspalten
 	private boolean optimal;
 	private String name = "Simplex-Problem Nr: ";
@@ -28,7 +28,7 @@ public abstract class SimplexProblem {
 	public SimplexProblem(){
 		this.tableau = new ArrayList<ArrayList<Double>>();
 		this.tableau.add(new ArrayList<Double>()); // Zeile der delta-Werte hinzufügen
-		this.target = new ArrayList<Integer>();
+		this.target = new ArrayList<Double>();
 		this.pivots = new ArrayList<Integer>();
 		this.optimal = false;
 		this.name = name + problemNr;
@@ -40,9 +40,9 @@ public abstract class SimplexProblem {
 	 * @param tableau
 	 * @param target
 	 */
-	public SimplexProblem(double[][] tableau, int[] target){ 
+	public SimplexProblem(double[][] tableau, double[] target){ 
 		this.tableau = this.convertTo2DArrayList(tableau);
-		this.target = this.convertToIntArrayList(target);		
+		this.target = this.convertToDblArrayList(target);		
 		this.optimal = false;
 		this.name = name + problemNr;
 		problemNr++;
@@ -74,7 +74,7 @@ public abstract class SimplexProblem {
 				}
 			}
 			for(int i=0;i<anzahl;i++){
-				this.target.add(this.target.size()-2, new Integer(0)); // Hinzufügen der Schlupfvariablen in der Zielfunktion
+				this.target.add(this.target.size()-2, new Double(0)); // Hinzufügen der Schlupfvariablen in der Zielfunktion
 			}
 		}
 		this.tableau.add(this.tableau.size()-1, row); // Hinzufügen der Zeile an vorletzter Stelle
@@ -83,10 +83,10 @@ public abstract class SimplexProblem {
 	
 	/**
 	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
-	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten Null in der Zielfunktion hinzugefügt.
+	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird nicht in der Zielfunktion hinzugefügt.
 	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
-	public void addPivotColumn(int c){
+	public void addArtificialVar(int c){
 		// Pivotspalte ergänzen
 		for(int i=0;i<this.tableau.size();i++){
 			if(i==c){
@@ -95,11 +95,7 @@ public abstract class SimplexProblem {
 				this.tableau.get(i).add(this.tableau.size()-2,new Double(0));
 			}
 			
-		}
-		
-		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
-		this.target.add(c,new Integer(0));
-		
+		}		
 		// Einfügen der neuen Pivotspalte in die Basis
 		this.pivots.add(c,new Integer(this.target.size()-2));	
 	}
@@ -279,8 +275,8 @@ public abstract class SimplexProblem {
 	 * Gibt die Zielfunktion zurück.
 	 * @return Zielfunktion
 	 */
-	public int[] getTarget() {
-		return this.convertToIntArray(this.target);
+	public double[] getTarget() {
+		return this.convertToDblArray(this.target);
 	}
 
 	/**
@@ -342,8 +338,8 @@ public abstract class SimplexProblem {
 	 * Setzt die Zielfunktion.
 	 * @param target übergebene Zielfunktion
 	 */
-	public void setTarget(int[] target) {
-		this.target = this.convertToIntArrayList(target);
+	public void setTarget(double[] target) {
+		this.target = this.convertToDblArrayList(target);
 	}
 	
 	/**
