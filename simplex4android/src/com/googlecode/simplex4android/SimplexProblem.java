@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * @author Simplex4Android
  */
 public abstract class SimplexProblem {
-	protected ArrayList<ArrayList<Double>> tableau; 
-	protected ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
-	protected ArrayList<Integer> pivots; //Basisspalten
-	protected boolean optimal;
-	protected String name = "Simplex-Problem Nr: ";
-	protected static int problemNr = 1;
+	private ArrayList<ArrayList<Double>> tableau; 
+	private ArrayList<Integer> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	private ArrayList<Integer> pivots; //Basisspalten
+	private boolean optimal;
+	private String name = "Simplex-Problem Nr: ";
+	private static int problemNr = 1;
 	
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
@@ -47,7 +47,7 @@ public abstract class SimplexProblem {
 		this.name = name + problemNr;
 		problemNr++;
 	}
-	
+		
 	/**
 	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
@@ -245,7 +245,7 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Setzt die Pvotspaltentabelle.
+	 * Gibt die Pivotspaltentabelle zurück.
 	 * @return Pivotspalten
 	 */
 	public int[] getPivots() {
