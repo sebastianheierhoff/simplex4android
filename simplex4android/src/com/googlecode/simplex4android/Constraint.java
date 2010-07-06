@@ -34,20 +34,6 @@ public class Constraint {
 	public void add(Double value){
 		this.values.add(value);
 	}
-	
-	/**
-	 * Fügt der Nebenbedingung an Index i ein neues Element hinzu. Alle darauffolgenden Elemente werden um einen Index verschoben.
-	 * @param i Index,an dem das Element eingefügt werden soll.
-	 * @param value hinzuzufügendes Element
-	 */
-	public void add(int i, Double value){
-		if(i>=this.values.size()){
-			for(int j=this.values.size();j<i;j++){
-				this.values.add(new Double(0));
-			}
-		}
-		this.values.set(i, value);
-	}
 
 	/**
 	 * Überführt das übergebene Array in eine ArrayList<Double>.
@@ -96,13 +82,17 @@ public class Constraint {
 	}
 	
 	/**
-	 * Setzt den Wert an Index j auf den übergebenen double-Wert.
+	 * Setzt den Wert an Index j auf den übergebenen double-Wert. Ist der Index nicht vorhanden, wir passend aufgefüllt.
 	 * @param j Index des zu setzenden Elements
 	 * @param value Wert, auf den das Element gestetzt werden soll.
-	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
-	public void setValue(int j, double value) throws IndexOutOfBoundsException{
-		this.values.set(j, value);
+	public void setValue(int i, double value){
+		if(i>=this.values.size()){
+			for(int j=this.values.size();j<=i;j++){
+				this.values.add(new Double(0));
+			}
+		}
+		this.values.set(i, value);
 	}
 
 	
