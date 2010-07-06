@@ -84,4 +84,13 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		return html;
 	}
 
+	@Override
+	public SimplexProblem clone() {
+		SimplexProblemPrimal clone = new SimplexProblemPrimal();
+		clone.setXByF(this.getXByF());
+		clone.setTableau(this.getTableau());
+		clone.setTarget(this.getTarget());
+		clone.setPivots(this.getPivots());
+		return clone;
+	}
 }
