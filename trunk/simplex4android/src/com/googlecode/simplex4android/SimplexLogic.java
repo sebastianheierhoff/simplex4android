@@ -116,7 +116,7 @@ public abstract class SimplexLogic {
 				return false;
 			}else{
 				int i=s.indexOf(".");
-				if((i-1)<0 || Integer.parseInt(s.substring(i-1,i))>9 || Integer.parseInt(s.substring(i+1,i+2))>9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
+				if((i-1)<0 || Integer.valueOf(s.substring(i-1,i))>9 || Integer.valueOf(s.substring(i+1,i+2))>9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
 					return false;
 				}
 			}
@@ -127,7 +127,7 @@ public abstract class SimplexLogic {
 			}else{
 				int i=s.indexOf("/");
 				try{
-					if(Integer.parseInt(s.substring(i-1,i))>9 || Integer.parseInt(s.substring(i+1,i+2))>9 || Integer.parseInt(s.substring(i+1,i+2))==0){ // "/" an falscher Stelle oder Zeichen davor nicht in [0,9] oder Zeichen dahinter nicht in [1,9]
+					if(Integer.valueOf(s.substring(i-1,i))>9 || Integer.valueOf(s.substring(i+1,i+2))>9 || Integer.valueOf(s.substring(i+1,i+2))==0){ // "/" an falscher Stelle oder Zeichen davor nicht in [0,9] oder Zeichen dahinter nicht in [1,9]
 						return false;
 					}
 				}catch(Exception e){

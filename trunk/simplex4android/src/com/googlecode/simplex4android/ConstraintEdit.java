@@ -93,6 +93,7 @@ public class ConstraintEdit extends Activity {
 //		        	if(v.getTag().equals("/")){
 //		        	}		        		
 //		        	if(v.getTag().equals(".")){
+//		        		newtext += ",";
 //		        	}		        		
 		        	else{
 		        		newtext += v.getTag();
@@ -124,7 +125,7 @@ public class ConstraintEdit extends Activity {
 	        	if(SimplexLogic.checkInput(target.getText().toString())){
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 	        		double value = Double.valueOf(target_element.getText().toString());
-		        	constraint.add(i, value);
+		        	constraint.setValue(i, value);
 	    			target.setText(constraint.valuesToString());
 	        	}
 	    		else{
@@ -156,9 +157,6 @@ public class ConstraintEdit extends Activity {
 	    		}
 	    	}
 	    });
-
-	
-	
 	}	
 }
 	
