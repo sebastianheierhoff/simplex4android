@@ -1,7 +1,6 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
@@ -12,9 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class ConstraintEdit extends Activity {
-
+	
+	private static Constraint constraint = new Constraint();
+	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -96,8 +98,7 @@ public class ConstraintEdit extends Activity {
 		        		newtext += v.getTag();
 		        	}
 		        	if(!SimplexLogic.checkInput(newtext)){
-		        		//Drawable d = Drawable.createFromPath()
-		        		//text.setBackgroundDrawable();
+		        		//Hintergrund rot
 		        	}
 		        	else{
 		        		text.setBackgroundResource(android.R.drawable.editbox_background_normal);
@@ -114,11 +115,19 @@ public class ConstraintEdit extends Activity {
 	        	finish();
 	        }
 	    });
-	    
+
 	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
-	    		//Eingabe prüfen
+	        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
+	    		if(SimplexLogic.checkInput(text.getText().toString())){
+	    			EditText target = (EditText) findViewById(R.id.edittext_target);
+		    		String i = ((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1);
+	    			getIntent().putExtras(extras);
+	    			target.setText(String.valueOf(getIntent().getExtras().getDouble(i)));
+	    		}
+	    		else
+	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
 	    	}
 	    });
 	    
@@ -126,7 +135,7 @@ public class ConstraintEdit extends Activity {
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
-	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue(); //to intValue;
+	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		edittext_x_value++;//inkrementieren
 	    		edittext_x.setText("x" + edittext_x_value);
 	    				//Value aus ArrayList abfragen und ins Textfeld eintragen
@@ -137,7 +146,7 @@ public class ConstraintEdit extends Activity {
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
-	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue(); //to intValue;
+	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;//inkrementieren
 	    			edittext_x.setText("x" + edittext_x_value);
