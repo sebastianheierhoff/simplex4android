@@ -91,4 +91,12 @@ public class SimplexHistory {
 		oos.writeObject(history);
 		oos.close();
 	}
+	
+	public String toString(){
+		String s = null;
+		for(int i=0;i<history.size();i++){
+			s = s + "\n \n i=" + i + history.get(i).tableauToHtml();
+		}
+		return s;
+	}
 }

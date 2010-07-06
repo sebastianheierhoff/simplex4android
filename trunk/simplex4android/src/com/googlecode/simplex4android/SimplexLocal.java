@@ -15,7 +15,7 @@ public class SimplexLocal {
 	
 	public static void main(String[] args){
 		boolean debug = true;
-		SimplexHistory sh = new SimplexHistory();
+//		SimplexHistory sh = new SimplexHistory();
 		
 		//Settings lesen, SimplexSettings erzeugen
 		
@@ -27,35 +27,38 @@ public class SimplexLocal {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
-		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
-		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
-		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
-
-		//SimplexProblem in History einfügen
-		firstProblem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(firstProblem);
-		sh.addElement(firstProblem);
-				
-		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
-		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
-		
-		
-		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
-
-		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-//		do{
-//			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
-//			current = SimplexLogic.simplex(current);
+		SimplexHistory sh = SimplexLogic.zweiPhasenSimplex(firstProblem);
+		sh.toString();
+//		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+//		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+//		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
+//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 //
-//			//Debug-Ausgabe
-//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-//			
-//			sh.addElement(current);
-//		}
-//		while(sh.getLastElement().getOptimal()!=true);
-	}	
+//		//SimplexProblem in History einfügen
+//		firstProblem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(firstProblem);
+//		sh.addElement(firstProblem);
+//				
+//		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+//		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+//		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
+//		
+//		
+//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
+//
+//		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
+////		do{
+////			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+////			current = SimplexLogic.simplex(current);
+////
+////			//Debug-Ausgabe
+////			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+////			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+////			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+////			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+////			
+////			sh.addElement(current);
+////		}
+////		while(sh.getLastElement().getOptimal()!=true);
+//	}	
+	}
 }
