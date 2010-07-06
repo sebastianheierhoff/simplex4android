@@ -1,5 +1,7 @@
 package com.googlecode.simplex4android.test;
 
+import java.util.Arrays;
+
 import com.googlecode.simplex4android.SimplexLogic;
 import com.googlecode.simplex4android.SimplexProblemPrimal;
 
@@ -28,10 +30,12 @@ public class TestSimplexLogic extends TestCase {
 	}
 	
 	public void testAddArtificialVars(){
-		double[][] tableau = {{-1.5,3,0,0,5,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
+		double[][] tableau = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		double[] target = {1,2,7,5,0,0,0};
 		SimplexProblemPrimal problem = new SimplexProblemPrimal(tableau, target);
 		problem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(problem);
-		
+		assertEquals(problem.getField(0, 6),1.0);
+		assertEquals(problem.getField(1, 7),1.0);
+		assertEquals(problem.getField(2, 8),1.0);
 	}
 }
