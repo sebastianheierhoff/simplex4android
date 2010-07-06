@@ -15,7 +15,7 @@ public abstract class SimplexProblem {
 	protected ArrayList<Integer> pivots; //Basisspalten
 	protected boolean optimal;
 	protected String name = "Simplex-Problem Nr: ";
-	protected int problemNr = 1;
+	protected static int problemNr = 1;
 	
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
@@ -346,10 +346,6 @@ public abstract class SimplexProblem {
 		this.target = this.convertToIntArrayList(target);
 	}
 	
-	public void setName(String name){
-		this.name = name;
-	}
-	
 	/**
 	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
 	 * @return Stringdarstellung des SimplexTableaus
@@ -382,5 +378,12 @@ public abstract class SimplexProblem {
 		re += " = min \n";
 		return re;
 	}	public abstract String tableauToHtml();
-
+	
+	/**
+	 * Methode um den Namen eines Problems zu verändern.
+	 * @param name String mit neuem Namen
+	 */
+	public void setName(String name){
+		this.name = name;
+	}
 }
