@@ -20,7 +20,7 @@ public class SimplexProblemDual extends SimplexProblem {
 	 * @param tableau
 	 * @param target
 	 */
-	public SimplexProblemDual(double[][] tableau, int[] target){ 
+	public SimplexProblemDual(double[][] tableau, double[] target){ 
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
 	    SimplexLogic.calcDeltas(this);
