@@ -245,8 +245,8 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Gibt die Pivotspaltentabelle zurück.
-	 * @return Pivotspalten
+	 * Gibt die Pivotspaltentabelle (als Indizes) zurück.
+	 * @return Indizes der Pivotspalten
 	 */
 	public int[] getPivots() {
 		return this.convertToIntArray(this.pivots);
@@ -313,7 +313,7 @@ public abstract class SimplexProblem {
 	
 	/**
 	 * Gibt die Pivotspaltentabelle aus.
-	 * @param pivots zu setzende Pivotspalten
+	 * @param pivots Indizes der zu setzendenden Pivotspalten
 	 */
 	public void setPivots(int[] pivots) {
 		this.pivots = this.convertToIntArrayList(pivots);
