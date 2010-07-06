@@ -24,6 +24,10 @@ public class Constraint {
 		this.normalise();
 	}
 	
+	public Constraint() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Fügt der Nebenbedingung an letzter Stelle ein neues Element hinzu.
 	 * @param value hinzuzufügendes Element
@@ -107,4 +111,11 @@ public class Constraint {
 		this.values.set(j, value);
 	}
 
+	
+	//TODO: toString() implementieren
+	public String toString(){
+		String string;
+		string = "Pommes";
+		return string;
+	}
 }
