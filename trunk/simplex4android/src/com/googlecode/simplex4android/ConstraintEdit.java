@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ConstraintEdit extends Activity {
 	
@@ -43,6 +45,20 @@ public class ConstraintEdit extends Activity {
 		    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		    gtltoreq.setAdapter(adapter_gtltoreq);
 	    
+		    gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener(){
+		    	public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					constraint.setSign();
+				}
+
+				public void onNothingSelected(AdapterView<?> arg0) {
+					
+				}
+		    	
+		    	
+		    	
+		    });
+		    
 	    }
 	    
 	    
@@ -122,7 +138,7 @@ public class ConstraintEdit extends Activity {
 	    	public void onClick(View V){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	        	EditText target = (EditText) findViewById(R.id.edittext_target);
-	        	if(SimplexLogic.checkInput(target.getText().toString())){
+	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 	        		double value = Double.valueOf(target_element.getText().toString());
 		        	constraint.setValue(i, value);
@@ -138,10 +154,19 @@ public class ConstraintEdit extends Activity {
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		edittext_x_value++;//inkrementieren
 	    		edittext_x.setText("x" + edittext_x_value);
-	    				//Value aus ArrayList abfragen und ins Textfeld eintragen
+	    		try{
+	    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+	    		}
+	    		catch(IndexOutOfBoundsException e){
+	    			target_element.setHint("0");
+	    		}
+	    		catch(Exception e){
+	    			
+	    		}
 	    	}
 	    });
 
@@ -149,11 +174,21 @@ public class ConstraintEdit extends Activity {
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    		//target_element.setText("");
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;//inkrementieren
 	    			edittext_x.setText("x" + edittext_x_value);
-		    		//Value aus ArrayList abfragen und ins Textfeld eintragen
+		    		try{
+		    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+		    		}
+		    		catch(IndexOutOfBoundsException e){
+		    			target_element.setHint("0");
+		    		}
+		    		catch(Exception e){
+		    			
+		    		}
 	    		}
 	    	}
 	    });

@@ -133,8 +133,15 @@ public abstract class SimplexLogic {
 				return false;
 			}else{
 				int i=s.indexOf(".");
-				if((i-1)<0 || Integer.valueOf(s.substring(i-1,i))>9 || Integer.valueOf(s.substring(i+1,i+2))>9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
-					return false;
+				if(s.length() > i+1){
+					if((i-1)<0 || Integer.valueOf(s.substring(i-1,i)) >9 || Integer.valueOf(s.substring(i+1,i+2)) >9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
+						return false;
+					}
+				}
+				else{
+					if((i-1)<0 || Integer.valueOf(s.substring(i-1,i)) >9){ // "." an falscher Stelle oder eins der Zeichen davor oder dahinter nicht in [0,9]
+						return false;
+					}
 				}
 			}
 		}
