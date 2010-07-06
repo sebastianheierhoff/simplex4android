@@ -1,5 +1,6 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -46,6 +47,22 @@ public class Constraint {
 			arrayList.add(i,new Double(array[i]));
 		}
 		return arrayList;
+	}
+	
+	/**
+	 * Liest einen als String übergebenen Bruch aus und gibt den dazugehörigen double-Wert zurück
+	 * @param s zu bearbeitender Bruch
+	 * @return double-Wert des Bruchs
+	 * @throws IOException falls kein "/" im übergebenen String enthalten
+	 */
+	public static double fractionToDbl(String s) throws IOException{
+		int index = s.indexOf("/");
+		if(index==-1){
+			throw new IOException("Kein '/' enthalten");
+		}
+		for(int i=index-1;i>=0;i--){ // Anfangsindex der Zahl vor dem "/" finden
+			
+		}
 	}
 		
 	/**
