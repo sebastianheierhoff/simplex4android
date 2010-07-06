@@ -6,14 +6,12 @@
   android:layout_margin="0px"
   android:padding="0px"
   android:orientation="vertical"
-  android:layout_alignParentBottom="true">
-
+  android:layout_alignParentBottom="true"
+  android:background="#FFFFFF">
   <LinearLayout
-  	android:layout_centerHorizontal="true" 
   	android:layout_height="wrap_content"
   	android:layout_width="fill_parent"
-  	android:orientation="horizontal"
-	android:gravity="center_horizontal">
+  	android:orientation="horizontal">
     <Button
 		android:id="@+id/button_minus"
 		android:layout_width="45dip"
@@ -119,17 +117,16 @@
   		android:tag="."/>
 	</LinearLayout>
 	<LinearLayout
-  		android:layout_centerHorizontal="true" 
   		android:layout_height="wrap_content"
-  		android:layout_width="fill_parent"
-  		android:orientation="horizontal"
-		android:gravity="center_horizontal">
+		android:layout_width="fill_parent"
+		android:gravity="right">
       <Button
 		android:id="@+id/button_backspace"
+		android:layout_alignParentRight="true"
+		android:gravity="right"
 		android:background="@drawable/button_backspace"
 		android:layout_width="90dip"
 	    android:layout_height="45dip"
-		android:layout_margin="0dip"
   		android:tag="backspace"/>
 	</LinearLayout>
 </LinearLayout>
