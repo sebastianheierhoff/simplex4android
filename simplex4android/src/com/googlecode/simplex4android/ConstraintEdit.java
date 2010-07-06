@@ -55,9 +55,23 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
+	    if(!target){
+		    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+		    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
+		    	public void onFocusChange(View v, boolean b){
+		    		if(b==true){
+			    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+		    		}
+		    		else{
+			    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
+		    		}
+		    	}
+			});
+	    }
+	    
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
-									R.id.button_minus, R.id.button_divide, R.id.button_decimal};
+									R.id.button_minus, R.id.button_divide, R.id.button_decimal, R.id.button_backspace};
 		
 		for(int i=0; i<keyboardButtons.length; i++){
 			Button[] buttons = new Button[keyboardButtons.length];
@@ -66,8 +80,25 @@ public class ConstraintEdit extends Activity {
 		        public void onClick(View v) {
 		        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
 		        	String newtext = text.getText().toString(); 
-		        	newtext += v.getTag();
-		        	text.setText(newtext);
+		        	if(v.getTag().equals("backspace")){
+		        		if(newtext.length() > 0){
+		        			newtext = newtext.substring(0, newtext.length()-1);
+		        		}
+		        	}
+//		        	if(v.getTag().equals("-")){
+//		        	}		        		
+//		        	if(v.getTag().equals("/")){
+//		        	}		        		
+//		        	if(v.getTag().equals(".")){
+//		        	}		        		
+		        	else{
+		        		newtext += v.getTag();
+		        	}
+		        	if(!SimplexLogic.checkInput(newtext)){
+		        		text.setBackgroundResource(R.color.yellow1);
+		        	}
+	        		text.setText(newtext);
+	        		Selection.setSelection(text.getText(), text.length());
 		        }
 		    });
 		}
