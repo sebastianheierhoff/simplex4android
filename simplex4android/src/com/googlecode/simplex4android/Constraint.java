@@ -12,7 +12,6 @@ public class Constraint {
 	private ArrayList<Double> values;
 	private double targetValue;
 	private int sign;
-	private int slack; // Gibt an, ob eine Schlupfvariable eingefügt wurde ("0" -> keine, "-1" -> negative, "1" -> positive)
 	
 	/**
 	 * Legt für ein übergebenes int-Array und ein Vergleichssymbol eine Nebenbedingung an.
@@ -25,7 +24,7 @@ public class Constraint {
 	}
 	
 	public Constraint() {
-		// TODO Auto-generated constructor stub
+		values = new ArrayList<Double>();
 	}
 
 	/**
@@ -62,15 +61,7 @@ public class Constraint {
 		}
 		return arrayList;
 	}
-	
-	/**
-	 * Gibt die einzufügende Schlupfvariable zurück.
-	 * @return einzufügende Schlupfvariable ("0" -> keine, "-1" -> negative, "1" -> positive)
-	 */
-	public int getSlack(){
-		return this.slack;
-	}
-	
+		
 	/**
 	 * Gibt den Zielfunktionswert zurück.
 	 * @return Zielfunktionswert
@@ -89,28 +80,11 @@ public class Constraint {
 	}
 	
 	/**
-	 * Bringt die Nebenbedingung in Standardform.
-	 */
-	private void normalise(){
-		switch(sign){
-		case -1:
-			this.slack = 1;
-			break;
-		case 1:
-			this.slack = -1;
-			break;
-		default:
-			this.slack = 0;
-		}
-	}
-	
-	/**
 	 * Setzt das Vergleichssymbol und daraufhin die ggf. benötigte Schlupfvariable, um die Nebenbedingung in Standardform zu bringen.
 	 * @param s "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
 	 */
 	public void setSign(int s){
 		this.sign = s;
-		this.normalise();
 	}
 	
 	/**
