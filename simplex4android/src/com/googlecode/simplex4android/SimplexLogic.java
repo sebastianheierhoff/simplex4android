@@ -1,12 +1,57 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Klasse SimplexLogic - bekommt ein SimplexProblem übergeben, bearbeitete dieses und gibt ein neues SimplexProbelm zurück.
  * @author Simplex4Android
  */
 public abstract class SimplexLogic {
+	
+	/**
+	 * Fügt dem SimplexProblem gemäß der ersten Phase der Zweiphasenmethode die benötigten künstlichen Variablen hinzu.
+	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
+	 */
+	public static SimplexProblem addArtificialVars(SimplexProblem problem){
+		// kaputt, findet nicht die Zeilen Indizes!!!
+		if(problem.getPivots().length==problem.getNoRows()){ // Anzahl der Pivotspalten entspricht der der Zeilen
+			return null; // Hinzufügen von künstlichen Variablen nicht nötig
+		}
+		
+		SimplexProblem sp = problem;
+		int[] pivots = new int[problem.getPivots().length];
+		for(int i=0;i<problem.getPivots().length-1;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
+			double[] column = problem.getColumn(i);
+			for(int j=0;j<column.length;j++){ // Durch die Spalten
+				if(column[j]==1){ // Eins gefunden
+					pivots[i] = j;
+				}
+			}
+		}
+		System.out.println(Arrays.toString(pivots));
+		
+		double[] target = problem.getTarget();
+		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
+			target[i]=0;
+		}
+		sp.setTarget(target);
+		
+		for(int i=0;i<problem.getNoRows()-1;i++){
+			boolean set = true;
+			for(int j=0;j<pivots.length;j++){ // Suche, ob Pivotspalte bereits enthalten
+				if(i==pivots[j]){
+					set = false;
+				}
+			}			
+			if(set){
+				sp.addArtificialVar(i); // Hinzufügen der benötigten künstlichen Variablen
+			}
+		}
+		SimplexLogic.calcDeltas(sp);
+		return sp;
+	}
 	
 	/**
 	 * Berechnet die delta-Werte in der letzten Zeile des SimplexTableaus
@@ -143,7 +188,8 @@ public abstract class SimplexLogic {
 	 * @return Array mit den Pivotspalten
 	 */
 	public static void findPivots(SimplexProblem problem){
-		int[] pivots = new int[problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
+		ArrayList<Integer> pivots = new ArrayList<Integer>();
+		//int[] pivots = new int[problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
 		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
 			int noo = 0;//Anzahl Einsen
@@ -162,7 +208,7 @@ public abstract class SimplexLogic {
 				}
 			}
 			if(noo == 1){
-				pivots[posOfOne] = i;
+				pivots.add(i);
 			}
 		}
 		problem.setPivots(pivots);
@@ -207,11 +253,11 @@ public abstract class SimplexLogic {
 	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){	
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblemPrimal psp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
-				findPivots(psp);
-				checkOptimal(psp);
-				calcXByF(psp);
-				return psp;
+				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
+				findPivots(spp);
+				checkOptimal(spp);
+				calcXByF(spp);
+				return spp;
 			}
 		}catch (IOException e) {
 			e.printStackTrace();
