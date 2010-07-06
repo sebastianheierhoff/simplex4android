@@ -16,11 +16,10 @@ public abstract class SimplexLogic {
 	 */
 	public static SimplexProblem addArtificialVars(SimplexProblem problem){
 		// kaputt, findet nicht die Zeilen Indizes!!!
-		if(problem.getPivots().length==problem.getNoRows()){ // Anzahl der Pivotspalten entspricht der der Zeilen
+		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
 		
-		SimplexProblem sp = problem;
 		int[] pivots = new int[problem.getPivots().length];
 		for(int i=0;i<problem.getPivots().length-1;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
 			double[] column = problem.getColumn(i);
@@ -36,7 +35,7 @@ public abstract class SimplexLogic {
 		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
 			target[i]=0;
 		}
-		sp.setTarget(target);
+		problem.setTarget(target);
 		
 		for(int i=0;i<problem.getNoRows()-1;i++){
 			boolean set = true;
@@ -46,11 +45,11 @@ public abstract class SimplexLogic {
 				}
 			}			
 			if(set){
-				sp.addArtificialVar(i); // Hinzufügen der benötigten künstlichen Variablen
+				problem.addArtificialVar(i); // Hinzufügen der benötigten künstlichen Variablen
 			}
 		}
-		SimplexLogic.calcDeltas(sp);
-		return sp;
+		SimplexLogic.calcDeltas(problem);
+		return problem;
 	}
 	
 	/**
