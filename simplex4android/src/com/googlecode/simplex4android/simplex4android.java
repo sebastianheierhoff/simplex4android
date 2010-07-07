@@ -27,8 +27,8 @@ public class simplex4android extends Activity {
                 if (resultCode == RESULT_CANCELED){
                 } 
                 else {
-                	Intent constraintView = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintView");
-                	startActivity(constraintView);
+                	Intent inputShow = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+                	startActivity(inputShow);
                 }
             default:
                 break;
@@ -54,7 +54,7 @@ public class simplex4android extends Activity {
 	    button_load.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	            Intent SimplexHistoryLoadIntent = new Intent();
-	            SimplexHistoryLoadIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryLoad");
+	            SimplexHistoryLoadIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsLoad");
 	        	startActivity(SimplexHistoryLoadIntent);
 	        }
 	    });
