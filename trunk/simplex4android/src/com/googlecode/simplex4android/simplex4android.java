@@ -21,21 +21,6 @@ public class simplex4android extends Activity {
     static final int CREATE_TARGET_REQUEST = 1;
     static final int VIEW_CONSTRAINT_REQUEST = 2;
     
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch (requestCode) {
-            case CREATE_CONSTRAINT_REQUEST:
-                if (resultCode == RESULT_CANCELED){
-                } 
-                else {
-                	Intent inputShow = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-                	startActivity(inputShow);
-                }
-            default:
-                break;
-        }
-    }
-    
-    
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -44,8 +29,8 @@ public class simplex4android extends Activity {
 	    final Button button_new = (Button) findViewById(R.id.button_new);
 	    button_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	        	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-	        	ConstraintEditIntent.putExtra("target", true);
+	        	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	ConstraintEditIntent.putExtra("create", true);
 	        	startActivityForResult(ConstraintEditIntent, CREATE_CONSTRAINT_REQUEST);
 	    	}
 	    });
@@ -70,6 +55,21 @@ public class simplex4android extends Activity {
 //	    });
     
 	}
+	
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        switch (requestCode) {
+            case CREATE_CONSTRAINT_REQUEST:
+                if (resultCode == RESULT_CANCELED){
+                } 
+                else {
+                	Intent inputShow = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+                	startActivity(inputShow);
+                }
+            default:
+                break;
+        }
+    }
+
 }    
 
 	    

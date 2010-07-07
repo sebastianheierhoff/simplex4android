@@ -3,11 +3,14 @@ HTML-Tabelle 							MAX
 Zyklusschutz (OSI gucken)					
 Anforderungen prüfen (MAC-Folien, OSI...)
 Doku (Mail an Flo bzgl. BeispielDoku)
+Anleitung/Handbuch: z.B. besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
 PowerPoint-Master
-Testfälle
+Testfälle -> Testen, Testen, Testen
 Getter/Setter -> Exceptions
 Fehlermeldungen (Wann, warum, was?)
 EINSTELLUNGEN: z.B. boolean für dualen Simplex
-GUI (alleine)							BASTI
+GUI (alleine)
 Virtuelle Maschine -> erledigt
 
+Constraint.java/Target.java ... toString() implementieren! Wichtig!
+u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
