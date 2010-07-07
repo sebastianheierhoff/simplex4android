@@ -1,16 +1,32 @@
-Buttons -> res/drawable (Pfeile oben/unten, Backspace, X für Löschen, Stift für Bearbeiten) -> Vorlagen in res/drawable aber auch unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 		STEFAN
+Buttons (Stefan):
+		Pfeile oben/unten
+		Backspace
+		X für Löschen
+		Stift für Bearbeiten)
+		
+	-> Vorlagen in res/drawable 
+	oder unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 	
 
-HTML-Tabelle 							MAX
-Zyklusschutz (OSI gucken)					
-Anforderungen prüfen (MAC-Folien, OSI...)
-Doku (Mail an Flo bzgl. BeispielDoku)
-Anleitung/Handbuch: z.B. besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
+HTML-Tabelle (Max)
+Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
+Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
+
+Zyklusschutz (siehe OSI)					
+Anforderungen prüfen (siehe MAC-Folien, OSI)
+Dokumentation (Mail an Flo bzgl. BeispielDoku)
+
+Anleitung/Handbuch: 
+	Formulierungen:
+		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
+
 PowerPoint-Master
-Testfälle -> Testen, Testen, Testen
+Testfälle (gesamte Logik) (Stefan)
+Recherche GUI-Testen
+
 Getter/Setter -> Exceptions
 Fehlermeldungen (Wann, warum, was?)
 EINSTELLUNGEN: z.B. boolean für dualen Simplex
-GUI (alleine)
+GUI 
 Virtuelle Maschine -> erledigt
 
 Constraint.java/Target.java ... toString() implementieren! Wichtig!
