@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class InputsDb {
 	
 	/**
-	 * Liste zum speichern von Problemen
+	 * Liste zum Speichern von Problemen
 	 */
 	private ArrayList<ArrayList<Input>> listOfInputs = new ArrayList<ArrayList<Input>>();
 	
@@ -25,7 +25,7 @@ public class InputsDb {
 	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt eins einzufügen
 	 * @param problem
 	 */
-	public InputsDb(SimplexProblem problem){
+	public InputsDb(ArrayList<Input> problem){
 		listOfInputs.add(problem);
 	}
 	
@@ -33,7 +33,7 @@ public class InputsDb {
 	 * Methode zum hinzufügen eines Problems
 	 * @param problem
 	 */
-	public void addProblem(SimplexProblem problem){
+	public void addProblem(ArrayList<Input> problem){
 		listOfInputs.add(problem);
 	}
 	
@@ -44,7 +44,7 @@ public class InputsDb {
 	public String[] getNames(){
 		String[] s = new String[listOfInputs.size()-1];
 		for(int i=0;i<listOfInputs.size();i++){
-			s[i] = listOfInputs.get(i).getName();
+			s[i] = listOfInputs.get(i).get(0).toString();
 		}
 		return s;
 	}
@@ -53,7 +53,7 @@ public class InputsDb {
 	 * 
 	 * @return gibt die komplette Liste mit den gespeicherten Problemen zurück
 	 */
-	public ArrayList<SimplexProblem> getListOfProblems(){
+	public ArrayList<ArrayList<Input>> getListOfProblems(){
 		return this.listOfInputs;
 	}
 	
@@ -71,7 +71,7 @@ public class InputsDb {
 		ObjectInputStream ois = null;
 		fis = new FileInputStream("simplexProbleme.dat");
 		ois = new ObjectInputStream(fis);
-		listOfInputs = (ArrayList<SimplexProblem>) ois.readObject();
+		listOfInputs = (ArrayList<ArrayList<Input>>) ois.readObject();
 		ois.close();
 	}
 
