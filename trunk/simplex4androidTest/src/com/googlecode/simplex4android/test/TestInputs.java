@@ -28,13 +28,25 @@ public class TestInputs extends TestCase {
 	/**
 	 * Testet, ob ein der Methode fractionToDbl(String s) übergebener Bruch-String fehlerfrei in ein double überführt wird.
 	 */
-	public void testFractionToDbl(){
+	public void testFractionToDblCorrect(){
 		String s = "24/12";
 		double d = 24.0/12.0;
 		try{
 			assertEquals(d,Constraint.fractionToDbl(s));
 		}catch(IOException e){
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Testet, ob die Methode fractionToDbl(String s) bei falscher Eingabe die passende Exception wirft.
+	 */
+	public void testFractionToDblFalse(){
+		String s = "24";
+		try{
+			Constraint.fractionToDbl(s);
+		}catch(IOException e){
+			assertEquals("Kein '/' enthalten!",e.toString());
 		}
 	}
 

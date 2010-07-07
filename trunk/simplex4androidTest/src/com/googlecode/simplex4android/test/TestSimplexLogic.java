@@ -15,6 +15,9 @@ public class TestSimplexLogic extends TestCase {
 	public void tearDown(){
 	}
 	
+	/**
+	 * Testet, ob mit checkInput() geprüfte Stringeingaben richtig erkannt werden.
+	 */
 	public void testcheckInput(){
 		assertTrue(SimplexLogic.checkInput("0"));
 		assertTrue(SimplexLogic.checkInput("2"));
@@ -27,6 +30,9 @@ public class TestSimplexLogic extends TestCase {
 		assertTrue(!SimplexLogic.checkInput("2.0."));
 	}
 	
+	/**
+	 * Testet, ob die benötigten künstlichen Variablen hinzugefügt wurden.
+	 */
 	public void testAddArtificialVars(){
 		double[][] tableau = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		double[] target = {1,2,7,5,0,0,0};
