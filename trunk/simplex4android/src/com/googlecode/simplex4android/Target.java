@@ -1,7 +1,7 @@
 package com.googlecode.simplex4android;
 
 
-public class Target extends Inputs{
+public class Target extends Input{
 	private boolean minOrMax; //true bedeutet Minimierung, false bedeutet Maximierung
 	
 	/**

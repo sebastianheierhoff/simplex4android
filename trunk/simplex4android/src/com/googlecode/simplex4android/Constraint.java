@@ -6,7 +6,7 @@ package com.googlecode.simplex4android;
  * @author Simplex4Android
  *
  */
-public class Constraint extends Inputs{
+public class Constraint extends Input{
 	private double targetValue;
 	private int sign;
 	

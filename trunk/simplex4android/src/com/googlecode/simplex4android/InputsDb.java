@@ -1,3 +1,4 @@
+//Umschreiben 
 package com.googlecode.simplex4android;
 
 import java.io.FileInputStream;
@@ -8,24 +9,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class Problems {
+public class InputsDb {
 	
 	/**
 	 * Liste zum speichern von Problemen
 	 */
-	private ArrayList<SimplexProblem> listOfProblems = new ArrayList<SimplexProblem>();
+	private ArrayList<ArrayList<Input>> listOfInputs = new ArrayList<ArrayList<Input>>();
 	
 	/**
 	 * leerer Konstruktor zum anlegen der Liste der Probleme
 	 */
-	public Problems(){}
+	public InputsDb(){}
 	
 	/**
 	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt eins einzufügen
 	 * @param problem
 	 */
-	public Problems(SimplexProblem problem){
-		listOfProblems.add(problem);
+	public InputsDb(SimplexProblem problem){
+		listOfInputs.add(problem);
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class Problems {
 	 * @param problem
 	 */
 	public void addProblem(SimplexProblem problem){
-		listOfProblems.add(problem);
+		listOfInputs.add(problem);
 	}
 	
 	/**
@@ -41,9 +42,9 @@ public class Problems {
 	 * @return String[] mit den Namen der Probleme
 	 */
 	public String[] getNames(){
-		String[] s = new String[listOfProblems.size()-1];
-		for(int i=0;i<listOfProblems.size();i++){
-			s[i] = listOfProblems.get(i).getName();
+		String[] s = new String[listOfInputs.size()-1];
+		for(int i=0;i<listOfInputs.size();i++){
+			s[i] = listOfInputs.get(i).getName();
 		}
 		return s;
 	}
@@ -53,7 +54,7 @@ public class Problems {
 	 * @return gibt die komplette Liste mit den gespeicherten Problemen zurück
 	 */
 	public ArrayList<SimplexProblem> getListOfProblems(){
-		return this.listOfProblems;
+		return this.listOfInputs;
 	}
 	
 	/**
@@ -70,7 +71,7 @@ public class Problems {
 		ObjectInputStream ois = null;
 		fis = new FileInputStream("simplexProbleme.dat");
 		ois = new ObjectInputStream(fis);
-		listOfProblems = (ArrayList<SimplexProblem>) ois.readObject();
+		listOfInputs = (ArrayList<SimplexProblem>) ois.readObject();
 		ois.close();
 	}
 
@@ -83,7 +84,7 @@ public class Problems {
 	public void saveProblems()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProbleme.dat");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(listOfProblems);
+		oos.writeObject(listOfInputs);
 		oos.close();
 	}
 	
