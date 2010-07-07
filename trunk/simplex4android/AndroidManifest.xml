@@ -32,6 +32,22 @@
                  <category android:name="android.intent.category.DEFAULT" />
              </intent-filter>
         </activity>
+      	<activity android:name=".InputsLoad"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+                 <action android:name="android.intent.action.EDIT" />
+                 <action android:name="android.intent.action.PICK" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>
+        </activity>
+
       	<activity
       			android:name=".ConstraintEdit"
       			class=".ConstraintEdit" 
