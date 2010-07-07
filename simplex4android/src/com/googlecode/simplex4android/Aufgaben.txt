@@ -1,0 +1,13 @@
+Buttons -> res/drawable (Pfeile oben/unten, Backspace) 		STEFAN
+HTML-Tabelle 							MAX
+Zyklusschutz (OSI gucken)					
+Anforderungen prüfen (MAC-Folien, OSI...)
+Doku (Mail an Flo bzgl. BeispielDoku)
+PowerPoint-Master
+Testfälle
+Getter/Setter -> Exceptions
+Fehlermeldungen (Wann, warum, was?)
+EINSTELLUNGEN: z.B. boolean für dualen Simplex
+GUI (alleine)							BASTI
+Virtuelle Maschine -> erledigt
+
