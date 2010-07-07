@@ -354,6 +354,7 @@ public abstract class SimplexProblem {
 	 */
 	public void setTableau(ArrayList<ArrayList<Double>> tableau) {
 		this.tableau = tableau;
+		SimplexLogic.findPivots(this);
 	}
 	
 	/**
@@ -362,6 +363,7 @@ public abstract class SimplexProblem {
 	 */
 	public void setTableau(double[][] tableau) {
 		this.tableau = this.convertTo2DArrayList(tableau);
+		SimplexLogic.findPivots(this);
 	}
 	
 	/**
