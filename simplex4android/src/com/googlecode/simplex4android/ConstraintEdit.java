@@ -24,46 +24,22 @@ public class ConstraintEdit extends Activity {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	    
-	    boolean target = this.getIntent().getBooleanExtra("target", false);
-	    
-	    //if(!OptionbeimAufrufenabfragen! != target)
-	    if(target){
-		    setContentView(R.layout.target_edit);
+	    setContentView(R.layout.constraint_edit);
 
-		    //Spinner minmax
-		    Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
-		    ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
-		    adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		    minmax.setAdapter(adapter_minmax);
+	    //Spinner gtltoreq
+		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
+		ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
+		adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		gtltoreq.setAdapter(adapter_gtltoreq);
 
-	    	minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    	 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    		 TextView item = (TextView) arg1;
-		    		 Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show();
-		    	 }
+	    gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		    	TextView item = (TextView) arg1;
+		    	Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show(); //löschen
+		    }
 		    	 
-		    	 public void onNothingSelected(AdapterView<?> arg0) {}
-		    	    });
-	    }
-	    else{
-	    	setContentView(R.layout.constraint_edit);
-
-	    	//Spinner gtltoreq
-		    Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
-		    ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
-		    adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		    gtltoreq.setAdapter(adapter_gtltoreq);
-
-	    	gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    	 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    		 TextView item = (TextView) arg1;
-		    		 Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show();
-		    		 
-		    	 }
-		    	 
-		    	 public void onNothingSelected(AdapterView<?> arg0) {}
-		    	    });
-	    	}
+		    public void onNothingSelected(AdapterView<?> arg0) {}
+		});
 	    
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
@@ -77,8 +53,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    if(!target){
-		    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+		EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
 		    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 		    	public void onFocusChange(View v, boolean b){
 		    		if(b==true){
@@ -89,7 +64,6 @@ public class ConstraintEdit extends Activity {
 		    		}
 		    	}
 			});
-	    }
 	    
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
@@ -129,7 +103,7 @@ public class ConstraintEdit extends Activity {
 		    });
 		}
 		
-    	final Button back = (Button) findViewById(R.id.button_back);
+    	final Button back = (Button) findViewById(R.id.button_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	finish();

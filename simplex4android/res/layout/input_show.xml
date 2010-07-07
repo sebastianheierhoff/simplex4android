@@ -1,5 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
     android:background="@color/white"> 
+
+	<TextView
+        android:id="@+id/text_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Aktuelles Problem:"/>
+	<TextView
+        android:id="@+id/text_target"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Zielfunktion:"
+        android:layout_marginLeft="2dip"
+        android:layout_below="@id/text_label" />
+
+    <LinearLayout
+    	android:id="@+id/viewgroup_target" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_below="@id/text_target">
+  	<ListView 
+  		android:id="@+id/list_target" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dip" />
+    <TextView 
+    	android:id="@+id/android:empty"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:text="Keine Zielfunktion eingegeben. Bitte neue Zielfunktion anlegen!"
+        android:layout_marginLeft="5dip" />
+ 	</LinearLayout>
+        
+	<TextView
+        android:id="@+id/text_constraint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Nebenbedingungen:"
+        android:layout_marginLeft="2dip"
+        android:layout_below="@id/viewgroup_target" />
+
+    <LinearLayout
+    	android:id="@+id/viewgroup_constraint" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_below="@id/text_constraint">
+  	<ListView 
+  		android:id="@+id/list_constraint" 
+  		android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dip" />
+    <TextView 
+    	android:id="@+id/android:empty"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:text="Keine Nebenbedingungen eingegeben. Bitte neue Nebenbedingung anlegen!"
+        android:layout_marginLeft="5dip" />
+    </LinearLayout>    
+    <LinearLayout
+    	android:id="@+id/buttongroup_navigation" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_alignParentBottom="true">
+	    <Button 
+	        android:id="@+id/button_new_target" 
+	    	android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:text="Neue Zielfunktion"
+	        android:layout_weight="0.3"
+	        android:gravity="bottom"/> 
+	    <Button 
+	        android:id="@+id/button_new_constraint" 
+	    	android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:text="Neue Nebenbedingung"
+	        android:layout_weight="0.3"
+	        android:gravity="bottom"/> 
+	    <Button 
+	        android:id="@+id/button_cancel" 
+	    	android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:text="Abbruch"
+	        android:layout_weight="0.4"
+	        android:gravity="bottom"/> 
+	</LinearLayout>
 </RelativeLayout>

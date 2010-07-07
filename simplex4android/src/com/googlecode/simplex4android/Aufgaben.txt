@@ -1,4 +1,5 @@
-Buttons -> res/drawable (Pfeile oben/unten, Backspace) 		STEFAN
+Buttons -> res/drawable (Pfeile oben/unten, Backspace, X für Löschen, Stift für Bearbeiten) -> Vorlagen in res/drawable aber auch unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 		STEFAN
+
 HTML-Tabelle 							MAX
 Zyklusschutz (OSI gucken)					
 Anforderungen prüfen (MAC-Folien, OSI...)
@@ -14,3 +15,4 @@ Virtuelle Maschine -> erledigt
 
 Constraint.java/Target.java ... toString() implementieren! Wichtig!
 u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
+Icon unter "Alle Programme"

@@ -2,15 +2,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:background="@color/white"> 
+	
+ 	<TextView
+        android:id="@+id/text_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Gespeicherte Probleme:"/>
  
-    <Button android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" android:id="@+id/testbutton" 
-        android:text="@string/hello" android:layout_alignParentBottom="true" /> 
-  	<ListView android:layout_width="fill_parent" 
-        android:layout_height="fill_parent" android:id="@+id/list" 
-        android:layout_alignParentTop="true" android:layout_above="@id/testbutton" />
-    <TextView android:id="@+id/android:empty"
-    	    android:layout_width="wrap_content"
-	       	android:layout_height="wrap_content"
-        	android:text="Keine Probleme vorhanden. Bitte neues Problem anlegen!"/>
+  	<LinearLayout
+    	android:id="@+id/viewgroup_problems" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_below="@id/text_label">
+    <ListView 
+        android:id="@+id/list_problems" 
+  		android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:layout_alignParentTop="true"
+		android:layout_marginLeft="5dip" />
+    <TextView 
+    	android:id="@+id/android:empty"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:text="Keine Probleme vorhanden. Bitte neues Problem anlegen!"
+		android:layout_marginLeft="5dip" />
+ 	</LinearLayout>
+
+    <LinearLayout
+    	android:id="@+id/buttongroup_navigation" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_alignParentBottom="true">
+    <Button 
+        android:id="@+id/button_new_problem" 
+    	android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="Neues Problem"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="0.3"
+        android:gravity="bottom" /> 
+    <Button 
+        android:id="@+id/button_cancel" 
+    	android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="Abbruch"
+        android:layout_alignParentBottom="true"
+		android:layout_weight="0.7" 
+		android:gravity="bottom"/> 
+	</LinearLayout>
 </RelativeLayout>

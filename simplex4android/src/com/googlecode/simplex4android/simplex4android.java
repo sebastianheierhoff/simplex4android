@@ -17,7 +17,7 @@ public class simplex4android extends Activity {
  *			
  *			laden Ausgabe, Zurückbutton, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
  */	
-    static final int CREATE_CONSTRAINT_REQUEST = 0;
+    static final int INPUT_CREATE_REQUEST = 0;
     static final int CREATE_TARGET_REQUEST = 1;
     static final int VIEW_CONSTRAINT_REQUEST = 2;
     
@@ -29,18 +29,17 @@ public class simplex4android extends Activity {
 	    final Button button_new = (Button) findViewById(R.id.button_new);
 	    button_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	        	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-	        	ConstraintEditIntent.putExtra("create", true);
-	        	startActivityForResult(ConstraintEditIntent, CREATE_CONSTRAINT_REQUEST);
+	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	InputCreateIntent.putExtra("create", true);
+	        	startActivity(InputCreateIntent);
 	    	}
 	    });
 	    	    
     	final Button button_load = (Button) findViewById(R.id.button_load);
 	    button_load.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	            Intent SimplexHistoryLoadIntent = new Intent();
-	            SimplexHistoryLoadIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsLoad");
-	        	startActivity(SimplexHistoryLoadIntent);
+	        	Intent InputsLoadIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsLoad");
+	        	startActivity(InputsLoadIntent);
 	        }
 	    });
 	    
@@ -58,7 +57,7 @@ public class simplex4android extends Activity {
 	
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         switch (requestCode) {
-            case CREATE_CONSTRAINT_REQUEST:
+            case INPUT_CREATE_REQUEST:
                 if (resultCode == RESULT_CANCELED){
                 } 
                 else {

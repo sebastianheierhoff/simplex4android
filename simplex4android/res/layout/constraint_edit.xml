@@ -124,10 +124,11 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_width="fill_parent">
 		<Button 
-			android:id="@+id/button_back"
+			android:id="@+id/button_cancel"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Zurück"/>
+			android:text="Abbruch"
+			android:gravity="bottom"/>
 		<Button 
 			android:id="@+id/button_add"
 			android:layout_width="wrap_content"
