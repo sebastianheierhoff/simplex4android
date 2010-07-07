@@ -349,7 +349,7 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Setzt das SimplexTableau.
+	 * Setzt das SimplexTableau und berechnet anschließend die Pivotwerte neu.
 	 * @param tableau übergebenes SimplexTableau
 	 */
 	public void setTableau(ArrayList<ArrayList<Double>> tableau) {
@@ -358,7 +358,7 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Setzt das SimplexTableau.
+	 * Setzt das SimplexTableau und berechnet anschließend die Pivotwerte neu.
 	 * @param tableau übergebenes SimplexTableau
 	 */
 	public void setTableau(double[][] tableau) {
