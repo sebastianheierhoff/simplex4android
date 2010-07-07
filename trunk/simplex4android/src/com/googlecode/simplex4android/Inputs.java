@@ -29,7 +29,7 @@ public abstract class Inputs {
 		int firstDigit = 0;
 		int lastDigit = 0;
 		if(slash==-1){
-			throw new IOException("Kein '/' enthalten");
+			throw new IOException("Kein '/' enthalten!");
 		}
 		for(int i=slash-1;i>0;i--){ // Anfangsindex der Zahl vor dem "/" finden
 			if(Integer.valueOf(s.substring(i-1,i))>=0 && Integer.valueOf(s.substring(i-1,i))<=9){
