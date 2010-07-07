@@ -1,4 +1,3 @@
-//Umschreiben 
 package com.googlecode.simplex4android;
 
 import java.io.FileInputStream;
@@ -8,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+//Klasse zum Laden/Speichern von Zielfunktionen/Nebenbedingungen - TODO: Kommentare hinzufügen
 
 public class InputsDb {
 	

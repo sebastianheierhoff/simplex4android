@@ -1,0 +1,7 @@
+Bitte eintragen:
+[GUI]
+	Zielfunktion eingeben:
+		Felder ändern Größe bei zu viel Input
+		Button "Fertig" ohne Funktion
+
+[Logik]
