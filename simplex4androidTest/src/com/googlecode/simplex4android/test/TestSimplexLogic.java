@@ -1,7 +1,5 @@
 package com.googlecode.simplex4android.test;
 
-import java.util.Arrays;
-
 import com.googlecode.simplex4android.SimplexLogic;
 import com.googlecode.simplex4android.SimplexProblemPrimal;
 
