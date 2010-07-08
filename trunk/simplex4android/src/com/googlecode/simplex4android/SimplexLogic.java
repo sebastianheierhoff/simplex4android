@@ -98,8 +98,12 @@ public abstract class SimplexLogic {
 	 * @param problem
 	 * @return boolean ob optimal
 	 */
-	public static void checkDualOptimal(SimplexProblem problem){
-		 if(primalValid(problem))problem.setOptimal();
+	public static boolean checkDualOptimal(SimplexProblem problem){
+		 if(primalValid(problem)){
+			 problem.setOptimal();
+			 return true;
+		 }
+		 return false;
 	}
 	
 //	/**
@@ -362,16 +366,19 @@ public abstract class SimplexLogic {
 	
 	/**
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
+	 * Vorher werden die delta und die deltaByF-Werte berechnet.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public static SimplexProblemDual simplex(SimplexProblemDual problem){	
+	public static SimplexProblemDual simplex(SimplexProblemDual problem){
+		calcDeltas(problem);
+		calcDeltaByF(problem);
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblemDual dsp = (SimplexProblemDual)gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
-				findPivots(dsp);
-				checkDualOptimal(dsp);
-				calcDeltaByF(dsp);
-				return dsp;
+				SimplexProblemDual spd = (SimplexProblemDual)gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
+				findPivots(spd);
+				checkDualOptimal(spd);
+				calcDeltaByF(spd);
+				return spd;
 			}
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -381,9 +388,12 @@ public abstract class SimplexLogic {
 	
 	/**
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
+	 * Vorher werden die delta und die xByF-Werte berechnet.
 	 * @return bearbeitetes SimplexProblem
 	 */
-	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){	
+	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){
+		calcDeltas(problem);
+		calcXByF(problem);
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
