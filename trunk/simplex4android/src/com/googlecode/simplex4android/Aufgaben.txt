@@ -1,16 +1,3 @@
-Buttons (Stefan):
-		Pfeile oben/unten (eingefügt und ersetzt)
-		Backspace (eingefügt und ersetzt)
-		Lautsprecher für Sprachausgabe (siehe platforms\android-8\data\res\drawable-land-hdpi\ic_jog_dial_sound_on.png)
-		X für Löschen (siehe platforms\android-8\data\res\drawable-hdpi\btn_close_normal.png)
-		Stift für Bearbeiten)
-		
-		Layout-Vorschlag: 	- statt "Hinzufügen" an der Stelle einen BackspaceButton mit doppelter Breite
-							- aus "-", "/", "." und 
-		
-	-> Vorlagen in res/drawable 
-	oder unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 	
-
 HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
 Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
 Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
@@ -33,6 +20,6 @@ EINSTELLUNGEN: z.B. boolean für dualen Simplex
 GUI 
 Virtuelle Maschine -> erledigt
 
-Constraint.java/Target.java ... toString() implementieren! Wichtig!
+Constraint.java/Target.java ... toString() implementieren! Wichtig! (Stefan)
 u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
 Icon unter "Alle Programme"
