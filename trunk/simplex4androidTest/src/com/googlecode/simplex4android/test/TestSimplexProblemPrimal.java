@@ -1,6 +1,8 @@
 package com.googlecode.simplex4android.test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.googlecode.simplex4android.SimplexProblemPrimal;
 
 import junit.framework.TestCase;
@@ -33,13 +35,7 @@ public class TestSimplexProblemPrimal extends TestCase {
 			row.add(new Double(add[i]));
 		}
 		this.problem.addRow(row);
-		boolean bool = true;
-		double[] inserted = this.problem.getRow(this.problem.getTableau().length-2);
-		for(int i=0;i<inserted.length;i++){
-			if(inserted[i]!=e[i]){
-				bool = false;
-			}
-		}		
-		assertTrue(bool);
+		double[] addedRow = this.problem.getRow(this.problem.getNoRows()-2);
+		assertTrue(Arrays.equals(e,addedRow));
 	}
 }
