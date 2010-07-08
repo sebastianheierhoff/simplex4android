@@ -96,18 +96,31 @@ public abstract class Input {
 	}
 	
 	/**
-	 * Gibt eine Stringdarstellung der x1..xn aus.
+	 * Gibt eine Stringdarstellung der x1..xn aus. Es werden nur x-Werte mit Faktor != 0 angezeigt.
 	 * @return Stringdarstellung der x1..xn
 	 */
 	public String valuesToString(){
 		String re = "";
-		re += Math.round(this.values.get(0)*100.)/100. +"x1";
+		if(!(this.values.get(0)==0.0)){
+			re += String.valueOf(Math.round(this.values.get(0)*100.)/100.) +"x1";
+		}
 		for(int i=1;i<this.values.size();i++){
-			if(this.values.get(i)<0){
-				re += " " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
-			}else{
-				re += " + " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
-			}			
+			if(!(this.values.get(i)==0)){
+				if(re.equals("")){
+					if(this.values.get(i)<0){
+						re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+					}else{
+						re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+					}
+				}else{
+					if(this.values.get(i)<0){
+						re += " " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+					}else{
+						re += " + " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+					}
+				}
+			}
+						
 		}
 		return re;
 	}
