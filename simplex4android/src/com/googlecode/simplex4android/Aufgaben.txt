@@ -1,6 +1,7 @@
 Buttons (Stefan):
 		Pfeile oben/unten
 		Backspace
+		Lautsprecher für Sprachausgabe
 		X für Löschen
 		Stift für Bearbeiten)
 		
