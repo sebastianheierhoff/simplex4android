@@ -26,20 +26,19 @@ public class InputsLoad extends Activity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.inputs_load);
 
+	        mInputsDb = new InputsDb();
+	        try{
+	        	//mInputsDb.readProblems();
+	        }
+	        catch(Exception e){
+	        	//TODO: Fehlermeldung ausgeben!
+	        }
+
 	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
 	        //listBookmarks.setDrawingCacheEnabled(true);
 	        listInputs.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mInputsDb.getNames()));
 	        //bookmarksShrunkView = bookmarksLayout.getDrawingCache();
 
-
-        
-//	        //mInputsDb = new InputsDb();
-//	        try{
-//	        	//mInputsDb.readProblems();
-//	        }
-//	        catch(Exception e){
-//	        	//TODO: Fehlermeldung ausgeben!
-//	        }
 	        
 //	        getListView().setOnCreateContextMenuListener(this);
 //	      	

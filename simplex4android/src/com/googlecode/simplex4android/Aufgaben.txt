@@ -8,7 +8,7 @@ Buttons (Stefan):
 	-> Vorlagen in res/drawable 
 	oder unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 	
 
-HTML-Tabelle (Max)
+HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
 Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
 Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
 
