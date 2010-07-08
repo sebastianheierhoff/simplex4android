@@ -17,16 +17,8 @@ public abstract class SimplexLogic {
 		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
-		int[] pivots = new int[problem.getPivots().length];
-		for(int i=0;i<problem.getPivots().length;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
-		double[] column = problem.getColumn(problem.getPivots()[i]);
-			for(int j=0;j<column.length;j++){ // Durch die Spalten
-				if(column[j]==1){ // Eins gefunden
-					pivots[i] = j;
-				}
-			}
-		}
-		
+		int[] pivots = findPivotRows(problem);
+				
 		double[] target = problem.getTarget();
 		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
 			target[i]=0;
@@ -73,10 +65,11 @@ public abstract class SimplexLogic {
 	 * @param problem zu bearbeitendes SimplexTableau
 	 */
 	public static void calcDeltas(SimplexProblem problem){
-		for(int i = 0; i<problem.getNoColumns(); i++){ //durchläuft alle Spalten
+		int[] pivots = findPivotRows(problem);
+		for(int i = 0; i<problem.getNoColumns(); i++){ //alle Spalten
 			double delta = 0;
-			for(int k = 0; k<problem.getNoRows()-1; k++){
-				delta += problem.getField(k,i) * problem.getTarget()[problem.getPivots()[k]]; 
+			for(int k = 0; k<problem.getNoRows()-1; k++){ // alle Zeilen
+				delta += problem.getField(k,i) * problem.getTarget()[problem.getPivots()[pivots[k]]]; 
 			}
 			delta = delta - problem.getTarget()[i];
 			problem.setField(problem.getNoRows()-1, i, delta);	
@@ -99,7 +92,8 @@ public abstract class SimplexLogic {
 		}
 	}
 	
-	/**überprüft ob Problem nach dem dualen Simplex optimal ist.
+	/**
+	 * Überprüft ob Problem nach dem dualen Simplex optimal ist.
 	 * 
 	 * @param problem
 	 * @return boolean ob optimal
@@ -187,8 +181,8 @@ public abstract class SimplexLogic {
 	 */
 	public static int choosePivotColumn(SimplexProblem problem){
 		int column = -1;
-		for(int i = 0; i<problem.getNoColumns()-1; i++){
-			if(problem.getTableau()[problem.getNoRows()-1][i] >0){
+		for(int i=problem.getNoColumns()-2; i>-1; i--){
+			if(problem.getField(problem.getNoRows()-1,i)>0.0){
 				column = i;
 			}
 		}
@@ -271,13 +265,31 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
+	 * Findet die Einsen in den Pivotspalten und gibt deren Zeilenindizes zurück. 
+	 * An Stelle i des zurückgegebenen Arrays befindet sich der Zeilenindex der Pivotspalte an Index i der Pivottabelle im SimplexProblem.
+	 * @param problem SimpexProblem, für das die Zeilenindizes gefunden werden sollen.
+	 * @return Zeilenindizes der Einsen der Pivotspalten
+	 */
+	public static int[] findPivotRows(SimplexProblem problem){
+		int [] pivots = new int[problem.getPivots().length];
+		for(int i=0;i<problem.getPivots().length;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
+			double[] column = problem.getColumn(problem.getPivots()[i]);
+				for(int j=0;j<column.length;j++){ // Durch die Spalten
+					if(column[j]==1){ // Eins gefunden
+						pivots[i] = j;
+					}
+				}
+			}
+		return pivots;
+	}
+	
+	/**
 	 * Gibt ein Array mit den Pivotspalten aus.
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
 	public static void findPivots(SimplexProblem problem){
 		ArrayList<Integer> pivots = new ArrayList<Integer>();
-		//int[] pivots = new int[problem.getNoRows()-1]; //int[] pivots: Länge entspricht der Anzahl Zeilen des Tableaus-1
 		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
 			int noo = 0;//Anzahl Einsen
@@ -306,6 +318,7 @@ public abstract class SimplexLogic {
 	 * @param zeile Index der Zeile des Pivotelements
 	 * @param spalte Index der Spalte des Pivotelements
 	 * @return mit dem Gauß-Algorithmus bearbeitetes SimplexTableau
+	 * @throws IOException falls Element an (zeile,spalte) gleich Null oder POSITIVE_INFINITY bzw. NEGATIVE_INFINITY
 	 */
 	public static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
 		double pivotElement = problem.getField(zeile, spalte);
@@ -333,7 +346,8 @@ public abstract class SimplexLogic {
 		return problem;
 	}
 	
-	/**stellt fest ob Problem primal zulässig ist
+	/**
+	 * Stellt fest ob Problem primal zulässig ist.
 	 * 
 	 * @param SimplexProblem
 	 * @return boolean ob zulässig oder nicht
