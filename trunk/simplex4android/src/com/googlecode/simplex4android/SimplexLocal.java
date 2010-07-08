@@ -21,24 +21,40 @@ public class SimplexLocal {
 		
 		//Eingabe lesen
 		//Beispiel-Tableau
-		double[][] tableau = {{-1.5,3,0,0,5,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}}; 
+		double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
+		double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
 		double[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
-		SimplexHistory sh = SimplexLogic.twoPhaseSimplex(firstProblem);
-		sh.toString();
+		SimplexLogic.findPivots(firstProblem);
+		SimplexLogic.calcDeltas(firstProblem);
+		double[] deltas = {2.5,-4,0,0,0,2,22};
+		System.out.println(Arrays.toString(firstProblem.getPivots()));
+		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
+		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
+		//SimplexHistory sh = SimplexLogic.twoPhaseSimplex(firstProblem);
+		//sh.toString();
 //		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 //		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 //		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
 //		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 //
 //		//SimplexProblem in History einfügen
+//		firstProblem.setField(0, 4, 5.0);
+//		firstProblem.setField(1, 3, 5.0);
+//		firstProblem.setField(2, 2, 5.0);
+//		System.out.println(firstProblem.getField(0, 4));
+//		System.out.println(firstProblem.getField(1, 3));
+//		System.out.println(firstProblem.getField(2, 2));
 //		firstProblem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(firstProblem);
+//		System.out.println(firstProblem.getField(0, 6));
+//		System.out.println(firstProblem.getField(1, 7));
+//		System.out.println(firstProblem.getField(2, 8));
 //		sh.addElement(firstProblem);
 //				
-//		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 //		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 //		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
 //		
