@@ -99,7 +99,7 @@ public abstract class SimplexLogic {
 	 * @return boolean ob optimal
 	 */
 	public static boolean checkDualOptimal(SimplexProblem problem){
-		 if(primalValid(problem)){
+		 if(primalValid(problem) && checkOptimal(problem)){
 			 problem.setOptimal();
 			 return true;
 		 }
@@ -359,7 +359,9 @@ public abstract class SimplexLogic {
 	public static boolean primalValid(SimplexProblem problem){
 		boolean valid = true;
 		for(int i=0;i<problem.getLastColumn().length;i++){
-			if(problem.getLastColumn()[i]<0)valid = false;
+			if(problem.getLastColumn()[i]<0){
+				valid = false;
+			}
 		}
 		return valid;
 	}
