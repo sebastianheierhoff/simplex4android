@@ -3,7 +3,9 @@ package com.googlecode.simplex4android.test;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.googlecode.simplex4android.SimplexHistory;
 import com.googlecode.simplex4android.SimplexLogic;
+import com.googlecode.simplex4android.SimplexProblem;
 import com.googlecode.simplex4android.SimplexProblemDual;
 import com.googlecode.simplex4android.SimplexProblemPrimal;
 
@@ -18,9 +20,13 @@ public class TestSimplexLogic extends TestCase {
 	public static void tearDownClass() throws Exception{
 	}
 	public void setUp(){
-		double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
-		double[] target = {1,2,7,5,0,0,0};
-		problemPrimal = new SimplexProblemPrimal(tableau, target);
+		double[][] tableauPrimal = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
+		double[] targetPrimal = {1,2,7,5,0,0,0};
+		problemPrimal = new SimplexProblemPrimal(tableauPrimal, targetPrimal);
+		
+		double[][] tableauDual = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
+		double[] targetDual = {2,3,4,0,0,0};
+		problemDual = new SimplexProblemDual(tableauDual, targetDual);
 	}
 	public void tearDown(){
 	}
@@ -41,7 +47,17 @@ public class TestSimplexLogic extends TestCase {
 	 * Testet, ob testAddArtificialVars null zurück gibt, falls das Hinzufügen von künstlichen Variablen nicht nötig ist.
 	 */
 	public void testAddArtificialVarsNull(){
-		assertEquals(null,SimplexLogic.addArtificialVars(problemPrimal));
+		assertEquals(null,SimplexLogic.addArtificialVars(this.problemPrimal));
+	}
+	
+	/**
+	 * Prüft, ob die deltaByF-Werte korrekt ermitteln werden.
+	 */
+	public void testCalcDeltaByF(){
+		SimplexLogic.calcDeltas(this.problemDual);
+		SimplexLogic.calcDeltaByF(this.problemDual);
+		double[] deltaByF = {1,-3,(4/3),-1,0};
+		assertTrue(Arrays.equals(deltaByF, this.problemDual.getDeltaByF()));
 	}
 	
 	/**
@@ -49,8 +65,11 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testCalcDeltas(){
 		SimplexLogic.calcDeltas(this.problemPrimal);
-		double[] deltas = {2.5,-4,0,0,0,2,22};
-		assertTrue(Arrays.equals(deltas, this.problemPrimal.getRow(this.problemPrimal.getNoRows()-1)));
+		SimplexLogic.calcDeltas(this.problemDual);
+		double[] deltasPrimal = {2.5,-4,0,0,0,2,22};
+		double[] deltasDual = {-2,-3,-4,0,0,0};
+		assertTrue(Arrays.equals(deltasPrimal, this.problemPrimal.getRow(this.problemPrimal.getNoRows()-1)));
+		assertTrue(Arrays.equals(deltasDual, this.problemDual.getRow(this.problemDual.getNoRows()-1)));
 	}
 	
 	/**
@@ -58,10 +77,21 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testCalcXByF(){
 		SimplexLogic.calcDeltas(this.problemPrimal);
-		SimplexLogic.calcXByF(problemPrimal);
-		assertEquals(-4.0, problemPrimal.getXByF()[0]);
-		assertTrue(Double.isInfinite(problemPrimal.getXByF()[1]));
-		assertEquals(2.0, problemPrimal.getXByF()[2]);
+		SimplexLogic.calcXByF(this.problemPrimal);
+		assertEquals(-4.0, this.problemPrimal.getXByF()[0]);
+		assertTrue(Double.isInfinite(this.problemPrimal.getXByF()[1]));
+		assertEquals(2.0, this.problemPrimal.getXByF()[2]);
+	}
+	
+	/**
+	 * Testet, ob die Optimalität das primalen SimplexProblems korrekt erkannt wird.
+	 */
+	public void testCheckDualOptimal(){
+		SimplexLogic.calcDeltas(this.problemDual);
+		assertTrue(!SimplexLogic.checkDualOptimal(this.problemDual));
+		double[][] tab = {{0,1,-0.2,-0.4,0.2,0.4},{1,0,1.4,-0.2,-0.4,2.2},{0,0,-1.8,-1.6,-0.2,5.8}};
+		this.problemDual.setTableau(tab);
+		assertTrue(SimplexLogic.checkDualOptimal(this.problemDual));
 	}
 	
 	/**
@@ -80,22 +110,22 @@ public class TestSimplexLogic extends TestCase {
 	}
 	
 	/**
-	 * Testet, ob die Optimalität das SimplexProblems korrekt erkannt wird.
+	 * Testet, ob die Optimalität das primalen SimplexProblems korrekt erkannt wird.
 	 */
 	public void testCheckOptimal(){
-		SimplexLogic.calcDeltas(problemPrimal);
-		assertTrue(!SimplexLogic.checkOptimal(problemPrimal));
+		SimplexLogic.calcDeltas(this.problemPrimal);
+		assertTrue(!SimplexLogic.checkOptimal(this.problemPrimal));
 		double[] row = {-2,-100,0,0,0,-5,12};
-		problemPrimal.setRow(row, problemPrimal.getNoRows()-1);
-		assertTrue(SimplexLogic.checkOptimal(problemPrimal));
+		this.problemPrimal.setRow(row, this.problemPrimal.getNoRows()-1);
+		assertTrue(SimplexLogic.checkOptimal(this.problemPrimal));
 	}
 	
 	/**
 	 * Testet, ob die korrekte Pivotspalte gewählt wird.
 	 */
 	public void testChoosePivotColumn(){
-		SimplexLogic.calcDeltas(problemPrimal);
-		int pivotColumn = SimplexLogic.choosePivotColumn(problemPrimal);
+		SimplexLogic.calcDeltas(this.problemPrimal);
+		int pivotColumn = SimplexLogic.choosePivotColumn(this.problemPrimal);
 		assertEquals(0,pivotColumn);
 	}
 	
@@ -103,12 +133,12 @@ public class TestSimplexLogic extends TestCase {
 	 * Prüft, ob die korrekte Zeile des neuen Pivotelements gefunden wird.
 	 */
 	public void testChoosePivotRow(){
-		SimplexLogic.calcDeltas(problemPrimal);
-		SimplexLogic.calcXByF(problemPrimal);
-		assertEquals(2, SimplexLogic.choosePivotRow(problemPrimal));
+		SimplexLogic.calcDeltas(this.problemPrimal);
+		SimplexLogic.calcXByF(this.problemPrimal);
+		assertEquals(2, SimplexLogic.choosePivotRow(this.problemPrimal));
 		double[] xByF = {-4,-2,-1};
-		problemPrimal.setXByF(xByF);
-		assertEquals(-1, SimplexLogic.choosePivotRow(problemPrimal));
+		this.problemPrimal.setXByF(xByF);
+		assertEquals(-1, SimplexLogic.choosePivotRow(this.problemPrimal));
 	}
 	
 	/**
@@ -116,16 +146,16 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testFindPivotRows(){
 		int[] pivots = {2,1,0};
-		assertTrue(Arrays.equals(pivots, SimplexLogic.findPivotRows(problemPrimal)));
+		assertTrue(Arrays.equals(pivots, SimplexLogic.findPivotRows(this.problemPrimal)));
 	}
 	
 	/**
 	 * Prüft, ob die Pivotspalten korrekt gefunden werden.
 	 */
 	public void testFindPivots(){
-		SimplexLogic.findPivots(problemPrimal);
+		SimplexLogic.findPivots(this.problemPrimal);
 		int [] pivots = {2,3,4};
-		assertTrue(Arrays.equals(pivots, problemPrimal.getPivots()));
+		assertTrue(Arrays.equals(pivots, this.problemPrimal.getPivots()));
 		
 	}
 	
@@ -133,28 +163,93 @@ public class TestSimplexLogic extends TestCase {
 	 * Prüft, ob der Gauß-Algorithmus korrekt durchgeführt wird.
 	 */
 	public void testGauss(){
-		SimplexLogic.calcDeltas(problemPrimal);
+		SimplexLogic.calcDeltas(this.problemPrimal);
 		double[][] tableau = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
 		try{
-			SimplexLogic.gauss(problemPrimal, 2, 0);
+			SimplexLogic.gauss(this.problemPrimal, 2, 0);
 		}catch(IOException e){
 			e.toString();
 		}
-		assertTrue(Arrays.equals(tableau[0], problemPrimal.getTableau()[0]));
-		assertTrue(Arrays.equals(tableau[1], problemPrimal.getTableau()[1]));
-		assertTrue(Arrays.equals(tableau[2], problemPrimal.getTableau()[2]));
-		assertTrue(Arrays.equals(tableau[3], problemPrimal.getTableau()[3]));
+		assertTrue(Arrays.equals(tableau[0], this.problemPrimal.getTableau()[0]));
+		assertTrue(Arrays.equals(tableau[1], this.problemPrimal.getTableau()[1]));
+		assertTrue(Arrays.equals(tableau[2], this.problemPrimal.getTableau()[2]));
+		assertTrue(Arrays.equals(tableau[3], this.problemPrimal.getTableau()[3]));
 	}
 	
 	/**
 	 * Prüft, ob die primale Zulässigkeit eines SimplexProblems korrekt erkannt wird.
 	 */
 	public void testPrimalValid(){
-		SimplexLogic.calcDeltas(problemPrimal);
-		SimplexLogic.calcXByF(problemPrimal);
-		assertTrue(SimplexLogic.primalValid(problemPrimal));
+		SimplexLogic.calcDeltas(this.problemPrimal);
+		SimplexLogic.calcXByF(this.problemPrimal);
+		assertTrue(SimplexLogic.primalValid(this.problemPrimal));
 		double[] c = {4,-2,0};
-		problemPrimal.setColumn(c, problemPrimal.getNoColumns()-1);
-		assertTrue(!SimplexLogic.primalValid(problemPrimal));
+		this.problemPrimal.setColumn(c, this.problemPrimal.getNoColumns()-1);
+		assertTrue(!SimplexLogic.primalValid(this.problemPrimal));
+	}
+	
+	/**
+	 * Testet, ob der Simplex-Schritt richtig durchgeführt wird.
+	 */
+	public void testSimplexPrimal(){
+		double[][] tableau = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
+		SimplexLogic.simplex(this.problemPrimal);
+		assertTrue(Arrays.equals(tableau[0], this.problemPrimal.getTableau()[0]));
+		assertTrue(Arrays.equals(tableau[1], this.problemPrimal.getTableau()[1]));
+		assertTrue(Arrays.equals(tableau[2], this.problemPrimal.getTableau()[2]));
+		assertTrue(Arrays.equals(tableau[3], this.problemPrimal.getTableau()[3]));
+	}
+	
+	/**
+	 * Testet, ob die ZweiPhasenSimplexMethode für ein primal zulässiges Problem korrekt durchgeführt wird.
+	 * Es werden alle Zwischenschritte kontrolliert.
+	 */
+	public void testTwoPhaseSimplexPrimal(){
+		double[] target = {1,2,7,5,0,0,0};
+		double[][] startTableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
+		SimplexProblem start = new SimplexProblemPrimal(startTableau, target);
+		SimplexHistory history = SimplexLogic.twoPhaseSimplex(start);
+		
+		// Wurden die künstlichen Variablen korrekt hinzugefügt?
+		double[][] phaseOne0 = {{-1,2,1,0,1,0,0,0,7},{0,1,0,1,0,-1,1,0,3},{1,0,2,2,0,0,0,1,8},{1,1,2,3,0,-1,0,0,11}};
+		assertTrue(Arrays.equals(phaseOne0[0], history.getElement(1).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne0[1], history.getElement(1).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne0[2], history.getElement(1).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne0[3], history.getElement(1).getTableau()[3]));
+		
+		// Richtiger Simplex-Schritt in Phase I?
+		double[][] phaseOne1 = {{-1,2,1,0,1,0,0,0,7},{0,1,0,1,0,-1,1,0,3},{1,-2,2,0,0,2,-2,1,2},{1,-2,2,0,0,2,-3,0,2}};
+		assertTrue(Arrays.equals(phaseOne1[0], history.getElement(2).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne1[1], history.getElement(2).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne1[2], history.getElement(2).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne1[3], history.getElement(2).getTableau()[3]));
+		
+		// Richtiger Simplex-Schritt in Phase I?
+		double[][] phaseOne2 = {{-1.5,3,0,0,1,-1,1,-0.5,6},{0,1,0,1,0,-1,1,0,3},{0.5,-1,1,0,0,1,-1,0.5,1},{0,0,0,0,0,0,-1,-1,0}};
+		assertTrue(Arrays.equals(phaseOne2[0], history.getElement(2).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne2[1], history.getElement(2).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne2[2], history.getElement(2).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne2[3], history.getElement(2).getTableau()[3]));
+		
+		// Richtiges StartTableau in Phase II?
+		double[][] phaseTwo0 = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{2.5,-4,0,0,0,2,22}};
+		assertTrue(Arrays.equals(phaseTwo0[0], history.getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo0[1], history.getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo0[2], history.getElement(3).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo0[3], history.getElement(3).getTableau()[3]));
+		
+		// Richtiger Simplex-Schritt in Phase II?
+		double[][] phaseTwo1 = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
+		assertTrue(Arrays.equals(phaseTwo1[0], history.getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo1[1], history.getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo1[2], history.getElement(3).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo1[3], history.getElement(3).getTableau()[3]));
+		
+		// Richtiger Simplex-Schritt in Phase II UND damit optimale Lösung gefunden?
+		double[][] phaseTwo2Optimal = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,-5,-1,0,-2,14}};
+		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history.getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history.getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history.getElement(3).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history.getElement(3).getTableau()[3]));
 	}
 }
