@@ -26,4 +26,18 @@ public class Target extends Input{
 	public void setMinOrMax(boolean minOrMax) {
 		this.minOrMax = minOrMax;
 	}
+	
+	/**
+	 * Gibt die Zielfunktion (komplett) als String aus.
+	 */
+	@Override
+	public String toString(){
+		String s = this.valuesToString() + " = ";
+		if(this.minOrMax){
+			s += "min";
+		}else{
+			s += "max";
+		}
+		return s;
+	}
 }

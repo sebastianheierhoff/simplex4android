@@ -48,6 +48,23 @@ public class Constraint extends Input{
 	public void setTargetValue(double value){
 		this.targetValue = value;
 	}
+	
+	/**
+	 * Gibt die Nebenbedingung (komplett) als String aus.
+	 */
+	@Override
+	public String toString(){
+		String s = this.valuesToString();
+		if(this.sign==-1){
+			s += " &#x2264 ";
+		}else if(this.sign==0){
+			s += " = ";
+		}else if(this.sign==1){
+			s += " &#x2265 ";
+		}
+		s += this.targetValue;
+		return s;
+	}
 
 	
 	
