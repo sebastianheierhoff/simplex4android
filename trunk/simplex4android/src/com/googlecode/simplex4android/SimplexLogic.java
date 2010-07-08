@@ -46,7 +46,7 @@ public abstract class SimplexLogic {
 	 */
 	public static void calcDeltaByF(SimplexProblemDual problem){
 		if(problem.getOptimal()!=true){
-			int row = chooseRowDualSimplex(problem);
+			int row = choosePivotRowDual(problem);
 			double[] deltaByF = new double[problem.getNoColumns()-1];
 			double[] delta = problem.getLastRow();
 			for(int i = 0; i<problem.getNoColumns()-1; i++){
@@ -228,19 +228,18 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
-	 * Wählt am weitesten oben stehendes Element dass kleiner null ist und
-	 * in dessen Zeile mindestens ein f-Wert kleiner null ist
-	 * Findet die neue Zeile, in der das Pivotelement verschoben wird
+	 * Wählt am weitesten oben stehendes Element, das kleiner null ist und
+	 * in dessen Zeile mindestens ein f-Wert kleiner null is.t
+	 * Findet die neue Zeile, in der das Pivotelement verschoben wird.
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
 	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
 	 */
-	public static int chooseRowDualSimplex(SimplexProblem problem){
+	public static int choosePivotRowDual(SimplexProblem problem){
 		int row = -1;
 		for(int i = 0; i<problem.getNoRows()-1; i++){
 			if((problem.getTableau()[i][problem.getNoColumns()-1]<0)){
 				boolean fSmallerNull = false;	//mindestens ein F-Wert ist kleiner null
 				for(int j=0;j<problem.getRow(i).length;j++){
-					System.out.println("f= "+ problem.getRow(i)[j]);
 					if(problem.getRow(i)[j]<0){
 						fSmallerNull = true;
 						j = problem.getRow(i).length;
@@ -255,7 +254,8 @@ public abstract class SimplexLogic {
 		return row;
 	}
 	
-	/**stellt fest ob Problem dual zulässig ist
+	/**
+	 * Stellt fest ob Problem dual zulässig ist.
 	 * 
 	 * @param SimplexProblem
 	 * @return boolean ob zulässig oder nicht
@@ -357,13 +357,13 @@ public abstract class SimplexLogic {
 	 * @return boolean ob zulässig oder nicht
 	 */
 	public static boolean primalValid(SimplexProblem problem){
-		boolean valid = true;
-		for(int i=0;i<problem.getLastColumn().length;i++){
-			if(problem.getLastColumn()[i]<0){
-				valid = false;
+		double[] c = problem.getLastColumn();
+		for(int i=0;i<c.length-1;i++){
+			if(c[i]<0){
+				return false;
 			}
 		}
-		return valid;
+		return true;
 	}
 	
 	/**
@@ -376,7 +376,7 @@ public abstract class SimplexLogic {
 		calcDeltaByF(problem);
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblemDual spd = (SimplexProblemDual)gauss(problem, chooseRowDualSimplex(problem), choosePivotColumnDualSimplex(problem));
+				SimplexProblemDual spd = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumnDualSimplex(problem));
 				findPivots(spd);
 				checkDualOptimal(spd);
 				calcDeltaByF(spd);
