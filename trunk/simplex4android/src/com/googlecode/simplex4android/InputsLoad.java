@@ -19,24 +19,16 @@ public class InputsLoad extends Activity {
 	    public static final int VIEW_ID = Menu.FIRST;
 	    public static final int DELETE_ID = Menu.FIRST + 1;
 
-	    //private InputsDb mInputsDb;
-
-        static final String[] TEST = new String[] {"1", "2", "3"};
+	    private InputsDb mInputsDb;
 
 	    /** Called when the activity is first created. */
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.inputs_load);
-	        
-	      //Bookmarks
-	        ArrayList<String> tempBookmarks = new ArrayList<String>();
-	        tempBookmarks.add("First Bookmarks");
-	        tempBookmarks.add("Second Bookmarks");
-	        tempBookmarks.add("Third Bookmarks");
 
-	        ListView listBookmarks = (ListView) findViewById(R.id.list_problems);
+	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
 	        //listBookmarks.setDrawingCacheEnabled(true);
-	        listBookmarks.setAdapter(new ArrayAdapter<String>(this,	android.R.layout.simple_list_item_multiple_choice, tempBookmarks));
+	        listInputs.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mInputsDb.getNames()));
 	        //bookmarksShrunkView = bookmarksLayout.getDrawingCache();
 
 
