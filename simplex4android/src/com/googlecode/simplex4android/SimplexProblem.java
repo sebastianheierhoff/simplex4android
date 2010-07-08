@@ -410,7 +410,7 @@ public abstract class SimplexProblem {
 	public String targetToString(){
 		String re = "";
 		re += this.target.get(0).intValue() +"x1";
-		for(int i=1;i<this.target.size()-2;i++){
+		for(int i=1;i<this.target.size()-1;i++){
 			if(this.target.get(i)<0){
 				re += " " +this.target.get(i).intValue() +"x" +(i+1);
 			}else{
