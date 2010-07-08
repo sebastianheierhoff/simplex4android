@@ -75,18 +75,18 @@
 	        android:gravity="bottom" />
 		<Button
 			android:id="@+id/button_x_plus"
-		    android:background="@drawable/button_x_plus"
+		    android:background="@drawable/button_x_plus_normal"
 			android:layout_height="40px"
 			android:layout_width="40px"
 		    android:layout_gravity="bottom" />
 		<Button
 			android:id="@+id/button_x_minus"
-		    android:background="@drawable/button_x_minus"
+		    android:background="@drawable/button_x_minus_normal"
 			android:layout_height="40px"
 			android:layout_width="40px"
 		    android:layout_gravity="bottom"/>
 		<Button
-			android:id="@+id/button_add_target_element"
+			android:id="@+id/button_add_element"
 			android:layout_height="wrap_content"
 		    android:text="Hinzufügen"
 		    android:layout_gravity="bottom"
