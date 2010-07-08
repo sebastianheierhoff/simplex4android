@@ -70,7 +70,12 @@ public class InputsDb {
 	public void readProblems()throws ClassNotFoundException, IOException, FileNotFoundException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
-		fis = new FileInputStream("simplexProbleme.dat");
+		try{
+			fis = new FileInputStream("simplexProbleme.dat");
+		}
+		catch(FileNotFoundException e){
+			FileOutputStream fos = new FileOutputStream("simplexProbleme.dat"); //neue Datei anlegen
+		}
 		ois = new ObjectInputStream(fis);
 		listOfInputs = (ArrayList<ArrayList<Input>>) ois.readObject();
 		ois.close();

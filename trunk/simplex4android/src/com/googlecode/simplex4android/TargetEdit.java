@@ -107,8 +107,14 @@ public class TargetEdit extends Activity {
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	        	EditText target = (EditText) findViewById(R.id.edittext_target);
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
+	        		double value;
+	        		if(target_element.getText().toString().equals("")){
+	        			value = 0;
+	        		}
+	        		else{
+	        			value = Double.valueOf(target_element.getText().toString());
+	        		}
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
-	        		double value = Double.valueOf(target_element.getText().toString());
 		        	constraint.setValue(i, value);
 	    			target.setText(constraint.valuesToString());
 	        	}
