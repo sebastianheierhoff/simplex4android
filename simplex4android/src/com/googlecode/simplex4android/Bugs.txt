@@ -3,5 +3,6 @@ Bitte eintragen:
 	Zielfunktion eingeben:
 		Felder ändern Größe bei zu viel Input
 		Button "Fertig" ohne Funktion
+		"<=" PopUp beim Start des Dialogs "Neues Problem"
 
 [Logik]

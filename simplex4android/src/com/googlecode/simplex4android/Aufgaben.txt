@@ -1,9 +1,12 @@
 Buttons (Stefan):
-		Pfeile oben/unten
-		Backspace
-		Lautsprecher für Sprachausgabe
-		X für Löschen
+		Pfeile oben/unten (eingefügt und ersetzt)
+		Backspace (eingefügt und ersetzt)
+		Lautsprecher für Sprachausgabe (siehe platforms\android-8\data\res\drawable-land-hdpi\ic_jog_dial_sound_on.png)
+		X für Löschen (siehe platforms\android-8\data\res\drawable-hdpi\btn_close_normal.png)
 		Stift für Bearbeiten)
+		
+		Layout-Vorschlag: 	- statt "Hinzufügen" an der Stelle einen BackspaceButton mit doppelter Breite
+							- aus "-", "/", "." und 
 		
 	-> Vorlagen in res/drawable 
 	oder unter: android-sdk-windows\platforms\android-8\data\res\drawable-hdpi 	
