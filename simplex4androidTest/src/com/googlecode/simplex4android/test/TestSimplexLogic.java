@@ -204,6 +204,17 @@ public class TestSimplexLogic extends TestCase {
 	/**
 	 * Testet, ob der Simplex-Schritt richtig durchgeführt wird.
 	 */
+	public void testSimplexDual(){
+		double[][] tableau = {{0,-2.5,0.5,1,-0.5,-1},{1.0,-0.5,1.5,-0.0,-0.5,2.0},{0,-4,-1,0,-1,4}};;
+		SimplexLogic.simplex(this.problemDual);
+		assertTrue(Arrays.equals(tableau[0], this.problemDual.getRow(0)));
+		assertTrue(Arrays.equals(tableau[1], this.problemDual.getRow(1)));
+		assertTrue(Arrays.equals(tableau[2], this.problemDual.getRow(2)));
+	}
+	
+	/**
+	 * Testet, ob der Simplex-Schritt richtig durchgeführt wird.
+	 */
 	public void testSimplexPrimal(){
 		double[][] tableau = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
 		SimplexLogic.simplex(this.problemPrimal);
