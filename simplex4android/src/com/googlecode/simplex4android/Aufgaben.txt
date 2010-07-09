@@ -4,14 +4,13 @@ Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
 
 Zyklusschutz (siehe OSI)					
 Anforderungen prüfen (siehe MAC-Folien, OSI)
-Dokumentation (Mail an Flo bzgl. BeispielDoku)
 
 Anleitung/Handbuch: 
 	Formulierungen:
 		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
 
 PowerPoint-Master
-Testfälle (gesamte Logik) (Stefan)
+Testfälle (fertig, keinen für dualValid erstellt, halte die Methode fpr unnötig) (Stefan)
 Recherche GUI-Testen
 
 Getter/Setter -> Exceptions
