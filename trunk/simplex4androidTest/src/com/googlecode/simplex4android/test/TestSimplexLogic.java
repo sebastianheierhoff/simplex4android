@@ -56,7 +56,7 @@ public class TestSimplexLogic extends TestCase {
 	public void testCalcDeltaByF(){
 		SimplexLogic.calcDeltas(this.problemDual);
 		SimplexLogic.calcDeltaByF(this.problemDual);
-		double[] deltaByF = {1,-3,(4/3),-1,0};
+		double[] deltaByF = {1,-1,(-4.0/-3.0),-1,-1};
 		assertTrue(Arrays.equals(deltaByF, this.problemDual.getDeltaByF()));
 	}
 	
@@ -129,6 +129,12 @@ public class TestSimplexLogic extends TestCase {
 		assertEquals(0,pivotColumn);
 	}
 	
+	public void testChoosePivotColumnDual(){
+		SimplexLogic.calcDeltas(problemDual);
+		SimplexLogic.calcDeltaByF(problemDual);
+		assertEquals(0,SimplexLogic.choosePivotColumnDual(this.problemDual));
+	}
+	
 	/**
 	 * Prüft, ob die korrekte Zeile des neuen Pivotelements gefunden wird.
 	 */
@@ -139,6 +145,13 @@ public class TestSimplexLogic extends TestCase {
 		double[] xByF = {-4,-2,-1};
 		this.problemPrimal.setXByF(xByF);
 		assertEquals(-1, SimplexLogic.choosePivotRow(this.problemPrimal));
+	}
+	
+	/**
+	 * Testet, ob die Pivotspalte in der dualen Simplex-Methode korrekt gewählt wird.
+	 */
+	public void testChoosePivotRowDual(){
+		assertEquals(1,SimplexLogic.choosePivotRowDual(problemDual));
 	}
 	
 	/**
