@@ -102,7 +102,6 @@ public abstract class SimplexLogic {
 	 */
 	public static boolean checkDualOptimal(SimplexProblem problem){
 		 if(primalValid(problem) && checkOptimal(problem)){
-			 problem.setOptimal();
 			 return true;
 		 }
 		 return false;
@@ -175,7 +174,6 @@ public abstract class SimplexLogic {
 				return false;
 			}
 		}
-		problem.setOptimal();
 		return true;
 	}
 	
@@ -368,7 +366,9 @@ public abstract class SimplexLogic {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemDual spd = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumnDual(problem));
 				findPivots(spd);
-				checkDualOptimal(spd);
+				if(checkDualOptimal(spd)){
+					problem.setOptimal();
+				}
 				calcDeltaByF(spd);
 				return spd;
 			}
@@ -390,7 +390,9 @@ public abstract class SimplexLogic {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
 				findPivots(spp);
-				checkOptimal(spp);
+				if(checkOptimal(spp)){
+					problem.setOptimal();
+				}				
 				calcXByF(spp);
 				return spp;
 			}
