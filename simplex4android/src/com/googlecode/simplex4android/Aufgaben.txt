@@ -5,6 +5,8 @@ Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
 Zyklusschutz (siehe OSI)					
 Anforderungen prüfen (siehe MAC-Folien, OSI)
 
+Anzeige und Aufbereitung der Lösung!!!
+
 Anleitung/Handbuch: 
 	Formulierungen:
 		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
