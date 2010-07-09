@@ -1,6 +1,3 @@
-Auffälligkeiten:
-sollte calcXByF() selbstständig noch calcDeltas() aufrufen?
-
 HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
 Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
 Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)

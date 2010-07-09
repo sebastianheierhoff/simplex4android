@@ -6,3 +6,4 @@ Bitte eintragen:
 		"<=" PopUp beim Start des Dialogs "Neues Problem"
 
 [Logik]
+Prüfen, ob das Setzen von optimal in den checkFunktionen so zu Fehlern führt, denn Dual rufen diese sich gegenseitig auf!!!
