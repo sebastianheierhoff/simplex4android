@@ -15,26 +15,29 @@ public class SimplexLocal {
 	
 	public static void main(String[] args){
 		boolean debug = true;
-//		SimplexHistory sh = new SimplexHistory();
+		SimplexHistory sh = new SimplexHistory();
 		
 		//Settings lesen, SimplexSettings erzeugen
 		
 		//Eingabe lesen
 		//Beispiel-Tableau
-		double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
-		double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
+		//double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
+		//duales Beispiel Folie 2-143
+		double[][] tableau = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
+		double[] target = {2,3,4,0,0,0};
+		//double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
-		double[] target = {1,2,7,5,0,0,0}; 
+		//double[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
+		SimplexProblemDual firstProblem = new SimplexProblemDual(tableau, target);
 		SimplexLogic.findPivots(firstProblem);
 		SimplexLogic.calcDeltas(firstProblem);
-		double[] deltas = {2.5,-4,0,0,0,2,22};
-		System.out.println(Arrays.toString(firstProblem.getPivots()));
-		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
-		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
-		//SimplexHistory sh = SimplexLogic.twoPhaseSimplex(firstProblem);
+		//double[] deltas = {2.5,-4,0,0,0,2,22};
+//		System.out.println(Arrays.toString(firstProblem.getPivots()));
+//		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
+//		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
+		sh.addElement(firstProblem);
 		//sh.toString();
 //		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 //		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
@@ -55,26 +58,26 @@ public class SimplexLocal {
 //		sh.addElement(firstProblem);
 //				
 		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
-//		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-//		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
+		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
 //		
 //		
 //		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 //
-//		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-////		do{
-////			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
-////			current = SimplexLogic.simplex(current);
-////
-////			//Debug-Ausgabe
-////			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-////			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-////			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-////			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-////			
-////			sh.addElement(current);
-////		}
-////		while(sh.getLastElement().getOptimal()!=true);
-//	}	
-	}
+		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
+		do{
+			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+			current = SimplexLogic.simplex(current);
+
+			//Debug-Ausgabe
+			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+			
+			sh.addElement(current);
+		}
+		while(sh.getLastElement().getOptimal()!=true);
+	}	
+	
 }
