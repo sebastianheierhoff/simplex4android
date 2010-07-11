@@ -25,4 +25,4 @@ GUI
 Virtuelle Maschine -> erledigt
 
 u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
-Icon unter "Alle Programme"
+Icon unter "Alle Programme" (icon.png)
