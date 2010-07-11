@@ -2,7 +2,8 @@ HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
 Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
 Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
 
-Zyklusschutz (siehe OSI)					
+Zyklusschutz: choose-Methoden dahingehend anepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
+Erkennen ob dual oder primal gelöst wird				
 Anforderungen prüfen (siehe MAC-Folien, OSI)
 
 Anzeige und Aufbereitung der Lösung!!!
@@ -13,7 +14,7 @@ Anleitung/Handbuch:
 
 PowerPoint-Master
 Testfälle (fertig, keinen für dualValid erstellt, halte die Methode fpr unnötig) (Stefan)
-Recherche GUI-Testen
+GUI-Testen (jeder 30min per Hand!)
 
 Getter/Setter -> Exceptions
 Fehlermeldungen (Wann, warum, was?)
@@ -21,6 +22,5 @@ EINSTELLUNGEN: z.B. boolean für dualen Simplex
 GUI 
 Virtuelle Maschine -> erledigt
 
-Constraint.java/Target.java ... toString() implementieren! Wichtig! (Stefan)
 u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
 Icon unter "Alle Programme"

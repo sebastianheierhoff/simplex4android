@@ -180,7 +180,7 @@ public abstract class SimplexLogic {
 	/**
 	 * Findet die neue Pivotspalte und gib diese aus (wählt am weitesten links stehendes Element).
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
-	 * @return neue Pivotspalte
+	 * @return neue Pivotspalte, "-1", falls keine zulässige Spalte gefunden wurde.
 	 */
 	public static int choosePivotColumn(SimplexProblem problem){
 		int column = -1;
@@ -195,7 +195,7 @@ public abstract class SimplexLogic {
 	/**
 	 * Findet die Spalte, die in die Basis geht und gibt diese aus (wählt am weitesten links stehendes Element).
 	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
-	 * @return Spalte, die in die Basis geht
+	 * @return Spalte, die in die Basis geht, "-1", falls keine zulässige Spalte gefunden wurde.
 	 */
 	public static int choosePivotColumnDual(SimplexProblemDual problem){
 		int column = -1;
@@ -209,14 +209,15 @@ public abstract class SimplexLogic {
 	
 	/**
 	 * Findet die neue Pivotzeile und gib diese aus.
+	 * Bei mehreren Möglichkeiten wird stets die Zeile mit dem kleinsten Index gewählt.
 	 * @param problem SimplexProblem, in dem die neue Pivotzeile gefunden werden soll.
 	 * @return neue Pivotzeile
 	 */
 	public static int choosePivotRow(SimplexProblemPrimal problem){
 		int row = -1;
 		double min = Double.MAX_VALUE;
-		for(int i = 0; i<problem.getXByF().length; i++){
-			if(problem.getXByF()[i]<min && problem.getXByF()[i] > 0){
+		for(int i=problem.getXByF().length-1; i>-1; i--){
+			if(problem.getXByF()[i]<=min && problem.getXByF()[i] > 0){
 				min = problem.getXByF()[i];
 				row = i;				
 			}
@@ -226,14 +227,15 @@ public abstract class SimplexLogic {
 	
 	/**
 	 * Wählt den kleinsten, negativen x-Wert aus und bestimmt dadurch die Pivotzeile.
+	 * Bei mehreren Möglichkeiten wird stets die Zeile mit dem kleinsten Index gewählt.
 	 * @param problem SimplexProblem, in dem die neue Pivotspalte gefunden werden soll.
 	 * @return Zeile in der nach neuer Pivotspalte gesucht wird
 	 */
 	public static int choosePivotRowDual(SimplexProblem problem){
 		int row = -1;
 		double min = Double.MAX_VALUE;
-		for(int i = 0; i<problem.getNoRows()-1; i++){
-			if(problem.getTableau()[i][problem.getNoColumns()-1]<min && problem.getTableau()[i][problem.getNoColumns()-1]<0){
+		for(int i=problem.getNoRows()-2; i>-1; i--){
+			if(problem.getTableau()[i][problem.getNoColumns()-1]<=min && problem.getTableau()[i][problem.getNoColumns()-1]<0){
 				min = problem.getTableau()[i][problem.getNoColumns()-1];
 				row = i;
 			}
