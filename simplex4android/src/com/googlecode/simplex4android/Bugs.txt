@@ -8,3 +8,6 @@ Bitte eintragen:
 [Logik]
 checkOptimal() und checkDualOptimal() setzen ein Problen nicht mehr selbstständig auf optimal, sie prüfen nur noch!!!
 Das musste umgeändert werden, da checkDualOptimal() checkOptimal() benutzt. Die simplex()-Methoden wurden entsprechend angepasst.
+
+[Logik]
+beide Simplexverfahren funktionieren, prüfen aber nicht die Zulässigkeit des Problems.

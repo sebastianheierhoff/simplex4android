@@ -6,6 +6,8 @@ Zyklusschutz: choose-Methoden dahingehend anepasst, dass bei mehreren Möglichkei
 Erkennen ob dual oder primal gelöst wird				
 Anforderungen prüfen (siehe MAC-Folien, OSI)
 
+Zulässigkeit der Probleme prüfen!
+
 Anzeige und Aufbereitung der Lösung!!!
 
 Anleitung/Handbuch: 

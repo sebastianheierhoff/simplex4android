@@ -23,8 +23,11 @@ public class SimplexLocal {
 		//Beispiel-Tableau
 		//double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
 		//duales Beispiel Folie 2-143
-		double[][] tableau = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
-		double[] target = {2,3,4,0,0,0};
+		//double[][] tableau = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
+		//double[] target = {2,3,4,0,0,0};
+		//duales Beispiel Übung 7c
+		double[][] tableau = {{0,0,-4,-0.6,1,1,0.6,-3.8},{-1,1,3,0.4,0,-1,-0.4,3.2},{0,0,0,0,0,0,0,0}};
+		double[] target = {75,15,55,15,5,0,0,0};
 		//double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
 		//double[] target = {1,2,7,5,0,0,0}; 
