@@ -39,7 +39,6 @@ public abstract class SimplexLogic {
 		calcDeltas(problem);
 		findPivots(problem);
 		calcXByF(problem);
-		System.out.println(problem.tableauToHtml());
 		SimplexProblemPrimal sp = problem;
 		return sp;
 	}
@@ -74,7 +73,6 @@ public abstract class SimplexLogic {
 		calcDeltas(problem);
 		findPivots(problem);
 		calcDeltaByF(problem);
-		System.out.println(problem.tableauToHtml());
 		return problem;
 	}
 	
@@ -500,7 +498,6 @@ public abstract class SimplexLogic {
 			}
 			while(sh.getLastElement().getOptimal()!=true);
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
-			System.out.println(transitionPhasesDual(sh.getFirstElement(), sh.getLastElement()).tableauToHtml());
 			sh.addElement(transitionPhasesDual(sh.getFirstElement(), sh.getLastElement()));
 		}
 //		//hier gehts weiter falls die erste Phase nicht benötigt wurde
@@ -545,8 +542,6 @@ public abstract class SimplexLogic {
 			sh.addElement(transitionPhasesPrimal(sh.getFirstElement(), sh.getLastElement()));
 		}
 //		//hier gehts weiter falls die erste Phase nicht benötigt wurde
-//		SimplexProblemPrimal phaseTwoProblem = (SimplexProblemPrimal)sh.getLastElement();
-//		sh.addElement(phaseTwoProblem.clone());
 		//Simplex durchführen bis optimal
 		
 		do{
