@@ -1,6 +1,5 @@
 package com.googlecode.simplex4android;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
