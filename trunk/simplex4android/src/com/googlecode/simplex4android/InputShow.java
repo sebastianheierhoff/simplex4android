@@ -35,5 +35,25 @@ public class InputShow extends Activity{
 	        	finish();
 	        }
 	    });
+	    
+	    //Neue Zielfunktion anlegen
+    	final Button target_new = (Button) findViewById(R.id.button_new_target);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	InputCreateIntent.putExtra("create", true);
+	        	startActivity(InputCreateIntent);
+	        }
+	    });
+	    
+	    //Neue Nebenbedingung anlegen
+    	final Button constraint_new = (Button) findViewById(R.id.button_new_target);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	
+	        }
+	    });
+
+	    
 	}
 }

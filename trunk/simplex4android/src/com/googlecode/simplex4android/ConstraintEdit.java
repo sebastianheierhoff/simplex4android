@@ -76,34 +76,32 @@ public class ConstraintEdit extends Activity {
 			buttons[i] = (Button) findViewById(keyboardButtons[i]);
 		    buttons[i].setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
-		        	
-		        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
-		        	String newtext = text.getText().toString(); 
-		        	if(v.getTag().equals("backspace")){
-		        		if(newtext.length() > 0){
-		        			newtext = newtext.substring(0, newtext.length()-1);
-		        		}
+		        	try{
+			        	EditText text = (EditText) v.findFocus();
+			        	if(text.equals(findViewById(R.id.edittext_target_element)) || text.equals(findViewById(R.id.edittext_constraint_target_value))){
+			        		String newtext = text.getText().toString(); 
+			        		if(v.getTag().equals("backspace")){
+			        			if(newtext.length() > 0){
+			        				newtext = newtext.substring(0, newtext.length()-1);
+			        			}
+			        		}
+			        		else{
+			        			newtext += v.getTag();
+			        		}
+			        		if(!SimplexLogic.checkInput(newtext)){
+			        			text.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+			        		}
+			        		else{
+			        			text.setBackgroundResource(R.drawable.textfield_default);
+			        		}
+			        		text.setText(newtext);
+			        		Selection.setSelection(text.getText(), text.length());
+			        	}
 		        	}
-//		        	if(v.getTag().equals("-")){
-//		        	}		        		
-//		        	if(v.getTag().equals("/")){
-//		        	}		        		
-//		        	if(v.getTag().equals(".")){
-//		        		newtext += ",";
-//		        	}		        		
-		        	else{
-		        		newtext += v.getTag();
+		        	catch(Exception ex){
+	        		
 		        	}
-		        	if(!SimplexLogic.checkInput(newtext)){
-		        		text.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
-		        	}
-		        	else{
-		        		text.setBackgroundResource(R.drawable.textfield_default);
-		        	}
-	        		text.setText(newtext);
-	        		Selection.setSelection(text.getText(), text.length());
-		        }
-		    });
+		        }});
 		}
 		
     	final Button back = (Button) findViewById(R.id.button_cancel);
@@ -164,7 +162,7 @@ public class ConstraintEdit extends Activity {
 	    		//target_element.setText("");
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
-	    			edittext_x_value--;//inkrementieren
+	    			edittext_x_value--;
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
 		    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
@@ -180,6 +178,7 @@ public class ConstraintEdit extends Activity {
 	    });
 	}	
 }
+
 	
 	
 	
