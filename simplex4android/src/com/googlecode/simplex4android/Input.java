@@ -66,11 +66,17 @@ public abstract class Input {
 	
 	/**
 	 * Setzt den Wert an Index j auf den übergebenen double-Wert. Ist der Index nicht vorhanden, wir passend aufgefüllt.
+	 * Wird auf Null gesetzt, prüft die Methode, ob es sich um das letzte Element handelt und schneidet entsprechend am Ende ab.
 	 * @param j Index des zu setzenden Elements
 	 * @param value Wert, auf den das Element gestetzt werden soll.
 	 */
 	public void setValue(int i, double value){
-		if(i>=this.values.size()){
+		if(value==0 && i==this.values.size()-1){ // Das letzte Element soll auf Null gesetzt werden
+			while(this.getValue(this.values.size()-1)==0 && this.values.size()>0){ // Solange letztes Element gleich Null und Element in der Liste 
+				this.values.remove(this.values.size()-1); // Element entfernen
+			}
+			return;
+		}else if(i>=this.values.size()){
 			for(int j=this.values.size();j<=i;j++){
 				this.values.add(new Double(0));
 			}
