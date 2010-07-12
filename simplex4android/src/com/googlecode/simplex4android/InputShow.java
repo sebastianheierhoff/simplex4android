@@ -38,19 +38,19 @@ public class InputShow extends Activity{
 	    
 	    //Neue Zielfunktion anlegen
     	final Button target_new = (Button) findViewById(R.id.button_new_target);
-	    back.setOnClickListener(new OnClickListener() {
+	    target_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-	        	InputCreateIntent.putExtra("create", true);
-	        	startActivity(InputCreateIntent);
+	        	Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+	        	startActivity(TargetCreateIntent);
 	        }
 	    });
 	    
 	    //Neue Nebenbedingung anlegen
     	final Button constraint_new = (Button) findViewById(R.id.button_new_target);
-	    back.setOnClickListener(new OnClickListener() {
+	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	
+	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
+	        	startActivity(ConstraintCreateIntent);
 	        }
 	    });
 
