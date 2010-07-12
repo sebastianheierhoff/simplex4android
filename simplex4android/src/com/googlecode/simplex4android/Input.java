@@ -108,27 +108,32 @@ public abstract class Input {
 	 */
 	public String valuesToString(){
 		String re = "";
-		if(!(this.values.get(0)==0.0)){
-			re += String.valueOf(Math.round(this.values.get(0)*100.)/100.) +"x1";
-		}
-		for(int i=1;i<this.values.size();i++){
-			if(!(this.values.get(i)==0)){
-				if(re.equals("")){
-					if(this.values.get(i)<0){
-						re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+		try{
+			if(!(this.values.get(0)==0.0)){
+				re += String.valueOf(Math.round(this.values.get(0)*100.)/100.) +"x1";
+			}
+			for(int i=1;i<this.values.size();i++){
+				if(!(this.values.get(i)==0)){
+					if(re.equals("")){
+						if(this.values.get(i)<0){
+							re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+						}else{
+							re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+						}
 					}else{
-						re += String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
-					}
-				}else{
-					if(this.values.get(i)<0){
-						re += " " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
-					}else{
-						re += " + " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+						if(this.values.get(i)<0){
+							re += " " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+						}else{
+							re += " + " + String.valueOf(Math.round(this.values.get(i)*100.)/100.) +"x" +(i+1);
+						}
 					}
 				}
+							
 			}
-						
+		}catch(IndexOutOfBoundsException e){
+			// keine Aktion
 		}
+		
 		return re;
 	}
 	
