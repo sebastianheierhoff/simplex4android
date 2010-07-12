@@ -1,6 +1,7 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
@@ -35,11 +36,21 @@ public class ConstraintEdit extends Activity {
 
 	    gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    	//TODO: arg3 gibt Index
+		    	//Index "0" enspricht "<=", "2" entspricht "=" und "1" entspricht ">="
+		    	//Sign "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
+		    	if(arg3 == 0){
+		    		ConstraintEdit.constraint.setSign(-1);
+		    	}
+		    	else if(arg3 == 2){
+		    		ConstraintEdit.constraint.setSign(0);
+		    	}
+		    	else{
+		    		ConstraintEdit.constraint.setSign(1);
+		    	}
 		    }
 		    	 
 		    public void onNothingSelected(AdapterView<?> arg0) {}
-		});
+	    });
 	    
 	    //Textfeld Target-Element
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -189,6 +200,15 @@ public class ConstraintEdit extends Activity {
 	    			Toast.makeText(ConstraintEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
 	    		}
 	    	}
+	    });
+	    
+	    //Fertig-Button
+    	final Button add = (Button) findViewById(R.id.button_add);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	//Intent data = ConstraintEdit.this.getIntent().putExtra("constraint", constraint)
+	        	//setResult(resultCode, data)
+	        }
 	    });
 	}	
 }
