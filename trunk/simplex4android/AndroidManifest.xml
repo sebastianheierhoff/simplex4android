@@ -23,14 +23,14 @@
                   android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-             <intent-filter>
+            <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
                  <action android:name="android.intent.action.EDIT" />
                  <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
+                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
       	<activity android:name=".InputsLoad"
                   android:label="@string/app_name"
@@ -38,63 +38,44 @@
                   android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-             <intent-filter>
+            <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
                  <action android:name="android.intent.action.EDIT" />
                  <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
+                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-      	<activity
-      			android:name=".ConstraintEdit"
-      			class=".ConstraintEdit" 
-      			android:label="@string/app_name"
-                android:theme="@android:style/Theme.NoTitleBar"
-                android:windowSoftInputMode="stateVisible|adjustResize"
-                android:screenOrientation="landscape">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-	             <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
-             <intent-filter>
+      	<activity android:name=".ConstraintEdit"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
                  <action android:name="android.intent.action.EDIT" />
                  <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
-             <intent-filter>
-                 <action android:name="android.intent.action.GET_CONTENT" />
-                 <category android:name="android.intent.category.DEFAULT" />
-                 <data android:mimeType="vnd.android.cursor.item/vnd.google.note" />
-             </intent-filter>
-         </activity>
-         
-         <activity
-      			android:name=".TargetEdit"
-      			class=".TargetEdit" 
-      			android:label="@string/app_name"
-                android:theme="@android:style/Theme.NoTitleBar"
-                android:windowSoftInputMode="stateVisible|adjustResize"
-                android:screenOrientation="landscape">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-	             <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
-             <intent-filter>
+                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+      	<activity android:name=".TargetEdit"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                  <action android:name="android.intent.action.VIEW" />
                  <action android:name="android.intent.action.EDIT" />
                  <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>
-             <intent-filter>
-                 <action android:name="android.intent.action.GET_CONTENT" />
-                 <category android:name="android.intent.category.DEFAULT" />
-                 <data android:mimeType="vnd.android.cursor.item/vnd.google.note" />
-             </intent-filter>
-         </activity>
-         
+                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 	</application>
 </manifest>

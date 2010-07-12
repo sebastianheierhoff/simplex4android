@@ -39,10 +39,10 @@ public class InputShow extends Activity{
 	    //Neue Zielfunktion anlegen
     	final Button target_new = (Button) findViewById(R.id.button_new_target);
 	    target_new.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-	        	startActivity(TargetCreateIntent);
-	        }
+	    	public void onClick(View v){
+	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	startActivity(InputCreateIntent);
+	    	}
 	    });
 	    
 	    //Neue Nebenbedingung anlegen
