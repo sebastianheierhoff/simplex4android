@@ -35,7 +35,6 @@ public class TargetEdit extends Activity {
 	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
 	    	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 	    		// arg3 gibt Index im Array
-	    		
 	    	}
 		    	 
 	    	public void onNothingSelected(AdapterView<?> arg0) {}
@@ -168,9 +167,9 @@ public class TargetEdit extends Activity {
 	    final Button add = (Button) findViewById(R.id.button_add);
 	    add.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View v){
-	    		TargetEdit.target.setValues(values);
-	    		TargetEdit.target.setMinOrMax(minOrMax);
-	    		setResult(resultCode, data);
+	    		//TargetEdit.target.setValues(values);
+	    		//TargetEdit.target.setMinOrMax(minOrMax);
+	    		//setResult(resultCode, data);
 	    	}
 	    });
 	}	
