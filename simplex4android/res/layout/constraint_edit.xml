@@ -80,11 +80,11 @@
 			android:layout_width="40px"
 		    android:layout_gravity="bottom"/>
 		<Button
-			android:id="@+id/button_add_target_element_normal"
+			android:id="@+id/button_add_target_element"
+			android:background="@drawable/button_add"
 			android:layout_height="wrap_content"
-		    android:text="Hinzufügen"
-		    android:layout_gravity="bottom"
-		    android:layout_width="wrap_content"/>
+			android:layout_width="96px"
+		    android:layout_gravity="bottom"/>
 		</LinearLayout>	
 		<LinearLayout
 			android:orientation="vertical"
