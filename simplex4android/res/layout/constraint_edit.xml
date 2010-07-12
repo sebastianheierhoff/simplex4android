@@ -35,7 +35,8 @@
 		android:id="@+id/edittext_constraint_target_value"
 		android:background="@drawable/textfield_default"
         android:layout_width="50dip"
-		android:layout_gravity="bottom" android:height="48dip" android:layout_height="48dip"/>
+        android:layout_height="45dip"
+		android:layout_gravity="bottom"/>
 	</LinearLayout>
 	<LinearLayout
 		android:orientation="horizontal"
@@ -59,31 +60,34 @@
 	   	<EditText 
 			android:id="@+id/edittext_target_element" 
 			android:text="" 
-			android:layout_width="95dip"
-	        android:hint="z.B. 10" android:background="@drawable/textfield_pressed" android:gravity="bottom" android:layout_height="48dip"/>
+			android:layout_width="92dip"
+			android:layout_height="45dip"
+	        android:hint="z.B. 10" 
+	        android:background="@drawable/textfield_default" 
+	        android:gravity="bottom"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
 			android:layout_width="wrap_content" 
-			android:layout_height="40px"
-	        android:gravity="bottom" android:height="48dip"/>
+			android:layout_height="45dip"
+	        android:gravity="bottom"/>
 		<Button
 			android:id="@+id/button_x_plus"
 			android:background="@drawable/button_x_plus_normal"
-			android:layout_height="40px"
-			android:layout_width="40px"
+			android:layout_height="45dip"
+			android:layout_width="45dip"
 		    android:layout_gravity="bottom" />
 		<Button
 			android:id="@+id/button_x_minus"
 			android:background="@drawable/button_x_minus_normal"
-			android:layout_height="40px"
-			android:layout_width="40px"
+			android:layout_height="45dip"
+			android:layout_width="45dip"
 		    android:layout_gravity="bottom"/>
 		<Button
 			android:id="@+id/button_add_target_element"
 			android:background="@drawable/button_add"
-			android:layout_height="wrap_content"
-			android:layout_width="96px"
+			android:layout_height="45dip"
+			android:layout_width="92dip"
 		    android:layout_gravity="bottom"/>
 		</LinearLayout>	
 		<LinearLayout
@@ -91,7 +95,7 @@
 			android:layout_height="fill_parent" 
 			android:layout_width="fill_parent"
 			android:layout_gravity="center_horizontal"
-			android:layout_marginLeft="3px">
+			android:layout_marginLeft="3dip">
 		<include 
     		android:id="@+id/keyboard"
     		android:visibility="visible"
