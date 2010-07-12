@@ -12,6 +12,6 @@ Das musste umgeändert werden, da checkDualOptimal() checkOptimal() benutzt. Die 
 [Logik]
 beide Simplexverfahren funktionieren, prüfen aber nicht die Zulässigkeit des Problems.
 
-[Logik] wichtig zu beheben!!!
-findet beim dualen Problem von Zettel 7 aufgabe c drei Pivotspalten obwohl nur zwei da sind.
-das führt dazu, dass addArtificalVars() nicht richtig funktioniert
+[Logik]
+beim primalen Simplex werden Pivotspalten ausgerechnet aber nur in aufsteigender Reihenfolge ausgegeben. 
+Das führt mindestens zu einem falschen tableau
