@@ -1,6 +1,8 @@
 package com.googlecode.simplex4android;
 
-public class SimplexHistoryShow {
+import android.app.Activity;
+
+public class SimplexHistoryShow extends Activity {
 
     //Testproblem
 //  double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}}; 

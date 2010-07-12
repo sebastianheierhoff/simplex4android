@@ -33,5 +33,10 @@
                   android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="landscape">
         </activity>
+              	<activity android:name=".SimplexHistoryShow"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:screenOrientation="landscape">
+        </activity>
 	</application>
 </manifest>
