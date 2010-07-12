@@ -442,20 +442,7 @@ public abstract class SimplexLogic {
 			while(sh.getLastElement().getOptimal()!=true);
 
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
-			SimplexProblem firstProblem = sh.getFirstElement();
-			SimplexProblem problemEndFirstPhase = sh.getLastElement();
-			double[] targetFirstPhase = problemEndFirstPhase.getTarget();
-			double[][] tableau = firstProblem.getTableau();  //nur um garantiert die richtige Größe zu bekommen :)
-			//solange nullen in der Zielfunktion stehen werden die Spalten kopiert 
-			SimplexProblemDual phaseTwoProblem = new SimplexProblemDual(tableau, firstProblem.getTarget());
-			for(int i=0;i<targetFirstPhase.length;i++){
-				if(targetFirstPhase[i]==0){
-					phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
-				}else{
-					i = targetFirstPhase.length;
-				}
-			}
-			sh.addElement(phaseTwoProblem.clone());
+			sh.addElement(transitionPhasesDual(sh.getFirstElement(), sh.getLastElement()));
 		}
 
 		//hier gehts weiter falls die erste Phase nicht benötigt wurde
@@ -463,10 +450,7 @@ public abstract class SimplexLogic {
 		findPivots(phaseTwoProblem);
 		calcDeltas(phaseTwoProblem);
 		calcDeltaByF(phaseTwoProblem);
-		
-		SimplexProblemDual phaseTwoProblemDual = (SimplexProblemDual)phaseTwoProblem;
-		calcDeltaByF(phaseTwoProblemDual);
-		sh.addElement(phaseTwoProblemDual.clone());
+		sh.addElement(phaseTwoProblem.clone());
 		//Simplex durchführen bis optimal
 		do{
 			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
@@ -476,9 +460,52 @@ public abstract class SimplexLogic {
 		while(sh.getLastElement().getOptimal()!=true);
 
 		return sh;
-
+	}
+	
+	/**
+	 * Überführt ein duales Problem aus der 1. Phase in das Problem für die zweite Phase
+	 * Konkret: es entfernt die künstlichen Variablen und holt die alte zielfunktion
+	 * @param firstProblem	Ursprungsproblem ohne künstliche Variablen
+	 * @param problemEndFirstPhase Problem mit künstlichen Variablen nach Ende der 1.Phase
+	 * @return Problem für den Start der 2. Phase
+	 */
+	public static SimplexProblemDual transitionPhasesDual(SimplexProblem firstProblem, SimplexProblem problemEndFirstPhase){
+		double[] targetFirstPhase = problemEndFirstPhase.getTarget();
+		double[][] tableau = firstProblem.getTableau();  //nur um garantiert die richtige Größe zu bekommen :)
+		//solange nullen in der Zielfunktion stehen werden die Spalten kopiert 
+		SimplexProblemDual phaseTwoProblem = new SimplexProblemDual(tableau, firstProblem.getTarget());
+		for(int i=0;i<targetFirstPhase.length;i++){
+			if(targetFirstPhase[i]==0){
+				phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
+			}else{
+				i = targetFirstPhase.length;
+			}
+		}
+		return phaseTwoProblem;
 	}
 
+	/**
+	 * Überführt ein primales Problem aus der 1. Phase in das Problem für die zweite Phase
+	 * Konkret: es entfernt die künstlichen Variablen und fügt die alte Zielfunktion wieder ein
+	 * @param firstProblem	Ursprungsproblem ohne künstliche Variablen
+	 * @param problemEndFirstPhase Problem mit künstlichen Variablen nach Ende der 1.Phase
+	 * @return Problem für den Start der 2. Phase
+	 */
+	public static SimplexProblemPrimal transitionPhasesPrimal(SimplexProblem firstProblem, SimplexProblem problemEndFirstPhase){
+		double[] targetFirstPhase = problemEndFirstPhase.getTarget();
+		double[][] tableau = firstProblem.getTableau();  //nur um garantiert die richtige Größe zu bekommen :)
+		//solange nullen in der Zielfunktion stehen werden die Spalten kopiert 
+		SimplexProblemPrimal phaseTwoProblem = new SimplexProblemPrimal(tableau, firstProblem.getTarget());
+		for(int i=0;i<targetFirstPhase.length;i++){
+			if(targetFirstPhase[i]==0){
+				phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
+			}else{
+				i = targetFirstPhase.length;
+			}
+		}
+		return phaseTwoProblem;
+	}
+	
 	public static SimplexHistory twoPhaseSimplex(SimplexProblemPrimal problem){ 
 		SimplexHistory sh = new SimplexHistory();
 		sh.addElement(problem.clone());
