@@ -22,6 +22,32 @@ public abstract class Input{
 	}
 	
 	/**
+	 * Überführt die übergebene ArrayList<Double> in ein double[].
+	 * @param arrayList zu überführende ArrayList
+	 * @return überführtes Array
+	 */
+	private double[] convertToDblArray(ArrayList<Double> arrayList){
+		double[] array = new double[arrayList.size()];
+		for(int i=0;i<array.length;i++){
+			array[i] = arrayList.get(i).doubleValue();
+		}
+		return array;
+	}
+
+	/**
+	 * Überführt das übergebene Array in eine ArrayList<Double>.
+	 * @param array zu überführendes Array
+	 * @return überführte ArrayList
+	 */
+	private ArrayList<Double> convertToDblArrayList(double[] array){
+		ArrayList<Double> arrayList = new ArrayList<Double>();
+		for(int i=0;i<array.length;i++){
+			arrayList.add(i,new Double(array[i]));
+		}
+		return arrayList;
+	}
+	
+	/**
 	 * Liest einen als String übergebenen Bruch aus und gibt den dazugehörigen double-Wert zurück
 	 * @param s zu bearbeitender Bruch
 	 * @return double-Wert des Bruchs
@@ -51,8 +77,18 @@ public abstract class Input{
 	}
 	
 	/**
-	 * Gibt den Wert der Nebenbedingung an Index j zurück.
-	 * @return Wert der Nebenbedingung an Index j
+	 * Gibt die Faktoren der x als neue ArrayList<Double> (deep copy!) zurück.
+	 * @return  Faktoren der x als neue ArrayList<Double> (deep copy!)
+	 */
+	public ArrayList<Double> getClonedValues(){
+		double[] vArray = convertToDblArray(this.values);
+		ArrayList<Double> vArrayList = convertToDblArrayList(vArray);
+		return vArrayList;
+	}
+	
+	/**
+	 * Gibt den Wert der x-Variable an Index j zurück.
+	 * @return x-Variable an Index j
 	 * @throws IndexOutOfBoundsException falls (i<0 || i>(size()-1))
 	 */
 	public double getValue(int j) throws IndexOutOfBoundsException{
@@ -60,15 +96,15 @@ public abstract class Input{
 	}
 	
 	/**
-	 * get-Methode für die Zielfunktion
-	 * @return Zielfunktion in einer ArrayList mit Doublen
+	 * Gibt die Faktoren der x zurück.
+	 * @return Faktoren der x
 	 */
 	public ArrayList<Double> getValues() {
 		return this.values;
 	}
 	
 	/**
-	 * Setzt den Wert an Index j auf den übergebenen double-Wert. Ist der Index nicht vorhanden, wir passend aufgefüllt.
+	 * Setzt den Wert an Index j auf den übergebenen double-Wert. Ist der Index nicht vorhanden, wird passend aufgefüllt.
 	 * Wird auf Null gesetzt, prüft die Methode, ob es sich um das letzte Element handelt und schneidet entsprechend am Ende ab.
 	 * @param j Index des zu setzenden Elements
 	 * @param value Wert, auf den das Element gestetzt werden soll.
@@ -138,5 +174,5 @@ public abstract class Input{
 		}
 		
 		return re;
-	}
+	}	
 }
