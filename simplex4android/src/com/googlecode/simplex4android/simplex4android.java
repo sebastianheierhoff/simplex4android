@@ -17,6 +17,8 @@ public class simplex4android extends Activity {
  *			
  *			laden Ausgabe, Zurückbutton, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
  */	
+	
+	//TODO: Standardisieren/Anpassen!
     static final int INPUT_CREATE_REQUEST = 0;
     static final int CREATE_TARGET_REQUEST = 1;
     static final int VIEW_CONSTRAINT_REQUEST = 2;
@@ -26,6 +28,7 @@ public class simplex4android extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
+	    //NEUES PROBLEM ANLEGEN
 	    final Button button_new = (Button) findViewById(R.id.button_new);
 	    button_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
@@ -35,6 +38,7 @@ public class simplex4android extends Activity {
 	    	}
 	    });
 	    	    
+	    //PROBLEM LADEN
     	final Button button_load = (Button) findViewById(R.id.button_load);
 	    button_load.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
@@ -43,7 +47,7 @@ public class simplex4android extends Activity {
 	        }
 	    });
 	    
-	    
+	    //TUTORIAL
 //    	final Button button_tutorial = (Button) findViewById(R.id.button_tutorial);
 //	    button_tutorial.setOnClickListener(new OnClickListener() {
 //	        public void onClick(View v) {
@@ -55,6 +59,8 @@ public class simplex4android extends Activity {
     
 	}
 	
+	
+	//TODO: GIBT ES RESULTS??
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         switch (requestCode) {
             case INPUT_CREATE_REQUEST:
