@@ -34,13 +34,15 @@ public class SimplexLocal {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemDual firstProblem = new SimplexProblemDual(tableau, target);
-		SimplexLogic.findPivots(firstProblem);
-		SimplexLogic.calcDeltas(firstProblem);
+		sh = SimplexLogic.twoPhaseSimplex(firstProblem);
+		System.out.println(sh.getLastElement().tableauToHtml());
+		//SimplexLogic.findPivots(firstProblem);
+		//SimplexLogic.calcDeltas(firstProblem);
 		//double[] deltas = {2.5,-4,0,0,0,2,22};
 //		System.out.println(Arrays.toString(firstProblem.getPivots()));
 //		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
 //		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
-		sh.addElement(firstProblem);
+		//sh.addElement(firstProblem);
 		//sh.toString();
 //		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 //		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
@@ -60,27 +62,27 @@ public class SimplexLocal {
 //		System.out.println(firstProblem.getField(2, 8));
 //		sh.addElement(firstProblem);
 //				
-		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
-		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
+		//if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+		//if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		//if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
 //		
 //		
 //		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
 //
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-		do{
-			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
-			current = SimplexLogic.simplex(current);
-
-			//Debug-Ausgabe
-			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-			
-			sh.addElement(current);
-		}
-		while(sh.getLastElement().getOptimal()!=true);
+//		do{
+//			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+//			current = SimplexLogic.simplex(current);
+//
+//			//Debug-Ausgabe
+//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+//			
+//			sh.addElement(current);
+//		}
+//		while(sh.getLastElement().getOptimal()!=true);
 	}	
 	
 }

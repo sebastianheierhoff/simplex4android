@@ -14,6 +14,8 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblem addArtificialVars(SimplexProblem problem){
+		System.out.println(problem.getPivots().length);
+		System.out.println(problem.getNoRows()-1);
 		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
@@ -411,7 +413,71 @@ public abstract class SimplexLogic {
 	 * @param problem
 	 * @return SimplexHistory mit dem kompletten Verlauf inkl. der beiden Phasen
 	 */
-	public static SimplexHistory twoPhaseSimplex(SimplexProblem problem){ 
+	public static SimplexHistory twoPhaseSimplex(SimplexProblemDual problem){ 
+		
+		System.out.println(problem.tableauToString());
+		
+		SimplexHistory sh = new SimplexHistory();
+		findPivots(problem);
+		calcDeltas(problem);
+		calcDeltaByF(problem);
+		sh.addElement(problem.clone());
+		if(addArtificialVars(problem)!=null){		//wenn künstliche Variablen hinzugefügt wurden
+			SimplexProblemDual phaseOneProblem = (SimplexProblemDual)addArtificialVars(problem);
+			
+			System.out.println(phaseOneProblem.tableauToString());
+			
+			sh.addElement(phaseOneProblem.clone());
+			findPivots(phaseOneProblem);
+			calcDeltas(phaseOneProblem);
+			calcDeltaByF(phaseOneProblem);
+			sh.addElement(phaseOneProblem.clone());
+			do{
+				SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+				current = SimplexLogic.simplex(current);
+				sh.addElement(current.clone());
+			}
+			while(sh.getLastElement().getOptimal()!=true);
+
+			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
+			SimplexProblem firstProblem = sh.getFirstElement();
+			SimplexProblem problemEndFirstPhase = sh.getLastElement();
+			double[] targetFirstPhase = problemEndFirstPhase.getTarget();
+			double[][] tableau = firstProblem.getTableau();  //nur um garantiert die richtige Größe zu bekommen :)
+			//solange nullen in der Zielfunktion stehen werden die Spalten kopiert 
+			SimplexProblemDual phaseTwoProblem = new SimplexProblemDual(tableau, firstProblem.getTarget());
+			for(int i=0;i<targetFirstPhase.length;i++){
+				if(targetFirstPhase[i]==0){
+					phaseTwoProblem.setColumn(problemEndFirstPhase.getColumn(i), i);
+				}else{
+					i = targetFirstPhase.length;
+				}
+			}
+			sh.addElement(phaseTwoProblem.clone());
+		}
+
+		//hier gehts weiter falls die erste Phase nicht benötigt wurde
+		SimplexProblemDual phaseTwoProblem = (SimplexProblemDual)sh.getLastElement();
+		findPivots(phaseTwoProblem);
+		calcDeltas(phaseTwoProblem);
+		calcDeltaByF(phaseTwoProblem);
+		
+		SimplexProblemDual phaseTwoProblemDual = (SimplexProblemDual)phaseTwoProblem;
+		calcDeltaByF(phaseTwoProblemDual);
+		sh.addElement(phaseTwoProblemDual.clone());
+		//Simplex durchführen bis optimal
+		do{
+			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+			current = SimplexLogic.simplex(current);
+			sh.addElement(current);
+		}
+		while(sh.getLastElement().getOptimal()!=true);
+
+		return sh;
+
+	}
+
+	public static SimplexHistory twoPhaseSimplex(SimplexProblemPrimal problem){ 
 		SimplexHistory sh = new SimplexHistory();
 		sh.addElement(problem.clone());
 		boolean variant; //variant gibt an mit welche Methode das Problem gelöst werden soll. true für primal, false für dual
@@ -511,4 +577,5 @@ public abstract class SimplexLogic {
 		return sh;
 		
 	}
+
 }
