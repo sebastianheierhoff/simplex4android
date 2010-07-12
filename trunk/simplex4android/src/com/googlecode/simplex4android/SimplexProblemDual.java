@@ -92,5 +92,6 @@ public class SimplexProblemDual extends SimplexProblem {
 		clone.setTarget(this.getTarget());
 		clone.setPivots(this.getPivots());
 		return clone;
+		
 	}
 }
