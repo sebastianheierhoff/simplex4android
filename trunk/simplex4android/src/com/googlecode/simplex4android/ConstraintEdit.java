@@ -41,6 +41,7 @@ public class ConstraintEdit extends Activity {
 		    public void onNothingSelected(AdapterView<?> arg0) {}
 		});
 	    
+	    //Textfeld Target-Element
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -53,6 +54,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
+	    //
 		EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
 		    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 		    	public void onFocusChange(View v, boolean b){
@@ -74,6 +76,7 @@ public class ConstraintEdit extends Activity {
 			buttons[i] = (Button) findViewById(keyboardButtons[i]);
 		    buttons[i].setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
+		        	
 		        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
 		        	String newtext = text.getText().toString(); 
 		        	if(v.getTag().equals("backspace")){
