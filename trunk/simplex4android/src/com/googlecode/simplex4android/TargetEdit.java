@@ -18,7 +18,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TargetEdit extends Activity {
 	
-	private static Constraint constraint = new Constraint();
+	private static Target target = new Target();
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -34,16 +34,14 @@ public class TargetEdit extends Activity {
 
 	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
 	    	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    		TextView item = (TextView) arg1;
-	    		Toast.makeText(TargetEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show(); //löschen
+	    		// arg3 gibt Index im Array
+	    		
 	    	}
 		    	 
 	    	public void onNothingSelected(AdapterView<?> arg0) {}
 		});
 
 
-	    
-	    
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -103,7 +101,7 @@ public class TargetEdit extends Activity {
 
 	    final Button add_target_element = (Button) findViewById(R.id.button_add_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
-	    	public void onClick(View V){
+	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	        	EditText target = (EditText) findViewById(R.id.edittext_target);
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
@@ -115,8 +113,8 @@ public class TargetEdit extends Activity {
 	        			value = Double.valueOf(target_element.getText().toString());
 	        		}
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
-		        	constraint.setValue(i, value);
-	    			target.setText(constraint.valuesToString());
+		        	TargetEdit.target.setValue(i, value);
+	    			target.setText(TargetEdit.target.valuesToString());
 	        	}
 	    		else{
 	    			Toast.makeText(TargetEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
@@ -133,7 +131,7 @@ public class TargetEdit extends Activity {
 	    		edittext_x_value++;//inkrementieren
 	    		edittext_x.setText("x" + edittext_x_value);
 	    		try{
-	    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+	    			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
 	    		}
 	    		catch(IndexOutOfBoundsException e){
 	    			target_element.setHint("0");
@@ -146,7 +144,7 @@ public class TargetEdit extends Activity {
 
 	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
-	    	public void onClick(View V){
+	    	public void onClick(View v){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    		//target_element.setText("");
@@ -155,7 +153,7 @@ public class TargetEdit extends Activity {
 	    			edittext_x_value--;//inkrementieren
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
-		    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+		    			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
 		    		}
 		    		catch(IndexOutOfBoundsException e){
 		    			target_element.setHint("0");
@@ -164,6 +162,15 @@ public class TargetEdit extends Activity {
 		    			
 		    		}
 	    		}
+	    	}
+	    });
+
+	    final Button add = (Button) findViewById(R.id.button_add);
+	    add.setOnClickListener (new OnClickListener(){
+	    	public void onClick(View v){
+	    		TargetEdit.target.setValues(values);
+	    		TargetEdit.target.setMinOrMax(minOrMax);
+	    		setResult(resultCode, data);
 	    	}
 	    });
 	}	
