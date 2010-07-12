@@ -231,7 +231,7 @@ public class TestSimplexLogic extends TestCase {
 	public void testTwoPhaseSimplexPrimal(){
 		double[] target = {1,2,7,5,0,0,0};
 		double[][] startTableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
-		SimplexProblem start = new SimplexProblemPrimal(startTableau, target);
+		SimplexProblemPrimal start = new SimplexProblemPrimal(startTableau, target);
 		SimplexHistory history = SimplexLogic.twoPhaseSimplex(start);
 		
 		// Wurden die künstlichen Variablen korrekt hinzugefügt?
