@@ -124,4 +124,12 @@ public abstract class Input {
 		}
 		return re;
 	}
+	
+	/**
+	 * Gibt eine Stringdarstellung der x1..xn aus. Es werden nur x-Werte mit Faktor != 0 angezeigt.
+	 * @return Stringdarstellung der x1..xn
+	 */
+	public boolean 
+	
+	
 }

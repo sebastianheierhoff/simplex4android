@@ -68,7 +68,8 @@ public class ConstraintEdit extends Activity {
 	    		}
 	    	}
 		});
-
+	    
+	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
 									R.id.button_minus, R.id.button_divide, R.id.button_decimal, R.id.button_backspace};
@@ -99,6 +100,7 @@ public class ConstraintEdit extends Activity {
 		        }});
 		}
 		
+		//Zurück-Button
     	final Button back = (Button) findViewById(R.id.button_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
@@ -106,6 +108,7 @@ public class ConstraintEdit extends Activity {
 	        }
 	    });
 
+	    //Hinzufügen-Button
 	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
@@ -129,6 +132,8 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 	    
+	    
+	    //"Xi erhöhen"-Button
 	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
@@ -146,9 +151,16 @@ public class ConstraintEdit extends Activity {
 	    		catch(Exception e){
 	    			
 	    		}
+	    		try{
+	    			target_element.requestFocus();
+	    		}
+	    		catch(Exception ex){
+	    			Toast.makeText(ConstraintEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
+	    		}
 	    	}
 	    });
 
+	    //"Xi verringern"-Button
 	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
@@ -161,6 +173,7 @@ public class ConstraintEdit extends Activity {
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
 		    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+
 		    		}
 		    		catch(IndexOutOfBoundsException e){
 		    			target_element.setHint("0");
@@ -168,6 +181,12 @@ public class ConstraintEdit extends Activity {
 		    		catch(Exception e){
 		    			
 		    		}
+	    		}
+	    		try{
+	    			target_element.requestFocus();
+	    		}
+	    		catch(Exception ex){
+	    			Toast.makeText(ConstraintEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
 	    		}
 	    	}
 	    });
