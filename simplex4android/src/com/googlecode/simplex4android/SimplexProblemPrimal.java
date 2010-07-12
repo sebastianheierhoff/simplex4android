@@ -15,7 +15,6 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		this.xByF = new ArrayList<Double>();
 	}
 	
-	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
@@ -57,6 +56,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	 * @return komplettes Tableau als String in Html 
 	 */
 	public String tableauToHtml(){
+		int[] pivots = SimplexLogic.findPivotsSorted(this);
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
@@ -72,7 +72,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		html = html + "<td>x</td><td>x/f</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ this.getTarget()[this.getPivots()[i]]+"</td><td>" +(this.getPivots()[i]+1) +"</td>";
+			html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				html = html + "<td>" + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
@@ -94,7 +94,9 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
-
+	/**
+	 * gibt ein Klon vom aktuellen Objekt zurück
+	 */
 	@Override
 	public SimplexProblem clone() {
 		SimplexProblemPrimal clone = new SimplexProblemPrimal();
@@ -103,5 +105,19 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		clone.setTarget(this.getTarget());
 		clone.setPivots(this.getPivots());
 		return clone;
+	}
+	
+	/**
+	 * set Optimal Methode, die zusätzlich xByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 */
+	public void setOptimal(){
+		super.setOptimal();
+		if(xByF!=null)xByF.clear();
+		else{
+			xByF = new ArrayList<Double>();
+		}
+		for(int i=0;i<super.getNoColumns()-1;i++){
+			xByF.add(0.0);
+		}
 	}
 }
