@@ -155,6 +155,7 @@ public class ConstraintEdit extends Activity {
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 		        	constraint.setValue(i, value);
 	    			target.setText(constraint.valuesToString());
+	    			increment_xi();
 	        	}
 	    		else{
 	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
@@ -169,25 +170,7 @@ public class ConstraintEdit extends Activity {
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
-	    		if(edittext_x_value == maxi){
-	    			Toast.makeText(ConstraintEdit.this,"Fehler! Höchstes xi in der Zielfunktion = " + maxi,Toast.LENGTH_LONG).show();
-	    		    //Meldung: Höher geht nicht, da höchste xi in der Zielfunktion = maxi
-	    		}
-	    		else{
-	    			edittext_x_value++;//inkrementieren
-	    		}    			
-	    		edittext_x.setText("x" + edittext_x_value);
-	    		try{
-	    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
-	    		}
-	    		catch(IndexOutOfBoundsException e){
-		    		target_element.setText("");
-	    			target_element.setHint("0");
-	    		}
-	    		catch(Exception e){
-	    			
-	    		}
+	    		increment_xi();
 	    		try{
 	    			target_element.requestFocus();
 	    		}
@@ -260,6 +243,31 @@ public class ConstraintEdit extends Activity {
 	        }
 	    });
 	}	
+	
+	public void increment_xi(){
+		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
+		if(edittext_x_value == maxi){
+			Toast.makeText(ConstraintEdit.this,"Fehler! Höchstes xi in der Zielfunktion = " + maxi,Toast.LENGTH_LONG).show();
+		    //Meldung: Höher geht nicht, da höchste xi in der Zielfunktion = maxi
+		}
+		else{
+			edittext_x_value++;//inkrementieren
+		}    			
+		edittext_x.setText("x" + edittext_x_value);
+		try{
+			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+		}
+		catch(IndexOutOfBoundsException e){
+    		target_element.setText("");
+			target_element.setHint("0");
+		}
+		catch(Exception e){
+			
+		}
+
+	}
 }
 
 	
