@@ -291,7 +291,8 @@ public abstract class SimplexLogic {
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
 			int noo = 0;//Anzahl Einsen
 			for(int k = 0; k<problem.getNoRows()-1; k++){ //For-Schleife, durchläuft alle Zeilen
-				if(problem.getField(k,i) != 0 && problem.getField(k,i) != 1){
+				if(problem.getField(k,i) != 0.0 && problem.getField(k,i) != 1.0){
+					noo = 0;
 					break; //Abbruch des Durchlaufs, falls die Zahl an Stelle k != 0 bzw. != 1
 				}
 				else{
