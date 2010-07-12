@@ -3,7 +3,10 @@ package com.googlecode.simplex4android;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class Input {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public abstract class Input{
 	protected ArrayList<Double> values;
 	
 	public Input(){
@@ -136,12 +139,4 @@ public abstract class Input {
 		
 		return re;
 	}
-	
-	/**
-	 * Gibt eine Stringdarstellung der x1..xn aus. Es werden nur x-Werte mit Faktor != 0 angezeigt.
-	 * @return Stringdarstellung der x1..xn
-	 */
-//	public boolean 
-	
-	
 }

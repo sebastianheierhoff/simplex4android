@@ -1,5 +1,8 @@
 package com.googlecode.simplex4android;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Datenhaltungklasse zur Repräsentation von Nebenbedingungen.
  * Nebenbedingungen können in Gleichheits- oder Ungleichheitsform ("<=" und ">=") eingegeben werden. Direkt beim Erstellen werde sie in Gleichheitsform gebracht und mit den nötigen Schlupfvariablen versehen.
@@ -65,9 +68,4 @@ public class Constraint extends Input{
 		s += this.targetValue;
 		return s;
 	}
-
-	
-	
-
-	
 }
