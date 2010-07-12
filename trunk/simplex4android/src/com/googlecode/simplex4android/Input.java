@@ -71,8 +71,9 @@ public abstract class Input {
 	 * @param value Wert, auf den das Element gestetzt werden soll.
 	 */
 	public void setValue(int i, double value){
-		if(value==0 && i==this.values.size()-1){ // Das letzte Element soll auf Null gesetzt werden
-			while(this.getValue(this.values.size()-1)==0 && this.values.size()>0){ // Solange letztes Element gleich Null und Element in der Liste 
+		if(value==0.0 && i==this.values.size()-1){ // Das letzte Element soll auf Null gesetzt werden
+			this.values.set(i, value);
+			while(this.values.size()>0 && this.getValue(this.values.size()-1)==0.0){ // Solange letztes Element gleich Null und Element in der Liste 
 				this.values.remove(this.values.size()-1); // Element entfernen
 			}
 			return;
