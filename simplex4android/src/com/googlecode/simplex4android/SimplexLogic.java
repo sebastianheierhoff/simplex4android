@@ -37,6 +37,7 @@ public abstract class SimplexLogic {
 			}
 		}
 		SimplexLogic.calcDeltas(problem);
+		System.out.println(problem.tableauToHtml());
 		return problem;
 	}
 	
@@ -413,8 +414,9 @@ public abstract class SimplexLogic {
 	public static SimplexHistory twoPhaseSimplex(SimplexProblemDual problem){ 
 		SimplexHistory sh = new SimplexHistory();
 		findPivots(problem);
-		calcDeltas(problem);
-		calcDeltaByF(problem);
+//		calcDeltas(problem);
+//		calcDeltaByF(problem);
+		problem.setDeltaByF(initializDeltaByFwithNull(problem));
 		sh.addElement(problem.clone());
 		if(addArtificialVars(problem)!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			SimplexProblemDual phaseOneProblem = (SimplexProblemDual)addArtificialVars(problem);
@@ -455,8 +457,7 @@ public abstract class SimplexLogic {
 	public static SimplexHistory twoPhaseSimplex(SimplexProblemPrimal problem){ 
 		SimplexHistory sh = new SimplexHistory();
 		findPivots(problem);
-		calcDeltas(problem);
-		calcXByF(problem);
+		problem.setXByF(initializXByFwithNull(problem));
 		sh.addElement(problem.clone());
 		if(addArtificialVars(problem)!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			SimplexProblemPrimal phaseOneProblem = (SimplexProblemPrimal)addArtificialVars(problem);
@@ -533,5 +534,20 @@ public abstract class SimplexLogic {
 		return phaseTwoProblem;
 	}
 
+	public static double[] initializXByFwithNull(SimplexProblemPrimal problem){
+		double[] tmpXByF = new double[problem.getNoRows()];
+		for(int i=0;i<tmpXByF.length;i++){
+			tmpXByF[i]=0;
+		}
+		return tmpXByF;
+	}
+	
+	public static double[] initializDeltaByFwithNull(SimplexProblemDual problem){
+		double[] tmpDeltaByF = new double[problem.getNoColumns()];
+		for(int i=0;i<tmpDeltaByF.length;i++){
+			tmpDeltaByF[i]=0;
+		}
+		return tmpDeltaByF;
+	}
 
 }
