@@ -98,7 +98,7 @@ public class TargetEdit extends Activity {
 	        }
 	    });
 
-	    final Button add_target_element = (Button) findViewById(R.id.button_add_element);
+	    final Button add_target_element = (Button) findViewById(R.id.button_add);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);

@@ -3,10 +3,6 @@
       package="com.googlecode.simplex4android"
       android:versionCode="1"
       android:versionName="1.0">
-
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <application android:icon="@drawable/icon" android:label="@string/app_name">
       	<activity android:name=".simplex4android"
                   android:label="@string/app_name"
@@ -21,61 +17,21 @@
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                 <action android:name="android.intent.action.VIEW" />
-                 <action android:name="android.intent.action.EDIT" />
-                 <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
       	<activity android:name=".InputsLoad"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                 <action android:name="android.intent.action.VIEW" />
-                 <action android:name="android.intent.action.EDIT" />
-                 <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
       	<activity android:name=".ConstraintEdit"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                 <action android:name="android.intent.action.VIEW" />
-                 <action android:name="android.intent.action.EDIT" />
-                 <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
       	<activity android:name=".TargetEdit"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                 <action android:name="android.intent.action.VIEW" />
-                 <action android:name="android.intent.action.EDIT" />
-                 <action android:name="android.intent.action.PICK" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 	</application>
 </manifest>
