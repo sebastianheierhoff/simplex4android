@@ -56,6 +56,7 @@ public class SimplexProblemDual extends SimplexProblem {
 	 * @return komplettes Tableau als Duales Problem als String in Html 
 	 */
 	public String tableauToHtml(){
+		int[] pivots = SimplexLogic.findPivotsSorted(this);
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
 		//1. Zeile: Zielfunktion
 		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
@@ -71,7 +72,7 @@ public class SimplexProblemDual extends SimplexProblem {
 		html = html + "<td>x</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ this.getTarget()[this.getPivots()[i]]+"</td><td>" +(this.getPivots()[i]+1) +"</td>";
+			html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				html = html + "<td>" + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
@@ -93,7 +94,10 @@ public class SimplexProblemDual extends SimplexProblem {
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
-
+	
+	/**
+	 * Klont das aktuelle Problem. 
+	 */
 	@Override
 	public SimplexProblem clone() {
 		SimplexProblemDual clone = new SimplexProblemDual();
@@ -103,5 +107,20 @@ public class SimplexProblemDual extends SimplexProblem {
 		clone.setPivots(this.getPivots());
 		return clone;
 		
+	}
+	
+	/**
+	 * set Optimal Methode, die zusätzlich deltaByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 * wird auch benötigt, falls z.B. das Tableau in der zweiten Phase direkt optimal ist und die tableauToHtml genutzt werden soll.
+	 */
+	public void setOptimal(){
+		super.setOptimal();
+		if(deltaByF!=null)deltaByF.clear();
+		else{
+			deltaByF = new ArrayList<Double>();
+		}
+		for(int i=0;i<super.getNoColumns()-1;i++){
+			deltaByF.add(0.0);
+		}
 	}
 }
