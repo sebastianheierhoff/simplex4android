@@ -204,10 +204,24 @@ public class ConstraintEdit extends Activity {
 	    
 	    //Fertig-Button
     	final Button add = (Button) findViewById(R.id.button_add);
-	    back.setOnClickListener(new OnClickListener() {
+	    add.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	//Intent data = ConstraintEdit.this.getIntent().putExtra("constraint", constraint)
+	    	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    	    if(target_value.getText().toString().equals("")){
+	    			Toast.makeText(ConstraintEdit.this,"Eingabe unvollständig! Bitte Zielwert eingeben!",Toast.LENGTH_LONG).show();
+        			target_value.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+	    			return;
+	        	}
+	        	else if(constraint.getValues().isEmpty()){
+	    			Toast.makeText(ConstraintEdit.this,"Eingabe unvollständig! Bitte mind. ein xi hinzufügen!",Toast.LENGTH_LONG).show();
+        			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+	    			return;
+	        	}
+	        	else{
+	        	//Intent data = ConstraintEdit.this.getIntent().putExtra("constraint", ConstraintEdit.constraint)
 	        	//setResult(resultCode, data)
+	        	}
 	        }
 	    });
 	}	
