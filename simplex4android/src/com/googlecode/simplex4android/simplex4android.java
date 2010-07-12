@@ -58,23 +58,6 @@ public class simplex4android extends Activity {
 //	    });
     
 	}
-	
-	
-	//TODO: GIBT ES RESULTS??
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch (requestCode) {
-            case INPUT_CREATE_REQUEST:
-                if (resultCode == RESULT_CANCELED){
-                } 
-                else {
-                	Intent inputShow = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-                	startActivity(inputShow);
-                }
-            default:
-                break;
-        }
-    }
-
 }    
 
 	    
