@@ -2,6 +2,7 @@ package com.googlecode.simplex4android;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -51,23 +52,14 @@ public class InputShow extends Activity{
 	        }
 	    });
 	    
-	    //Neue Zielfunktion anlegen - Button
-    	final Button target_new = (Button) findViewById(R.id.button_new_target);
-	    target_new.setOnClickListener(new OnClickListener() {
-	    	public void onClick(View v){
-	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-	        	startActivity(InputCreateIntent);
-	    	}
-	    });
-	    
-	    //Neue Nebenbedingung anlegen - Button
+	    //Weitere Nebenbedingung anlegen - Button
     	final Button constraint_new = (Button) findViewById(R.id.button_new_constraint);
 	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-	        	ConstraintCreateIntent.putExtra("maxi", input.get(0).getValues().size()-1);
+	        	ConstraintCreateIntent.putExtra("maxi", input.get(0).getValues().size());
 	        	ConstraintCreateIntent.putExtra("create", true);
-	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_EDIT_REQUEST);
+	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
 	        }
 	    });
 	    
@@ -92,7 +84,7 @@ public class InputShow extends Activity{
         	case TARGET_CREATE_RESULT:
             	try{
             		Target target = TargetEdit.target;
-        	        input.add(0, target);
+        	        input.add(target);
                 	
         		    if(input.size()>0){
         		    	findViewById(R.id.text_target_empty).setVisibility(View.INVISIBLE);
@@ -101,20 +93,13 @@ public class InputShow extends Activity{
         		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
         		    }
         	        
-                    //ArrayList<Constraints> constraints = (ArrayList<Constraint>) input.subList(1, input.size()-1);
-        	        ArrayList<Input> constraints = input;
-        	        String[] constraints_string = new String[constraints.size()];
-                    Iterator<Input> iter = constraints.iterator(); 
-                    int i = 0;
-                    while(iter.hasNext() ) { 
-                        constraints_string[i] = iter.next().toString();
-                        i++;
-                    }
-                    
-        	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-        	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, constraints_string);
+        		    String[] target_string = new String[1];
+        		    target_string[0] = input.get(0).toString();
+        		    
+        	        ListView listInputs = (ListView) findViewById(R.id.list_target);
+        	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, target_string);
         	        listInputs.setAdapter(adapter);
-            		
+	    			Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
             	}
             	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
@@ -135,8 +120,7 @@ public class InputShow extends Activity{
         		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
         		    }
         	        
-                    //ArrayList<Constraints> constraints = (ArrayList<Constraint>) input.subList(1, input.size()-1);
-        	        ArrayList<Input> constraints = input;
+                    List<Input> constraints = input.subList(1, input.size());
         	        String[] constraints_string = new String[constraints.size()];
                     Iterator<Input> iter = constraints.iterator(); 
                     int i = 0;
@@ -148,7 +132,7 @@ public class InputShow extends Activity{
         	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
         	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, constraints_string);
         	        listInputs.setAdapter(adapter);
-            		
+	    			Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
             	}
             	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();

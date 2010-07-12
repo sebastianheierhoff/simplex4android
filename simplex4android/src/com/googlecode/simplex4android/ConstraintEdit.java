@@ -245,7 +245,7 @@ public class ConstraintEdit extends Activity {
 	        	}
 	        	else{
 	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
-	        		setResult(CONSTRAINT_EDIT_RESULT);
+	        		setResult(CONSTRAINT_CREATE_RESULT);
 	        		finish();
 	        	}
 	        }

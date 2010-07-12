@@ -203,7 +203,7 @@ public class TargetEdit extends Activity {
 	    			return;
 	        	}
 	        	else{
-	        		setResult(TARGET_EDIT_RESULT);
+	        		setResult(TARGET_CREATE_RESULT);
 	        		finish();
 	        	}
 	        }
