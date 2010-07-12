@@ -1,7 +1,7 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
@@ -93,7 +93,7 @@ public abstract class SimplexProblem {
 			
 		}
 		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
-		this.target.add(this.target.size()-2,new Double(1));
+		this.target.add(this.target.size()-1,new Double(1));
 		// Einfügen der neuen Pivotspalte in die Basis
 		this.pivots.add(c,new Integer(this.target.size()-2));	
 	}
