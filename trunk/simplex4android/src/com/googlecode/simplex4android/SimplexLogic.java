@@ -14,8 +14,9 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblem addArtificialVars(SimplexProblem problem){
-		System.out.println(problem.getPivots().length);
-		System.out.println(problem.getNoRows()-1);
+		//debug Infos:
+		//System.out.println(problem.getPivots().length);
+		//System.out.println(problem.getNoRows()-1);
 		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
