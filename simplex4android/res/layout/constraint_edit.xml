@@ -30,13 +30,12 @@
  		android:id="@+id/spinner_gtltoreq"
  		android:layout_width="90dip"
  		android:layout_height="wrap_content" 
- 		android:drawSelectorOnTop="false" />
+ 		android:drawSelectorOnTop="false"/>
 	<EditText 
 		android:id="@+id/edittext_constraint_target_value"
 		android:background="@drawable/textfield_default"
-        android:layout_height="52dip"
         android:layout_width="50dip"
-		android:gravity="bottom" />
+		android:layout_gravity="bottom" android:height="48dip" android:layout_height="48dip"/>
 	</LinearLayout>
 	<LinearLayout
 		android:orientation="horizontal"
@@ -61,14 +60,13 @@
 			android:id="@+id/edittext_target_element" 
 			android:text="" 
 			android:layout_width="95dip"
-	        android:gravity="bottom" 
-	        android:hint="z.B. 10" android:background="@drawable/textfield_pressed" android:layout_height="52dip"/>
+	        android:hint="z.B. 10" android:background="@drawable/textfield_pressed" android:gravity="bottom" android:layout_height="48dip"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
 			android:layout_width="wrap_content" 
 			android:layout_height="40px"
-	        android:gravity="bottom" />
+	        android:gravity="bottom" android:height="48dip"/>
 		<Button
 			android:id="@+id/button_x_plus"
 			android:background="@drawable/button_x_plus_normal"
@@ -134,7 +132,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0.7"
-			android:text="Fertig"/>
+			android:text="Fertig" android:gravity="bottom"/>
 	</LinearLayout>
 	</LinearLayout>
 	<ImageView 
