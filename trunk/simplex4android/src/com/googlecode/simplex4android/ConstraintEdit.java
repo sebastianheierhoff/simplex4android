@@ -17,8 +17,10 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ConstraintEdit extends Activity {
-	
-	private static Constraint constraint = new Constraint();
+
+	static final int CONSTRAINT_EDIT_RESULT = 0;
+
+	protected static Constraint constraint = new Constraint();
 	private EditText addto;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class ConstraintEdit extends Activity {
 	    
 	    setContentView(R.layout.constraint_edit);
 	    addto = (EditText) findViewById(R.id.edittext_target_element);
+	    addto.requestFocus();
 	    
 	    //Spinner gtltoreq
 		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
@@ -219,8 +222,9 @@ public class ConstraintEdit extends Activity {
 	    			return;
 	        	}
 	        	else{
-	        	//Intent data = ConstraintEdit.this.getIntent().putExtra("constraint", ConstraintEdit.constraint)
-	        	//setResult(resultCode, data)
+	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
+	        		setResult(CONSTRAINT_EDIT_RESULT);
+	        		finish();
 	        	}
 	        }
 	    });
