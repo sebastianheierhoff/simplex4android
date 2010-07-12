@@ -121,7 +121,6 @@ public abstract class SimplexProblem {
 			}else{
 				newRow.add(new Double(1));
 			}
-			System.out.println(Arrays.toString(newRow.toArray()));
 			this.target.add(this.target.size()-1, new Double(0)); // Einfügen in Zielfunktion
 			for(int i=0;i<this.getNoRows();i++){ // Einfügen der Nullen in anderen Zeilen
 				this.tableau.get(i).add(this.tableau.get(i).size()-1, new Double(0));
