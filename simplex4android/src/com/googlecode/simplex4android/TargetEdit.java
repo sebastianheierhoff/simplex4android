@@ -110,48 +110,13 @@ public class TargetEdit extends Activity {
 		    });
 		}
 		
-		//Hinzufügen-Button
-	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
-	    add_target_element.setOnClickListener (new OnClickListener(){
-	    	public void onClick(View v){
-	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	        	EditText target = (EditText) findViewById(R.id.edittext_target);
-	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
-	        		double value;
-	        		if(target_element.getText().toString().equals("")){
-	        			value = 0;
-	        		}
-	        		else{
-	        			value = Double.valueOf(target_element.getText().toString());
-	        		}
-	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
-		        	TargetEdit.target.setValue(i, value);
-	    			target.setText(TargetEdit.target.valuesToString());
-	        	}
-	    		else{
-	    			Toast.makeText(TargetEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
-	    		}
-	    	}
-		});
-	    
 	    //"Xi erhöhen"-Button
 	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
-	    x_plus.setOnClickListener (new OnClickListener(){
+	    OnClickListener x_plus_action = new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
-	    		edittext_x_value++;//inkrementieren
-	    		edittext_x.setText("x" + edittext_x_value);
-	    		try{
-	    			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
-	    		}
-	    		catch(IndexOutOfBoundsException e){
-	    			target_element.setHint("0");
-	    		}
-	    		catch(Exception e){
-	    			
-	    		}
+	    		increment_xi();
 	    		try{
 	    			target_element.requestFocus();
 	    		}
@@ -159,7 +124,9 @@ public class TargetEdit extends Activity {
 	    			Toast.makeText(TargetEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
 	    		}
 	    	}
-	    });
+	    };
+	    x_plus.setOnClickListener (x_plus_action);
+
 
 	    //"Xi verringern"-Button
 	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
@@ -192,6 +159,31 @@ public class TargetEdit extends Activity {
 	    	}
 	    });
 
+		//Hinzufügen-Button
+	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
+	    add_target_element.setOnClickListener (new OnClickListener(){
+	    	public void onClick(View v){
+	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	        	EditText target = (EditText) findViewById(R.id.edittext_target);
+	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
+	        		double value;
+	        		if(target_element.getText().toString().equals("")){
+	        			value = 0;
+	        		}
+	        		else{
+	        			value = Double.valueOf(target_element.getText().toString());
+	        		}
+	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
+		        	TargetEdit.target.setValue(i, value);
+	    			target.setText(TargetEdit.target.valuesToString());
+	    			increment_xi();
+	        	}
+	    		else{
+	    			Toast.makeText(TargetEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
+	    		}
+	    	}
+		});
+	    
 	    //Fertig-Button
     	final Button add = (Button) findViewById(R.id.button_add);
 	    add.setOnClickListener(new OnClickListener() {
@@ -216,9 +208,24 @@ public class TargetEdit extends Activity {
 	        	finish();
 	        }
 	    });
-
-
-	}	
+	}
+	
+	public void increment_xi(){
+		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
+		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
+		edittext_x_value++;//inkrementieren
+		edittext_x.setText("x" + edittext_x_value);
+		try{
+			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
+		}
+		catch(IndexOutOfBoundsException e){
+    		target_element.setText("");
+			target_element.setHint("0");
+		}
+		catch(Exception e){
+		}
+	}
 }
 	
 	

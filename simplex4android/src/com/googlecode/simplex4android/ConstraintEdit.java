@@ -182,6 +182,7 @@ public class ConstraintEdit extends Activity {
 	    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
 	    		}
 	    		catch(IndexOutOfBoundsException e){
+		    		target_element.setText("");
 	    			target_element.setHint("0");
 	    		}
 	    		catch(Exception e){
@@ -202,7 +203,6 @@ public class ConstraintEdit extends Activity {
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	    		//target_element.setText("");
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;

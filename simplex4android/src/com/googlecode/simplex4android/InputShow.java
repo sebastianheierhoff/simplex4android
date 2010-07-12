@@ -79,7 +79,13 @@ public class InputShow extends Activity{
         		}
         		break;
         	case TARGET_EDIT_RESULT:
+        		//TODO: Wenn der Index des größten xi kleiner geworden ist
         		
+        		//alle Constraints überprüfen, ob xi mit größerem Index enthalten sind
+        		
+        		//diese Constraints rot markieren, Fehlermeldung ausgeben
+        		
+        		//Rechnen/Anlegen des SimplexProblems erst erlauben, wenn alle Constraints geändert wurden
         		break;
         	case TARGET_CREATE_RESULT:
             	try{
@@ -130,6 +136,7 @@ public class InputShow extends Activity{
                     }
                     
         	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
+        	        listInputs.setVisibility(View.VISIBLE);
         	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, constraints_string);
         	        listInputs.setAdapter(adapter);
 	    			Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();

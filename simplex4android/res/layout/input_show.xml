@@ -31,6 +31,7 @@
         android:layout_height="fill_parent" 
         android:layout_alignParentTop="true"
         android:background="@color/black"
+        android:textColor="@color/white"
         android:layout_marginRight="5dip"
         android:layout_marginLeft="5dip" />
     <TextView 
@@ -53,17 +54,19 @@
     <LinearLayout
     	android:id="@+id/viewgroup_constraint" 
     	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
+    	android:layout_height="150dip"
     	android:orientation="vertical"
     	android:layout_below="@id/text_constraint">
   	<ListView 
   		android:id="@+id/list_constraint" 
   		android:layout_width="fill_parent" 
-        android:layout_height="fill_parent" 
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/black"
+        android:textColor="@color/white"
         android:layout_marginRight="5dip"
-        android:layout_marginLeft="5dip" />
+        android:layout_marginLeft="5dip"
+        android:visibility="invisible" />
     <TextView 
     	android:id="@+id/text_constraint_empty"
     	android:layout_width="wrap_content"
@@ -75,6 +78,7 @@
     	android:id="@+id/buttongroup_navigation" 
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
+    	android:background="@color/white"
     	android:orientation="horizontal"
     	android:layout_alignParentBottom="true">
 	    <Button 
