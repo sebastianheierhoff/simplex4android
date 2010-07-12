@@ -16,8 +16,20 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class TargetEdit extends Activity {
+
+	//ResultCodes
+	static final int CONSTRAINT_EDIT_RESULT = 1;
+	static final int CONSTRAINT_CREATE_RESULT = 2;
+	static final int TARGET_EDIT_RESULT = 3;
+	static final int TARGET_CREATE_RESULT = 4;
+
+	//RequestCodes
+	static final int CONSTRAINT_EDIT_REQUEST = 1;
+	static final int CONSTRAINT_CREATE_REQUEST = 2;
+	static final int TARGET_EDIT_REQUEST = 3;
+	static final int TARGET_CREATE_REQUEST = 4;
 	
-	private static Target target = new Target();
+	static Target target = new Target();
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -25,8 +37,35 @@ public class TargetEdit extends Activity {
 
 	    setContentView(R.layout.target_edit);
 
-	    setUpSpinner();
+	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
+	    	target = new Target();
+	    }
+	    else{
+	    	//Constraint laden
+	    }
 	    
+		//Spinner minmax
+		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
+		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
+		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		minmax.setAdapter(adapter_minmax);
+
+	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		    	//Index "0" enspricht "min", "1" entspricht "max"
+		    	////true bedeutet Minimierung, false bedeutet Maximierung
+		    	if(arg3 == 0){
+		    		target.setMinOrMax(true);
+		    	}
+		    	else{
+		    		target.setMinOrMax(false);
+		    	}
+		    }
+		    	 
+		    public void onNothingSelected(AdapterView<?> arg0) {}
+	    });
+	    
+	    //Textfeld Target-Element
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -39,6 +78,7 @@ public class TargetEdit extends Activity {
 	    	}
 		});
 
+	    //Keyboard-Button
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
 									R.id.button_minus, R.id.button_divide, R.id.button_decimal, R.id.button_backspace};
@@ -55,13 +95,6 @@ public class TargetEdit extends Activity {
 		        			newtext = newtext.substring(0, newtext.length()-1);
 		        		}
 		        	}
-//		        	if(v.getTag().equals("-")){
-//		        	}		        		
-//		        	if(v.getTag().equals("/")){
-//		        	}		        		
-//		        	if(v.getTag().equals(".")){
-//		        		newtext += ",";
-//		        	}		        		
 		        	else{
 		        		newtext += v.getTag();
 		        	}
@@ -77,14 +110,8 @@ public class TargetEdit extends Activity {
 		    });
 		}
 		
-    	final Button back = (Button) findViewById(R.id.button_back);
-	    back.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	finish();
-	        }
-	    });
-
-	    final Button add_target_element = (Button) findViewById(R.id.button_add);
+		//Hinzufügen-Button
+	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -107,6 +134,7 @@ public class TargetEdit extends Activity {
 	    	}
 		});
 	    
+	    //"Xi erhöhen"-Button
 	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
@@ -124,21 +152,29 @@ public class TargetEdit extends Activity {
 	    		catch(Exception e){
 	    			
 	    		}
+	    		try{
+	    			target_element.requestFocus();
+	    		}
+	    		catch(Exception ex){
+	    			Toast.makeText(TargetEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
+	    		}
 	    	}
 	    });
 
+	    //"Xi verringern"-Button
 	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
-	    	public void onClick(View v){
+	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    		//target_element.setText("");
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
-	    			edittext_x_value--;//inkrementieren
+	    			edittext_x_value--;
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
 		    			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
+
 		    		}
 		    		catch(IndexOutOfBoundsException e){
 		    			target_element.setHint("0");
@@ -147,36 +183,42 @@ public class TargetEdit extends Activity {
 		    			
 		    		}
 	    		}
+	    		try{
+	    			target_element.requestFocus();
+	    		}
+	    		catch(Exception ex){
+	    			Toast.makeText(TargetEdit.this,ex.getMessage(),Toast.LENGTH_LONG).show();
+	    		}
 	    	}
 	    });
 
-	    final Button add = (Button) findViewById(R.id.button_add);
-	    add.setOnClickListener (new OnClickListener(){
-	    	public void onClick(View v){
-	    		//TargetEdit.target.setValues(values);
-	    		//TargetEdit.target.setMinOrMax(minOrMax);
-	    		//setResult(resultCode, data);
-	    	}
+	    //Fertig-Button
+    	final Button add = (Button) findViewById(R.id.button_add);
+	    add.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	    	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	        	if(target.getValues().isEmpty()){
+	    			Toast.makeText(TargetEdit.this,"Eingabe unvollständig! Bitte mind. ein xi hinzufügen!",Toast.LENGTH_LONG).show();
+        			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+	    			return;
+	        	}
+	        	else{
+	        		setResult(TARGET_EDIT_RESULT);
+	        		finish();
+	        	}
+	        }
 	    });
+	    
+	    //Zurück-Button
+	    final Button back = (Button) findViewById(R.id.button_back);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	finish();
+	        }
+	    });
+
+
 	}	
-	
-	public void setUpSpinner(){
-		//Spinner minmax
-		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
-		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
-		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		minmax.setAdapter(adapter_minmax);
-
-	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
-	    	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    		// arg3 gibt Index im Array
-	    	}
-		    	 
-	    	public void onNothingSelected(AdapterView<?> arg0) {}
-		});
-	}
-	
-	
 }
 	
 	

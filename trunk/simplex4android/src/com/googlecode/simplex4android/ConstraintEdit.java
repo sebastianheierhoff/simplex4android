@@ -1,7 +1,6 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
@@ -18,18 +17,43 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ConstraintEdit extends Activity {
 
-	static final int CONSTRAINT_EDIT_RESULT = 0;
+	//ResultCodes
+	static final int CONSTRAINT_EDIT_RESULT = 1;
+	static final int CONSTRAINT_CREATE_RESULT = 2;
+	static final int TARGET_EDIT_RESULT = 3;
+	static final int TARGET_CREATE_RESULT = 4;
 
-	protected static Constraint constraint = new Constraint();
+	//RequestCodes
+	static final int CONSTRAINT_EDIT_REQUEST = 1;
+	static final int CONSTRAINT_CREATE_REQUEST = 2;
+	static final int TARGET_EDIT_REQUEST = 3;
+	static final int TARGET_CREATE_REQUEST = 4;
+
+	protected static Constraint constraint;
 	private EditText addto;
+	private int maxi; //Höchstes xi in der Zielfunktion
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	    
 	    setContentView(R.layout.constraint_edit);
+	    
+	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
+	    	constraint = new Constraint();
+	    }
+	    else{
+	    	//Constraint laden
+	    }
+	    
 	    addto = (EditText) findViewById(R.id.edittext_target_element);
 	    addto.requestFocus();
+
+	    maxi = this.getIntent().getIntExtra("maxi", 0);
+	    if(maxi == 0){
+        	setResult(RESULT_CANCELED);
+	    	finish();
+	    }
 	    
 	    //Spinner gtltoreq
 		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
@@ -114,14 +138,6 @@ public class ConstraintEdit extends Activity {
 		        }});
 		}
 		
-		//Zurück-Button
-    	final Button back = (Button) findViewById(R.id.button_cancel);
-	    back.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	finish();
-	        }
-	    });
-
 	    //Hinzufügen-Button
 	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
@@ -154,7 +170,13 @@ public class ConstraintEdit extends Activity {
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
-	    		edittext_x_value++;//inkrementieren
+	    		if(edittext_x_value == maxi){
+	    			Toast.makeText(ConstraintEdit.this,"Fehler! Höchstes xi in der Zielfunktion = " + maxi,Toast.LENGTH_LONG).show();
+	    		    //Meldung: Höher geht nicht, da höchste xi in der Zielfunktion = maxi
+	    		}
+	    		else{
+	    			edittext_x_value++;//inkrementieren
+	    		}    			
 	    		edittext_x.setText("x" + edittext_x_value);
 	    		try{
 	    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
@@ -226,6 +248,15 @@ public class ConstraintEdit extends Activity {
 	        		setResult(CONSTRAINT_EDIT_RESULT);
 	        		finish();
 	        	}
+	        }
+	    });
+	    
+		//Zurück-Button
+    	final Button back = (Button) findViewById(R.id.button_cancel);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	setResult(RESULT_CANCELED);
+	        	finish();
 	        }
 	    });
 	}	
