@@ -111,7 +111,7 @@ public class ConstraintEdit extends Activity {
 	        }
 	    });
 
-	    final Button add_target_element = (Button) findViewById(R.id.button_add_element);
+	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
