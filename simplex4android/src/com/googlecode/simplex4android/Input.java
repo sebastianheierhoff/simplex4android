@@ -3,9 +3,6 @@ package com.googlecode.simplex4android;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public abstract class Input{
 	protected ArrayList<Double> values;
 	

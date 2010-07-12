@@ -1,7 +1,5 @@
 package com.googlecode.simplex4android;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
