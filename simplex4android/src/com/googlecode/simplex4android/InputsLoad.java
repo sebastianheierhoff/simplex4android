@@ -10,10 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public class InputsLoad extends Activity {
-
-		private static final int ACTIVITY_CREATE=0;
-	    private static final int ACTIVITY_EDIT=1;
-	    
+	
 	    public static final int VIEW_ID = Menu.FIRST;
 	    public static final int DELETE_ID = Menu.FIRST + 1;
 
