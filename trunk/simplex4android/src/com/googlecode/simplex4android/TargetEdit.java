@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -26,21 +25,8 @@ public class TargetEdit extends Activity {
 
 	    setContentView(R.layout.target_edit);
 
-		//Spinner minmax
-		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
-		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
-		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		minmax.setAdapter(adapter_minmax);
-
-	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
-	    	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    		// arg3 gibt Index im Array
-	    	}
-		    	 
-	    	public void onNothingSelected(AdapterView<?> arg0) {}
-		});
-
-
+	    setUpSpinner();
+	    
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -173,6 +159,24 @@ public class TargetEdit extends Activity {
 	    	}
 	    });
 	}	
+	
+	public void setUpSpinner(){
+		//Spinner minmax
+		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
+		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
+		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		minmax.setAdapter(adapter_minmax);
+
+	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
+	    	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	    		// arg3 gibt Index im Array
+	    	}
+		    	 
+	    	public void onNothingSelected(AdapterView<?> arg0) {}
+		});
+	}
+	
+	
 }
 	
 	

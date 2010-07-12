@@ -12,20 +12,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ConstraintEdit extends Activity {
 	
 	private static Constraint constraint = new Constraint();
+	private EditText addto;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	    
 	    setContentView(R.layout.constraint_edit);
-
+	    addto = (EditText) findViewById(R.id.edittext_target_element);
+	    
 	    //Spinner gtltoreq
 		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
 		ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
@@ -34,8 +35,7 @@ public class ConstraintEdit extends Activity {
 
 	    gtltoreq.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    	TextView item = (TextView) arg1;
-		    	Toast.makeText(ConstraintEdit.this,item.getText().toString(),Toast.LENGTH_LONG).show(); //löschen
+		    	//TODO: arg3 gibt Index
 		    }
 		    	 
 		    public void onNothingSelected(AdapterView<?> arg0) {}
@@ -47,6 +47,7 @@ public class ConstraintEdit extends Activity {
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+		    		addto = (EditText) findViewById(R.id.edittext_target_element);
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
@@ -54,19 +55,20 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    //
-		EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
-		    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
-		    	public void onFocusChange(View v, boolean b){
-		    		if(b==true){
-			    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
-		    		}
-		    		else{
-			    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
-		    		}
-		    	}
-			});
-	    
+	    //Textfeld Constraint-Target-Value
+	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
+	    	public void onFocusChange(View v, boolean b){
+	    		if(b==true){
+		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+		    		addto = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    		}
+	    		else{
+		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
+	    		}
+	    	}
+		});
+
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
 									R.id.button_minus, R.id.button_divide, R.id.button_decimal, R.id.button_backspace};
@@ -76,31 +78,24 @@ public class ConstraintEdit extends Activity {
 			buttons[i] = (Button) findViewById(keyboardButtons[i]);
 		    buttons[i].setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
-		        	try{
-			        	EditText text = (EditText) v.findFocus();
-			        	if(text.equals(findViewById(R.id.edittext_target_element)) || text.equals(findViewById(R.id.edittext_constraint_target_value))){
-			        		String newtext = text.getText().toString(); 
-			        		if(v.getTag().equals("backspace")){
-			        			if(newtext.length() > 0){
-			        				newtext = newtext.substring(0, newtext.length()-1);
-			        			}
-			        		}
-			        		else{
-			        			newtext += v.getTag();
-			        		}
-			        		if(!SimplexLogic.checkInput(newtext)){
-			        			text.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
-			        		}
-			        		else{
-			        			text.setBackgroundResource(R.drawable.textfield_default);
-			        		}
-			        		text.setText(newtext);
-			        		Selection.setSelection(text.getText(), text.length());
-			        	}
-		        	}
-		        	catch(Exception ex){
-	        		
-		        	}
+	        		EditText text = addto;
+	        		String newtext = text.getText().toString(); 
+	        		if(v.getTag().equals("backspace")){
+	        			if(newtext.length() > 0){
+	        				newtext = newtext.substring(0, newtext.length()-1);
+	        			}
+	        		}
+	        		else{
+	        			newtext += v.getTag();
+	        		}
+	        		if(!SimplexLogic.checkInput(newtext)){
+	        			text.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+	        		}
+	        		else{
+	        			text.setBackgroundResource(R.drawable.textfield_default);
+	        		}
+	        		text.setText(newtext);
+	        		Selection.setSelection(text.getText(), text.length());
 		        }});
 		}
 		
