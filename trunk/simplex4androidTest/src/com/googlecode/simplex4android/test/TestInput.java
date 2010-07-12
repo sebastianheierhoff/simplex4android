@@ -21,8 +21,17 @@ public class TestInput extends TestCase {
 	 * Testet, ob das Hinzufügen eines neuen Elementes an einem noch nicht existenten Index funktioniert.
 	 */
 	public void testSetValue(){
-		c.setValue(5, new Double(5));
+		c.setValue(5, 5.0);
 		assertEquals(c.getValue(5), new Double(5).doubleValue());
+	}
+	
+	public void testSetValueDelete(){
+		c.setValue(1, 5.0);
+		c.setValue(5, 5.0);
+		c.setValue(5, 0);
+		assertEquals(2, c.getValues().size());
+		c.setValue(1, 0);
+		assertEquals(0, c.getValues().size());
 	}
 	
 	/**
@@ -46,7 +55,7 @@ public class TestInput extends TestCase {
 		try{
 			Constraint.fractionToDbl(s);
 		}catch(IOException e){
-			assertEquals("Kein '/' enthalten!",e.toString());
+			assertEquals("java.io.IOException: Kein '/' enthalten",e.toString());
 		}
 	}
 
