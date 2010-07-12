@@ -15,6 +15,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		this.xByF = new ArrayList<Double>();
 	}
 	
+	
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
@@ -23,6 +24,16 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	public SimplexProblemPrimal(double[][] tableau, double[] target){ 
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
+	}
+	
+	/**
+	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
+	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
+	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
+	 */
+	public SimplexProblemPrimal(ArrayList<Input> input){
+		super(input);
+		this.xByF = new ArrayList<Double>();
 	}
 	
 	/**

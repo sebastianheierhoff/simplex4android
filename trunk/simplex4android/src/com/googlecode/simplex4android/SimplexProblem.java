@@ -2,6 +2,7 @@ package com.googlecode.simplex4android;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
@@ -11,11 +12,9 @@ import java.util.ArrayList;
  */
 public abstract class SimplexProblem {
 	private ArrayList<ArrayList<Double>> tableau; 
-	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert berechnen zu können
+	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert im Tableau berechnen zu können
 	private ArrayList<Integer> pivots; //Basisspalten
 	private boolean optimal;
-	private String name = "Simplex-Problem Nr: ";
-	private static int problemNr = 1;
 	
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
@@ -43,8 +42,40 @@ public abstract class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		this.target = this.convertToDblArrayList(target);		
 		this.optimal = false;
-		this.name = name + problemNr;
-		problemNr++;
+	}
+	
+	/**
+	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
+	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
+	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
+	 */
+	public SimplexProblem(ArrayList<Input> input){
+		// Zielfunktion auslesen und anlegen
+		Target t = (Target) input.get(0);
+		this.target = t.getClonedValues();
+		this.target.add(new Double(0));
+		if(!t.isMinOrMax()){
+			for(int i=0;i<this.target.size()-1;i++){
+				this.target.set(i, new Double(this.target.get(i).doubleValue()*(-1)));
+			}
+		}	
+		// Tableau anlegen und mit Zeilen füllen
+		this.tableau = new ArrayList<ArrayList<Double>>();
+		ArrayList<Double> deltas = new ArrayList<Double>();
+		for(int i=0;i<this.target.size();i++){
+			deltas.add(new Double(0)); // delta-Zeile anlegen
+		}
+		this.tableau.add(deltas);
+		for(int i=1; i<input.size();i++){
+			Constraint c = (Constraint) input.get(i); // Nebenbedingungen anlegen
+			ArrayList<Double> row = new ArrayList<Double>();
+			row = c.getClonedValues();
+			row.add(new Double(c.getSign()));
+			row.add(new Double(c.getTargetValue()));
+			this.addRow(row);
+		}
+		this.optimal = false;
+		
 	}
 		
 	/**
@@ -70,35 +101,37 @@ public abstract class SimplexProblem {
 	
 	/**
 	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
-	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt.
-	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an vorletzter Stellt der Vergleichsoperator ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">=")) und an letzter Stelle der Zielwert b
+	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt und wenn nötig Schlupfvariablen ergänzt.
+	 * @param r neu einzufügenden Zeile, der Faktor der Variablen xi steht an Stelle x(i-1) des Arrays, an vorletzter Stelle der Vergleichsoperator ("-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">=")) und an letzter Stelle der Zielwert
 	 */
 	public void addRow(ArrayList<Double> row){
-		int sign = row.get(row.size()-2).intValue(); // Vergleichsoperator abfragen
-		if(sign==0){
-			row.remove(row.size()-2); // Entfernen des Vergleichsoperator, wenn bereits Gleichform vorliegt.
-		}else{
-			row.set(row.size()-2, new Double(sign*(-1))); // Ändern des Vergleichsoperators auf Schlupfvariable
+		ArrayList<Double> newRow = new ArrayList<Double>();
+		// Alle Variablen vor dem Vergleichsoperator einfügen
+		for(int i=0;i<row.size()-2;i++){
+			newRow.add(i, new Double(row.get(i)).doubleValue());
 		}
-		
-		int size = this.tableau.get(0).size();
-		if(row.size()<size){ // neue Zeile ist zu kurz
-			for(int i=(row.size());i<size;i++){ // Einfügen der fehlenden Nullen an vorletzter Stelle
-				row.add(row.size()-1, new Double(0));
+		// Auffüllen der restlichen Variablen (fehlend zur Zielfunktion) mit 0
+		for(int i=0;i<(this.target.size()-(row.size()-1));i++){
+			newRow.add(new Double(0));
+		}
+		// evtl. Einfügen der Schlupfvariable inkl. Auffüllen von Nullen in anderen Zeilen
+		int sign = row.get(row.size()-2).intValue();
+		if(sign!=0){
+			if(sign==1){
+				newRow.add(new Double(-1));
+			}else{
+				newRow.add(new Double(1));
 			}
-		}else if(row.size()>size){ // neue Zeile ist zu lang
-			int anzahl = row.size()-size; // Anzahl neu hinzuzufügender Nullen in den bestehenden Zeilen
-			for(int i=0;i<this.tableau.size();i++){
-				for(int x=1;x<=anzahl;x++){
-					this.tableau.get(i).add(size-1, new Double(0));
-				}
-			}
-			for(int i=0;i<anzahl;i++){
-				this.target.add(this.target.size()-2, new Double(0)); // Hinzufügen der Schlupfvariablen in der Zielfunktion
+			System.out.println(Arrays.toString(newRow.toArray()));
+			this.target.add(this.target.size()-1, new Double(0)); // Einfügen in Zielfunktion
+			for(int i=0;i<this.getNoRows();i++){ // Einfügen der Nullen in anderen Zeilen
+				this.tableau.get(i).add(this.tableau.get(i).size()-1, new Double(0));
 			}
 		}
-		this.tableau.add(this.tableau.size()-1, row); // Hinzufügen der Zeile an vorletzter Stelle
-		
+		// Zielwert anfügen
+		newRow.add(row.get(row.size()-1));
+		// Einfügen der Zeile an vorletzter Stelle ins Tableau (deltaWerte immer unten)
+		this.tableau.add(this.tableau.size()-1, newRow);
 	}
 	
 	/**
@@ -212,15 +245,6 @@ public abstract class SimplexProblem {
 	public double[] getLastRow(){
 		return getRow(this.getNoRows()-1);
 	}
-
-	/**
-	 * Gibt den Namen des Tableaus zurück.
-	 * @return Namen des Problems
-	 */
-	public String getName(){
-		return this.name;
-	}
-
 	
 	/**
 	 * Gibt die Anzahl der Spalten aus.
@@ -304,14 +328,6 @@ public abstract class SimplexProblem {
 	 */
 	public void setField(int i, int j, double value){
 		this.tableau.get(i).set(j, new Double(value));
-	}
-
-	/**
-	 * Methode um den Namen eines Problems zu verändern.
-	 * @param name String mit neuem Namen
-	 */
-	public void setName(String name){
-		this.name = name;
 	}
 
 	/**

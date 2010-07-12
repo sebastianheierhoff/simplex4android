@@ -26,6 +26,16 @@ public class SimplexProblemDual extends SimplexProblem {
 	}
 	
 	/**
+	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
+	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
+	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
+	 */
+	public SimplexProblemDual(ArrayList<Input> input){
+		super(input);
+		this.deltaByF = new ArrayList<Double>();
+	}
+	
+	/**
 	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
 	 * @return Array mit den x/f-Werten für jede Zeile
 	 */
