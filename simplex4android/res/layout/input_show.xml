@@ -32,7 +32,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dip" />
     <TextView 
-    	android:id="@+id/android:empty"
+    	android:id="@+id/text_target_empty"
     	android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
         android:text="Keine Zielfunktion eingegeben. Bitte neue Zielfunktion anlegen!"
@@ -59,9 +59,11 @@
   		android:layout_width="fill_parent" 
         android:layout_height="fill_parent" 
         android:layout_alignParentTop="true"
+        android:background="@color/black"
+        android:layout_marginRight="5dip"
         android:layout_marginLeft="5dip" />
     <TextView 
-    	android:id="@+id/android:empty"
+    	android:id="@+id/text_constraint_empty"
     	android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
         android:text="Keine Nebenbedingungen eingegeben. Bitte neue Nebenbedingung anlegen!"
