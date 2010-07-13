@@ -38,7 +38,11 @@ public class SimplexLocal {
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
-		System.out.println(SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());
+		try{
+			System.out.println(SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());
+		}catch(Exception e){
+			
+		}
 		//SimplexLogic.findPivots(firstProblem);
 		//SimplexLogic.calcDeltas(firstProblem);
 		//double[] deltas = {2.5,-4,0,0,0,2,22};
