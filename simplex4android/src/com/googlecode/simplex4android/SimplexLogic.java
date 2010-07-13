@@ -346,7 +346,7 @@ public abstract class SimplexLogic {
 	}
 	/**
 	 * Gibt ein int-Array mit den Pivotspalten aus. 
-	 * Anstelle i steht, in welcher Spalte eine 1 der Pivotspalte steht.
+	 * An Stelle i steht, in welcher Spalte eine 1 der Pivotspalte steht.
 	 * quasi die methode oben drüber nur in richtig
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten

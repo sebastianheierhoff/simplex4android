@@ -16,16 +16,6 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	}
 	
 	/**
-	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
-	 * @param tableau
-	 * @param target
-	 */
-	public SimplexProblemPrimal(double[][] tableau, double[] target){ 
-		super(tableau, target);
-		SimplexLogic.findPivots(this);
-	}
-	
-	/**
 	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
 	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
 	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
@@ -36,6 +26,29 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	}
 	
 	/**
+	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
+	 * @param tableau
+	 * @param target
+	 */
+	public SimplexProblemPrimal(double[][] tableau, double[] target){ 
+		super(tableau, target);
+		SimplexLogic.findPivots(this);
+	}
+	
+	/**
+	 * gibt ein Klon vom aktuellen Objekt zurück
+	 */
+	@Override
+	public SimplexProblem clone() {
+		SimplexProblemPrimal clone = new SimplexProblemPrimal();
+		clone.setXByF(this.getXByF());
+		clone.setTableau(this.getTableau());
+		clone.setTarget(this.getTarget());
+		clone.setPivots(this.getPivots());
+		return clone;
+	}
+	
+	/**
 	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
 	 * @return Array mit den x/f-Werten für jede Zeile
 	 */
@@ -43,6 +56,19 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		return this.convertToDblArray(this.xByF);
 	}
 	
+	/**
+	 * set Optimal Methode, die zusätzlich xByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 */
+	public void setOptimal(){
+		super.setOptimal();
+		if(xByF!=null)xByF.clear();
+		else{
+			xByF = new ArrayList<Double>();
+		}
+		for(int i=0;i<super.getNoColumns()-1;i++){
+			xByF.add(0.0);
+		}
+	}
 	/**
 	 * Überschreibt die x/f-Werte.
 	 * @param xByF neue x/f-Werte
@@ -55,6 +81,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	 * 
 	 * @return komplettes Tableau als String in Html 
 	 */
+	@Override
 	public String tableauToHtml(){
 		int[] pivots = SimplexLogic.findPivotsSorted(this);
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
@@ -93,31 +120,5 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
 		return html;
-	}
-	/**
-	 * gibt ein Klon vom aktuellen Objekt zurück
-	 */
-	@Override
-	public SimplexProblem clone() {
-		SimplexProblemPrimal clone = new SimplexProblemPrimal();
-		clone.setXByF(this.getXByF());
-		clone.setTableau(this.getTableau());
-		clone.setTarget(this.getTarget());
-		clone.setPivots(this.getPivots());
-		return clone;
-	}
-	
-	/**
-	 * set Optimal Methode, die zusätzlich xByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
-	 */
-	public void setOptimal(){
-		super.setOptimal();
-		if(xByF!=null)xByF.clear();
-		else{
-			xByF = new ArrayList<Double>();
-		}
-		for(int i=0;i<super.getNoColumns()-1;i++){
-			xByF.add(0.0);
-		}
 	}
 }

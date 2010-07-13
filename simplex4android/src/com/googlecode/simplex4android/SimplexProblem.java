@@ -33,17 +33,6 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
-	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
-	 * @param tableau
-	 * @param target
-	 */
-	public SimplexProblem(double[][] tableau, double[] target){ 
-		this.tableau = this.convertTo2DArrayList(tableau);
-		this.target = this.convertToDblArrayList(target);		
-		this.optimal = false;
-	}
-	
-	/**
 	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
 	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
 	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
@@ -75,6 +64,17 @@ public abstract class SimplexProblem {
 		}
 		this.optimal = false;
 		
+	}
+	
+	/**
+	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
+	 * @param tableau
+	 * @param target
+	 */
+	public SimplexProblem(double[][] tableau, double[] target){ 
+		this.tableau = this.convertTo2DArrayList(tableau);
+		this.target = this.convertToDblArrayList(target);		
+		this.optimal = false;
 	}
 		
 	/**
@@ -133,6 +133,11 @@ public abstract class SimplexProblem {
 	}
 	
 	/**
+	 * abstrakte Methode um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können
+	 */
+	public abstract SimplexProblem clone();
+
+	/**
 	 * Überführt das übergebene zweidimensionale Array in ein ArrayList<ArrayList<Double>>.
 	 * @param array zu überführendes zweidimensionales Array
 	 * @return überführte ArrayList
@@ -147,11 +152,6 @@ public abstract class SimplexProblem {
 		}
 		return tableau;
 	}
-
-	/**
-	 * abstrakte Methode um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können
-	 */
-	public abstract SimplexProblem clone();
 	
 	/**
 	 * Überführt die übergebene ArrayList<Double> in ein double[].
@@ -283,6 +283,29 @@ public abstract class SimplexProblem {
 	 */
 	public double[] getRow(int i){
 		return this.convertToDblArray(this.tableau.get(i));
+	}
+	
+	/**
+	 * Gibt die Lösung des SimlexProblems zurück, sofern dieses bereits optimal ist.
+	 * @return Lösungsstring, Leerstring falls nicht optimal.
+	 */
+	public String getSolution(){
+		String solution = "";
+		if(this.getOptimal()){
+			double[] xSolutions = new double[this.getNoColumns()-2];
+			int[] pivots = SimplexLogic.findPivotsSorted(this);
+			// Lösungen einspeichern
+			for(int i=0; i<pivots.length;i++){
+				xSolutions[pivots[i]] = this.getField(i, this.getNoColumns()-1);
+			}
+			// Ausgabestring erstellen
+			for(int i=0; i<xSolutions.length;i++){
+				if(!(xSolutions[i]==0)){
+					solution += "x" +(i+1) + " = " + xSolutions[i] +"\n";
+				}			
+			}
+		}
+		return solution;
 	}
 	
 	/**
