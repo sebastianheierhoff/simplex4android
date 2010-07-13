@@ -432,12 +432,12 @@ public abstract class SimplexLogic {
 	 * @return bearbeitetes SimplexProblem
 	 */
 	public static SimplexProblemDual simplex(SimplexProblemDual problem){
-		if(checkOptimal(problem)){
+		if(checkDualOptimal(problem)){
 			problem.setOptimal();
 		}	
 		try {
 			if(problem.getOptimal()!= true){				
-				SimplexProblemDual spp = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumn(problem));
+				SimplexProblemDual spp = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumnDual(problem));
 				findPivots(spp);
 				if(checkOptimal(spp)){
 					problem.setOptimal();
@@ -513,6 +513,9 @@ public abstract class SimplexLogic {
 		else{
 			sHPhaseTwo.addElement(phases[0].getLastElement());
 		}
+		SimplexProblemDual phaseTwoProblem = (SimplexProblemDual)sHPhaseTwo.getLastElement();
+		calcDeltas(phaseTwoProblem);
+		calcDeltaByF(phaseTwoProblem);
 		do{
 			SimplexProblemDual current = (SimplexProblemDual) sHPhaseTwo.getLastElement();
 			current = SimplexLogic.simplex(current);
@@ -558,6 +561,9 @@ public abstract class SimplexLogic {
 		else{
 			sHPhaseTwo.addElement(phases[0].getLastElement());
 		}
+		SimplexProblemPrimal phaseTwoProblem = (SimplexProblemPrimal)sHPhaseTwo.getLastElement();
+		calcDeltas(phaseTwoProblem);
+		calcXByF(phaseTwoProblem);
 		do{
 			SimplexProblemPrimal current = (SimplexProblemPrimal) sHPhaseTwo.getLastElement();
 			current = SimplexLogic.simplex(current);

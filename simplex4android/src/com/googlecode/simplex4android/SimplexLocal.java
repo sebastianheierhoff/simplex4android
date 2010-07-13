@@ -26,18 +26,18 @@ public class SimplexLocal {
 		//double[][] tableau = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
 		//double[] target = {2,3,4,0,0,0};
 		//duales Beispiel Übung 7c
-		double[][] tableau = {{0,0,-4,-0.6,1,1,0.6,-3.8},{-1,1,3,0.4,0,-1,-0.4,3.2},{0,0,0,0,0,0,0,0}};
-		double[] target = {75,15,55,15,5,0,0,0};
+		//double[][] tableau = {{0,0,-4,-0.6,1,1,0.6,-3.8},{-1,1,3,0.4,0,-1,-0.4,3.2},{0,0,0,0,0,0,0,0}};
+		//double[] target = {75,15,55,15,5,0,0,0};
 		//primales Problem
-		//double[] target = {1,2,7,5,0,0,0};
-		//double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
+		double[] target = {1,2,7,5,0,0,0};
+		double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
 
 		//double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
 		//double[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblemDual firstProblem = new SimplexProblemDual(tableau, target);
+		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
 		System.out.println(SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());
 		//SimplexLogic.findPivots(firstProblem);
 		//SimplexLogic.calcDeltas(firstProblem);
