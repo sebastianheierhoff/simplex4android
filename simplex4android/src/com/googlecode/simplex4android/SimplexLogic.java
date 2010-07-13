@@ -455,11 +455,15 @@ public abstract class SimplexLogic {
 	 * Führt für das übergebene SimplexProblem die 2. Phase des Simplex-Algorithmus durch.
 	 * Vorher werden die delta und die xByF-Werte berechnet.
 	 * @return bearbeitetes SimplexProblem
+	 * @throws IOException wenn das Problem nicht lösbar ist.
 	 */
-	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem){
+	public static SimplexProblemPrimal simplex(SimplexProblemPrimal problem)throws IOException{
 		if(checkOptimal(problem)){
 			problem.setOptimal();
-		}	
+		}
+		if(!solveable(problem)){
+			throw new IOException ("Das Problem ist nicht lösbar!");
+		}
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
@@ -474,6 +478,25 @@ public abstract class SimplexLogic {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * stellt fest ob ein primales Problem im aktuellen Zustand lösbar ist
+	 * @param problem	Primales Simplexproblem
+	 * @return boolean der angibt ob das Problem lösbar ist
+	 */
+	public static boolean solveable(SimplexProblemPrimal problem){
+		double[] deltas = problem.getLastRow();
+		for(int i=0;i<deltas.length;i++){
+			if(deltas[i]>0){
+				for(int j=0;j<problem.getColumn(i).length;j++){
+					if(problem.getColumn(i)[j]>0)
+						return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -530,8 +553,9 @@ public abstract class SimplexLogic {
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in primaler Form
 	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist stelle 0==null
+	 * @throws IOException falls das Problem nicht lösbar ist.
 	 */
-	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemPrimal problem){ 
+	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemPrimal problem)throws IOException{ 
 		SimplexHistory[] phases = new SimplexHistory[2];
 		SimplexHistory sHPhaseOne = new SimplexHistory();
 		findPivots(problem);
@@ -573,6 +597,7 @@ public abstract class SimplexLogic {
 		phases[1]=sHPhaseTwo;
 		return phases;
 	}
+
 	
 	/**
 	 * Überführt ein duales Problem aus der 1. Phase in das Problem für die zweite Phase:
