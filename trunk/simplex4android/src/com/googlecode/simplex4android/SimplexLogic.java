@@ -347,6 +347,7 @@ public abstract class SimplexLogic {
 	/**
 	 * Gibt ein int-Array mit den Pivotspalten aus. 
 	 * Anstelle i steht, in welcher Spalte eine 1 der Pivotspalte steht.
+	 * quasi die methode oben drüber nur in richtig
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
@@ -490,7 +491,6 @@ public abstract class SimplexLogic {
 			calcDeltas(tmp);
 			calcDeltaByF(tmp);
 			sh.addElement(tmp.clone());
-			int i = 0;
 			do{
 				SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
 				current = SimplexLogic.simplex(current);
@@ -505,8 +505,6 @@ public abstract class SimplexLogic {
 //		sh.addElement(phaseTwoProblem.clone());
 		//Simplex durchführen bis optimal
 		
-		System.out.println(sh.getLastElement().tableauToHtml());
-		int i = 0;
 		do{
 			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
 			current = SimplexLogic.simplex(current);
@@ -531,7 +529,6 @@ public abstract class SimplexLogic {
 			calcDeltas(tmp);
 			calcXByF(tmp);
 			sh.addElement(tmp.clone());
-			int i = 0;
 			do{
 				SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
 				current = SimplexLogic.simplex(current);
