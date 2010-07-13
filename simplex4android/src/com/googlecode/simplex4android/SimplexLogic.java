@@ -479,75 +479,93 @@ public abstract class SimplexLogic {
 	/**
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in dualer Form
-	 * @return SimplexHistory mit dem kompletten Verlauf inkl. der beiden Phasen
+	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist stelle 0==null
 	 */
-	public static SimplexHistory twoPhaseSimplex(SimplexProblemDual problem){ 
-		SimplexHistory sh = new SimplexHistory();
+	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemDual problem){ 
+		SimplexHistory[] phases = new SimplexHistory[2];
+		SimplexHistory sHPhaseOne = new SimplexHistory();
 		findPivots(problem);
 		problem.setDeltaByF(initializDeltaByFwithNull(problem));
-		sh.addElement(problem.clone());
+		sHPhaseOne.addElement(problem.clone());
 		SimplexProblemDual tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
 			calcDeltaByF(tmp);
-			sh.addElement(tmp.clone());
+			sHPhaseOne.addElement(tmp.clone());
 			do{
-				SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+				SimplexProblemDual current = (SimplexProblemDual) sHPhaseOne.getLastElement();
 				current = SimplexLogic.simplex(current);
-				if(current!=null)sh.addElement(current.clone());
+				if(current!=null)sHPhaseOne.addElement(current.clone());
 			}
-			while(sh.getLastElement().getOptimal()!=true);
+			while(sHPhaseOne.getLastElement().getOptimal()!=true);
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
-			sh.addElement(transitionPhasesDual(sh.getFirstElement(), sh.getLastElement()));
+			sHPhaseOne.addElement(transitionPhasesDual(sHPhaseOne.getFirstElement(), sHPhaseOne.getLastElement()));
+			phases[0] = sHPhaseOne;
+		}else{
+			phases[0] = null;
 		}
 //		//hier gehts weiter falls die erste Phase nicht benötigt wurde
 //		SimplexProblemDual phaseTwoProblem = (SimplexProblemDual)sh.getLastElement();
 //		sh.addElement(phaseTwoProblem.clone());
 		//Simplex durchführen bis optimal
-		
-		do{
-			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
-			current = SimplexLogic.simplex(current);
-			if(current!=null)sh.addElement(current.clone());
+		SimplexHistory sHPhaseTwo = new SimplexHistory();
+		if(phases[0]==null)sHPhaseTwo.addElement(problem.clone());
+		else{
+			sHPhaseTwo.addElement(phases[0].getLastElement());
 		}
-		while(sh.getLastElement().getOptimal()!=true);
-		return sh;
+		do{
+			SimplexProblemDual current = (SimplexProblemDual) sHPhaseTwo.getLastElement();
+			current = SimplexLogic.simplex(current);
+			if(current!=null)sHPhaseTwo.addElement(current.clone());
+		}
+		while(sHPhaseTwo.getLastElement().getOptimal()!=true);
+		phases[1]=sHPhaseTwo;
+		return phases;
 	}
 	
 	/**
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in primaler Form
-	 * @return SimplexHistory mit dem kompletten Verlauf inkl. der beiden Phasen
+	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist stelle 0==null
 	 */
-	public static SimplexHistory twoPhaseSimplex(SimplexProblemPrimal problem){ 
-		SimplexHistory sh = new SimplexHistory();
+	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemPrimal problem){ 
+		SimplexHistory[] phases = new SimplexHistory[2];
+		SimplexHistory sHPhaseOne = new SimplexHistory();
 		findPivots(problem);
 		problem.setXByF(initializXByFwithNull(problem));
-		sh.addElement(problem.clone());
+		sHPhaseOne.addElement(problem.clone());
 		SimplexProblemPrimal tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
 			calcXByF(tmp);
-			sh.addElement(tmp.clone());
+			sHPhaseOne.addElement(tmp.clone());
 			do{
-				SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
+				SimplexProblemPrimal current = (SimplexProblemPrimal) sHPhaseOne.getLastElement();
 				current = SimplexLogic.simplex(current);
-				if(current!=null)sh.addElement(current.clone());
+				if(current!=null)sHPhaseOne.addElement(current.clone());
 			}
-			while(sh.getLastElement().getOptimal()!=true);
+			while(sHPhaseOne.getLastElement().getOptimal()!=true);
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
-			sh.addElement(transitionPhasesPrimal(sh.getFirstElement(), sh.getLastElement()));
+			sHPhaseOne.addElement(transitionPhasesPrimal(sHPhaseOne.getFirstElement(), sHPhaseOne.getLastElement()));
+			phases[0] = sHPhaseOne;
+		}else{
+			phases[0] = null;
 		}
 //		//hier gehts weiter falls die erste Phase nicht benötigt wurde
 		//Simplex durchführen bis optimal
-		
-		do{
-			SimplexProblemPrimal current = (SimplexProblemPrimal) sh.getLastElement();
-			current = SimplexLogic.simplex(current);
-			if(current!=null)sh.addElement(current.clone());
+		SimplexHistory sHPhaseTwo = new SimplexHistory();
+		if(phases[0]==null)sHPhaseTwo.addElement(problem.clone());
+		else{
+			sHPhaseTwo.addElement(phases[0].getLastElement());
 		}
-		while(sh.getLastElement().getOptimal()!=true);
-		return sh;
+		do{
+			SimplexProblemPrimal current = (SimplexProblemPrimal) sHPhaseTwo.getLastElement();
+			current = SimplexLogic.simplex(current);
+			if(current!=null)sHPhaseTwo.addElement(current.clone());
+		}
+		while(sHPhaseTwo.getLastElement().getOptimal()!=true);
+		phases[1]=sHPhaseTwo;
+		return phases;
 	}
 	
 	/**
