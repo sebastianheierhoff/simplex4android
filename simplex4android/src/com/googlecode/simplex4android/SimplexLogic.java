@@ -656,5 +656,15 @@ public abstract class SimplexLogic {
 		}
 		return tmpDeltaByF;
 	}
-
+	
+	/**
+	 * gibt zurück ob eine Zahl einem Array vorhanden ist
+	 * @return bolean ob Zahl enthalten
+	 */
+	public static boolean contains(int[] array, int search){
+		for(int i=0;i<array.length;i++){
+			if(array[i]==search)return true;
+		}
+		return false;
+	}
 }

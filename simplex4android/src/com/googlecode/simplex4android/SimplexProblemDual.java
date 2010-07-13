@@ -104,7 +104,12 @@ public class SimplexProblemDual extends SimplexProblem {
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
 			html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
-				html = html + "<td>" + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
+				if(SimplexLogic.contains(pivots, j)){
+					html = html  + "<td bgcolor=#CC0000>";
+				}else{
+					html = html  + "<td>";
+				}
+				html = html + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
 			html = html + "</tr>\n";
 		}
