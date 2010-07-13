@@ -16,6 +16,16 @@ public class SimplexProblemDual extends SimplexProblem {
 	}
 	
 	/**
+	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
+	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
+	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
+	 */
+	public SimplexProblemDual(ArrayList<Input> input){
+		super(input);
+		this.deltaByF = new ArrayList<Double>();
+	}
+	
+	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
 	 * @param target
@@ -26,13 +36,17 @@ public class SimplexProblemDual extends SimplexProblem {
 	}
 	
 	/**
-	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
-	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
-	 * @param input ArrayList mit Input-Objekten (Index 0 muss ein Target-Objekt enthalten)
+	 * Klont das aktuelle Problem. 
 	 */
-	public SimplexProblemDual(ArrayList<Input> input){
-		super(input);
-		this.deltaByF = new ArrayList<Double>();
+	@Override
+	public SimplexProblem clone() {
+		SimplexProblemDual clone = new SimplexProblemDual();
+		clone.setDeltaByF(this.getDeltaByF());
+		clone.setTableau(this.getTableau());
+		clone.setTarget(this.getTarget());
+		clone.setPivots(this.getPivots());
+		return clone;
+		
 	}
 	
 	/**
@@ -51,10 +65,26 @@ public class SimplexProblemDual extends SimplexProblem {
 		this.deltaByF = this.convertToDblArrayList(deltaByF);
 	}
 	
+	/**
+	 * set Optimal Methode, die zusätzlich deltaByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 * wird auch benötigt, falls z.B. das Tableau in der zweiten Phase direkt optimal ist und die tableauToHtml genutzt werden soll.
+	 */
+	public void setOptimal(){
+		super.setOptimal();
+		if(deltaByF!=null)deltaByF.clear();
+		else{
+			deltaByF = new ArrayList<Double>();
+		}
+		for(int i=0;i<super.getNoColumns()-1;i++){
+			deltaByF.add(0.0);
+		}
+	}
+	
 	/**Methode die das komplette Simplex-Tableau für den dualen Simplex als HTML-String zurückgibt.
 	 * 
 	 * @return komplettes Tableau als Duales Problem als String in Html 
 	 */
+	@Override
 	public String tableauToHtml(){
 		int[] pivots = SimplexLogic.findPivotsSorted(this);
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
@@ -93,34 +123,5 @@ public class SimplexProblemDual extends SimplexProblem {
 		html = html + "</tr>\n";
 		html = html + "</table>\n</body>\n</html>";
 		return html;
-	}
-	
-	/**
-	 * Klont das aktuelle Problem. 
-	 */
-	@Override
-	public SimplexProblem clone() {
-		SimplexProblemDual clone = new SimplexProblemDual();
-		clone.setDeltaByF(this.getDeltaByF());
-		clone.setTableau(this.getTableau());
-		clone.setTarget(this.getTarget());
-		clone.setPivots(this.getPivots());
-		return clone;
-		
-	}
-	
-	/**
-	 * set Optimal Methode, die zusätzlich deltaByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
-	 * wird auch benötigt, falls z.B. das Tableau in der zweiten Phase direkt optimal ist und die tableauToHtml genutzt werden soll.
-	 */
-	public void setOptimal(){
-		super.setOptimal();
-		if(deltaByF!=null)deltaByF.clear();
-		else{
-			deltaByF = new ArrayList<Double>();
-		}
-		for(int i=0;i<super.getNoColumns()-1;i++){
-			deltaByF.add(0.0);
-		}
 	}
 }
