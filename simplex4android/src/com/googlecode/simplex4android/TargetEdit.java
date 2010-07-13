@@ -171,7 +171,18 @@ public class TargetEdit extends Activity {
 	        			value = 0;
 	        		}
 	        		else{
-	        			value = Double.valueOf(target_element.getText().toString());
+	        			try{
+	        				value = Double.valueOf(target_element.getText().toString());
+	        			}
+	        			catch(Exception ex){
+	        				try{
+	        					value = Input.fractionToDbl(target_element.getText().toString());
+	        				}
+	        				catch(Exception ex2){
+	        	    			Toast.makeText(TargetEdit.this,"Fehler beim Typecast!",Toast.LENGTH_LONG).show();
+	        	    			return;
+	        				}
+	        			}
 	        		}
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 		        	TargetEdit.target.setValue(i, value);
