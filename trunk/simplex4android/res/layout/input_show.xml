@@ -84,38 +84,36 @@
 	    <Button 
 	        android:id="@+id/btn_cancel" 
 	    	android:layout_width="fill_parent" 
-	        android:layout_height="wrap_content"
+	        android:layout_height="45dip"
 	        android:text="Zurück"
-	        android:layout_weight="0.2"
+	        android:layout_weight="0.35"
 	        android:gravity="bottom"/> 
 	    <Button 
 	        android:id="@+id/btn_new_constraint" 
 	    	android:layout_width="fill_parent" 
-	        android:layout_height="fill_parent"
+	        android:layout_height="45dip"
 	        android:text="Nebenbedingung &#10;hinzufügen"
-	        android:layout_weight="0.2"
+	        android:layout_weight="0.3"
+
 	        android:gravity="bottom"/> 
 	    <Button 
 	        android:id="@+id/btn_settings"
 	        android:background="@drawable/btn_settings"
-	    	android:layout_width="fill_parent" 
+	    	android:layout_width="45dip" 
 	        android:layout_height="wrap_content"
-	        android:text="Einstellungen"
-	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	    <Button 
 	        android:id="@+id/btn_save" 
-	    	android:layout_width="fill_parent" 
+	        android:background="@drawable/btn_save"
+	    	android:layout_width="45dip" 
 	        android:layout_height="wrap_content"
-	        android:text="Speichern"
-	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	    <Button 
 	        android:id="@+id/btn_start" 
 	    	android:layout_width="fill_parent" 
-	        android:layout_height="wrap_content"
+	        android:layout_height="45dip"
 	        android:text="Start"
-	        android:layout_weight="0.2"
+	        android:layout_weight="0.35"
 	        android:gravity="bottom"/> 
 	</LinearLayout>
 	<ImageView 
