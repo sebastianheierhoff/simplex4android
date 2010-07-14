@@ -40,12 +40,17 @@ public class InputShow extends Activity{
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.input_show);
 	    
-    	inputs = new ArrayList<Input>();
-    	
 	    if(this.getIntent().getBooleanExtra("create", false)){
-        	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+	    	inputs = new ArrayList<Input>();
+	    	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
         	ConstraintEditIntent.putExtra("create", true);
         	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
+	    }
+	    else if(this.getIntent().getBooleanExtra("load", false)){
+
+	    }
+	    else if(this.getIntent().getBooleanExtra("current", false)){
+	    	
 	    }
 	    else{
 	    	
@@ -55,7 +60,9 @@ public class InputShow extends Activity{
 	    final Button back = (Button) findViewById(R.id.btn_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	finish();
+	        	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
+	        	ShowMainIntent.putExtra("currentProblem", true);
+	        	startActivity(ShowMainIntent);
 	        }
 	    });
 	    
@@ -90,8 +97,6 @@ public class InputShow extends Activity{
 	        	
 	        }
 	    });
-	    
-	    
 	    
 	    //Start-Button
     	final Button btn_start = (Button) findViewById(R.id.btn_start);
@@ -128,6 +133,9 @@ public class InputShow extends Activity{
 	    });
 	}
 
+	public void onResume(Bundle savedInstanceState) {
+	
+	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
         switch (resultCode) {
@@ -228,7 +236,7 @@ public class InputShow extends Activity{
         }
         ListView listInputs = (ListView) findViewById(R.id.list_constraint);
         listInputs.setVisibility(View.VISIBLE);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tvViewRow, constraints_string);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tv_row, constraints_string);
         listInputs.setAdapter(adapter);
 	}
 }
