@@ -31,7 +31,12 @@ public class InputsLoad extends Activity {
 
 	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
 	        //listBookmarks.setDrawingCacheEnabled(true);
-	        listInputs.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mInputsDb.getNames()));
+	        try{
+	        	listInputs.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mInputsDb.getNames()));
+	        }catch(NegativeArraySizeException nase){
+	        	
+	        }
+	        
 	        //bookmarksShrunkView = bookmarksLayout.getDrawingCache();
 
 	        
@@ -54,12 +59,12 @@ public class InputsLoad extends Activity {
 	        
 	        
 	        
-	    	final Button back = (Button) findViewById(R.id.btn_cancel);
-		    back.setOnClickListener(new OnClickListener() {
-		        public void onClick(View v) {
-		        	finish();
-		        }
-		    });
+//	    	final Button back = (Button) findViewById(R.id.btn_cancel);
+//		    back.setOnClickListener(new OnClickListener() {
+//		        public void onClick(View v) {
+//		        	finish();
+//		        }
+//		    });
 	    }
 
 //	    private void createInput() {
