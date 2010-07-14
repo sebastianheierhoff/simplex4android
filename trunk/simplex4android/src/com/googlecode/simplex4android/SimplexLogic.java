@@ -164,7 +164,7 @@ public abstract class SimplexLogic {
 			}			
 		}
 		if(s.indexOf(".")!=-1){ // "." überhaupt enthalten?
-			if(s.indexOf(".")!=s.lastIndexOf(".")){ // Mehr als ein "."?
+			if(s.indexOf(".")!=s.lastIndexOf(".") || s.indexOf("/") != -1){ // Mehr als ein "." oder gleichzeitig ein "/" und "." enthalten?
 				return false;
 			}else{
 				int i=s.indexOf(".");
@@ -181,7 +181,7 @@ public abstract class SimplexLogic {
 			}
 		}
 		if(s.indexOf("/")!=-1){ // "/" überhaupt enthalten?
-			if(!(s.indexOf("/")==s.lastIndexOf("/"))){ // Mehr als ein "/"?
+			if(!(s.indexOf("/")==s.lastIndexOf("/")) || s.indexOf(".") != -1){ // Mehr als ein "/" oder gleichzeitig ein "/" und "." enthalten?
 				return false;
 			}else{
 				int i=s.indexOf("/");
@@ -481,9 +481,9 @@ public abstract class SimplexLogic {
 	}
 	
 	/**
-	 * stellt fest ob ein primales Problem im aktuellen Zustand lösbar ist
-	 * @param problem	Primales Simplexproblem
-	 * @return boolean der angibt ob das Problem lösbar ist
+	 * Stellt fest, ob ein primales Problem im aktuellen Zustand lösbar ist
+	 * @param problem Primales Simplexproblem
+	 * @return boolean, der angibt, ob das Problem lösbar ist
 	 */
 	public static boolean solveable(SimplexProblemPrimal problem){
 		double[] deltas = problem.getLastRow();
