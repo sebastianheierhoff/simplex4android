@@ -23,7 +23,7 @@ public class InputsLoad extends Activity {
 
 	        mInputsDb = new InputsDb();
 	        try{
-	        	//mInputsDb.readProblems();
+	        	mInputsDb.readProblems();
 	        }
 	        catch(Exception e){
 	        	//TODO: Fehlermeldung ausgeben!
