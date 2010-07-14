@@ -1,5 +1,7 @@
 package com.googlecode.simplex4android;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,24 +25,29 @@ public class simplex4android extends Activity {
     static final int CREATE_TARGET_REQUEST = 1;
     static final int VIEW_CONSTRAINT_REQUEST = 2;
     
+    @SuppressWarnings("unchecked")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
+	    final ArrayList<Input> inputs;
+	    
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
 
 	    if(this.getIntent().getBooleanExtra("currentProblem", false) == true){
 	    	btn_current.setEnabled(true);
 	    }
 	    
+	    inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
 
 	    //Aktuelles Problem - Button
 	    btn_current.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-	        	InputCreateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	        	startActivity(InputCreateIntent);
+	    		Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	InputCreateIntent.putExtra("currentProblem", true);
+	    		InputCreateIntent.putExtra("inputs", inputs);
+	    		startActivity(InputCreateIntent);
 	    	}
 	    });
 	    

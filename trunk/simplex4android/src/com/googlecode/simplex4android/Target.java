@@ -6,12 +6,16 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 @SuppressWarnings("serial")
 public class Target extends Input implements Serializable{
 	private boolean minOrMax;	// true bedeutet Minimierung, false bedeutet Maximierung
 	private int userSettings; 	// legt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems fest
 								// 0=primal, 1=dual;
-	
+
 	/**
 	 * Standardkonstruktor
 	 */
@@ -74,7 +78,6 @@ public class Target extends Input implements Serializable{
 		}
 		return s;
 	}
-
 
 	/**
 	  * Always treat de-serialization as a full-blown constructor, by

@@ -36,6 +36,7 @@ public class InputShow extends Activity{
 	static final int TARGET_EDIT_REQUEST = 3;
 	static final int TARGET_CREATE_REQUEST = 4;
 	
+	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.input_show);
@@ -49,8 +50,9 @@ public class InputShow extends Activity{
 	    else if(this.getIntent().getBooleanExtra("load", false)){
 
 	    }
-	    else if(this.getIntent().getBooleanExtra("current", false)){
-	    	
+	    else if(this.getIntent().getBooleanExtra("currentProblem", false)){
+	    	inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
+	    	fillData();
 	    }
 	    else{
 	    	
@@ -60,10 +62,11 @@ public class InputShow extends Activity{
 	    final Button back = (Button) findViewById(R.id.btn_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
-	        	ShowMainIntent.putExtra("currentProblem", true);
+		    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
+	        	ShowMainIntent.putExtra("inputs", inputs); 
+	            ShowMainIntent.putExtra("currentProblem", true);
 	        	startActivity(ShowMainIntent);
-	        }
+	     	}
 	    });
 	    
 	    //Nebenbedingung hinzufügen - Button
