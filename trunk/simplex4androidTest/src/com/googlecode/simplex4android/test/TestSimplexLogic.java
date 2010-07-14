@@ -206,6 +206,7 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testSimplexDual(){
 		double[][] tableau = {{0,-2.5,0.5,1,-0.5,-1},{1.0,-0.5,1.5,-0.0,-0.5,2.0},{0,-4,-1,0,-1,4}};;
+		SimplexLogic.calcDeltaByF(problemDual);
 		SimplexLogic.simplex(this.problemDual);
 		assertTrue(Arrays.equals(tableau[0], this.problemDual.getRow(0)));
 		assertTrue(Arrays.equals(tableau[1], this.problemDual.getRow(1)));
@@ -217,7 +218,11 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testSimplexPrimal(){
 		double[][] tableau = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
-		SimplexLogic.simplex(this.problemPrimal);
+		try{
+			SimplexLogic.simplex(this.problemPrimal);
+		}catch(IOException e){
+			
+		}
 		assertTrue(Arrays.equals(tableau[0], this.problemPrimal.getTableau()[0]));
 		assertTrue(Arrays.equals(tableau[1], this.problemPrimal.getTableau()[1]));
 		assertTrue(Arrays.equals(tableau[2], this.problemPrimal.getTableau()[2]));
@@ -232,48 +237,53 @@ public class TestSimplexLogic extends TestCase {
 		double[] target = {1,2,7,5,0,0,0};
 		double[][] startTableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
 		SimplexProblemPrimal start = new SimplexProblemPrimal(startTableau, target);
-		SimplexHistory history = SimplexLogic.twoPhaseSimplex(start);
+		SimplexHistory[] history = new SimplexHistory[2];
+		try{
+			history = SimplexLogic.twoPhaseSimplex(start);
+		}catch(IOException e){
+			
+		}
 		
 		// Wurden die künstlichen Variablen korrekt hinzugefügt?
 		double[][] phaseOne0 = {{-1,2,1,0,1,0,0,0,7},{0,1,0,1,0,-1,1,0,3},{1,0,2,2,0,0,0,1,8},{1,1,2,3,0,-1,0,0,11}};
-		assertTrue(Arrays.equals(phaseOne0[0], history.getElement(1).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseOne0[1], history.getElement(1).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseOne0[2], history.getElement(1).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseOne0[3], history.getElement(1).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseOne0[0], history[0].getElement(1).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne0[1], history[0].getElement(1).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne0[2], history[0].getElement(1).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne0[3], history[0].getElement(1).getTableau()[3]));
 		
 		// Richtiger Simplex-Schritt in Phase I?
 		double[][] phaseOne1 = {{-1,2,1,0,1,0,0,0,7},{0,1,0,1,0,-1,1,0,3},{1,-2,2,0,0,2,-2,1,2},{1,-2,2,0,0,2,-3,0,2}};
-		assertTrue(Arrays.equals(phaseOne1[0], history.getElement(2).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseOne1[1], history.getElement(2).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseOne1[2], history.getElement(2).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseOne1[3], history.getElement(2).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseOne1[0], history[0].getElement(2).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne1[1], history[0].getElement(2).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne1[2], history[0].getElement(2).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne1[3], history[0].getElement(2).getTableau()[3]));
 		
 		// Richtiger Simplex-Schritt in Phase I?
 		double[][] phaseOne2 = {{-1.5,3,0,0,1,-1,1,-0.5,6},{0,1,0,1,0,-1,1,0,3},{0.5,-1,1,0,0,1,-1,0.5,1},{0,0,0,0,0,0,-1,-1,0}};
-		assertTrue(Arrays.equals(phaseOne2[0], history.getElement(2).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseOne2[1], history.getElement(2).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseOne2[2], history.getElement(2).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseOne2[3], history.getElement(2).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseOne2[0], history[0].getElement(2).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne2[1], history[0].getElement(2).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne2[2], history[0].getElement(2).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne2[3], history[0].getElement(2).getTableau()[3]));
 		
 		// Richtiges StartTableau in Phase II?
 		double[][] phaseTwo0 = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{2.5,-4,0,0,0,2,22}};
-		assertTrue(Arrays.equals(phaseTwo0[0], history.getElement(3).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo0[1], history.getElement(3).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo0[2], history.getElement(3).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo0[3], history.getElement(3).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseTwo0[0], history[1].getElement(0).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo0[1], history[1].getElement(0).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo0[2], history[1].getElement(0).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo0[3], history[1].getElement(0).getTableau()[3]));
 		
 		// Richtiger Simplex-Schritt in Phase II?
 		double[][] phaseTwo1 = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
-		assertTrue(Arrays.equals(phaseTwo1[0], history.getElement(3).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo1[1], history.getElement(3).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo1[2], history.getElement(3).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo1[3], history.getElement(3).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseTwo1[0], history[1].getElement(1).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo1[1], history[1].getElement(1).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo1[2], history[1].getElement(1).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo1[3], history[1].getElement(1).getTableau()[3]));
 		
 		// Richtiger Simplex-Schritt in Phase II UND damit optimale Lösung gefunden?
 		double[][] phaseTwo2Optimal = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,-5,-1,0,-2,14}};
-		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history.getElement(3).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history.getElement(3).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history.getElement(3).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history.getElement(3).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history[1].getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history[1].getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history[1].getElement(3).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history[1].getElement(3).getTableau()[3]));
 	}
 }

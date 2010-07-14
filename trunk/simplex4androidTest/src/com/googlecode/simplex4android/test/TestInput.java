@@ -38,10 +38,13 @@ public class TestInput extends TestCase {
 	 * Testet, ob ein der Methode fractionToDbl(String s) übergebener Bruch-String fehlerfrei in ein double überführt wird.
 	 */
 	public void testFractionToDblCorrect(){
-		String s = "24/12";
-		double d = 24.0/12.0;
+		String s1 = "24/12";
+		String s2 = "-1/2";
+		double d1 = 24.0/12.0;
+		double d2 = -0.5;
 		try{
-			assertEquals(d,Constraint.fractionToDbl(s));
+			assertEquals(d1,Constraint.fractionToDbl(s1));
+			assertEquals(d2,Constraint.fractionToDbl(s2));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
