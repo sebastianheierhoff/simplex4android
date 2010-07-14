@@ -668,10 +668,23 @@ public abstract class SimplexLogic {
 		return tmpXByF;
 	}
 
+//	/**
+//	 * erstellt ein int[] komplett mit nullen in der größer von pivots
+//	 * @param problem
+//	 * @return int[] in Größe von pivots mit nullen
+//	 */	
+//	public static int[] initializePivotsWithNull(SimplexProblem problem){
+//		int[] tmpPivots = new int[problem.getNoRows()-1];
+//		for(int i=0;i<tmpPivots.length;i++){
+//			tmpPivots[i]=0;
+//		}
+//		return tmpPivots;
+//	}
+	
 	/**
-	 * Füllt DeltaByF komplett mit nullen
+	 * erstellt ein double [] komplett mit nullen in der größer von deltaByF
 	 * @param problem
-	 * @return
+	 * @return double[] in Größe von  deltaByF mit nullen
 	 */
 	public static double[] initializDeltaByFwithNull(SimplexProblemDual problem){
 		double[] tmpDeltaByF = new double[problem.getNoColumns()];

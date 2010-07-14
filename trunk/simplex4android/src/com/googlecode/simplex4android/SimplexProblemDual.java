@@ -102,7 +102,8 @@ public class SimplexProblemDual extends SimplexProblem {
 		html = html + "<td>x</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
+			if(pivots.length == this.getPivots().length)html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
+			else html = html + "<tr><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
 					html = html  + "<td bgcolor=#CC0000>";
@@ -116,7 +117,8 @@ public class SimplexProblemDual extends SimplexProblem {
 		// Letzte Zeile: extra behandlung für delta-Wert
 		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<this.getTableau()[0].length;i++){
-			html = html + "<td>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
+			if(pivots.length == this.getPivots().length)html = html + "<td>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
+			else html = html + "<td>" + "&#8211;" +"</td>";
 		}
 		html = html + "</tr>\n";
 		// allerletzte Zeile mit den delta/f-Werten
