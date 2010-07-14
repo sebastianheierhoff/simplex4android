@@ -499,14 +499,6 @@ public abstract class SimplexLogic {
 		return false;
 	}
 	
-//	public static SimplexHistory[] twoPhaseSimplex(SimplexProblem problem){
-//		if(problem.getClass() == SimplexProblemPrimal.class){
-//			return twoPhaseSimplex(problem);
-//		}
-//		else
-//			return twoPhaseSimplex(problem);
-//	}
-	
 	/**
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in dualer Form
