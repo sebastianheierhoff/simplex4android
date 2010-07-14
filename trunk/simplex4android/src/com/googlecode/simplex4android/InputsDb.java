@@ -12,20 +12,20 @@ import java.util.ArrayList;
 //TODO: Kann man die Klasse statisch machen??? Brauche ich umbeding ein Objekt?
 
 
+/**
+ * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
+ */
 public class InputsDb {
+		
+	private ArrayList<ArrayList<Input>> listOfInputs = new ArrayList<ArrayList<Input>>(); //Liste zum Speichern von Problemen
 	
 	/**
-	 * Liste zum Speichern von Problemen
-	 */
-	private ArrayList<ArrayList<Input>> listOfInputs = new ArrayList<ArrayList<Input>>();
-	
-	/**
-	 * leerer Konstruktor zum anlegen der Liste der Probleme
+	 * Leerer Konstruktor zum Anlegen der Liste der Probleme
 	 */
 	public InputsDb(){}
 	
 	/**
-	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt eins einzufügen
+	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt das erste einzufügen.
 	 * @param problem
 	 */
 	public InputsDb(ArrayList<Input> problem){
@@ -33,7 +33,7 @@ public class InputsDb {
 	}
 	
 	/**
-	 * Methode zum hinzufügen eines Problems
+	 * Methode zum Hinzufügen eines Problems
 	 * @param problem
 	 */
 	public void addProblem(ArrayList<Input> problem){
@@ -41,7 +41,7 @@ public class InputsDb {
 	}
 	
 	/**
-	 * Gibt array mit den Namen der einzelnen Namen der Probleme zurück 
+	 * Gibt Array mit den Namen der einzelnen Namen der Probleme zurück.
 	 * @return String[] mit den Namen der Probleme
 	 */
 	public String[] getNames(){
@@ -53,23 +53,21 @@ public class InputsDb {
 	}
 	
 	/**
-	 * 
-	 * @return gibt die komplette Liste mit den gespeicherten Problemen zurück
+	 * Gibt die komplette Liste mit den gespeicherten Problemen zurück
+	 * @return komplette Liste mit den gespeicherten Problemen
 	 */
 	public ArrayList<ArrayList<Input>> getListOfProblems(){
 		return this.listOfInputs;
 	}
 	
 	/**
-	 * Methode, die aus der Datei simplexProbleme.dat, eine ArrayList<SimplexProblem> ausliest und in listOfProblemes speichert.
+	 * Liest aus der Datei simplexProbleme.dat, eine ArrayList<SimplexProblem> aus und speichert diese in listOfInputs.
 	 *  
 	 * @throws ClassNotFoundException	wird nur geschmissen wenn die Klasse SimplexProblem nicht gefunden wird
 	 * @throws IOException
-	 * @throws FileNotFoundException	muss aufgefangen werden und in GUI behandelt werden falls die Datei simplexProbleme.dat nicht im Programmordner gefunden wird.
-	 */
-	
+	 */	
 	@SuppressWarnings("unchecked")
-	public void readProblems()throws ClassNotFoundException, IOException, FileNotFoundException{
+	public void readProblems() throws ClassNotFoundException, IOException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try{
@@ -77,6 +75,7 @@ public class InputsDb {
 		}
 		catch(FileNotFoundException e){
 			FileOutputStream fos = new FileOutputStream("simplexProbleme.dat"); //neue Datei anlegen
+			fis = new FileInputStream("simplexProbleme.dat");
 		}
 		ois = new ObjectInputStream(fis);
 		listOfInputs = (ArrayList<ArrayList<Input>>) ois.readObject();
@@ -86,9 +85,7 @@ public class InputsDb {
 	/**
 	 * Speichert die ArrayList listOfProblems in der Datei simplexProbleme.dat ab. Kann mit der Methode readHistory wieder eingelesen werden.
 	 * @throws IOException
-	 */
-	
-	
+	 */	
 	public void saveProblems()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProbleme.dat");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
