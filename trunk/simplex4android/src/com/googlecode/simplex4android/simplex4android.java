@@ -1,5 +1,7 @@
 package com.googlecode.simplex4android;
 
+//TODO: Kommentar einfügen
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -25,22 +27,20 @@ public class simplex4android extends Activity {
     static final int CREATE_TARGET_REQUEST = 1;
     static final int VIEW_CONSTRAINT_REQUEST = 2;
     
+    static ArrayList<Input> inputs;
+    
     @SuppressWarnings("unchecked")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
-	    final ArrayList<Input> inputs;
-	    
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
-
 	    if(this.getIntent().getBooleanExtra("currentProblem", false) == true){
+		    inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
 	    	btn_current.setEnabled(true);
 	    }
 	    
-	    inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
-
 	    //Aktuelles Problem - Button
 	    btn_current.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
@@ -71,15 +71,15 @@ public class simplex4android extends Activity {
 	    });
 	    
 	    //TUTORIAL
-//    	final Button btn_tutorial = (Button) findViewById(R.id.btn_tutorial);
-//	    btn_tutorial.setOnClickListener(new OnClickListener() {
-//	        public void onClick(View v) {
-//	            Intent TutorialIntent = new Intent();
-//	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.Tutorial");
-//	        	startActivity(TutorialIntent);
-//	        }
-//	    });
-    
+    	final Button btn_tutorial = (Button) findViewById(R.id.btn_tutorial);
+	    btn_tutorial.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	            //TODO: WebView anlegen, HTML-Dokumentation einbinden.
+	        	Intent TutorialIntent = new Intent();
+	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.Tutorial");
+	        	startActivity(TutorialIntent);
+	        }
+	    });
 	}
 }    
 
