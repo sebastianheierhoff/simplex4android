@@ -43,6 +43,7 @@ public class SimplexLocal {
 		}catch(Exception e){
 			
 		}
+		
 		//SimplexLogic.findPivots(firstProblem);
 		//SimplexLogic.calcDeltas(firstProblem);
 		//double[] deltas = {2.5,-4,0,0,0,2,22};
