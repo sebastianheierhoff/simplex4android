@@ -85,7 +85,7 @@
 	        android:id="@+id/button_cancel" 
 	    	android:layout_width="fill_parent" 
 	        android:layout_height="wrap_content"
-	        android:text="Abbruch"
+	        android:text="Zurück"
 	        android:layout_weight="0.25"
 	        android:gravity="bottom"/> 
 	    <Button 
