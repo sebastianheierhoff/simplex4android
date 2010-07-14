@@ -101,7 +101,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
 			html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
-				if(SimplexLogic.contains(pivots, j)){
+				if(SimplexLogic.choosePivotRow(this)==i && SimplexLogic.choosePivotColumn(this)==j){
 					html = html  + "<td bgcolor=#CC0000>";
 				}else{
 					html = html  + "<td>";
