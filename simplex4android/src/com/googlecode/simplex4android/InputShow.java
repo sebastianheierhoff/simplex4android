@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -182,21 +183,8 @@ public class InputShow extends Activity{
         		    if(inputs.size()>1){
         		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
         		    }
-        	        
-                    List<Input> constraints = inputs.subList(1, inputs.size());
-        	        String[] constraints_string = new String[constraints.size()];
-                    Iterator<Input> iter = constraints.iterator(); 
-                    int i = 0;
-                    while(iter.hasNext() ) { 
-                        constraints_string[i] = iter.next().toString();
-                        i++;
-                    }
-                    
-        	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-        	        listInputs.setVisibility(View.VISIBLE);
-        	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, constraints_string);
-        	        listInputs.setAdapter(adapter);
-	    			Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
+        	        fillData();
+        		    Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
             	}
             	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
@@ -207,5 +195,40 @@ public class InputShow extends Activity{
         }
     }
 
+	public void EditClickHandler(View v)
+	{
+		// get the row the clicked button is in
+		LinearLayout vwParentRow = (LinearLayout)v.getParent();
+		//get the 2nd child of our ParentRow 
+		Button btnChild = (Button)vwParentRow.getChildAt(1);
+	    Toast.makeText(InputShow.this,"Edit Button pressed",Toast.LENGTH_LONG).show();
+		// and redraw our row to reflect our colour change
+		vwParentRow.refreshDrawableState();
+		}
 	
+	public void DeleteClickHandler(View v)
+	{
+		// get the row the clicked button is in
+		LinearLayout vwParentRow = (LinearLayout)v.getParent();
+		//get the 2nd child of our ParentRow 
+		Button btnChild = (Button)vwParentRow.getChildAt(2);
+	    Toast.makeText(InputShow.this,"Delete Button pressed",Toast.LENGTH_LONG).show();
+		// and redraw our row to reflect our colour change
+		vwParentRow.refreshDrawableState();
+		}
+	
+	private void fillData() {
+        List<Input> constraints = inputs.subList(1, inputs.size());
+        String[] constraints_string = new String[constraints.size()];
+        Iterator<Input> iter = constraints.iterator(); 
+        int i = 0;
+        while(iter.hasNext() ) { 
+            constraints_string[i] = iter.next().toString();
+            i++;
+        }
+        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
+        listInputs.setVisibility(View.VISIBLE);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tvViewRow, constraints_string);
+        listInputs.setAdapter(adapter);
+	}
 }
