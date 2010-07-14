@@ -106,4 +106,12 @@ public class SimplexHistory {
 		}
 		return s;
 	}
+	
+	/**
+	 * löscht ein Element an Stelle i
+	 */
+	public void deleteElement(int i){
+		this.history.remove(i);
+	}
+	
 }

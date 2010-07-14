@@ -573,6 +573,12 @@ public abstract class SimplexLogic {
 				if(current!=null)phases[0].addElement(current.clone());
 			}
 			while(phases[0].getLastElement().getOptimal()!=true);
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
+				phases[0].deleteElement(phases[0].size()-2);
+			}
+			
+			
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
 			phases[1].addElement(transitionPhasesPrimal(phases[0].getFirstElement(), phases[0].getLastElement()));
 		}else{
@@ -695,5 +701,17 @@ public abstract class SimplexLogic {
 			if(array[i]==search)return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * vergleicht zwei int[] mit den Pivots drin und gibt zurück ob sie gleich sind.
+	 * @return boolean
+	 */
+	public static boolean compareArray(int[] a, int[]b){
+		if(a.length!=b.length)return false;
+		for(int i=0;i<a.length;i++){
+			if(a[i]!=b[i])return false;
+		}
+		return true;
 	}
 }

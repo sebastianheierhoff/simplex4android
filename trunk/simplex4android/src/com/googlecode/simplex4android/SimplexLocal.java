@@ -39,9 +39,18 @@ public class SimplexLocal {
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
 		try{
-			System.out.println(SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());
-		}catch(Exception e){
-			
+//			System.out.println("Ausgabe in Simplex Local \n" + SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());		}catch(Exception e){
+//			System.out.println(e.getMessage());
+			SimplexHistory[] tmp = SimplexLogic.twoPhaseSimplex(firstProblem);
+			for(int i=0;i<tmp[0].size();i++){
+			System.out.println("Phase 1");
+			System.out.println(tmp[0].getElement(i).tableauToHtml());
+		}
+		for(int i=0;i<tmp[1].size();i++){
+			System.out.println("Phase 2");
+			System.out.println(tmp[1].getElement(i).tableauToHtml());
+		}
+			}catch(Exception e){
 		}
 		
 		//SimplexLogic.findPivots(firstProblem);
