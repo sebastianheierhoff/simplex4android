@@ -26,31 +26,36 @@ public class SimplexLocal {
 		//double[][] tableau = {{-1,-2,-1,1,0,-3},{-2,1,-3,0,1,-4},{0,0,0,0,0,0}};
 		//double[] target = {2,3,4,0,0,0};
 		//duales Beispiel Übung 7c
-		//double[][] tableau = {{0,0,-4,-0.6,1,1,0.6,-3.8},{-1,1,3,0.4,0,-1,-0.4,3.2},{0,0,0,0,0,0,0,0}};
-		//double[] target = {75,15,55,15,5,0,0,0};
+		double[][] tableau = {{0,0,-4,-0.6,1,1,0.6,-3.8},{-1,1,3,0.4,0,-1,-0.4,3.2},{0,0,0,0,0,0,0,0}};
+		double[] target = {75,15,55,15,5,0,0,0};
 		//primales Problem
-		double[] target = {1,2,7,5,0,0,0};
-		double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
+		//double[] target = {1,2,7,5,0,0,0};
+		//double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
 
 		//double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
 		//double[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblemPrimal firstProblem = new SimplexProblemPrimal(tableau, target);
+		SimplexProblemDual firstProblem = new SimplexProblemDual(tableau, target);
 		try{
-//			System.out.println("Ausgabe in Simplex Local \n" + SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());		}catch(Exception e){
-//			System.out.println(e.getMessage());
+			//			System.out.println("Ausgabe in Simplex Local \n" + SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());		}catch(Exception e){
+
 			SimplexHistory[] tmp = SimplexLogic.twoPhaseSimplex(firstProblem);
-			for(int i=0;i<tmp[0].size();i++){
-			System.out.println("Phase 1");
-			System.out.println(tmp[0].getElement(i).tableauToHtml());
-		}
-		for(int i=0;i<tmp[1].size();i++){
-			System.out.println("Phase 2");
-			System.out.println(tmp[1].getElement(i).tableauToHtml());
-		}
-			}catch(Exception e){
+
+			if(tmp[0]!=null){
+				for(int i=0;i<tmp[0].size();i++){
+
+					System.out.println("Phase 1");
+					System.out.println(tmp[0].getElement(i).tableauToHtml());
+				}
+			}
+			for(int i=0;i<tmp[1].size();i++){
+				System.out.println("Phase 2");
+				System.out.println(tmp[1].getElement(i).tableauToHtml());
+			}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 		}
 		
 		//SimplexLogic.findPivots(firstProblem);
