@@ -37,26 +37,43 @@ public class SimplexLocal {
 		//double[] target = {1,2,7,5,0,0,0}; 
 		
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		SimplexProblemDual firstProblem = new SimplexProblemDual(tableau, target);
+		Target t = new Target();
+		t.setValue(0,1);
+		t.setValue(1,2);
+		t.setValue(2,3);
+		t.setMinOrMax(false);
+		
+		Constraint c1 = new Constraint();
+		c1.setValue(0, 1);
+		c1.setSign(-1);
+		c1.setTargetValue(5);
+		Constraint c2 = new Constraint();
+		c2.setValue(1, 1);
+		c2.setSign(0);
+		c2.setTargetValue(10);
+		Constraint c3 = new Constraint();
+		c3.setValue(2, 1);
+		c3.setSign(1);
+		c3.setTargetValue(20);
+		Constraint c4 = new Constraint();
+		c4.setValue(1, 0);
+		c4.setValue(2, 1);
+		c4.setSign(1);
+		c4.setTargetValue(20);
+		
+		ArrayList<Input> input = new ArrayList<Input>();
+		input.add(t);
+		input.add(c1);
+		input.add(c2);
+		input.add(c3);
+		
+		InputsDb test = new InputsDb(input);
 		try{
-			//			System.out.println("Ausgabe in Simplex Local \n" + SimplexLogic.twoPhaseSimplex(firstProblem)[1].getLastElement().tableauToHtml());		}catch(Exception e){
-
-			SimplexHistory[] tmp = SimplexLogic.twoPhaseSimplex(firstProblem);
-
-			if(tmp[0]!=null){
-				for(int i=0;i<tmp[0].size();i++){
-
-					System.out.println("Phase 1");
-					System.out.println(tmp[0].getElement(i).tableauToHtml());
-				}
-			}
-			for(int i=0;i<tmp[1].size();i++){
-				System.out.println("Phase 2");
-				System.out.println(tmp[1].getElement(i).tableauToHtml());
-			}
+			test.readProblems();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
+		
 		
 		//SimplexLogic.findPivots(firstProblem);
 		//SimplexLogic.calcDeltas(firstProblem);
