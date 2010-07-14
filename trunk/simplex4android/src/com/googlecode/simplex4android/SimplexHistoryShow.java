@@ -13,6 +13,7 @@ public class SimplexHistoryShow extends Activity {
 	
 	SimplexHistory current;
 	int currenti;
+	int currentphase;
 	WebView mWebView;
 	String tableauToHtml;
 
@@ -20,11 +21,16 @@ public class SimplexHistoryShow extends Activity {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
 
+		final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
     	if(InputShow.simplexhistoryarray[0] != null){
+    		currentphase = 1;
     		current = InputShow.simplexhistoryarray[0];
+    		btn_switchphases.setVisibility(View.VISIBLE);
     	}
     	else if(InputShow.simplexhistoryarray[1] != null){
+    		currentphase = 2;
     		current = InputShow.simplexhistoryarray[1];
+    		btn_switchphases.setVisibility(View.INVISIBLE);
     	}
     	else{
 			Toast.makeText(SimplexHistoryShow.this,"Unbekannter Fehler.",Toast.LENGTH_LONG).show();
@@ -53,7 +59,7 @@ public class SimplexHistoryShow extends Activity {
 	        	tableauToHtml = current.getFirstElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
         		v.setEnabled(false);
-        		btn_first.setEnabled(false);
+        		findViewById(R.id.btn_previous).setEnabled(false);
 	        }
 	    });	    
 	    
@@ -111,16 +117,31 @@ public class SimplexHistoryShow extends Activity {
 	    });
 	    
 	    //2.Phase Button (unsichtbar wenn keine 1. Phase notwendig)
-    	final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
 	    btn_switchphases.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v) {
 	    		//TODO: Code einfügen
-	    		//current auf SimplexHistory der 2. Phase setzen
-	    		
-	    		//WebView aktualisieren
-	    		
-	    		//Buttontext aktualisieren
-	    		
+	    		if(currentphase == 1){
+		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
+		    		currentphase = 2;
+	    			current = InputShow.simplexhistoryarray[1];
+		        	currenti = 0;
+		        	//WebView aktualisieren
+		        	tableauToHtml = current.getFirstElement().tableauToHtml();
+		        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+		    		//Buttontext aktualisieren
+		    		((Button) v).setText("1. Phase");
+	    		}
+	    		if(currentphase == 2){
+		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
+		    		currentphase = 1;
+	    			current = InputShow.simplexhistoryarray[0];
+		        	currenti = 0;
+		        	//WebView aktualisieren
+		        	tableauToHtml = current.getFirstElement().tableauToHtml();
+		        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+		    		//Buttontext aktualisieren
+		    		((Button) v).setText("2. Phase");
+	    		}
 	    	}
 	    });
 
