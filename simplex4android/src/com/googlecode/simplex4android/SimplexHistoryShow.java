@@ -126,14 +126,14 @@ public class SimplexHistoryShow extends Activity {
 		    		currentphase = 2;
 	    			current = InputShow.simplexhistoryarray[1];
 		    		//Buttontext aktualisieren
-		    		((Button) v).setText("1. Phase");
+		    		((Button) v).setText("2. Phase");
 	    		}
 	    		if(currentphase == 2){
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 1;
 	    			current = InputShow.simplexhistoryarray[0];
 		    		//Buttontext aktualisieren
-		    		((Button) v).setText("2. Phase");
+		    		((Button) v).setText("1. Phase");
 	    		}
 	        	currenti = 0;
 	        	//WebView aktualisieren

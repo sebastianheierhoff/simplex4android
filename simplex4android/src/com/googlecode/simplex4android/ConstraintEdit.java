@@ -114,7 +114,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
+	    imm.hideSoftInputFromWindow(target_value.getWindowToken(), 0);
 	    
 	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
@@ -212,6 +212,9 @@ public class ConstraintEdit extends Activity {
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;
+//	    			if(edittext_x_value==1){
+//	    				V.setEnabled(false);
+//	    			}
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
 		    			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));
