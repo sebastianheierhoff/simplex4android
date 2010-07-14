@@ -90,7 +90,10 @@ public class InputsDb {
 			return;
 		}
 		ois = new ObjectInputStream(fis);
-		listOfInputs = (ArrayList<ArrayList<Input>>) ois.readObject();
+		Object[] input = (Object[]) ois.readObject();
+		for(int i=0;i<input.length;i++){
+			listOfInputs.add((ArrayList<Input>)input[i]);
+		}		
 		ois.close();		
 	}
 
@@ -101,8 +104,7 @@ public class InputsDb {
 	public void saveProblems()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProbleme.dat");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		Object[] inputArrays = listOfInputs.toArray();
-		oos.writeObject(inputArrays);
+		oos.writeObject(listOfInputs.toArray());
 		oos.close();
 	}	
 }
