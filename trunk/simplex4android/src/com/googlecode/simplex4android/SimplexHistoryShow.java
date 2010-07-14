@@ -27,7 +27,7 @@ public class SimplexHistoryShow extends Activity {
     		current = InputShow.simplexhistoryarray[1];
     	}
     	else{
-			Toast.makeText(SimplexHistoryShow.this,"Unbekannter Fehler. Beide SimplexHistories == null",Toast.LENGTH_LONG).show();
+			Toast.makeText(SimplexHistoryShow.this,"Unbekannter Fehler.",Toast.LENGTH_LONG).show();
     	}
     	
     	currenti = 0;
@@ -109,5 +109,30 @@ public class SimplexHistoryShow extends Activity {
 	        	btn_next.setEnabled(false);
 	    	}
 	    });
+	    
+	    //2.Phase Button (unsichtbar wenn keine 1. Phase notwendig)
+    	final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
+	    btn_switchphases.setOnClickListener(new OnClickListener() {
+	    	public void onClick(View v) {
+	    		//TODO: Code einfügen
+	    		//current auf SimplexHistory der 2. Phase setzen
+	    		
+	    		//WebView aktualisieren
+	    		
+	    		//Buttontext aktualisieren
+	    		
+	    	}
+	    });
+
+	    //Zurück-Button (zurück zur InputShow)
+    	final Button btn_back = (Button) findViewById(R.id.btn_back);
+	    btn_back.setOnClickListener(new OnClickListener() {
+	    	public void onClick(View v) {
+	    		//Zurück zu InputShow
+	    		//TODO: Code einfügen
+	    	}
+	    });
+
+	
 	}	
 }

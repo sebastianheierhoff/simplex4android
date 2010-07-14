@@ -51,7 +51,7 @@ public class InputShow extends Activity{
 	    }
 	
 	    //Zurück-Button
-	    final Button back = (Button) findViewById(R.id.button_cancel);
+	    final Button back = (Button) findViewById(R.id.btn_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	finish();
@@ -59,7 +59,7 @@ public class InputShow extends Activity{
 	    });
 	    
 	    //Nebenbedingung hinzufügen - Button
-    	final Button constraint_new = (Button) findViewById(R.id.button_new_constraint);
+    	final Button constraint_new = (Button) findViewById(R.id.btn_new_constraint);
 	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
@@ -70,7 +70,7 @@ public class InputShow extends Activity{
 	    });
 	    
 	    //Speichern-Button
-    	final Button btn_save = (Button) findViewById(R.id.button_save);
+    	final Button btn_save = (Button) findViewById(R.id.btn_save);
 	    btn_save.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	//TODO: Speichern Methode einbinden
@@ -83,9 +83,17 @@ public class InputShow extends Activity{
 	    });
 
 	    //"Einstellungen ändern" - Button
+    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
+	    btn_settings.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	
+	        }
+	    });
+	    
+	    
 	    
 	    //Start-Button
-    	final Button btn_start = (Button) findViewById(R.id.button_start);
+    	final Button btn_start = (Button) findViewById(R.id.btn_start);
 	    btn_start.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	//TODO: Code einfügen.

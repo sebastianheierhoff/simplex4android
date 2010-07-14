@@ -75,39 +75,46 @@
         android:layout_marginLeft="5dip" />
     </LinearLayout>    
     <LinearLayout
-    	android:id="@+id/buttongroup_navigation" 
+    	android:id="@+id/btngroup_navigation" 
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:background="@color/white"
     	android:orientation="horizontal"
     	android:layout_alignParentBottom="true">
 	    <Button 
-	        android:id="@+id/button_cancel" 
+	        android:id="@+id/btn_cancel" 
 	    	android:layout_width="fill_parent" 
 	        android:layout_height="wrap_content"
 	        android:text="Zurück"
-	        android:layout_weight="0.25"
+	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	    <Button 
-	        android:id="@+id/button_new_constraint" 
+	        android:id="@+id/btn_new_constraint" 
 	    	android:layout_width="fill_parent" 
 	        android:layout_height="fill_parent"
 	        android:text="Nebenbedingung &#10;hinzufügen"
 	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	    <Button 
-	        android:id="@+id/button_save" 
+	        android:id="@+id/btn_settings" 
+	    	android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:text="Einstellungen"
+	        android:layout_weight="0.2"
+	        android:gravity="bottom"/> 
+	    <Button 
+	        android:id="@+id/btn_save" 
 	    	android:layout_width="fill_parent" 
 	        android:layout_height="wrap_content"
 	        android:text="Speichern"
-	        android:layout_weight="0.25"
+	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	    <Button 
-	        android:id="@+id/button_start" 
+	        android:id="@+id/btn_start" 
 	    	android:layout_width="fill_parent" 
 	        android:layout_height="wrap_content"
 	        android:text="Start"
-	        android:layout_weight="0.24"
+	        android:layout_weight="0.2"
 	        android:gravity="bottom"/> 
 	</LinearLayout>
 	<ImageView 

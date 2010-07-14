@@ -54,7 +54,7 @@ public class InputsLoad extends Activity {
 	        
 	        
 	        
-	    	final Button back = (Button) findViewById(R.id.button_cancel);
+	    	final Button back = (Button) findViewById(R.id.btn_cancel);
 		    back.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
 		        	finish();

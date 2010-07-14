@@ -88,14 +88,14 @@ public class TargetEdit extends Activity {
 	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
 	    
 	    //Keyboard-Button
-	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
-									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
-									R.id.button_minus, R.id.button_divide, R.id.button_decimal, R.id.button_backspace};
+	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
+									R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
+									R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
 		
 		for(int i=0; i<keyboardButtons.length; i++){
-			Button[] buttons = new Button[keyboardButtons.length];
-			buttons[i] = (Button) findViewById(keyboardButtons[i]);
-		    buttons[i].setOnClickListener(new OnClickListener() {
+			Button[] btns = new Button[keyboardButtons.length];
+			btns[i] = (Button) findViewById(keyboardButtons[i]);
+		    btns[i].setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
 		        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
 		        	String newtext = text.getText().toString(); 
@@ -120,7 +120,7 @@ public class TargetEdit extends Activity {
 		}
 		
 	    //"Xi erhöhen"-Button
-	    final Button x_plus = (Button) findViewById(R.id.button_x_plus);
+	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
 	    OnClickListener x_plus_action = new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
@@ -137,7 +137,7 @@ public class TargetEdit extends Activity {
 	    x_plus.setOnClickListener (x_plus_action);
 	    
 	    //"Xi verringern"-Button
-	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
+	    final Button x_minus = (Button) findViewById(R.id.btn_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
@@ -174,7 +174,7 @@ public class TargetEdit extends Activity {
 	    });
 
 		//Hinzufügen-Button
-	    final Button add_target_element = (Button) findViewById(R.id.button_add_target_element);
+	    final Button add_target_element = (Button) findViewById(R.id.btn_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -210,7 +210,7 @@ public class TargetEdit extends Activity {
 		});
 	    
 	    //Fertig-Button
-    	final Button add = (Button) findViewById(R.id.button_add);
+    	final Button add = (Button) findViewById(R.id.btn_add);
 	    add.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	    	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -226,7 +226,7 @@ public class TargetEdit extends Activity {
 	    });
 	    
 	    //Zurück-Button
-	    final Button back = (Button) findViewById(R.id.button_back);
+	    final Button back = (Button) findViewById(R.id.btn_back);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	finish();
