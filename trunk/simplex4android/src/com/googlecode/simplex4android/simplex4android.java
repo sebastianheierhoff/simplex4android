@@ -28,6 +28,14 @@ public class simplex4android extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
+	    //Aktuelles Problem - Button
+	    final Button btn_current = (Button) findViewById(R.id.btn_current);
+	    btn_current.setOnClickListener(new OnClickListener() {
+	    	public void onClick(View v){
+	    	//TODO: Code einfügen 	
+	    	}
+	    });
+	    
 	    //NEUES PROBLEM ANLEGEN
 	    final Button button_new = (Button) findViewById(R.id.button_new);
 	    button_new.setOnClickListener(new OnClickListener() {

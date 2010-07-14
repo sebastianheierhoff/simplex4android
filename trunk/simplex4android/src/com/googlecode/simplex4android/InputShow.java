@@ -50,7 +50,7 @@ public class InputShow extends Activity{
 	    	
 	    }
 	
-	    //Abbruch-Button
+	    //Zurück-Button
 	    final Button back = (Button) findViewById(R.id.button_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
