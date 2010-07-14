@@ -236,9 +236,11 @@ public abstract class SimplexLogic {
 	 */
 	public static int choosePivotColumnDual(SimplexProblemDual problem){
 		int column = -1;
+		double min = Double.MAX_VALUE;
 		for(int i = problem.getNoColumns()-2; i>-1; i--){
-			if(problem.getDeltaByF()[i]>0){
+			if(problem.getDeltaByF()[i]>0&&problem.getDeltaByF()[i]<min){
 				column = i;
+				min = problem.getDeltaByF()[i];
 			}
 		}
 		return column;
@@ -450,7 +452,7 @@ public abstract class SimplexLogic {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemDual spp = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumnDual(problem));
 				findPivots(spp);
-				if(checkOptimal(spp)){
+				if(checkDualOptimal(spp)){
 					problem.setOptimal();
 				}				
 				calcDeltaByF(spp);
@@ -526,7 +528,7 @@ public abstract class SimplexLogic {
 		for(int i=0;i<x.length;i++){
 			if(x[i]<0){
 				for(int j=0;j<problem.getRow(i).length;j++){
-					if(problem.getColumn(i)[j]<0)
+					if(problem.getRow(i)[j]<0)
 						return true;
 				}
 			}
