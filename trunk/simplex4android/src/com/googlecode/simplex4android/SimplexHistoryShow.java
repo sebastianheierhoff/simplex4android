@@ -58,7 +58,8 @@ public class SimplexHistoryShow extends Activity {
 	        	currenti=0;
 	        	tableauToHtml = current.getFirstElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-        		v.setEnabled(false);
+        		
+	        	findViewById(R.id.btn_first).setEnabled(true);
         		findViewById(R.id.btn_previous).setEnabled(false);
 	        }
 	    });	    
@@ -74,8 +75,8 @@ public class SimplexHistoryShow extends Activity {
 	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	if(currenti == 0){
-	        		v.setEnabled(false);
-	        		btn_first.setEnabled(false);
+	        		findViewById(R.id.btn_previous).setEnabled(false);
+		        	findViewById(R.id.btn_first).setEnabled(false);
 	        	}
 	        }
 	    });	  
@@ -94,7 +95,7 @@ public class SimplexHistoryShow extends Activity {
         		mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 
         		if(currenti == current.size()-1){
-	        		v.setEnabled(false);
+    	        	findViewById(R.id.btn_next).setEnabled(false);
 	        		findViewById(R.id.btn_last).setEnabled(false);
 	        	}
 	        }
@@ -111,8 +112,8 @@ public class SimplexHistoryShow extends Activity {
 	    		tableauToHtml = current.getLastElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
-	        	v.setEnabled(false);
-	        	btn_next.setEnabled(false);
+	        	findViewById(R.id.btn_last).setEnabled(false);
+	        	findViewById(R.id.btn_next).setEnabled(false);
 	    	}
 	    });
 	    
@@ -124,10 +125,6 @@ public class SimplexHistoryShow extends Activity {
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 2;
 	    			current = InputShow.simplexhistoryarray[1];
-		        	currenti = 0;
-		        	//WebView aktualisieren
-		        	tableauToHtml = current.getFirstElement().tableauToHtml();
-		        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 		    		//Buttontext aktualisieren
 		    		((Button) v).setText("1. Phase");
 	    		}
@@ -135,13 +132,18 @@ public class SimplexHistoryShow extends Activity {
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 1;
 	    			current = InputShow.simplexhistoryarray[0];
-		        	currenti = 0;
-		        	//WebView aktualisieren
-		        	tableauToHtml = current.getFirstElement().tableauToHtml();
-		        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 		    		//Buttontext aktualisieren
 		    		((Button) v).setText("2. Phase");
 	    		}
+	        	currenti = 0;
+	        	//WebView aktualisieren
+	        	tableauToHtml = current.getFirstElement().tableauToHtml();
+	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+	    		//Buttons btn_first und btn_previous deaktivieren
+	        	findViewById(R.id.btn_first).setEnabled(false);
+	        	findViewById(R.id.btn_previous).setEnabled(false);
+
+	    		
 	    	}
 	    });
 
