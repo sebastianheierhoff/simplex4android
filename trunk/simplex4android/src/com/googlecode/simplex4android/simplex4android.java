@@ -28,11 +28,19 @@ public class simplex4android extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
 
-	    //Aktuelles Problem - Button
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
+
+	    if(this.getIntent().getBooleanExtra("currentProblem", false) == true){
+	    	btn_current.setEnabled(true);
+	    }
+	    
+
+	    //Aktuelles Problem - Button
 	    btn_current.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	    	//TODO: Code einfügen 	
+	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	InputCreateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(InputCreateIntent);
 	    	}
 	    });
 	    
