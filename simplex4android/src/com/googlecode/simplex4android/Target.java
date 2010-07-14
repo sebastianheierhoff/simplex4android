@@ -1,24 +1,16 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Target extends Input implements Serializable{
-	private static final long serialVersionUID = -4523337831850396294L; // NICHT ÄNDERN!
-	
-	/**
-	 * true bedeutet Minimierung, false bedeutet Maximierung
-	 * @serial
-	 */
-	private boolean minOrMax;
-	
-	/**
-	 * legt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems fest
-	 * 0=primal, 1=dual
-	 * @serial
-	 */
-	private int userSettings;
+	private boolean minOrMax;	// true bedeutet Minimierung, false bedeutet Maximierung
+	private int userSettings; 	// legt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems fest
+								// 0=primal, 1=dual;
 	
 	/**
 	 * Standardkonstruktor
@@ -82,52 +74,29 @@ public class Target extends Input implements Serializable{
 		}
 		return s;
 	}
-	
-	/**
-	 * Always treat de-serialization as a full-blown constructor, by
-	 * validating the final state of the de-serialized object.
-	 */
-	private void readObject(java.io.ObjectInputStream aInputStream) throws ClassNotFoundException, IOException{
-		aInputStream.defaultReadObject();
 
-		//make defensive copy of the mutable Date field
-		this.values = new ArrayList<Double>(values);
-
-		//ensure that object state has not been corrupted or tampered with maliciously
-	}
 
 	/**
-	 * This is the default implementation of writeObject.
-	 * Customise if necessary.
-	 */
-	private void writeObject(java.io.ObjectOutputStream aOutputStream) throws IOException {
-		//perform the default serialization for all non-transient, non-static fields
-		aOutputStream.defaultWriteObject();
-	}
-//	
-//	/**
-//	 * Schreibt die Constraint in den gewünschten OutputStream.
-//	 * @param out OutputStream, in den geschrieben werden soll.
-//	 * @throws IOException
-//	 */
-//	private void writeObject(java.io.ObjectOutputStream out) throws IOException{
-//		out.writeBoolean(this.minOrMax);
-//		out.writeInt(this.userSettings);
-//		out.writeObject(this.values.toArray());
-//		out.flush();
-//		out.close();
-//	}
-//	
-//	/**
-//	 * Liest die Constraint aus dem InputStream.
-//	 * @param in zu lesender InputStream
-//	 * @throws IOException
-//	 * @throws ClassNotFoundException
-//	 */
-//	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
-//		this.minOrMax = in.readBoolean();
-//		this.userSettings = in.readInt();
-//		this.values = this.convertToDblArrayList((double[]) in.readObject());
-//		in.close();
-//	}
+	  * Always treat de-serialization as a full-blown constructor, by
+	  * validating the final state of the de-serialized object.
+	  */
+	   private void readObject(
+	     ObjectInputStream aInputStream
+	   ) throws ClassNotFoundException, IOException {
+	     //always perform the default de-serialization first
+	     aInputStream.defaultReadObject();
+	     //make defensive copy of the mutable Date field
+	     //fDateOpened = new Date( fDateOpened.getTime() );
+	  }
+
+	    /**
+	    * This is the default implementation of writeObject.
+	    * Customise if necessary.
+	    */
+	    private void writeObject(
+	      ObjectOutputStream aOutputStream
+	    ) throws IOException {
+	      //perform the default serialization for all non-transient, non-static fields
+	      aOutputStream.defaultWriteObject();
+	    }
 }

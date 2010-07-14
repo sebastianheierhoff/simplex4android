@@ -69,6 +69,11 @@ public class SimplexLocal {
 		
 		InputsDb test = new InputsDb(input);
 		try{
+			test.saveProblems();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
 			test.readProblems();
 		}catch(Exception e){
 			e.printStackTrace();
