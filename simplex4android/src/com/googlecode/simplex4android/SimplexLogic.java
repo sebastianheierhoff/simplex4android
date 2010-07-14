@@ -517,6 +517,9 @@ public abstract class SimplexLogic {
 			calcDeltas(tmp);
 			calcDeltaByF(tmp);
 			phases[0].addElement(tmp.clone());
+			// sieht komisch aus aber es muss zweimal eingefügt werden.
+			// das zweite eingefügte Objekt wird noch bearbeitet.
+			phases[0].addElement(tmp.clone());
 			do{
 				SimplexProblemDual current = (SimplexProblemDual) phases[0].getLastElement();
 				current = SimplexLogic.simplex(current);
@@ -560,6 +563,9 @@ public abstract class SimplexLogic {
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
 			calcXByF(tmp);
+			phases[0].addElement(tmp.clone());
+			// sieht komisch aus aber es muss zweimal eingefügt werden.
+			// das zweite eingefügte Objekt wird noch bearbeitet.
 			phases[0].addElement(tmp.clone());
 			do{
 				SimplexProblemPrimal current = (SimplexProblemPrimal) phases[0].getLastElement();
