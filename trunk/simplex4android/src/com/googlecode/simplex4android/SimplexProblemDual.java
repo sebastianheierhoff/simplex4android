@@ -122,7 +122,7 @@ public class SimplexProblemDual extends SimplexProblem {
 		// allerletzte Zeile mit den delta/f-Werten
 		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<deltaByF.size();i++){
-			if(deltaByF.get(i)!=-1)html = html + "<td>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
+			if(deltaByF.get(i)>0)html = html + "<td>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
 			else html = html + "<td>&#8211;</td>";
 		}
 		html = html + "</tr>\n";
