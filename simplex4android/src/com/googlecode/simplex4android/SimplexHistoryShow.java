@@ -16,11 +16,10 @@ public class SimplexHistoryShow extends Activity {
 	WebView mWebView;
 	String tableauToHtml;
 
-	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
-    	
+
     	if(InputShow.simplexhistoryarray[0] != null){
     		current = InputShow.simplexhistoryarray[0];
     	}

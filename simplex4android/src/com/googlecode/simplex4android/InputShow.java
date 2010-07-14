@@ -82,6 +82,8 @@ public class InputShow extends Activity{
 	        }
 	    });
 
+	    //"Einstellungen ändern" - Button
+	    
 	    //Start-Button
     	final Button btn_start = (Button) findViewById(R.id.button_start);
 	    btn_start.setOnClickListener(new OnClickListener() {
@@ -92,6 +94,9 @@ public class InputShow extends Activity{
 //	        	if(){
 	        	try{
 	        		problem = new SimplexProblemPrimal(inputs);
+	        		//double[] target = {1,2,7,5,0,0,0};
+	            	//double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
+	            	//problem = new SimplexProblemPrimal(tableau, target);
 	        	}
 	        	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler beim Anlegen des Simplex-Tableau",Toast.LENGTH_LONG).show();
