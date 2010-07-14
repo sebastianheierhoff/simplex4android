@@ -537,15 +537,22 @@ public abstract class SimplexLogic {
 		}
 		//hier gehts weiter falls die erste Phase nicht benötigt wurde
 		//Simplex durchführen bis optimal
-		if(phases[0]==null)phases[1].addElement(problem.clone());
+		if(phases[0]==null){
+			phases[1].addElement(problem.clone());
+		}
 		calcDeltas(phases[1].getLastElement());
 		calcDeltaByF((SimplexProblemDual)phases[1].getLastElement());
+		phases[1].addElement(phases[1].getFirstElement().clone());
 		do{
 			SimplexProblemDual current = (SimplexProblemDual) phases[1].getLastElement();
 			current = SimplexLogic.simplex(current);
 			if(current!=null)phases[1].addElement(current.clone());
 		}
 		while(phases[1].getLastElement().getOptimal()!=true);
+		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+		if(compareArray(phases[1].getLastElement().getPivots(), phases[1].getElement(phases[1].size()-2).getPivots())){
+			phases[1].deleteElement(phases[1].size()-2);
+		}
 		return phases;
 	}
 	
@@ -591,13 +598,17 @@ public abstract class SimplexLogic {
 		if(phases[0]==null)phases[1].addElement(problem.clone());
 		calcDeltas(phases[1].getLastElement());
 		calcXByF((SimplexProblemPrimal)phases[1].getLastElement());
+		phases[1].addElement(phases[1].getFirstElement().clone());
 		do{
 			SimplexProblemPrimal current = (SimplexProblemPrimal) phases[1].getLastElement();
 			current = SimplexLogic.simplex(current);
 			if(current!=null)phases[1].addElement(current.clone());
 		}
 		while(phases[1].getLastElement().getOptimal()!=true);
-
+		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+		if(compareArray(phases[1].getLastElement().getPivots(), phases[1].getElement(phases[1].size()-2).getPivots())){
+			phases[1].deleteElement(phases[1].size()-2);
+		}
 //		for(int i=0;i<phases[0].size();i++){
 //			System.out.println("Phase 1");
 //			System.out.println(phases[0].getElement(i).tableauToHtml());
