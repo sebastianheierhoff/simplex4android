@@ -48,7 +48,6 @@ public class TestSimplexProblem extends TestCase {
 		c4.setValue(2, 1);
 		c4.setSign(1);
 		c4.setTargetValue(20);
-		System.out.println(c4.toString());
 		
 		ArrayList<Input> input = new ArrayList<Input>();
 		input.add(t);
