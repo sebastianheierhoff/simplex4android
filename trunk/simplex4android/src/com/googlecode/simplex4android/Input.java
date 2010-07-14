@@ -1,9 +1,14 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Input{
+public abstract class Input implements Serializable{
+	private static final long serialVersionUID = -625837735271333974L;
+	/**
+	 * @serial
+	 */
 	protected ArrayList<Double> values;
 	
 	public Input(){
@@ -36,7 +41,7 @@ public abstract class Input{
 	 * @param array zu überführendes Array
 	 * @return überführte ArrayList
 	 */
-	private ArrayList<Double> convertToDblArrayList(double[] array){
+	protected ArrayList<Double> convertToDblArrayList(double[] array){
 		ArrayList<Double> arrayList = new ArrayList<Double>();
 		for(int i=0;i<array.length;i++){
 			arrayList.add(i,new Double(array[i]));
@@ -171,5 +176,28 @@ public abstract class Input{
 		}
 		
 		return re;
-	}	
+	}
+	
+	/**
+	 * Always treat de-serialization as a full-blown constructor, by
+	 * validating the final state of the de-serialized object.
+	 */
+	private void readObject(java.io.ObjectInputStream aInputStream) throws ClassNotFoundException, IOException{
+		aInputStream.defaultReadObject();
+
+		//make defensive copy of the mutable Date field
+		this.values = new ArrayList<Double>(values);
+
+
+		//ensure that object state has not been corrupted or tampered with maliciously
+	}
+
+	/**
+	 * This is the default implementation of writeObject.
+	 * Customise if necessary.
+	 */
+	private void writeObject(java.io.ObjectOutputStream aOutputStream) throws IOException {
+		//perform the default serialization for all non-transient, non-static fields
+		aOutputStream.defaultWriteObject();
+	}
 }
