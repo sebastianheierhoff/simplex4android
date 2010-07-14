@@ -72,20 +72,20 @@
 			android:layout_height="45dip"
 	        android:gravity="bottom"/>
 		<Button
-			android:id="@+id/button_x_plus"
-			android:background="@drawable/button_x_plus_normal"
+			android:id="@+id/btn_x_plus"
+			android:background="@drawable/btn_x_plus_normal"
 			android:layout_height="45dip"
 			android:layout_width="45dip"
 		    android:layout_gravity="bottom" />
 		<Button
-			android:id="@+id/button_x_minus"
-			android:background="@drawable/button_x_minus_normal"
+			android:id="@+id/btn_x_minus"
+			android:background="@drawable/btn_x_minus_normal"
 			android:layout_height="45dip"
 			android:layout_width="45dip"
 		    android:layout_gravity="bottom"/>
 		<Button
-			android:id="@+id/button_add_target_element"
-			android:background="@drawable/button_add"
+			android:id="@+id/btn_add_target_element"
+			android:background="@drawable/btn_add"
 			android:layout_height="45dip"
 			android:layout_width="92dip"
 		    android:layout_gravity="bottom"/>
@@ -115,7 +115,7 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_width="wrap_content">
 	<!--<Button
-		android:id="@+id/button_add_another_constraint"
+		android:id="@+id/btn_add_another_constraint"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Weitere &#10; Nebenbedingung"/>	-->
@@ -126,13 +126,13 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_width="fill_parent">
 		<Button 
-			android:id="@+id/button_cancel"
+			android:id="@+id/btn_cancel"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Abbruch"
 			android:gravity="bottom"/>
 		<Button 
-			android:id="@+id/button_add"
+			android:id="@+id/btn_add"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0.7"

@@ -15,7 +15,7 @@ public class simplex4android extends Activity {
  *		ListView um Probleme zu laden
  *			lädt View zum ändern/anlegen von Problemen mit gespeicherten Werten
  *			
- *			laden Ausgabe, Zurückbutton, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
+ *			laden Ausgabe, Zurückbtn, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
  */	
 	
 	//TODO: Standardisieren/Anpassen!
@@ -37,8 +37,8 @@ public class simplex4android extends Activity {
 	    });
 	    
 	    //NEUES PROBLEM ANLEGEN
-	    final Button button_new = (Button) findViewById(R.id.button_new);
-	    button_new.setOnClickListener(new OnClickListener() {
+	    final Button btn_new = (Button) findViewById(R.id.btn_new);
+	    btn_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
 	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
 	        	InputCreateIntent.putExtra("create", true);
@@ -47,8 +47,8 @@ public class simplex4android extends Activity {
 	    });
 	    	    
 	    //PROBLEM LADEN
-    	final Button button_load = (Button) findViewById(R.id.button_load);
-	    button_load.setOnClickListener(new OnClickListener() {
+    	final Button btn_load = (Button) findViewById(R.id.btn_load);
+	    btn_load.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent InputsLoadIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsLoad");
 	        	startActivity(InputsLoadIntent);
@@ -56,8 +56,8 @@ public class simplex4android extends Activity {
 	    });
 	    
 	    //TUTORIAL
-//    	final Button button_tutorial = (Button) findViewById(R.id.button_tutorial);
-//	    button_tutorial.setOnClickListener(new OnClickListener() {
+//    	final Button btn_tutorial = (Button) findViewById(R.id.btn_tutorial);
+//	    btn_tutorial.setOnClickListener(new OnClickListener() {
 //	        public void onClick(View v) {
 //	            Intent TutorialIntent = new Intent();
 //	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.Tutorial");

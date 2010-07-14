@@ -53,11 +53,29 @@
         android:layout_toLeftOf="@id/btn_first"
         android:layout_alignBaseline="@id/btn_first"
         android:text="Navigation:"/>
-    <ImageView
-		android:id="@+id/simplex4android_logo"
+	<ImageView 
+		android:id="@+id/imageview_logo"
 		android:src="@drawable/simplex4android_logo"
-		android:layout_width="wrap_content"
+		android:layout_width="90dip"
 		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true" 
-		android:gravity="bottom"/>
+		android:layout_gravity="bottom"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:adjustViewBounds="true"
+		android:scaleType="fitXY"/>
+	<Button 
+		android:id="@+id/btn_back" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:text="Zurück"
+	    android:gravity="bottom"/> 
+	<Button
+    	android:id="@+id/btn_switchphases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_back"
+	    android:layout_alignParentBottom="true"
+        android:text="2. Phase"
+        android:visibility="invisible" />
 </RelativeLayout>

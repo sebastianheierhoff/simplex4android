@@ -31,13 +31,13 @@
  	</LinearLayout>
 
     <LinearLayout
-    	android:id="@+id/buttongroup_navigation" 
+    	android:id="@+id/btngroup_navigation" 
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:orientation="horizontal"
     	android:layout_alignParentBottom="true">
     <Button 
-        android:id="@+id/button_new_problem" 
+        android:id="@+id/btn_new_problem" 
     	android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:text="Neues Problem"
@@ -45,7 +45,7 @@
         android:layout_weight="0.3"
         android:gravity="bottom" /> 
     <Button 
-        android:id="@+id/button_cancel" 
+        android:id="@+id/btn_cancel" 
     	android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:text="Abbruch"
