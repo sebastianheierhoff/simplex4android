@@ -526,6 +526,10 @@ public abstract class SimplexLogic {
 				if(current!=null)phases[0].addElement(current.clone());
 			}
 			while(phases[0].getLastElement().getOptimal()!=true);
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
+				phases[0].deleteElement(phases[0].size()-2);
+			}
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
 			phases[1].addElement(transitionPhasesDual(phases[0].getFirstElement(), phases[0].getLastElement()));
 		}else{
@@ -577,8 +581,6 @@ public abstract class SimplexLogic {
 			if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
 				phases[0].deleteElement(phases[0].size()-2);
 			}
-			
-			
 			//Problem zurückbauen: alte Zielfuntion wiederübernehmen, künstliche Variablen rausschmeißen
 			phases[1].addElement(transitionPhasesPrimal(phases[0].getFirstElement(), phases[0].getLastElement()));
 		}else{
