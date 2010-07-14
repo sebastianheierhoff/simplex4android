@@ -54,8 +54,9 @@ public class InputsDb {
 	/**
 	 * Gibt Array mit den Namen der einzelnen Namen der Probleme zurück.
 	 * @return String[] mit den Namen der Probleme
+	 * @throws NegativeArraySizeException
 	 */
-	public String[] getNames(){
+	public String[] getNames() throws NegativeArraySizeException{
 		String[] s = new String[listOfInputs.size()-1];
 		for(int i=0;i<listOfInputs.size();i++){
 			s[i] = listOfInputs.get(i).get(0).toString();
@@ -85,9 +86,7 @@ public class InputsDb {
 			fis = new FileInputStream("simplexProbleme.dat");
 		}
 		catch(FileNotFoundException e){
-			FileOutputStream fos = new FileOutputStream("simplexProbleme.dat"); //neue Datei anlegen
-			fos.close();
-			return;
+			return; // Abbruch, keine Datei vorhanden.
 		}
 		ois = new ObjectInputStream(fis);
 		Object[] input = (Object[]) ois.readObject();
