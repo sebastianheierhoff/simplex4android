@@ -1,12 +1,15 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.Selection;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,6 +39,8 @@ public class TargetEdit extends Activity {
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 	    setContentView(R.layout.target_edit);
+
+	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
 	    	target = new Target();
@@ -69,15 +74,19 @@ public class TargetEdit extends Activity {
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
+	        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
 	    		if(b==true){
 		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+	        		Selection.setSelection(text.getText(), text.length());
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
 	    		}
 	    	}
 		});
-
+	    
+	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
+	    
 	    //Keyboard-Button
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
 									R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
@@ -126,22 +135,27 @@ public class TargetEdit extends Activity {
 	    	}
 	    };
 	    x_plus.setOnClickListener (x_plus_action);
-
-
+	    
 	    //"Xi verringern"-Button
 	    final Button x_minus = (Button) findViewById(R.id.button_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	    		//target_element.setText("");
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
-		    			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
-
+		    			String target_value =String.valueOf(target.getValue(edittext_x_value-1));
+		    			if(target_value.equals("0.0")){
+		    				target_element.setText("");
+		    				target_element.setHint("0");
+		    			}
+		    			else{
+		    				target_element.setText(target_value);
+			        		Selection.setSelection(target_element.getText(), target_element.length());
+		    			}
 		    		}
 		    		catch(IndexOutOfBoundsException e){
 		    			target_element.setHint("0");
@@ -168,7 +182,7 @@ public class TargetEdit extends Activity {
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
 	        		double value;
 	        		if(target_element.getText().toString().equals("")){
-	        			value = 0;
+	        			value = 0.0;
 	        		}
 	        		else{
 	        			try{
@@ -203,7 +217,6 @@ public class TargetEdit extends Activity {
 	        	if(target.getValues().isEmpty()){
 	    			Toast.makeText(TargetEdit.this,"Eingabe unvollständig! Bitte mind. ein xi hinzufügen!",Toast.LENGTH_LONG).show();
         			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
-	    			return;
 	        	}
 	        	else{
 	        		setResult(TARGET_CREATE_RESULT);
@@ -228,7 +241,15 @@ public class TargetEdit extends Activity {
 		edittext_x_value++;//inkrementieren
 		edittext_x.setText("x" + edittext_x_value);
 		try{
-			target_element.setText(String.valueOf(target.getValue(edittext_x_value-1)));
+			String target_value =String.valueOf(target.getValue(edittext_x_value-1));
+			if(target_value.equals("0.0")){
+				target_element.setText("");
+				target_element.setHint("0");
+			}
+			else{
+				target_element.setText(target_value);
+        		Selection.setSelection(target_element.getText(), target_element.length());
+			}
 		}
 		catch(IndexOutOfBoundsException e){
     		target_element.setText("");

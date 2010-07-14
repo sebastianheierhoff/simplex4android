@@ -1,9 +1,17 @@
 Bitte eintragen:
 [GUI]
-	Zielfunktion eingeben:
-		Felder ändern Größe bei zu viel Input
-		Button "Fertig" ohne Funktion
-		"<=" PopUp beim Start des Dialogs "Neues Problem"
+	Eingabe (Constraint/Target)
+		Felder ändern Größe bei zu langer Eingabe (target, target_value) - Vorschlag: max_height?, scrollable?
+
+	ConstraintEdit:
+		Button "Weitere Nebenbedingung" -> unnötig, entfernt
+		Textfeld constraint_target zu klein
+	
+	TargetEdit:
+		soweit fertig	
+	
+[Logik]
+	Typecast neg. Bruch -> Exception (Stefan)
 
 [Logik]
 checkOptimal() und checkDualOptimal() setzen ein Problen nicht mehr selbstständig auf optimal, sie prüfen nur noch!!!

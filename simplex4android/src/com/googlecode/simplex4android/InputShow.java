@@ -1,3 +1,6 @@
+//TODO: Buttons deaktivieren, solange sie nicht benutzt werden dürfen
+//TODO: Prüfungen einbauen, ob gespeichert/gestartet werden kann (Eingaben korrekt, etc.)
+
 package com.googlecode.simplex4android;
 
 import java.util.ArrayList;
@@ -17,14 +20,15 @@ import android.widget.Toast;
 
 public class InputShow extends Activity{
 	
-	ArrayList<Input> input = new ArrayList<Input>();
+	private static ArrayList<Input> inputs;
+	static SimplexHistory[] simplexhistoryarray;
 
 	//ResultCodes
 	static final int CONSTRAINT_EDIT_RESULT = 1;
 	static final int CONSTRAINT_CREATE_RESULT = 2;
 	static final int TARGET_EDIT_RESULT = 3;
 	static final int TARGET_CREATE_RESULT = 4;
-
+	
 	//RequestCodes
 	static final int CONSTRAINT_EDIT_REQUEST = 1;
 	static final int CONSTRAINT_CREATE_REQUEST = 2;
@@ -35,6 +39,8 @@ public class InputShow extends Activity{
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.input_show);
 	    
+    	inputs = new ArrayList<Input>();
+    	
 	    if(this.getIntent().getBooleanExtra("create", false)){
         	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
         	ConstraintEditIntent.putExtra("create", true);
@@ -52,22 +58,60 @@ public class InputShow extends Activity{
 	        }
 	    });
 	    
-	    //Weitere Nebenbedingung anlegen - Button
+	    //Nebenbedingung hinzufügen - Button
     	final Button constraint_new = (Button) findViewById(R.id.button_new_constraint);
 	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-	        	ConstraintCreateIntent.putExtra("maxi", input.get(0).getValues().size());
+	        	ConstraintCreateIntent.putExtra("maxi", inputs.get(0).getValues().size());
 	        	ConstraintCreateIntent.putExtra("create", true);
 	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
 	        }
 	    });
 	    
-	    //Rechnen-Button
-	    
 	    //Speichern-Button
-	    
-	
+    	final Button btn_save = (Button) findViewById(R.id.button_save);
+	    btn_save.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	//TODO: Speichern Methode einbinden
+	        	//InputsDb.addProblem(InputShow.inputs);
+	        	//Toast "Problem gespeichert"
+	        	//Falls schon gespeichert aber geändert/geladenes Problem - Frage: "Als neues Problem speichern, oder überschreiben?"
+	        	//Buttons: "Neues Problem" "Überschreiben"
+	        	
+	        }
+	    });
+
+	    //Start-Button
+    	final Button btn_start = (Button) findViewById(R.id.button_start);
+	    btn_start.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	//TODO: Code einfügen.
+	        	SimplexProblemPrimal problem = null;
+	        	//je nach Einstellung ein Problem erzeugen,
+//	        	if(){
+	        	try{
+	        		problem = new SimplexProblemPrimal(inputs);
+	        	}
+	        	catch(Exception ex){
+	    			Toast.makeText(InputShow.this,"Unbekannter Fehler beim Anlegen des Simplex-Tableau",Toast.LENGTH_LONG).show();
+	        	}
+//	        	}
+//	        	else{
+//	        		
+//	        	}
+	        	//2-Phasen Simplex auf dieses Problem anwenden, man erhält ein SimplexHistory[2]
+	        	try{
+	        		simplexhistoryarray = SimplexLogic.twoPhaseSimplex(problem);
+	        	}
+	        	catch(Exception ex){
+	    			Toast.makeText(InputShow.this,"Unbekannter Fehler beim Berechnen der Tableaus",Toast.LENGTH_LONG).show();
+	        	}
+	        	//Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe
+	        	Intent SHShowIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryShow");
+	        	startActivity(SHShowIntent);
+	        }
+	    });
 	}
 
 	
@@ -90,17 +134,17 @@ public class InputShow extends Activity{
         	case TARGET_CREATE_RESULT:
             	try{
             		Target target = TargetEdit.target;
-        	        input.add(target);
+        	        inputs.add(target);
                 	
-        		    if(input.size()>0){
+        		    if(inputs.size()>0){
         		    	findViewById(R.id.text_target_empty).setVisibility(View.INVISIBLE);
         		    }
-        		    if(input.size()>1){
+        		    if(inputs.size()>1){
         		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
         		    }
         	        
         		    String[] target_string = new String[1];
-        		    target_string[0] = input.get(0).toString();
+        		    target_string[0] = inputs.get(0).toString();
         		    
         	        ListView listInputs = (ListView) findViewById(R.id.list_target);
         	        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, target_string);
@@ -117,16 +161,16 @@ public class InputShow extends Activity{
         	case CONSTRAINT_CREATE_RESULT:
             	try{
             		Constraint constraint = ConstraintEdit.constraint;
-        	        input.add(constraint);
+        	        inputs.add(constraint);
                 	
-        		    if(input.size()>0){
+        		    if(inputs.size()>0){
         		    	findViewById(R.id.text_target_empty).setVisibility(View.INVISIBLE);
         		    }
-        		    if(input.size()>1){
+        		    if(inputs.size()>1){
         		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
         		    }
         	        
-                    List<Input> constraints = input.subList(1, input.size());
+                    List<Input> constraints = inputs.subList(1, inputs.size());
         	        String[] constraints_string = new String[constraints.size()];
                     Iterator<Input> iter = constraints.iterator(); 
                     int i = 0;

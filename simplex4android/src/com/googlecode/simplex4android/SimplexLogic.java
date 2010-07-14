@@ -499,10 +499,18 @@ public abstract class SimplexLogic {
 		return false;
 	}
 	
+//	public static SimplexHistory[] twoPhaseSimplex(SimplexProblem problem){
+//		if(problem.getClass() == SimplexProblemPrimal.class){
+//			return twoPhaseSimplex(problem);
+//		}
+//		else
+//			return twoPhaseSimplex(problem);
+//	}
+	
 	/**
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in dualer Form
-	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist stelle 0==null
+	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist Index 0==null
 	 */
 	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemDual problem){ 
 		SimplexHistory[] phases = new SimplexHistory[2];
@@ -552,7 +560,7 @@ public abstract class SimplexLogic {
 	/**
 	 * Führt ZweiphasenSimplex durch
 	 * @param problem in primaler Form
-	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist stelle 0==null
+	 * @return SimplexHistory[] der Länge zwei mit dem kompletten Verlauf inkl. der beiden Phasen an den Stellen 0 und 1. Wenn keine erste Phase benötigt wurde ist Index 0==null
 	 * @throws IOException falls das Problem nicht lösbar ist.
 	 */
 	public static SimplexHistory[] twoPhaseSimplex(SimplexProblemPrimal problem)throws IOException{ 
