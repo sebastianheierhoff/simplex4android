@@ -496,7 +496,24 @@ public abstract class SimplexLogic {
 				}
 			}
 		}
-		
+		return false;
+	}
+	
+	/**
+	 * Stellt fest, ob ein duales Problem im aktuellen Zustand lösbar ist
+	 * @param problem Primales Simplexproblem
+	 * @return boolean, der angibt, ob das Problem lösbar ist
+	 */
+	public static boolean solveable(SimplexProblemDual problem){
+		double[] x = problem.getLastColumn();
+		for(int i=0;i<x.length;i++){
+			if(x[i]<0){
+				for(int j=0;j<problem.getRow(i).length;j++){
+					if(problem.getColumn(i)[j]<0)
+						return true;
+				}
+			}
+		}
 		return false;
 	}
 	
