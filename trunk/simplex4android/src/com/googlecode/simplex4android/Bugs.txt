@@ -11,14 +11,17 @@ Bitte eintragen:
 		soweit fertig	
 	
 [Logik]
-	Typecast neg. Bruch -> Exception (Stefan)
+	Typecast neg. Bruch -> Exception (Stefan) -> fixed, negative Brüche werden erkannt.
+	
+[Logik]
+	checkInput() muss erkennen, wenn / und . in der Eingabe und Fehler ausgeben! -> fixed
 
 [Logik]
 checkOptimal() und checkDualOptimal() setzen ein Problen nicht mehr selbstständig auf optimal, sie prüfen nur noch!!!
 Das musste umgeändert werden, da checkDualOptimal() checkOptimal() benutzt. Die simplex()-Methoden wurden entsprechend angepasst.
 
 [Logik]
-beide Simplexverfahren funktionieren, prüfen aber nicht die Zulässigkeit des Problems.
+beide Simplexverfahren funktionieren, prüfen aber nicht die Zulässigkeit des Problems. -> für primal fixed, wirft IOException für nicht lösbares Problem
 
 [Logik]
 beim primalen Simplex werden Pivotspalten ausgerechnet aber nur in aufsteigender Reihenfolge ausgegeben. 
