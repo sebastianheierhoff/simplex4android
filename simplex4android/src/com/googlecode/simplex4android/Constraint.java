@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Datenhaltungklasse zur Repräsentation von Nebenbedingungen.
@@ -16,7 +21,7 @@ public class Constraint extends Input implements Serializable{
 	private double targetValue;
 	private int sign;
 	
-	/**
+    /**
 	 * Standardkonstruktor
 	 */
 	public Constraint() {
