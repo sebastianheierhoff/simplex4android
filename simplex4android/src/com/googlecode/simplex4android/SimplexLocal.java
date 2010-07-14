@@ -71,7 +71,7 @@ public class SimplexLocal {
 		InputsDb save = new InputsDb(input);
 		InputsDb read = new InputsDb();
 		try{
-			save.saveProblems();
+			//save.saveProblems();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -80,7 +80,6 @@ public class SimplexLocal {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println(read.getListOfProblems().get(0).get(0).toString());
 		
 		
 		//SimplexLogic.findPivots(firstProblem);
