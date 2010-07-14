@@ -4,11 +4,14 @@ Bitte eintragen:
 		Felder ändern Größe bei zu langer Eingabe (target, target_value) - Vorschlag: max_height?, scrollable?
 
 	ConstraintEdit:
-		Button "Weitere Nebenbedingung" -> unnötig, entfernt
 		Textfeld constraint_target zu klein
-	
-	TargetEdit:
-		soweit fertig	
+		Textfeld Fehler ... weiße linie wie auch auf targetedit
+		Textfeld wird schlecht gefüllt, sobald eine Ziffer zu viel eingefügt wird, zeigt das Textfeld nur noch diese eine Ziffer an.
+
+
+---------------------
+------**FIXED**------
+---------------------
 	
 [Logik]
 	Typecast neg. Bruch -> Exception (Stefan) -> fixed, negative Brüche werden erkannt.
