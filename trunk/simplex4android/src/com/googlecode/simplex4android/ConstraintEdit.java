@@ -1,12 +1,13 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,9 +36,9 @@ public class ConstraintEdit extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-	    
 	    setContentView(R.layout.constraint_edit);
+
+	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 	    
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
 	    	constraint = new Constraint();
@@ -84,8 +85,10 @@ public class ConstraintEdit extends Activity {
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
-		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+	    		    EditText text = (EditText) findViewById(R.id.edittext_target_element);
+	    			findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
 		    		addto = (EditText) findViewById(R.id.edittext_target_element);
+	        		Selection.setSelection(text.getText(), text.length());
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
@@ -93,19 +96,25 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
+	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
+	    
 	    //Textfeld Constraint-Target-Value
 	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
 	    target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
-		    		findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+	    		    EditText text = (EditText) findViewById(R.id.edittext_target_element);
+	    			findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
 		    		addto = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	        		Selection.setSelection(text.getText(), text.length());
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
 	    		}
 	    	}
 		});
+
+	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
 	    
 	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, 
@@ -147,7 +156,7 @@ public class ConstraintEdit extends Activity {
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
 	        		double value;
 	        		if(target_element.getText().toString().equals("")){
-	        			value = 0;
+	        			value = 0.0;
 	        		}
 	        		else{
 	        			try{
@@ -166,7 +175,9 @@ public class ConstraintEdit extends Activity {
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 		        	constraint.setValue(i, value);
 	    			target.setText(constraint.valuesToString());
-	    			increment_xi();
+	    			if(i+1<maxi){
+	    				increment_xi();
+	    			}
 	        	}
 	    		else{
 	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
@@ -181,6 +192,7 @@ public class ConstraintEdit extends Activity {
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		increment_xi();
 	    		try{
 	    			target_element.requestFocus();
@@ -202,8 +214,15 @@ public class ConstraintEdit extends Activity {
 	    			edittext_x_value--;
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
-		    			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
-
+		    			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));
+		    			if(target_value.equals("0.0")){
+		    				target_element.setText("");
+		    				target_element.setHint(0);
+		    			}
+		    			else{
+		    				target_element.setText(target_value);
+			        		Selection.setSelection(target_element.getText(), target_element.length());
+		    			}
 		    		}
 		    		catch(IndexOutOfBoundsException e){
 		    			target_element.setHint("0");
@@ -235,7 +254,6 @@ public class ConstraintEdit extends Activity {
 	        	else if(constraint.getValues().isEmpty()){
 	    			Toast.makeText(ConstraintEdit.this,"Eingabe unvollständig! Bitte mind. ein xi hinzufügen!",Toast.LENGTH_LONG).show();
         			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
-	    			return;
 	        	}
 	        	else{
 	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
@@ -268,7 +286,15 @@ public class ConstraintEdit extends Activity {
 		}    			
 		edittext_x.setText("x" + edittext_x_value);
 		try{
-			target_element.setText(String.valueOf(constraint.getValue(edittext_x_value-1)));
+			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));
+			if(target_value.equals("0.0")){
+				target_element.setText("");
+				target_element.setHint("0");
+			}
+			else{
+				target_element.setText(target_value);
+        		Selection.setSelection(target_element.getText(), target_element.length());
+			}
 		}
 		catch(IndexOutOfBoundsException e){
     		target_element.setText("");

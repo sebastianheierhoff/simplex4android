@@ -1,30 +1,41 @@
+[Aktuell]
+Erkennen ob dual oder primal gelöst wird/lösbar, Methoden zum Prüfen schreiben, Testfälle				
+Zulässigkeit der Probleme prüfen!, EINSTELLUNGEN: z.B. boolean für dualen Simplex???
+
+Wie viele Nebenbedinungen braucht man mindestens?
+
 HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
-Recherche: Seite wechseln durch "Wischen" nach links/rechts (Max)
-Recherche: Anfangen zu rechnen durch starkes Schütteln (Max)
+Speichern/Laden, was passiert, wenn ich ein Problem, dass ich geladen habe, wieder speichern möchte? werden dann beliebig viele Probleme angelegt, kriege ich einen Dialog und kann entscheiden, was zu tun ist, etc?
 
-Zyklusschutz: choose-Methoden dahingehend anepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
-Erkennen ob dual oder primal gelöst wird				
-Anforderungen prüfen (siehe MAC-Folien, OSI)
+GUI inkl. Testen (jeder 30min per Hand! - oder Eike 2 Sekunden :-()
 
-Zulässigkeit der Probleme prüfen!
-
-Anzeige und Aufbereitung der Lösung!!!
-
-Anleitung/Handbuch: 
-	Formulierungen:
-		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
-
-PowerPoint-Master
-Testfälle (fertig, keinen für dualValid erstellt, halte die Methode fpr unnötig) (Stefan)
-GUI-Testen (jeder 30min per Hand!)
+Anzeige und Aufbereitung der Lösung!!! (Methode geschrieben, GUI noch nicht fertig)
 
 Getter/Setter -> Exceptions
 Fehlermeldungen (Wann, warum, was?)
-EINSTELLUNGEN: z.B. boolean für dualen Simplex
-GUI 
-Virtuelle Maschine -> erledigt
-
-u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
 Icon unter "Alle Programme" (icon.png)
 
-Optional: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
+u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
+
+Anforderungen prüfen (siehe MAC-Folien, OSI)
+
+Anleitung/Handbuch vorbereiten (Layout, erste Formulierungen, Screenshots, etc.): 
+	Formulierungen:
+		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
+
+PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
+	1. Folie: Name des Projektes, unsere Namen
+	2. 		: Warum Android?
+	3. 		: Besonderheiten: Entwicklung auf Android
+	4. 		: Code-Schnipsel: Layout-Files, GUI, besondere Methoden der Logik (???)
+	
+Optional: 
+Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
+Seite wechseln durch "Wischen" nach links/rechts (Max)
+Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) 
+Sprachausgabe
+
+Erledigt:
+Zyklusschutz: choose-Methoden dahingehend angepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
+Testfälle (Stefan)
+Virtuelle Maschine (Sebastian)

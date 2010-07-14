@@ -114,11 +114,11 @@
 	 	android:layout_gravity="right"
 	 	android:layout_height="wrap_content"
 	 	android:layout_width="wrap_content">
-	<Button
+	<!--<Button
 		android:id="@+id/button_add_another_constraint"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Weitere &#10; Nebenbedingung"/>	
+		android:text="Weitere &#10; Nebenbedingung"/>	-->
 	<LinearLayout
 	 	android:layout_alignParentBottom="true"
 	 	android:orientation="horizontal"

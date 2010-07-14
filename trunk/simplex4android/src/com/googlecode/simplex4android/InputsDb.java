@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 //Klasse zum Laden/Speichern von Zielfunktionen/Nebenbedingungen - TODO: Kommentare hinzufügen
+//TODO: Kann man die Klasse statisch machen??? Brauche ich umbeding ein Objekt?
+
 
 public class InputsDb {
 	
