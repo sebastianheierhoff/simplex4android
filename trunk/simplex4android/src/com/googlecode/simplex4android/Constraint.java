@@ -67,11 +67,11 @@ public class Constraint extends Input implements Serializable{
 	public String toString(){
 		String s = this.valuesToString();
 		if(this.sign==-1){
-			s += " &#x2264 ";
+			s += " \u2264 ";
 		}else if(this.sign==0){
 			s += " = ";
 		}else if(this.sign==1){
-			s += " &#x2265 ";
+			s += " \u2265 ";
 		}
 		s += this.targetValue;
 		return s;
