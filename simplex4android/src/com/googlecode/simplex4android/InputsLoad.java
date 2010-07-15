@@ -26,7 +26,7 @@ public class InputsLoad extends Activity {
 
 	        mInputsDb = new InputsDb();
 	        try{
-	        	mInputsDb.readProblems();
+	        	mInputsDb.readInputs();
 	        }
 	        catch(Exception e){
 	        	//TODO: Fehlermeldung ausgeben!
@@ -35,7 +35,7 @@ public class InputsLoad extends Activity {
 	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
 	        //listBookmarks.setDrawingCacheEnabled(true);
 	        try{
-	            ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tv_row, mInputsDb.getNames());
+	            ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row, mInputsDb.getNames());
 	            listInputs.setAdapter(adapter);
 	            listInputs.setVisibility(View.VISIBLE);
 	        }catch(NegativeArraySizeException nase){

@@ -208,22 +208,37 @@ public class InputShow extends Activity{
         }
     }
 
-	public void DeleteClickHandler(View v)
-	{
-		RelativeLayout vwParentRow = (RelativeLayout)v.getParent(); // get the row the clicked button is in
+	public void ConstraintDeleteClickHandler(View v){
+		ListView listInputs = (ListView) findViewById(R.id.list_constraint);
+		DeleteClickHandler(v, listInputs);
+	}
+	
+	public void ConstraintEditClickHandler(View v){
+		ListView listInputs = (ListView) findViewById(R.id.list_constraint);
+		EditClickHandler(v, listInputs);		
+	}
+	
+	public void TargetDeleteClickHandler(View v){
 		ListView listInputs = (ListView) findViewById(R.id.list_target);
-        try{
-        	int testint = listInputs.indexOfChild(vwParentRow);
-    		Button btnChild = (Button)vwParentRow.getChildAt(1); //get the 2nd child of our ParentRow 
-    		btnChild.setText(testint);
-        }
-        catch(Exception ex){
-        	
-        }
-		vwParentRow.refreshDrawableState(); // and redraw our row
-		}
+		DeleteClickHandler(v, listInputs);
+	}
 
-	public void EditClickHandler(View v){
+	public void TargetEditClickHandler(View v){
+		ListView listInputs = (ListView) findViewById(R.id.list_target);
+		DeleteClickHandler(v, listInputs);
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	public void DeleteClickHandler(View v, ListView lv)
+	{
+		RelativeLayout rl_row = (RelativeLayout)v.getParent();
+        int position = lv.indexOfChild(rl_row);
+		ArrayAdapter<String> adapter = ((ArrayAdapter<String>) lv.getAdapter());
+		adapter.remove(adapter.getItem(position));
+	}
+
+	public void EditClickHandler(View v, ListView lv){
 		RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
 		Button btnChild = (Button)vwParentRow.getChildAt(2);
 		vwParentRow.refreshDrawableState();
@@ -239,9 +254,8 @@ public class InputShow extends Activity{
 	    target_string[0] = inputs.get(0).toString();
 	    
         ListView listInputs = (ListView) findViewById(R.id.list_target);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tv_row, target_string);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
         listInputs.setAdapter(adapter);
-		
 	}
 
 	private void fillConstraintData() {
@@ -255,7 +269,7 @@ public class InputShow extends Activity{
         }
         ListView listInputs = (ListView) findViewById(R.id.list_constraint);
         listInputs.setVisibility(View.VISIBLE);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview, R.id.tv_row, constraints_string);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
         listInputs.setAdapter(adapter);
 	}
 }
