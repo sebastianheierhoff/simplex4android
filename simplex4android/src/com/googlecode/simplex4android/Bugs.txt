@@ -21,4 +21,7 @@ Bitte eintragen:
 double[]target = {-300,-500,0,-50,0,0,0,0,0,0};
 		double[][]tableau={{1,1,1,0,1,0,0,0,0,170},{1,1,0,0,0,1,0,0,0,150},{0,2,1,1,0,0,1,0,0,180},{-1,-3,0,0,0,0,0,1,0,-150},	{0,1,-1,0,0,0,0,0,1,0},	{0,0,0,0,0,0,0,0,0,0}};
 bei dem Array meint er, er müsste künstliche Variablen hinzufügen obwohl nicht nötig. Das sprengt auch die Anzeige.
-liegt wahrscheinlich an findPivots(problem)		
+liegt wahrscheinlich an findPivots(problem)	
+	-> findPivots findet dort 6 Spalten!
+	-> sind ja quasi auch 6 Stück, eine doppelt
+	-> und mehr Pivots als Zeilen mag der dann wohl nicht!
