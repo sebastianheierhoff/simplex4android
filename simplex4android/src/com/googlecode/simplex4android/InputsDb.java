@@ -71,6 +71,31 @@ public class InputsDb {
 	public ArrayList<ArrayList<Input>> getListOfProblems(){
 		return this.listOfInputs;
 	}
+	
+	/**
+	 * Gibt das Problem an Stelle i zurück.
+	 * @param i Index des zu übergebenen Problems
+	 * @return Problem an Stelle i
+	 * @throws IndexOutOfBoundsException falls i<0 || i>=size
+	 */
+	public ArrayList<Input> getProblem(int i) throws IndexOutOfBoundsException{
+		return this.listOfInputs.get(i);	
+	}
+	
+	/**
+	 * Setzt das übergebene Tableau an Index i.
+	 * Überschreitet i die größe der aktuellen listOfInputs, wird es am Ende eingefügt.
+	 * @param i Index, an dem eingefügt werden soll.
+	 * @param problem einzufügendes Problem
+	 * @throws IndexOutOfBoundsException falls i<0
+	 */
+	public void setProblem(int i, ArrayList<Input> problem) throws IndexOutOfBoundsException{
+		if(i>=(this.listOfInputs.size())){
+			this.addProblem(problem);
+		}else{
+			this.listOfInputs.set(i, problem);
+		}
+	}
 
 	/**
 	 * Liest aus der Datei simplexProbleme.dat, eine ArrayList<SimplexProblem> aus und speichert diese in listOfInputs.
