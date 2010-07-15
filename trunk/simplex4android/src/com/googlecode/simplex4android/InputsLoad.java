@@ -1,23 +1,24 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class InputsLoad extends Activity {
 	
-	    public static final int VIEW_ID = Menu.FIRST;
-	    public static final int DELETE_ID = Menu.FIRST + 1;
-
-	    private InputsDb mInputsDb;
+	private static ArrayAdapter<String> adapter_list_problems;
+	private InputsDb mInputsDb;
 
 	    /** Called when the activity is first created. */
 	    public void onCreate(Bundle savedInstanceState) {
@@ -33,28 +34,53 @@ public class InputsLoad extends Activity {
 	        }
 
 	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
-	        //listBookmarks.setDrawingCacheEnabled(true);
 	        try{
 	            ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row, mInputsDb.getNames());
 	            listInputs.setAdapter(adapter);
-	            listInputs.setVisibility(View.VISIBLE);
 	        }catch(NegativeArraySizeException nase){
 	        	
 	        }
 	    }
 	    
-		public void DeleteClickHandler(View v)
-		{
-			RelativeLayout vwParentRow = (RelativeLayout)v.getParent(); // get the row the clicked button is in
-			Button btnChild = (Button)vwParentRow.getChildAt(1); //get the 2nd child of our ParentRow 
-			vwParentRow.refreshDrawableState(); // and redraw our row
-			}
+		public void DeleteClickHandler(View v){
+			ListView lv_problems = (ListView) findViewById(R.id.list_problems);
+			RelativeLayout rl_row = (RelativeLayout)v.getParent();
+	        int position = lv_problems.indexOfChild(rl_row);
+	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
+//	        inputs.remove(position +1);
+	        hideOrShowEmptyText();
+		}
 
 		public void EditClickHandler(View v)
 		{
-			RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
-			Button btnChild = (Button)vwParentRow.getChildAt(2);
-			vwParentRow.refreshDrawableState();
+//	        Target target = (Target) inputs.get(0);
+//	        Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+//	        ConstraintEditIntent.putExtra("target", target);
+//	        ConstraintEditIntent.putExtra("maxi_old", target.getValues().size());
+//	        ConstraintEditIntent.putExtra("edit", true);
+//	    	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
 		}
 
+		private void hideOrShowEmptyText(){
+//			TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
+//			ViewGroup.LayoutParams params_target = txt_target_empty.getLayoutParams();
+//			if(inputs.get(0) != null){
+//				params_target.height = 0;
+//			}
+//			else{
+//				params_target.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+//			}
+//			txt_target_empty.requestLayout();
+//
+//			TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
+//			ViewGroup.LayoutParams params_constraint = txt_constraint_empty.getLayoutParams();
+//			if(inputs.size()>1){
+//				params_constraint.height = 0;
+//			}
+//			else{
+//				params_constraint.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+//				
+//			}
+//			txt_constraint_empty.requestLayout();
+		}
 }

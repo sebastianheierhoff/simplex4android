@@ -156,8 +156,6 @@ public class InputShow extends Activity{
 		        	//InputsDb.addProblem(InputShow.inputs);
 		        	//Toast "Problem gespeichert"
 		        	//Falls schon gespeichert aber geändert/geladenes Problem - Frage: "Als neues Problem speichern, oder überschreiben?"
-	        	//Buttons: "Neues Problem" "Überschreiben"
-	        	
 	        }
 	    });
 
@@ -205,23 +203,24 @@ public class InputShow extends Activity{
         		adapter_list_target.remove(adapter_list_target.getItem(0));
         		adapter_list_target.insert(target.toString(),0);
         		inputs.set(0, target);
-                ListView lv_target = (ListView) findViewById(R.id.list_target);
-                lv_target.refreshDrawableState();
     		    Toast.makeText(InputShow.this,"Zielfunktion bearbeitet",Toast.LENGTH_LONG).show();
         		
         		//Constraints beschneiden, falls Target kürzer geworden ist.
     		    int maxi_new = target.getValues().size();
     		    if(maxi_new < maxi_old){
     		    	if(inputs.size()>=2){ // nur Target in inputs enthalten
+    		    		adapter_list_constraint.clear();
     		    		for(int i=1;i<inputs.size();i++){ // durch alle Inputs
-    		    			if(inputs.get(0).getValues().size()<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
+    		    			if(maxi_new<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
     		    				int del = inputs.get(i).getValues().size() - inputs.get(0).getValues().size(); // Anzahl zu löschender xi
     		    				for(int j=0;j<del;j++){ // del-mal letztes xi löschen
     		    					inputs.get(i).getValues().remove(inputs.get(i).getValues().size()-1);
-    		    				}             
+    		    				}
     		    			}
+    		    			adapter_list_constraint.add(inputs.get(i).toString());
     		    		}
-        		    	Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
+    		    		Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
+		    			
     		    	}
     		    }
         		break;
@@ -231,8 +230,6 @@ public class InputShow extends Activity{
             		//target = TargetEdit.target;
             		adapter_list_target.insert(target.toString(),0);
             		inputs.set(0, target);
-                    lv_target = (ListView) findViewById(R.id.list_target);
-                    lv_target.refreshDrawableState();
         		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
         		    findViewById(R.id.btn_settings).setEnabled(true);
             	}
@@ -242,7 +239,7 @@ public class InputShow extends Activity{
             	break;
         	case CONSTRAINT_EDIT_RESULT:
         		constraint = (Constraint) data.getSerializableExtra("constraint");
-        		int position = this.getIntent().getIntExtra("id", -1);
+        		int position = data.getIntExtra("id", -1);
         		inputs.set(position+1, constraint);
         		adapter_list_constraint.remove(adapter_list_constraint.getItem(position));
         		adapter_list_constraint.insert(constraint.toString(), position);
