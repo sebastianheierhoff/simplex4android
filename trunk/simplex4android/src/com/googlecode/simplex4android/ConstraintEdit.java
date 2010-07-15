@@ -86,7 +86,8 @@ public class ConstraintEdit extends Activity {
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 	    		    EditText text = (EditText) findViewById(R.id.edittext_target_element);
-	    			findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+	    		    findViewById(R.id.btn_add_target_element).setEnabled(true);
+	    		    findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
 		    		addto = (EditText) findViewById(R.id.edittext_target_element);
 	        		Selection.setSelection(text.getText(), text.length());
 	    		}
@@ -96,7 +97,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
+	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 1);
 	    
 	    //Textfeld Constraint-Target-Value
 	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
@@ -104,9 +105,11 @@ public class ConstraintEdit extends Activity {
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 	    		    EditText text = (EditText) findViewById(R.id.edittext_target_element);
-	    			findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
+	    		    findViewById(R.id.btn_add_target_element).setEnabled(false);
+	    		    findViewById(R.id.keyboard).setVisibility(View.VISIBLE);
 		    		addto = (EditText) findViewById(R.id.edittext_constraint_target_value);
 	        		Selection.setSelection(text.getText(), text.length());
+	        		
 	    		}
 	    		else{
 		    		findViewById(R.id.keyboard).setVisibility(View.INVISIBLE);
@@ -114,7 +117,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    imm.hideSoftInputFromWindow(target_value.getWindowToken(), 0);
+	    imm.hideSoftInputFromWindow(target_value.getWindowToken(), 1);
 	    
 	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
