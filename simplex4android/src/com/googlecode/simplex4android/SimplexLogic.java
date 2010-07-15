@@ -39,9 +39,8 @@ public abstract class SimplexLogic {
 		}
 		calcDeltas(problem);
 		findPivots(problem);
-		calcXByF(problem);
-		SimplexProblemPrimal sp = problem;
-		return sp;
+		//calcXByF(problem);
+		return problem;
 	}
 
 	/**
@@ -73,7 +72,7 @@ public abstract class SimplexLogic {
 		}
 		calcDeltas(problem);
 		findPivots(problem);
-		calcDeltaByF(problem);
+		//calcDeltaByF(problem);
 		return problem;
 	}
 
@@ -551,6 +550,26 @@ public abstract class SimplexLogic {
 		SimplexProblemDual tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
+			//Prüfung ob schon optimal und ob überhaupt lösbar bzw transformiert werden muss
+			try{
+				if(checkDualOptimal(tmp)){
+					tmp.setOptimal();
+				}else{
+					if(!solveableDual(tmp)){
+						if(!solveablePrimal(tmp)){
+							throw new IOException ("Das Problem ist nicht lösbar!");
+						}else{
+							throw new DataFormatException ("Typ des Problems muss gewechselt werden");
+						}
+					}
+				}
+			}catch(IOException e){// Problem gar nicht lösbar
+				phases[0].addElement(null);
+				return phases;
+			}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
+				phases[0].addElement(transformProblem((SimplexProblemDual)tmp));
+				return firstPhasePrimal(phases);
+			}
 			calcDeltaByF(tmp);
 			phases[0].addElement(tmp.clone());
 			phases = firstPhaseDual(phases);
@@ -578,6 +597,26 @@ public abstract class SimplexLogic {
 		SimplexProblemPrimal tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
+			//Prüfung ob schon optimal und ob überhaupt lösbar bzw transformiert werden muss
+			try{
+				if(checkOptimal(tmp)){
+					tmp.setOptimal();
+				}else{
+					if(!solveablePrimal(tmp)){
+						if(!solveableDual(tmp)){
+							throw new IOException ("Das Problem ist nicht lösbar!");
+						}else{
+							throw new DataFormatException ("Typ des Problems muss gewechselt werden");
+						}
+					}
+				}
+			}catch(IOException e){// Problem gar nicht lösbar
+				phases[0].addElement(null);
+				return phases;
+			}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
+				phases[0].addElement(transformProblem((SimplexProblemPrimal)tmp));
+				return firstPhaseDual(phases);
+			}
 			calcXByF(tmp);
 			phases[0].addElement(tmp.clone());
 			// ab hier eigene Methode(firstPhasePrimal), damit man hier wieder eintsteigen kann nach Transformation
@@ -803,6 +842,26 @@ public abstract class SimplexLogic {
 	 */
 	public static SimplexHistory[] secondPhasePrimal(SimplexHistory[] phases){
 		calcDeltas(phases[1].getLastElement());
+		//Überprüfung ob schon optimal und evlt. auf dualen Modus gewechselt werden soll
+		try{
+			if(checkOptimal(phases[1].getLastElement())&& checkDualOptimal(phases[1].getLastElement())){
+				phases[1].getLastElement().setOptimal();
+			}else{
+				if(!solveablePrimal(phases[1].getLastElement()) || checkOptimal(phases[1].getLastElement())){
+					if(!solveableDual(phases[1].getLastElement())){
+						throw new IOException ("Das Problem ist nicht lösbar!");
+					}else{
+						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
+					}
+				}
+			}
+		}catch(IOException e){// Problem gar nicht lösbar
+			phases[1].addElement(null);
+			return phases;
+		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
+			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
+			return secondPhaseDual(phases);
+		}
 		calcXByF((SimplexProblemPrimal)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
 		try{
@@ -832,6 +891,26 @@ public abstract class SimplexLogic {
 	 */
 	public static SimplexHistory[] secondPhaseDual(SimplexHistory[] phases){
 		calcDeltas(phases[1].getLastElement());
+		//Überprüfung ob schon optimal und evlt. auf primalen Modus gewechselt werden soll
+		try{
+			if(checkDualOptimal(phases[1].getLastElement())){
+				phases[1].getLastElement().setOptimal();
+			}else{
+				if(!solveableDual(phases[1].getLastElement())){
+					if(!solveablePrimal(phases[1].getLastElement())){
+						throw new IOException ("Das Problem ist nicht lösbar!");
+					}else{
+						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
+					}
+				}
+			}
+		}catch(IOException e){// Problem gar nicht lösbar
+			phases[1].addElement(null);
+			return phases;
+		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
+			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
+			return firstPhaseDual(phases);
+		}
 		calcDeltaByF((SimplexProblemDual)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
 		try{
@@ -853,5 +932,22 @@ public abstract class SimplexLogic {
 			phases[1].deleteElement(phases[1].size()-2);
 		}
 		return phases;
+	}
+	
+	/**
+	 * Methode um ein SimplexHistory[] als HTML auf der Konsole auszugeben
+	 */
+	private static void printPhases(SimplexHistory[] tmp){
+		if(tmp[0]!=null){
+			for(int i=0;i<tmp[0].size();i++){
+
+				System.out.println("Phase 1");
+				System.out.println(tmp[0].getElement(i).tableauToHtml());
+			}
+		}
+		for(int i=0;i<tmp[1].size();i++){
+			System.out.println("Phase 2");
+			System.out.println(tmp[1].getElement(i).tableauToHtml());
+		}
 	}
 }
