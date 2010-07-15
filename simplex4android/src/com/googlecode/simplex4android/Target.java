@@ -70,11 +70,11 @@ public class Target extends Input implements Serializable{
 	 */
 	@Override
 	public String toString(){
-		String s = this.valuesToString() + " = ";
+		String s = this.valuesToString() + " \u2192 ";
 		if(this.minOrMax){
-			s += "min";
+			s += "min!";
 		}else{
-			s += "max";
+			s += "max!";
 		}
 		return s;
 	}
