@@ -15,7 +15,7 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblemPrimal addArtificialVars(SimplexProblemPrimal problem){
-		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
+		if(problem.getPivots().length>=problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
 		int[] pivots = findPivotRows(problem);
@@ -48,7 +48,7 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblemDual addArtificialVars(SimplexProblemDual problem){
-		if(problem.getPivots().length==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
+		if(problem.getPivots().length>=problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
 		int[] pivots = findPivotRows(problem);
@@ -547,6 +547,13 @@ public abstract class SimplexLogic {
 		findPivots(problem);
 		problem.setDeltaByF(initializDeltaByFwithNull(problem));
 		phases[0].addElement(problem.clone());
+		//		
+		//		printPhases(phases);
+		//		
+		//		int[] pivots =phases[0].getLastElement().getPivots();
+		//		for(int i=0;i<pivots.length;i++){
+		//			System.out.println(pivots[i]);
+		//		}
 		SimplexProblemDual tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
@@ -709,19 +716,19 @@ public abstract class SimplexLogic {
 		return tmpXByF;
 	}
 
-//	/**
-//	 * erstellt ein int[] komplett mit nullen in der größer von pivots
-//	 * @param problem
-//	 * @return int[] in Größe von pivots mit nullen
-//	 */	
-//	public static int[] initializePivotsWithNull(SimplexProblem problem){
-//		int[] tmpPivots = new int[problem.getNoRows()-1];
-//		for(int i=0;i<tmpPivots.length;i++){
-//			tmpPivots[i]=0;
-//		}
-//		return tmpPivots;
-//	}
-	
+	//	/**
+	//	 * erstellt ein int[] komplett mit nullen in der größer von pivots
+	//	 * @param problem
+	//	 * @return int[] in Größe von pivots mit nullen
+	//	 */	
+	//	public static int[] initializePivotsWithNull(SimplexProblem problem){
+	//		int[] tmpPivots = new int[problem.getNoRows()-1];
+	//		for(int i=0;i<tmpPivots.length;i++){
+	//			tmpPivots[i]=0;
+	//		}
+	//		return tmpPivots;
+	//	}
+
 	/**
 	 * erstellt ein double [] komplett mit nullen in der größer von deltaByF
 	 * @param problem
@@ -853,6 +860,9 @@ public abstract class SimplexLogic {
 					}else{
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
+				}else{
+					phases[1].addElement(null);
+					return phases;
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
@@ -902,6 +912,9 @@ public abstract class SimplexLogic {
 					}else{
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
+				}else{
+					phases[1].addElement(null);
+					return phases;
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
@@ -933,7 +946,7 @@ public abstract class SimplexLogic {
 		}
 		return phases;
 	}
-	
+
 	/**
 	 * Methode um ein SimplexHistory[] als HTML auf der Konsole auszugeben
 	 */
