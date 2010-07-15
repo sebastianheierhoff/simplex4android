@@ -255,11 +255,13 @@ public class ConstraintEdit extends Activity {
 	    	    if(target_value.getText().toString().equals("")){
 	    			Toast.makeText(ConstraintEdit.this,"Eingabe unvollständig! Bitte Zielwert eingeben!",Toast.LENGTH_LONG).show();
         			target_value.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+        			target_value.requestFocus();
 	    			return;
 	        	}
 	        	else if(constraint.getValues().isEmpty()){
 	    			Toast.makeText(ConstraintEdit.this,"Eingabe unvollständig! Bitte mind. ein xi hinzufügen!",Toast.LENGTH_LONG).show();
         			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
+        			target_element.requestFocus();
 	        	}
 	        	else{
 	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
