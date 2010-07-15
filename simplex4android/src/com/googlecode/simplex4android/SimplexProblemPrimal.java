@@ -84,24 +84,29 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	@Override
 	public String tableauToHtml(){
 		int[] pivots = SimplexLogic.findPivotsSorted(this);
-		//System.out.println(pivots.length + "<-meins   arrayList->" +this.getPivots().length);
 		String html = "\n<html>\n<body>\n<table border=1 CELLSPACING=0>\n";
+		//Spaltenbreite
+		html = html + "<colgroup><col width=13> <col width=13>";
+		for(int i=0;i<this.getTarget().length+1;i++){
+			html = html + "<col width=30>";
+		}
+		html = html +"</colgroup>";
 		//1. Zeile: Zielfunktion
-		html = html + "<tr>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
+		html = html + "<tr align=right>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
 		for(int i=0;i<this.getTarget().length-1;i++){
 			html = html + "<td>" + (Math.round(this.getTarget()[i]*100.)/100.) + "</td>";
 		}
 		html = html + "<td></td><td></td></tr>\n";
 		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
-		html = html + "<tr><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
+		html = html + "<tr align=right><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
 		for(int i=0;i<this.getTarget().length-1;i++){
 			html = html +"<td>"+ (i+1) +"</td>";
 		}
 		html = html + "<td>x</td><td>x/f</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			if(pivots.length == this.getPivots().length)html = html + "<tr><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
-			else html = html + "<tr><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
+			if(pivots.length == this.getPivots().length)html = html + "<tr align=right><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
+			else html = html + "<tr align=right><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRow(this)==i && SimplexLogic.choosePivotColumn(this)==j){
 					html = html  + "<td bgcolor=#CC0000>";
@@ -120,7 +125,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 			html = html + "</tr>\n";
 		}
 		// Letzte Zeile: extra behandlung für delta-Wert
-		html = html + "<tr><td></td><td></td>"; //inkl. zwei leerfelder
+		html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<this.getTableau()[0].length;i++){
 			if(pivots.length == this.getPivots().length)html = html + "<td>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
 			else html = html + "<td>" + "&#8211;" +"</td>";
