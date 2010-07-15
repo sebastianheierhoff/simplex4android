@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 public class SimplexHistoryShow extends Activity {
 	
+	SimplexHistory[] simplexhistoryarray;
 	SimplexHistory current;
 	int currenti;
 	int currentphase;
@@ -21,15 +22,18 @@ public class SimplexHistoryShow extends Activity {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
 
-		final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
-    	if(InputShow.simplexhistoryarray[0] != null){
+    	//simplexhistoryarray = this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	simplexhistoryarray = InputShow.simplexhistoryarray;
+    	
+    	final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
+    	if(simplexhistoryarray[0] != null){
     		currentphase = 1;
-    		current = InputShow.simplexhistoryarray[0];
+    		current = simplexhistoryarray[0];
     		btn_switchphases.setVisibility(View.VISIBLE);
     	}
-    	else if(InputShow.simplexhistoryarray[1] != null){
+    	else if(simplexhistoryarray[1] != null){
     		currentphase = 2;
-    		current = InputShow.simplexhistoryarray[1];
+    		current = simplexhistoryarray[1];
     		btn_switchphases.setVisibility(View.INVISIBLE);
     	}
     	else{
@@ -124,14 +128,14 @@ public class SimplexHistoryShow extends Activity {
 	    		if(currentphase == 1){
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 2;
-	    			current = InputShow.simplexhistoryarray[1];
+	    			current = simplexhistoryarray[1];
 		    		//Buttontext aktualisieren
 		    		((Button) v).setText("1. Phase");
 	    		}
 	    		if(currentphase == 2){
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 1;
-	    			current = InputShow.simplexhistoryarray[0];
+	    			current = simplexhistoryarray[0];
 		    		//Buttontext aktualisieren
 		    		((Button) v).setText("2. Phase");
 	    		}
