@@ -46,7 +46,7 @@ public class TargetEdit extends Activity {
 	    	target = new Target();
 	    }
 	    else{
-	    	//Constraint laden
+	    	//Target laden
 	    }
 	    
 		//Spinner minmax

@@ -1,7 +1,10 @@
 package com.googlecode.simplex4android;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
@@ -37,14 +40,14 @@ public class ConstraintEdit extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.constraint_edit);
-
 	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-	    
+
+	    //Behandlung der verschiedenen Intents
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
 	    	constraint = new Constraint();
 	    }
-	    else{
-	    	//Constraint laden
+	    else if(this.getIntent().getBooleanExtra("edit", false) == true){
+	    	constraint = (Constraint) this.getIntent().getSerializableExtra("constraint"); //Constraint laden
 	    }
 	    
 	    addto = (EditText) findViewById(R.id.edittext_target_element);
@@ -100,8 +103,8 @@ public class ConstraintEdit extends Activity {
 	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 1);
 	    
 	    //Textfeld Constraint-Target-Value
-	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
-	    target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
+	    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){
 	    		    EditText text = (EditText) findViewById(R.id.edittext_target_element);
@@ -117,7 +120,7 @@ public class ConstraintEdit extends Activity {
 	    	}
 		});
 
-	    imm.hideSoftInputFromWindow(target_value.getWindowToken(), 1);
+	    imm.hideSoftInputFromWindow(constraint_target_value.getWindowToken(), 1);
 	    
 	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
@@ -265,7 +268,14 @@ public class ConstraintEdit extends Activity {
 	        	}
 	        	else{
 	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
-	        		setResult(CONSTRAINT_CREATE_RESULT);
+	        		Intent ConstraintEditIntent = new Intent().putExtra("constraint", constraint);
+	        		if(ConstraintEdit.this.getIntent().getBooleanExtra("edit", false)){
+		        		ConstraintEditIntent.putExtra("id", ConstraintEdit.this.getIntent().getIntExtra("id", -1));
+	        			setResult(CONSTRAINT_EDIT_RESULT);
+	        		}
+	        		else{
+	        			setResult(CONSTRAINT_CREATE_RESULT);
+	        		}
 	        		finish();
 	        	}
 	        }
@@ -279,6 +289,34 @@ public class ConstraintEdit extends Activity {
 	        	finish();
 	        }
 	    });
+	    
+	    //Constraint laden
+	    if(this.getIntent().getBooleanExtra("edit", false) == true){
+
+	    //Textfeld Target
+	    EditText target = (EditText) findViewById(R.id.edittext_target);
+	    target.setText(constraint.valuesToString());
+
+    	//Textfeld Target-Element
+	    try{
+	    	String target_element_string = String.valueOf(constraint.getValue(0));
+	    	if(target_element_string.equals("0.0")){
+	    		target_element.setText("");
+	    		target_element.setHint("0");
+	    	}
+	    	else{
+	    		target_element.setText(target_element_string);
+	    		Selection.setSelection(target_element.getText(), target_element.length());
+	    	}
+	    }
+	    catch(Exception e){
+	    	target_element.setText("");
+	    	target_element.setHint("0");
+	    }
+	    
+	    //Textfeld Target-Value
+	    constraint_target_value.setText(String.valueOf(constraint.getTargetValue()));
+	    }
 	}	
 	
 	public void increment_xi(){
