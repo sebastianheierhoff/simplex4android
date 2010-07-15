@@ -1,3 +1,4 @@
+
 //TODO: Buttons deaktivieren, solange sie nicht benutzt werden dürfen
 //TODO: Prüfungen einbauen, ob gespeichert/gestartet werden kann (Eingaben korrekt, etc.)
 
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 public class InputShow extends Activity{
 	
+	private static ArrayAdapter<String> adapter_list_constraint;
+	private static ArrayAdapter<String> adapter_list_target;
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
 
@@ -124,26 +127,34 @@ public class InputShow extends Activity{
 //	        	else{
 //	        		
 //	        	}
-	        	//2-Phasen Simplex auf dieses Problem anwenden, man erhält ein SimplexHistory[2]
 	        	try{
-	        		simplexhistoryarray = SimplexLogic.twoPhaseSimplex(problem);
+	        		simplexhistoryarray = SimplexLogic.twoPhaseSimplex(problem); //2-Phasen Simplex auf dieses Problem anwenden, man erhält ein SimplexHistory[2]
 	        	}
 	        	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler beim Berechnen der Tableaus",Toast.LENGTH_LONG).show();
 	        	}
-	        	//Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe
 	        	Intent SHShowIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryShow");
+	        	//SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe //TODO: Serializable implementieren
 	        	startActivity(SHShowIntent);
 	        }
 	    });
 	}
 
-	public void onResume(Bundle savedInstanceState) {
-	
-	}
-	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch (resultCode) {
+		if(inputs.size()>0){
+	    	TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
+	    	ViewGroup.LayoutParams params = txt_target_empty.getLayoutParams();
+	    		params.height = 0;
+	    	txt_target_empty.requestLayout();
+	    }
+	    if(inputs.size()>1){
+	    	TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
+	    	ViewGroup.LayoutParams params = txt_constraint_empty.getLayoutParams();
+	    		params.height = 0;
+	    	txt_constraint_empty.requestLayout();
+	    }
+
+		switch (resultCode) {
         	case RESULT_CANCELED:
         		if(requestCode == TARGET_EDIT_REQUEST){
         			finish();
@@ -162,19 +173,6 @@ public class InputShow extends Activity{
             	try{
             		Target target = TargetEdit.target;
         	        inputs.add(target);
-                	
-        		    if(inputs.size()>0){
-        		    	TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
-        		    	ViewGroup.LayoutParams params = txt_target_empty.getLayoutParams();
-        		    		params.height = 0;
-        		    	txt_target_empty.requestLayout();
-        		    }
-        		    if(inputs.size()>1){
-        		    	TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
-        		    	ViewGroup.LayoutParams params = txt_constraint_empty.getLayoutParams();
-        		    		params.height = 0;
-        		    	txt_constraint_empty.requestLayout();
-        		    	        		    }
         	        fillTargetData();
         		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
             	}
@@ -189,13 +187,6 @@ public class InputShow extends Activity{
             	try{
             		Constraint constraint = ConstraintEdit.constraint;
         	        inputs.add(constraint);
-                	
-        		    if(inputs.size()>0){
-        		    	findViewById(R.id.text_target_empty).setVisibility(View.INVISIBLE);
-        		    }
-        		    if(inputs.size()>1){
-        		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
-        		    }
         	        fillConstraintData();
         		    Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
             	}
@@ -228,14 +219,12 @@ public class InputShow extends Activity{
 		DeleteClickHandler(v, listInputs);
 	}
 
-	
-	@SuppressWarnings("unchecked")
 	public void DeleteClickHandler(View v, ListView lv)
 	{
 		RelativeLayout rl_row = (RelativeLayout)v.getParent();
         int position = lv.indexOfChild(rl_row);
-		ArrayAdapter<String> adapter = ((ArrayAdapter<String>) lv.getAdapter());
-		adapter.remove(adapter.getItem(position));
+        inputs.remove(position);
+        fillData();
 	}
 
 	public void EditClickHandler(View v, ListView lv){
@@ -250,26 +239,30 @@ public class InputShow extends Activity{
 	}
 	
 	private void fillTargetData() {
-	    String[] target_string = new String[1];
-	    target_string[0] = inputs.get(0).toString();
-	    
-        ListView listInputs = (ListView) findViewById(R.id.list_target);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
-        listInputs.setAdapter(adapter);
+        if(inputs.size()>0){
+			String[] target_string = new String[1];
+		    target_string[0] = inputs.get(0).toString();
+		    
+	        ListView listInputs = (ListView) findViewById(R.id.list_target);
+	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
+	        listInputs.setAdapter(adapter_list_target);
+        }
 	}
 
 	private void fillConstraintData() {
-        List<Input> constraints = inputs.subList(1, inputs.size());
-        String[] constraints_string = new String[constraints.size()];
-        Iterator<Input> iter = constraints.iterator(); 
-        int i = 0;
-        while(iter.hasNext() ) { 
-            constraints_string[i] = iter.next().toString();
-            i++;
+        if(inputs.size()>1){
+			List<Input> constraints = inputs.subList(1, inputs.size());
+	        String[] constraints_string = new String[constraints.size()];
+	        Iterator<Input> iter = constraints.iterator(); 
+	        int i = 0;
+	        while(iter.hasNext() ) { 
+	            constraints_string[i] = iter.next().toString();
+	            i++;
+	        }
+	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
+	        listInputs.setVisibility(View.VISIBLE);
+	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
+	        listInputs.setAdapter(adapter_list_constraint);
         }
-        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-        listInputs.setVisibility(View.VISIBLE);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
-        listInputs.setAdapter(adapter);
 	}
 }
