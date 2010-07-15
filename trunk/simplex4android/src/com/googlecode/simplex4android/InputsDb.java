@@ -28,16 +28,16 @@ public class InputsDb {
 	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt das erste einzufügen.
 	 * @param problem
 	 */
-	public InputsDb(ArrayList<Input> problem){
-		listOfInputs.add(problem);
+	public InputsDb(ArrayList<Input> input){
+		listOfInputs.add(input);
 	}
 
 	/**
 	 * Methode zum Hinzufügen eines Problems
 	 * @param problem
 	 */
-	public void addProblem(ArrayList<Input> problem){
-		listOfInputs.add(problem);
+	public void addInput(ArrayList<Input> input){
+		listOfInputs.add(input);
 	}
 
 	protected ArrayList<ArrayList<Double>> convertTo2DArrayList(double[][] array){
@@ -68,7 +68,7 @@ public class InputsDb {
 	 * Gibt die komplette Liste mit den gespeicherten Problemen zurück
 	 * @return komplette Liste mit den gespeicherten Problemen
 	 */
-	public ArrayList<ArrayList<Input>> getListOfProblems(){
+	public ArrayList<ArrayList<Input>> getListOfInputs(){
 		return this.listOfInputs;
 	}
 	
@@ -78,7 +78,7 @@ public class InputsDb {
 	 * @return Problem an Stelle i
 	 * @throws IndexOutOfBoundsException falls i<0 || i>=size
 	 */
-	public ArrayList<Input> getProblem(int i) throws IndexOutOfBoundsException{
+	public ArrayList<Input> getInput(int i) throws IndexOutOfBoundsException{
 		return this.listOfInputs.get(i);	
 	}
 	
@@ -89,11 +89,11 @@ public class InputsDb {
 	 * @param problem einzufügendes Problem
 	 * @throws IndexOutOfBoundsException falls i<0
 	 */
-	public void setProblem(int i, ArrayList<Input> problem) throws IndexOutOfBoundsException{
+	public void setInput(int i, ArrayList<Input> input) throws IndexOutOfBoundsException{
 		if(i>=(this.listOfInputs.size())){
-			this.addProblem(problem);
+			this.addInput(input);
 		}else{
-			this.listOfInputs.set(i, problem);
+			this.listOfInputs.set(i, input);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class InputsDb {
 	 * @throws IOException
 	 */	
 	@SuppressWarnings("unchecked")
-	public void readProblems() throws ClassNotFoundException, IOException{
+	public void readInputs() throws ClassNotFoundException, IOException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try{
@@ -125,7 +125,7 @@ public class InputsDb {
 	 * Speichert die ArrayList listOfProblems in der Datei simplexProbleme.dat ab. Kann mit der Methode readHistory wieder eingelesen werden.
 	 * @throws IOException
 	 */	
-	public void saveProblems()throws IOException{
+	public void saveInputs()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProbleme.dat");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(listOfInputs.toArray());
