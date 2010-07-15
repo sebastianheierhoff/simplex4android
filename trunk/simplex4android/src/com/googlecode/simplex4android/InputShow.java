@@ -108,6 +108,8 @@ public class InputShow extends Activity{
 	        	alert.show();
 	        }
 	    });
+	    
+	    if(inputs.get(0) == null) btn_settings.setEnabled(false);
 
 	    //Speichern-Button
     	final Button btn_save = (Button) findViewById(R.id.btn_save);
@@ -199,9 +201,7 @@ public class InputShow extends Activity{
 		RelativeLayout rl_row = (RelativeLayout)v.getParent();
         int position = lv.indexOfChild(rl_row) +1;
         inputs.remove(position);
-        adapter_list_constraint.notifyDataSetChanged();
-        lv.refreshDrawableState();
-        //fillConstraintData();
+        fillConstraintData();
 	}
 	
 	public void ConstraintEditClickHandler(View v){
@@ -210,10 +210,7 @@ public class InputShow extends Activity{
 	}
 	
 	public void TargetDeleteClickHandler(View v){
-        inputs.remove(0);
-        adapter_list_target.notifyDataSetChanged();
-		ListView lv = (ListView) findViewById(R.id.list_target);
-        lv.refreshDrawableState();
+        inputs.set(0, null);
         fillTargetData();
     }
 
@@ -221,7 +218,6 @@ public class InputShow extends Activity{
 		ListView listInputs = (ListView) findViewById(R.id.list_target);
 		EditClickHandler(v, listInputs);
 	}
-
 
 	public void EditClickHandler(View v, ListView lv){
 		RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
@@ -235,16 +231,15 @@ public class InputShow extends Activity{
 	}
 	
 	private void fillTargetData() {
-        if(inputs.size()>0){
+        if(inputs.get(0) != null){
 			String[] target_string = new String[1];
 		    target_string[0] = inputs.get(0).toString();
 		    
-	        ListView listInputs = (ListView) findViewById(R.id.list_target);
+	        ListView lv_target = (ListView) findViewById(R.id.list_target);
 	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
-	        adapter_list_target.setNotifyOnChange(true);
-	        listInputs.refreshDrawableState();
-	        listInputs.setAdapter(adapter_list_target);
-        }
+	        lv_target.setAdapter(adapter_list_target);
+	        lv_target.refreshDrawableState();
+	    }
 	}
 
 	private void fillConstraintData() {
@@ -258,11 +253,9 @@ public class InputShow extends Activity{
 	            i++;
 	        }
 	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-	        listInputs.setVisibility(View.VISIBLE);
 	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
-	        adapter_list_constraint.setNotifyOnChange(true);
-	        listInputs.refreshDrawableState();
 	        listInputs.setAdapter(adapter_list_constraint);
+	        listInputs.refreshDrawableState();
         }
 	}
 	
@@ -283,7 +276,7 @@ public class InputShow extends Activity{
 			params_constraint.height = 0;
 		}
 		else{
-			params_target.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			params_constraint.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 			
 		}
 		txt_constraint_empty.requestLayout();
