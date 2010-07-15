@@ -23,6 +23,9 @@ Anleitung/Handbuch vorbereiten (Layout, erste Formulierungen, Screenshots, etc.)
 	Formulierungen:
 		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
 
+Bekannte Schwächen: 	aufgrund des kleinen Displays wird die Eingabe großer Probleme eher umständlich, insb. das Anzeigen
+						keine korrekte Implementierung von Brüchen sondern Typecast zu Double und damit u.U. Ungenauigkeit, insb. in der Anzeige Runden auf 2 Nachkommastellen, aber: intern weiterhin als double!
+
 PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
 	1. Folie: Name des Projektes, unsere Namen
 	2. 		: Warum Android?
