@@ -2,6 +2,7 @@ package com.googlecode.simplex4android;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
@@ -14,11 +15,11 @@ public abstract class SimplexProblem {
 	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert im Tableau berechnen zu können
 	private ArrayList<Integer> pivots; //Basisspalten
 	private boolean optimal;
-	
+
 	//SETTINGS!!!
 	//normaler Simplex oder Dualer Simplex
 	//automatische/manuelle Wahl der Pivotspalten
-	
+
 	/**
 	 * Der leere Konstruktor sollte nur zum klonen eins Objektes benutzt werden!!!
 	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
@@ -31,7 +32,7 @@ public abstract class SimplexProblem {
 		this.pivots = new ArrayList<Integer>();
 		this.optimal = false;
 	}
-	
+
 	/**
 	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
 	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
@@ -63,9 +64,9 @@ public abstract class SimplexProblem {
 			this.addRow(row);
 		}
 		this.optimal = false;
-		
+
 	}
-	
+
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
@@ -76,7 +77,7 @@ public abstract class SimplexProblem {
 		this.target = this.convertToDblArrayList(target);		
 		this.optimal = false;
 	}
-		
+
 	/**
 	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
 	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten 1 in der Zielfunktion hinzugefügt.
@@ -90,14 +91,14 @@ public abstract class SimplexProblem {
 			}else{
 				this.tableau.get(i).add(this.tableau.get(i).size()-1,new Double(0));
 			}
-			
+
 		}
 		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
 		this.target.add(this.target.size()-1,new Double(1));
 		// Einfügen der neuen Pivotspalte in die Basis
 		this.pivots.add(c,new Integer(this.target.size()-2));	
 	}
-	
+
 	/**
 	 * Fügt dem SimplexProblem eine neue Zeile beliebiger Länge an vorletzter Stelle hinzu (in der letzten Zeile befinden sich stehts die delta-Werte.
 	 * Je nach Länge werden in den bereits vorhandenen Zeilen Nullen ergänzt und wenn nötig Schlupfvariablen ergänzt.
@@ -131,7 +132,7 @@ public abstract class SimplexProblem {
 		// Einfügen der Zeile an vorletzter Stelle ins Tableau (deltaWerte immer unten)
 		this.tableau.add(this.tableau.size()-1, newRow);
 	}
-	
+
 	/**
 	 * abstrakte Methode um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können
 	 */
@@ -152,7 +153,7 @@ public abstract class SimplexProblem {
 		}
 		return tableau;
 	}
-	
+
 	/**
 	 * Überführt die übergebene ArrayList<Double> in ein double[].
 	 * @param arrayList zu überführende ArrayList
@@ -191,7 +192,7 @@ public abstract class SimplexProblem {
 		}
 		return array;
 	}
-	
+
 	/**
 	 * Überführt das übergebene Array in eine ArrayList<Integer>.
 	 * @param array zu überführendes Array
@@ -204,7 +205,7 @@ public abstract class SimplexProblem {
 		}
 		return arrayList;
 	}
-	
+
 	/**
 	 * Gibt Spalte j aus.
 	 * @param j Index der auszugebenen Spalte
@@ -235,7 +236,7 @@ public abstract class SimplexProblem {
 	public double[] getLastColumn(){
 		return getColumn(this.getNoColumns()-1);
 	}
-	
+
 	/**
 	 * Gibt die letzte Zeile (delta-Werte) aus.
 	 * @return letzte Zeile (delta-Werte)
@@ -243,7 +244,7 @@ public abstract class SimplexProblem {
 	public double[] getLastRow(){
 		return getRow(this.getNoRows()-1);
 	}
-	
+
 	/**
 	 * Gibt die Anzahl der Spalten aus.
 	 * @return Anzahl der Spalten
@@ -251,7 +252,7 @@ public abstract class SimplexProblem {
 	public int getNoColumns(){
 		return this.tableau.get(0).size();
 	}
-	
+
 	/**
 	 * Gibt die Anzahl der Zeilen aus.
 	 * @return Anzahl der Zeilen
@@ -267,7 +268,7 @@ public abstract class SimplexProblem {
 	public boolean getOptimal(){
 		return optimal;
 	}
-	
+
 	/**
 	 * Gibt die Pivotspaltentabelle (als Indizes) zurück.
 	 * @return Indizes der Pivotspalten
@@ -275,7 +276,7 @@ public abstract class SimplexProblem {
 	public int[] getPivots() {
 		return this.convertToIntArray(this.pivots);
 	}
-	
+
 	/**
 	 * Gibt Zeile i aus.
 	 * @param i Index der auszugebenen Zeile
@@ -284,7 +285,7 @@ public abstract class SimplexProblem {
 	public double[] getRow(int i){
 		return this.convertToDblArray(this.tableau.get(i));
 	}
-	
+
 	/**
 	 * Gibt die Lösung des SimlexProblems zurück, sofern dieses bereits optimal ist.
 	 * @return Lösungsstring, Leerstring falls nicht optimal.
@@ -301,13 +302,17 @@ public abstract class SimplexProblem {
 			// Ausgabestring erstellen
 			for(int i=0; i<xSolutions.length;i++){
 				if(!(xSolutions[i]==0)){
-					solution += "x" +(i+1) + " = " + xSolutions[i] +"\n";
-				}			
-			}
+					if(solution.equals("")){
+						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
+					}else{
+						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
+					}			
+				}
+			}			
 		}
 		return solution;
 	}
-	
+
 	/**
 	 * Gibt das SimplexTableau aus.
 	 * @return SimplexTableau
@@ -357,7 +362,7 @@ public abstract class SimplexProblem {
 	public void setOptimal(){
 		this.optimal = true;
 	}
-	
+
 	/**
 	 * Gibt die Pivotspaltentabelle aus.
 	 * @param pivots Indizes der zu setzendenden Pivotspalten
@@ -365,7 +370,7 @@ public abstract class SimplexProblem {
 	public void setPivots(ArrayList<Integer> pivots) {
 		this.pivots = pivots;
 	}
-	
+
 	/**
 	 * Gibt die Pivotspaltentabelle aus.
 	 * @param pivots Indizes der zu setzendenden Pivotspalten
@@ -373,7 +378,7 @@ public abstract class SimplexProblem {
 	public void setPivots(int[] pivots) {
 		this.pivots = this.convertToIntArrayList(pivots);
 	}
-	
+
 	/**
 	 * Setzt Zeile i.
 	 * @param r übergebene Zeile
@@ -384,7 +389,7 @@ public abstract class SimplexProblem {
 			this.tableau.get(i).set(a,new Double(r[a]));
 		}
 	}
-	
+
 	/**
 	 * Setzt das SimplexTableau und berechnet anschließend die Pivotwerte neu.
 	 * @param tableau übergebenes SimplexTableau
@@ -393,7 +398,7 @@ public abstract class SimplexProblem {
 		this.tableau = tableau;
 		SimplexLogic.findPivots(this);
 	}
-	
+
 	/**
 	 * Setzt das SimplexTableau und berechnet anschließend die Pivotwerte neu.
 	 * @param tableau übergebenes SimplexTableau
@@ -402,7 +407,7 @@ public abstract class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		SimplexLogic.findPivots(this);
 	}
-	
+
 	/**
 	 * Setzt die Zielfunktion.
 	 * @param target übergebene Zielfunktion
@@ -410,7 +415,7 @@ public abstract class SimplexProblem {
 	public void setTarget(ArrayList<Double> target) {
 		this.target = target;
 	}
-	
+
 	/**
 	 * Setzt die Zielfunktion.
 	 * @param target übergebene Zielfunktion
@@ -418,13 +423,13 @@ public abstract class SimplexProblem {
 	public void setTarget(double[] target) {
 		this.target = this.convertToDblArrayList(target);
 	}
-	
+
 	/**
 	 * abstrakte Methode um das Tableau in HTML darzustellen
 	 * @return String mit HTML-Code als Inhalt für eine Tabelle
 	 */
 	public abstract String tableauToHtml();	
-	
+
 	/**
 	 * Gibt eine Stringdarstellung des SimplexTableaus zurück.
 	 * @return Stringdarstellung des SimplexTableaus
@@ -439,7 +444,7 @@ public abstract class SimplexProblem {
 		}		
 		return re;
 	}
-	
+
 	/**
 	 * Gibt eine Stringdarstellung der Zielfunktion zurück.
 	 * @return Stringdarstellung der Zielfunktion.
