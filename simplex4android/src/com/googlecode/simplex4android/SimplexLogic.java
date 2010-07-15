@@ -159,8 +159,8 @@ public abstract class SimplexLogic {
 	 * @return true, wenn Eingabestring s gültig, sonst false
 	 */
 	public static boolean checkInput(String s){
-		if(s.startsWith("-")){ 	// Wenn "-" vorhanden, dann nur an erster Stelle?
-			if((s.lastIndexOf("-")!=0)){
+		if(s.startsWith("-")){ 	// Wenn "-" vorhanden, dann nur an erster Stelle und mit mind. einer Ziffer dahinter?
+			if((s.lastIndexOf("-")!=0) || s.length()<2){
 				return false;
 			}			
 		}
