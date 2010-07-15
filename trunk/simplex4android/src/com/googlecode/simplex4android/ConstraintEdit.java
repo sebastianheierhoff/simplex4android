@@ -1,7 +1,5 @@
 package com.googlecode.simplex4android;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -196,9 +194,7 @@ public class ConstraintEdit extends Activity {
 	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
-	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		increment_xi();
 	    		try{
 	    			target_element.requestFocus();
@@ -271,10 +267,10 @@ public class ConstraintEdit extends Activity {
 	        		Intent ConstraintEditIntent = new Intent().putExtra("constraint", constraint);
 	        		if(ConstraintEdit.this.getIntent().getBooleanExtra("edit", false)){
 		        		ConstraintEditIntent.putExtra("id", ConstraintEdit.this.getIntent().getIntExtra("id", -1));
-	        			setResult(CONSTRAINT_EDIT_RESULT);
+	        			setResult(CONSTRAINT_EDIT_RESULT,ConstraintEditIntent);
 	        		}
 	        		else{
-	        			setResult(CONSTRAINT_CREATE_RESULT);
+	        			setResult(CONSTRAINT_CREATE_RESULT, ConstraintEditIntent);
 	        		}
 	        		finish();
 	        	}
@@ -290,7 +286,7 @@ public class ConstraintEdit extends Activity {
 	        }
 	    });
 	    
-	    //Constraint laden
+	    //Constraint laden, falls "edit" == true
 	    if(this.getIntent().getBooleanExtra("edit", false) == true){
 
 	    //Textfeld Target
@@ -316,8 +312,21 @@ public class ConstraintEdit extends Activity {
 	    
 	    //Textfeld Target-Value
 	    constraint_target_value.setText(String.valueOf(constraint.getTargetValue()));
+   
+	    //Spinner gtltoreq
+    	//Index "0" enspricht "<=", "2" entspricht "=" und "1" entspricht ">="
+    	//Sign "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
+	    if(constraint.getSign() == -1){
+	    	gtltoreq.setSelection(0);
 	    }
-	}	
+	    else if(constraint.getSign() == 0){
+	    	gtltoreq.setSelection(2);
+	    }
+	    else{
+	    	gtltoreq.setSelection(1);
+	    }
+	    }
+    }	
 	
 	public void increment_xi(){
 		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 

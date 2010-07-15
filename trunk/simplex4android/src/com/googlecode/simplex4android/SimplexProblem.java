@@ -43,7 +43,7 @@ public abstract class SimplexProblem {
 		Target t = (Target) input.get(0);
 		this.target = t.getClonedValues();
 		this.target.add(new Double(0));
-		if(!t.isMinOrMax()){
+		if(!t.getMinOrMax()){
 			for(int i=0;i<this.target.size()-1;i++){
 				this.target.set(i, new Double(this.target.get(i).doubleValue()*(-1)));
 			}

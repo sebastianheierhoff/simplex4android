@@ -28,6 +28,8 @@ PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
 	2. 		: Warum Android?
 	3. 		: Besonderheiten: Entwicklung auf Android
 	4. 		: Code-Schnipsel: Layout-Files, GUI, besondere Methoden der Logik (???)
+	5. 		: Lessons-Learned: 	1. DU SOLLST AUF DEIN ECLIPSE HÖREN, denn ECLIPSE HAT IMMER RECHT
+								2. SOLLTE ECLIPSE EINMAL NICHT RECHT HABEN, TRITT AUTOMATISCH REGEL 1 in KRAFT 
 	
 Optional: 
 Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
