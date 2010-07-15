@@ -109,7 +109,7 @@ public class InputShow extends Activity{
 	        }
 	    });
 	    
-	    if(inputs.get(0) == null) btn_settings.setEnabled(false);
+	    if(inputs.get(0) == null) btn_settings.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde, da die Settings in der Zielfunktion gespeichert werden.
 
 	    //Speichern-Button
     	final Button btn_save = (Button) findViewById(R.id.btn_save);
@@ -124,6 +124,8 @@ public class InputShow extends Activity{
 	        }
 	    });
 
+	    if(inputs.get(0) == null) btn_save.setEnabled(false); //Button deaktiviert, solange kein gültiges Problem angelegt wurde, //TODO: Methode zum Überprüfen einbauen
+	    
 	    //Start-Button
     	final Button btn_start = (Button) findViewById(R.id.btn_start);
 	    btn_start.setOnClickListener(new OnClickListener() {
@@ -162,8 +164,19 @@ public class InputShow extends Activity{
         		}
         		break;
         	case TARGET_EDIT_RESULT:
-        		//TODO: Constraints beschneiden, falls Target kürzer geworden ist. U.U. Constraints, die geändert wurden, farbig markieren.
-        		
+        		//Constraints beschneiden, falls Target kürzer geworden ist.
+        		if(inputs.size()>=2){ // nur Target in inputs enthalten
+        	      for(int i=1;i<inputs.size();i++){ // durch alle Inputs
+        	    	  if(inputs.get(0).getValues().size()<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
+        	    		  int del = inputs.get(i).getValues().size() - inputs.get(0).getValues().size(); // Anzahl zu löschender xi
+        	    		  for(int j=0;j<del;j++){ // del-mal letztes xi löschen
+        	    			  inputs.get(i).getValues().remove(inputs.get(i).getValues().size()-1);
+        	    		  }             
+        	    	  }
+        	      }
+        		}
+        		Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
+        		fillConstraintData();
         		break;
         	case TARGET_CREATE_RESULT:
             	try{
@@ -211,6 +224,7 @@ public class InputShow extends Activity{
 	
 	public void TargetDeleteClickHandler(View v){
         inputs.set(0, null);
+        adapter_list_target.remove(adapter_list_target.getItem(0));
         fillTargetData();
     }
 
@@ -237,6 +251,8 @@ public class InputShow extends Activity{
 		    
 	        ListView lv_target = (ListView) findViewById(R.id.list_target);
 	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
+	        adapter_list_target.notifyDataSetChanged();
+	        //adapter_list_target.notifyDataSetInvalidated();
 	        lv_target.setAdapter(adapter_list_target);
 	        lv_target.refreshDrawableState();
 	    }
@@ -254,6 +270,7 @@ public class InputShow extends Activity{
 	        }
 	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
 	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
+	        adapter_list_constraint.notifyDataSetChanged();
 	        listInputs.setAdapter(adapter_list_constraint);
 	        listInputs.refreshDrawableState();
         }
