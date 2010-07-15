@@ -26,12 +26,13 @@ import android.widget.Toast;
 
 public class InputShow extends Activity{
 	
-	private static ArrayAdapter<String> adapter_list_constraint;
-	private static ArrayAdapter<String> adapter_list_target;
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
+	
+	private static ArrayAdapter<String> adapter_list_constraint;
+	private static ArrayAdapter<String> adapter_list_target;
 
-	final String[] settings = {"Primal", "Dual"};
+	private static final String[] settings = {"Primal", "Dual"};
 	
 	//TODO: Anpassen!
 	//ResultCodes
@@ -189,6 +190,7 @@ public class InputShow extends Activity{
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		Target target;
+		Constraint constraint;
 		switch (resultCode) {
         	case RESULT_CANCELED:
         		if(requestCode == TARGET_EDIT_REQUEST){
@@ -226,17 +228,24 @@ public class InputShow extends Activity{
             	}
             	break;
         	case CONSTRAINT_EDIT_RESULT:
-        		//TODO: Code einfügen.
+        		constraint = (Constraint) this.getIntent().getSerializableExtra("constraint");
+        		int position = this.getIntent().getIntExtra("id", -1);
+        		inputs.set(position+1, constraint);
+        		adapter_list_constraint.insert(constraint.toString(), position);
+    		    Toast.makeText(InputShow.this,"Nebenbedingung editiert",Toast.LENGTH_LONG).show();
         		break;
         	case CONSTRAINT_CREATE_RESULT:
             	try{
-            		Constraint constraint = ConstraintEdit.constraint;
+            		constraint = (Constraint) this.getIntent().getSerializableExtra("constraint");
             		inputs.add(constraint);
             		adapter_list_constraint.add(constraint.toString());
         		    Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
             	}
+            	catch(ClassCastException e){
+	    			Toast.makeText(InputShow.this,"Fehler: " + e.getMessage(),Toast.LENGTH_LONG).show();
+            	}
             	catch(Exception ex){
-	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+	    			Toast.makeText(InputShow.this,ex.getMessage(),Toast.LENGTH_LONG).show();
             	}
             	break;
 			default:
@@ -263,6 +272,7 @@ public class InputShow extends Activity{
         ConstraintEditIntent.putExtra("constraint", constraint);
         ConstraintEditIntent.putExtra("edit", true);
         ConstraintEditIntent.putExtra("id", position);
+        ConstraintEditIntent.putExtra("maxi", inputs.get(0).getValues().size());
     	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
 	
