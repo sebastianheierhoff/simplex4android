@@ -76,7 +76,7 @@ public class SimplexLocal {
 			e.printStackTrace();
 		}
 		try{
-			read.readProblems();
+			read.readInputs();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

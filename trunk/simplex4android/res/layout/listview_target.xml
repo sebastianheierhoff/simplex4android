@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent" 
+	android:background="@color/white">
+	 <TextView 
+	 	android:id="@+id/tv_row"
+	 	android:text="Zeile"
+	 	android:textSize="20dip"
+	 	android:padding="10dip"
+	 	android:textColor="@color/black"
+	 	android:layout_width="fill_parent"
+	 	android:layout_height="fill_parent"
+	 	android:layout_gravity="center_vertical|center_horizontal|center"
+	 	android:scrollHorizontally="true"/>
+	<Button 
+	    android:id="@+id/btn_delete"
+	    android:background="@drawable/btn_delete"
+	    android:layout_width="wrap_content"
+	    android:layout_height="45dip"
+	    android:onClick="TargetDeleteClickHandler"
+	    android:layout_alignParentRight="true"/> 
+	<Button 
+ 	    android:id="@+id/btn_edit"
+ 	    android:background="@drawable/btn_edit"
+	    android:layout_width="wrap_content"
+	    android:layout_height="45dip"
+	    android:layout_toLeftOf="@id/btn_delete"
+	    android:onClick="TargetEditClickHandler"/>
+</RelativeLayout>
