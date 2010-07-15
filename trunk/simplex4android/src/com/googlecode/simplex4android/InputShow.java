@@ -30,7 +30,7 @@ public class InputShow extends Activity{
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
 
-	final CharSequence[] settings = {"ROOOT", "BLAU"};
+	final String[] settings = {"Primal", "Dual"};
 	
 	//TODO: Anpassen!
 	//ResultCodes
@@ -100,7 +100,7 @@ public class InputShow extends Activity{
 	        public void onClick(View v) {
 	    	    //Dialog, um Einstellungen vorzunehmen
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
-	        	builder.setTitle("Pick a color");
+	        	builder.setTitle("Simplex-Methode");
 	        	builder.setItems(settings, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int item) {
 	        			Toast.makeText(getApplicationContext(), settings[item], Toast.LENGTH_SHORT).show();    }});
