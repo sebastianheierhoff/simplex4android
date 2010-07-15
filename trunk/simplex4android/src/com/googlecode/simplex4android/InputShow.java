@@ -25,112 +25,138 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class InputShow extends Activity{
-
+	
 	private static ArrayAdapter<String> adapter_list_constraint;
 	private static ArrayAdapter<String> adapter_list_target;
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
 
 	final String[] settings = {"Primal", "Dual"};
-
+	
 	//TODO: Anpassen!
 	//ResultCodes
 	static final int CONSTRAINT_EDIT_RESULT = 1;
 	static final int CONSTRAINT_CREATE_RESULT = 2;
 	static final int TARGET_EDIT_RESULT = 3;
 	static final int TARGET_CREATE_RESULT = 4;
-
+	
 	//RequestCodes
 	static final int CONSTRAINT_EDIT_REQUEST = 1;
 	static final int CONSTRAINT_CREATE_REQUEST = 2;
 	static final int TARGET_EDIT_REQUEST = 3;
 	static final int TARGET_CREATE_REQUEST = 4;
-
+	
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.input_show);
+	    super.onCreate(savedInstanceState);
+    	setContentView(R.layout.input_show);
+	    
+	    //Behandlung der verschiedenen Intents
+    	if(this.getIntent().getBooleanExtra("create", false)){
+	    	inputs = new ArrayList<Input>();
+	    	inputs.add(null);
+	    	Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+        	TargetCreateIntent.putExtra("create", true);
+        	startActivityForResult(TargetCreateIntent, TARGET_CREATE_REQUEST);
+	    }
+	    else if(this.getIntent().getBooleanExtra("load", false)){
 
-		//Behandlung der verschiedenen Intents
-		if(this.getIntent().getBooleanExtra("create", false)){
-			inputs = new ArrayList<Input>();
-			inputs.add(null);
-			Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-			TargetCreateIntent.putExtra("create", true);
-			startActivityForResult(TargetCreateIntent, TARGET_CREATE_REQUEST);
-		}
-		else if(this.getIntent().getBooleanExtra("load", false)){
+	    }
+	    else if(this.getIntent().getBooleanExtra("currentProblem", false)){
+	    	inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
+	    	fillData();
+	    }
+	    else{
+	    	
+	    }
+	
+	    //Anzeigen/Ausbleden der Meldungen "Keine Nebenbedinung/Zielfunktion eingegeben."
+    	hideOrShowEmptyTexts();
 
-		}
-		else if(this.getIntent().getBooleanExtra("currentProblem", false)){
-			inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
-			fillData();
-		}
-		else{
+        //ArrayAdapter der ListViews
+    	adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row);
+        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row);
+        adapter_list_target.setNotifyOnChange(true);
+        adapter_list_constraint.setNotifyOnChange(true);
+        ListView lv_target = (ListView) findViewById(R.id.list_target);
+        lv_target.setAdapter(adapter_list_target);
+        ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
+        lv_constraint.setAdapter(adapter_list_constraint);
+        
+	    //Zurück-Button
+	    final Button back = (Button) findViewById(R.id.btn_cancel);
+	    back.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+		    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
+	        	ShowMainIntent.putExtra("inputs", inputs); 
+	            ShowMainIntent.putExtra("currentProblem", true);
+	        	startActivity(ShowMainIntent);
+	     	}
+	    });
+	    
+	    //Nebenbedingung hinzufügen - Button
+    	final Button constraint_new = (Button) findViewById(R.id.btn_new_constraint);
+	    constraint_new.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
+	        	ConstraintCreateIntent.putExtra("maxi", inputs.get(0).getValues().size());
+	        	ConstraintCreateIntent.putExtra("create", true);
+	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
+	        }
+	    });
 
-		}
+	    //"Einstellungen ändern" - Button
+    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
+	    btn_settings.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	    	    //Dialog, um Einstellungen vorzunehmen
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
+	        	builder.setTitle("Simplex-Methode");
+	        	builder.setItems(settings, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int item) {
+	        			Toast.makeText(getApplicationContext(), settings[item], Toast.LENGTH_SHORT).show();    }});
+	        	AlertDialog alert = builder.create();
+	        	alert.show();
+	        }
+	    });
+	    
+	    if(inputs.get(0) == null) btn_settings.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde, da die Settings in der Zielfunktion gespeichert werden.
 
-		//Anzeigen/Ausbleden der Meldungen "Keine Nebenbedinung/Zielfunktion eingegeben."
-		hideOrShowEmptyTexts();
-
-		//Zurück-Button
-		final Button back = (Button) findViewById(R.id.btn_cancel);
-		back.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
-				ShowMainIntent.putExtra("inputs", inputs); 
-				ShowMainIntent.putExtra("currentProblem", true);
-				startActivity(ShowMainIntent);
-			}
-		});
-
-		//Nebenbedingung hinzufügen - Button
-		final Button constraint_new = (Button) findViewById(R.id.btn_new_constraint);
-		constraint_new.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-				ConstraintCreateIntent.putExtra("maxi", inputs.get(0).getValues().size());
-				ConstraintCreateIntent.putExtra("create", true);
-				startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
-			}
-		});
-
-		//"Einstellungen ändern" - Button
-		final Button btn_settings = (Button) findViewById(R.id.btn_settings);
-		btn_settings.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				//Dialog, um Einstellungen vorzunehmen
-				AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
-				builder.setTitle("Simplex-Methode");
-				builder.setItems(settings, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						try {
-							((Target)inputs.get(0)).setUserSettings(item);
-						}catch(IOException e) {
-							Toast.makeText(getApplicationContext(), "Fehler beim Setzen der Einstellungen!", Toast.LENGTH_SHORT).show();
-						}
-						Toast.makeText(getApplicationContext(), settings[item], Toast.LENGTH_SHORT).show();    }});
-				AlertDialog alert = builder.create();
-				alert.show();
-			}
-		});
-
-		if(inputs.get(0) == null) btn_settings.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde, da die Settings in der Zielfunktion gespeichert werden.
-
-		//Speichern-Button
-		final Button btn_save = (Button) findViewById(R.id.btn_save);
-		btn_save.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				//TODO: Speichern Methode einbinden
-				//InputsDb.addProblem(InputShow.inputs);
-				//Toast "Problem gespeichert"
-				//Falls schon gespeichert aber geändert/geladenes Problem - Frage: "Als neues Problem speichern, oder überschreiben?"
-				//Buttons: "Neues Problem" "Überschreiben"
-
-			}
-		});
-
-		if(inputs.get(0) == null) btn_save.setEnabled(false); //Button deaktiviert, solange kein gültiges Problem angelegt wurde, //TODO: Methode zum Überprüfen einbauen
+	    //Speichern-Button
+    	final Button btn_save = (Button) findViewById(R.id.btn_save);
+	    btn_save.setOnClickListener(new OnClickListener() {
+		        public void onClick(View v) {
+		        
+		        //if(){//Falls das Problem geladen wurde
+		        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
+		        	builder.setMessage("Problem überschreiben?")
+		        		   .setCancelable(false)
+		        		   .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+		        			   public void onClick(DialogInterface dialog, int id) {
+		        				   //Problem speichern;
+		        			   }       
+		        		   })
+		        		   .setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+		        			   public void onClick(DialogInterface dialog, int id) {
+		        			   }
+		        		   })
+		        		   .setNeutralButton("Als neues Problem", new DialogInterface.OnClickListener() {
+		        			   public void onClick(DialogInterface dialog, int id) {
+		        				   dialog.cancel();
+		        			   }
+		        		   });
+		        	AlertDialog alert = builder.create();
+		        	alert.show();
+		        //}
+		        //else{
+		        	//TODO: Speichern Methode einbinden
+		        	//InputsDb.addProblem(InputShow.inputs);
+		        	//Toast "Problem gespeichert"
+		        	//Falls schon gespeichert aber geändert/geladenes Problem - Frage: "Als neues Problem speichern, oder überschreiben?"
+	        	//Buttons: "Neues Problem" "Überschreiben"
+	        	
+	        }
+	    });
 
 		//Start-Button
 		final Button btn_start = (Button) findViewById(R.id.btn_start);
@@ -162,123 +188,119 @@ public class InputShow extends Activity{
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		Target target;
 		switch (resultCode) {
-		case RESULT_CANCELED:
-			if(requestCode == TARGET_EDIT_REQUEST){
-				//TODO: Code einfügen
-			}
-			break;
-		case TARGET_EDIT_RESULT:
-			//Constraints beschneiden, falls Target kürzer geworden ist.
-			if(inputs.size()>=2){ // nur Target in inputs enthalten
-				for(int i=1;i<inputs.size();i++){ // durch alle Inputs
-					if(inputs.get(0).getValues().size()<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
-						int del = inputs.get(i).getValues().size() - inputs.get(0).getValues().size(); // Anzahl zu löschender xi
-						for(int j=0;j<del;j++){ // del-mal letztes xi löschen
-							inputs.get(i).getValues().remove(inputs.get(i).getValues().size()-1);
-						}             
-					}
-				}
-			}
-			Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
-			fillConstraintData();
-			break;
-		case TARGET_CREATE_RESULT:
-			try{
-				Target target = TargetEdit.target; //TODO: ersetzen durch getSerializableExtra()
-				inputs.set(0, target);
-				fillTargetData();
-				Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
-			}
-			catch(Exception ex){
-				Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
-			}
-			break;
-		case CONSTRAINT_EDIT_RESULT:
-
-			break;
-		case CONSTRAINT_CREATE_RESULT:
-			try{
-				Constraint constraint = ConstraintEdit.constraint;
-				inputs.add(constraint);
-				fillConstraintData();
-				Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
-			}
-			catch(Exception ex){
-				Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
-			}
-			break;
-		default:
-			break;
-		}
+        	case RESULT_CANCELED:
+        		if(requestCode == TARGET_EDIT_REQUEST){
+        			//TODO: Code einfügen
+        		}
+        		break;
+        	case TARGET_EDIT_RESULT:
+        		//Constraints beschneiden, falls Target kürzer geworden ist.
+        		if(inputs.size()>=2){ // nur Target in inputs enthalten
+        	      for(int i=1;i<inputs.size();i++){ // durch alle Inputs
+        	    	  if(inputs.get(0).getValues().size()<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
+        	    		  int del = inputs.get(i).getValues().size() - inputs.get(0).getValues().size(); // Anzahl zu löschender xi
+        	    		  for(int j=0;j<del;j++){ // del-mal letztes xi löschen
+        	    			  inputs.get(i).getValues().remove(inputs.get(i).getValues().size()-1);
+        	    		  }             
+        	    	  }
+        	      }
+        		}
+        		Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
+        		target = TargetEdit.target;
+        		adapter_list_target.insert(target.toString(),0);
+        		inputs.set(0, target);
+        		break;
+        	case TARGET_CREATE_RESULT:
+            	try{
+            		target = TargetEdit.target; //TODO: ersetzen durch getSerializableExtra()
+            		adapter_list_target.insert(target.toString(),0);
+            		inputs.set(0, target);
+                    ListView lv_target = (ListView) findViewById(R.id.list_target);
+                    lv_target.refreshDrawableState();
+        		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
+            	}
+            	catch(Exception ex){
+	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+            	}
+            	break;
+        	case CONSTRAINT_EDIT_RESULT:
+        		//TODO: Code einfügen.
+        		break;
+        	case CONSTRAINT_CREATE_RESULT:
+            	try{
+            		Constraint constraint = ConstraintEdit.constraint;
+            		inputs.add(constraint);
+            		adapter_list_constraint.add(constraint.toString());
+        		    Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
+            	}
+            	catch(Exception ex){
+	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+            	}
+            	break;
+			default:
+                break;
+        }
 		hideOrShowEmptyTexts();
-	}
+    }
 
 	public void ConstraintDeleteClickHandler(View v){
-		ListView lv = (ListView) findViewById(R.id.list_constraint);
+		ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
 		RelativeLayout rl_row = (RelativeLayout)v.getParent();
-		int position = lv.indexOfChild(rl_row) +1;
-		inputs.remove(position);
-		fillConstraintData();
+        int position = lv_constraint.indexOfChild(rl_row);
+        adapter_list_constraint.remove(adapter_list_constraint.getItem(position));
+        inputs.remove(position +1);
+        hideOrShowEmptyTexts();
 	}
-
+	
 	public void ConstraintEditClickHandler(View v){
-		ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-		EditClickHandler(v, listInputs);		
+		ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
+		RelativeLayout rl_row = (RelativeLayout)v.getParent();
+        int position = lv_constraint.indexOfChild(rl_row);
+        Constraint constraint = (Constraint) inputs.get(position+1);
+        Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
+        ConstraintEditIntent.putExtra("constraint", constraint);
+        ConstraintEditIntent.putExtra("edit", true);
+        ConstraintEditIntent.putExtra("id", position);
+    	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
-
+	
 	public void TargetDeleteClickHandler(View v){
-		inputs.set(0, null);
-		adapter_list_target.remove(adapter_list_target.getItem(0));
-		fillTargetData();
-	}
+        inputs.set(0, null);
+        adapter_list_target.clear();
+        hideOrShowEmptyTexts();
+	    Toast.makeText(InputShow.this,"Zielfunktion gelöscht. Bitte neue Zielfunktion eingeben.",Toast.LENGTH_LONG).show();
+        Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+    	TargetCreateIntent.putExtra("create", true);
+    	startActivityForResult(TargetCreateIntent, TARGET_CREATE_REQUEST);
+    }
 
 	public void TargetEditClickHandler(View v){
-		ListView listInputs = (ListView) findViewById(R.id.list_target);
-		EditClickHandler(v, listInputs);
+        Target target = (Target) inputs.get(0);
+        Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+        ConstraintEditIntent.putExtra("target", target);
+        ConstraintEditIntent.putExtra("edit", true);
+    	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
 
-	public void EditClickHandler(View v, ListView lv){
-		RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
-		Button btnChild = (Button)vwParentRow.getChildAt(2);
-		vwParentRow.refreshDrawableState();
-	}
-
-	private void fillData(){
-		fillTargetData();
-		fillConstraintData();
-	}
-
-	private void fillTargetData() {
-		if(inputs.get(0) != null){
+	private void fillData() {
+        if(inputs.get(0) != null){
 			String[] target_string = new String[1];
-			target_string[0] = inputs.get(0).toString();
-
-			ListView lv_target = (ListView) findViewById(R.id.list_target);
-			adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
-			adapter_list_target.notifyDataSetChanged();
-			//adapter_list_target.notifyDataSetInvalidated();
-			lv_target.setAdapter(adapter_list_target);
-			lv_target.refreshDrawableState();
-		}
-	}
-
-	private void fillConstraintData() {
-		if(inputs.size()>1){
+		    target_string[0] = inputs.get(0).toString();
+	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
+	    }
+        if(inputs.size()>1){
 			List<Input> constraints = inputs.subList(1, inputs.size());
-			String[] constraints_string = new String[constraints.size()];
-			Iterator<Input> iter = constraints.iterator(); 
-			int i = 0;
-			while(iter.hasNext() ) { 
-				constraints_string[i] = iter.next().toString();
-				i++;
-			}
-			ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-			adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
-			adapter_list_constraint.notifyDataSetChanged();
-			listInputs.setAdapter(adapter_list_constraint);
-			listInputs.refreshDrawableState();
-		}
+	        String[] constraints_string = new String[constraints.size()];
+	        Iterator<Input> iter = constraints.iterator(); 
+	        int i = 0;
+	        while(iter.hasNext() ) { 
+	            constraints_string[i] = iter.next().toString();
+	            i++;
+	        }
+	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
+        }
 	}
 
 	private void hideOrShowEmptyTexts(){
@@ -299,7 +321,7 @@ public class InputShow extends Activity{
 		}
 		else{
 			params_constraint.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-
+			
 		}
 		txt_constraint_empty.requestLayout();
 	}
