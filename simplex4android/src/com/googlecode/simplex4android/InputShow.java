@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class InputShow extends Activity{
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
 
+	final CharSequence[] settings = {"ROOOT", "BLAU"};
+	
+	//TODO: Anpassen!
 	//ResultCodes
 	static final int CONSTRAINT_EDIT_RESULT = 1;
 	static final int CONSTRAINT_CREATE_RESULT = 2;
@@ -46,11 +50,13 @@ public class InputShow extends Activity{
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.input_show);
 	    
-	    if(this.getIntent().getBooleanExtra("create", false)){
+	    //Behandlung der verschiedenen Intents
+    	if(this.getIntent().getBooleanExtra("create", false)){
 	    	inputs = new ArrayList<Input>();
-	    	Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-        	ConstraintEditIntent.putExtra("create", true);
-        	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
+	    	inputs.add(null);
+	    	Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+        	TargetCreateIntent.putExtra("create", true);
+        	startActivityForResult(TargetCreateIntent, TARGET_CREATE_REQUEST);
 	    }
 	    else if(this.getIntent().getBooleanExtra("load", false)){
 
@@ -63,6 +69,9 @@ public class InputShow extends Activity{
 	    	
 	    }
 	
+	    //Anzeigen/Ausbleden der Meldungen "Keine Nebenbedinung/Zielfunktion eingegeben."
+    	hideOrShowEmptyTexts();
+	    
 	    //Zurück-Button
 	    final Button back = (Button) findViewById(R.id.btn_cancel);
 	    back.setOnClickListener(new OnClickListener() {
@@ -84,7 +93,22 @@ public class InputShow extends Activity{
 	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
 	        }
 	    });
-	    
+
+	    //"Einstellungen ändern" - Button
+    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
+	    btn_settings.setOnClickListener(new OnClickListener() {
+	        public void onClick(View v) {
+	    	    //Dialog, um Einstellungen vorzunehmen
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
+	        	builder.setTitle("Pick a color");
+	        	builder.setItems(settings, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int item) {
+	        			Toast.makeText(getApplicationContext(), settings[item], Toast.LENGTH_SHORT).show();    }});
+	        	AlertDialog alert = builder.create();
+	        	alert.show();
+	        }
+	    });
+
 	    //Speichern-Button
     	final Button btn_save = (Button) findViewById(R.id.btn_save);
 	    btn_save.setOnClickListener(new OnClickListener() {
@@ -98,27 +122,15 @@ public class InputShow extends Activity{
 	        }
 	    });
 
-	    //"Einstellungen ändern" - Button
-    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
-	    btn_settings.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	
-	        }
-	    });
-	    
 	    //Start-Button
     	final Button btn_start = (Button) findViewById(R.id.btn_start);
 	    btn_start.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	//TODO: Code einfügen.
-	        	SimplexProblemPrimal problem = null;
-	        	//je nach Einstellung ein Problem erzeugen,
+	        	SimplexProblemPrimal problem = null; //je nach Einstellung ein Problem erzeugen,
 //	        	if(){
 	        	try{
-	        		//problem = new SimplexProblemPrimal(inputs);
-	        		double[] target = {1,2,7,5,0,0,0};
-	            	double[][] tableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
-	            	problem = new SimplexProblemPrimal(tableau, target);
+	        		problem = new SimplexProblemPrimal(inputs);
 	        	}
 	        	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler beim Anlegen des Simplex-Tableau",Toast.LENGTH_LONG).show();
@@ -141,38 +153,20 @@ public class InputShow extends Activity{
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		if(inputs.size()>0){
-	    	TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
-	    	ViewGroup.LayoutParams params = txt_target_empty.getLayoutParams();
-	    		params.height = 0;
-	    	txt_target_empty.requestLayout();
-	    }
-	    if(inputs.size()>1){
-	    	TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
-	    	ViewGroup.LayoutParams params = txt_constraint_empty.getLayoutParams();
-	    		params.height = 0;
-	    	txt_constraint_empty.requestLayout();
-	    }
-
 		switch (resultCode) {
         	case RESULT_CANCELED:
         		if(requestCode == TARGET_EDIT_REQUEST){
-        			finish();
+        			//TODO: Code einfügen
         		}
         		break;
         	case TARGET_EDIT_RESULT:
-        		//TODO: Wenn der Index des größten xi kleiner geworden ist
+        		//TODO: Constraints beschneiden, falls Target kürzer geworden ist. U.U. Constraints, die geändert wurden, farbig markieren.
         		
-        		//alle Constraints überprüfen, ob xi mit größerem Index enthalten sind
-        		
-        		//diese Constraints rot markieren, Fehlermeldung ausgeben
-        		
-        		//Rechnen/Anlegen des SimplexProblems erst erlauben, wenn alle Constraints geändert wurden
         		break;
         	case TARGET_CREATE_RESULT:
             	try{
-            		Target target = TargetEdit.target;
-        	        inputs.add(target);
+            		Target target = TargetEdit.target; //TODO: ersetzen durch getSerializableExtra()
+        	        inputs.set(0, target);
         	        fillTargetData();
         		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
             	}
@@ -197,11 +191,17 @@ public class InputShow extends Activity{
 			default:
                 break;
         }
+		hideOrShowEmptyTexts();
     }
 
 	public void ConstraintDeleteClickHandler(View v){
-		ListView listInputs = (ListView) findViewById(R.id.list_constraint);
-		DeleteClickHandler(v, listInputs);
+		ListView lv = (ListView) findViewById(R.id.list_constraint);
+		RelativeLayout rl_row = (RelativeLayout)v.getParent();
+        int position = lv.indexOfChild(rl_row) +1;
+        inputs.remove(position);
+        adapter_list_constraint.notifyDataSetChanged();
+        lv.refreshDrawableState();
+        //fillConstraintData();
 	}
 	
 	public void ConstraintEditClickHandler(View v){
@@ -210,22 +210,18 @@ public class InputShow extends Activity{
 	}
 	
 	public void TargetDeleteClickHandler(View v){
-		ListView listInputs = (ListView) findViewById(R.id.list_target);
-		DeleteClickHandler(v, listInputs);
-	}
+        inputs.remove(0);
+        adapter_list_target.notifyDataSetChanged();
+		ListView lv = (ListView) findViewById(R.id.list_target);
+        lv.refreshDrawableState();
+        fillTargetData();
+    }
 
 	public void TargetEditClickHandler(View v){
 		ListView listInputs = (ListView) findViewById(R.id.list_target);
-		DeleteClickHandler(v, listInputs);
+		EditClickHandler(v, listInputs);
 	}
 
-	public void DeleteClickHandler(View v, ListView lv)
-	{
-		RelativeLayout rl_row = (RelativeLayout)v.getParent();
-        int position = lv.indexOfChild(rl_row);
-        inputs.remove(position);
-        fillData();
-	}
 
 	public void EditClickHandler(View v, ListView lv){
 		RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
@@ -245,6 +241,8 @@ public class InputShow extends Activity{
 		    
 	        ListView listInputs = (ListView) findViewById(R.id.list_target);
 	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
+	        adapter_list_target.setNotifyOnChange(true);
+	        listInputs.refreshDrawableState();
 	        listInputs.setAdapter(adapter_list_target);
         }
 	}
@@ -262,7 +260,32 @@ public class InputShow extends Activity{
 	        ListView listInputs = (ListView) findViewById(R.id.list_constraint);
 	        listInputs.setVisibility(View.VISIBLE);
 	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
+	        adapter_list_constraint.setNotifyOnChange(true);
+	        listInputs.refreshDrawableState();
 	        listInputs.setAdapter(adapter_list_constraint);
         }
+	}
+	
+	private void hideOrShowEmptyTexts(){
+		TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
+		ViewGroup.LayoutParams params_target = txt_target_empty.getLayoutParams();
+		if(inputs.get(0) != null){
+			params_target.height = 0;
+		}
+		else{
+			params_target.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		}
+		txt_target_empty.requestLayout();
+
+		TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
+		ViewGroup.LayoutParams params_constraint = txt_constraint_empty.getLayoutParams();
+		if(inputs.size()>1){
+			params_constraint.height = 0;
+		}
+		else{
+			params_target.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			
+		}
+		txt_constraint_empty.requestLayout();
 	}
 }
