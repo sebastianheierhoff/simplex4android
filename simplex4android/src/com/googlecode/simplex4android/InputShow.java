@@ -11,13 +11,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class InputShow extends Activity{
@@ -163,11 +164,17 @@ public class InputShow extends Activity{
         	        inputs.add(target);
                 	
         		    if(inputs.size()>0){
-        		    	findViewById(R.id.text_target_empty).setVisibility(View.INVISIBLE);
+        		    	TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
+        		    	ViewGroup.LayoutParams params = txt_target_empty.getLayoutParams();
+        		    		params.height = 0;
+        		    	txt_target_empty.requestLayout();
         		    }
         		    if(inputs.size()>1){
-        		    	findViewById(R.id.text_constraint_empty).setVisibility(View.INVISIBLE);
-        		    }
+        		    	TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
+        		    	ViewGroup.LayoutParams params = txt_constraint_empty.getLayoutParams();
+        		    		params.height = 0;
+        		    	txt_constraint_empty.requestLayout();
+        		    	        		    }
         	        fillTargetData();
         		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
             	}
@@ -204,12 +211,19 @@ public class InputShow extends Activity{
 	public void DeleteClickHandler(View v)
 	{
 		RelativeLayout vwParentRow = (RelativeLayout)v.getParent(); // get the row the clicked button is in
-		Button btnChild = (Button)vwParentRow.getChildAt(1); //get the 2nd child of our ParentRow 
+		ListView listInputs = (ListView) findViewById(R.id.list_target);
+        try{
+        	int testint = listInputs.indexOfChild(vwParentRow);
+    		Button btnChild = (Button)vwParentRow.getChildAt(1); //get the 2nd child of our ParentRow 
+    		btnChild.setText(testint);
+        }
+        catch(Exception ex){
+        	
+        }
 		vwParentRow.refreshDrawableState(); // and redraw our row
 		}
 
-	public void EditClickHandler(View v)
-	{
+	public void EditClickHandler(View v){
 		RelativeLayout vwParentRow = (RelativeLayout)v.getParent();
 		Button btnChild = (Button)vwParentRow.getChildAt(2);
 		vwParentRow.refreshDrawableState();
