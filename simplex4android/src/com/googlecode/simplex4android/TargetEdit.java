@@ -2,8 +2,8 @@ package com.googlecode.simplex4android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.Selection;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,19 +36,19 @@ public class TargetEdit extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
 	    setContentView(R.layout.target_edit);
 
 	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+	    //Behandlung der verschiedenen Intents
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
 	    	target = new Target();
 	    }
-	    else{
-	    	//Target laden
+	    else if(this.getIntent().getBooleanExtra("edit", false) == true){
+	    	target = (Target) this.getIntent().getSerializableExtra("target"); //Target laden
 	    }
-	    
+    
 		//Spinner minmax
 		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
 		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
@@ -123,7 +123,6 @@ public class TargetEdit extends Activity {
 	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
 	    OnClickListener x_plus_action = new OnClickListener(){
 	    	public void onClick(View V){
-	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    		increment_xi();
 	    		try{
@@ -219,7 +218,15 @@ public class TargetEdit extends Activity {
         			target_element.setBackgroundResource(R.drawable.textfield_pressed_red);//Hintergrund rot
 	        	}
 	        	else{
-	        		setResult(TARGET_CREATE_RESULT);
+	        		Intent TargetEditIntent = new Intent().putExtra("target", target);
+	        		if(TargetEdit.this.getIntent().getBooleanExtra("edit", false)){
+	        			setResult(TARGET_EDIT_RESULT, TargetEditIntent);
+		        		TargetEditIntent.putExtra("maxi_old", TargetEdit.this.getIntent().getIntExtra("maxi_old", -1));
+
+	        		}
+	        		else{
+	        			setResult(TARGET_CREATE_RESULT, TargetEditIntent);
+	        		}
 	        		finish();
 	        	}
 	        }
@@ -229,9 +236,45 @@ public class TargetEdit extends Activity {
 	    final Button back = (Button) findViewById(R.id.btn_back);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	finish();
+	        	setResult(RESULT_CANCELED);
+        		finish();
 	        }
 	    });
+	    
+	    //Target laden, falls "edit" == true
+	    if(this.getIntent().getBooleanExtra("edit", false) == true){
+
+	    //Textfeld Target
+	    EditText edittext_target = (EditText) findViewById(R.id.edittext_target);
+	    edittext_target.setText(target.valuesToString());
+
+    	//Textfeld Target-Element
+	    try{
+	    	String target_element_string = String.valueOf(target.getValue(0));
+	    	if(target_element_string.equals("0.0")){
+	    		target_element.setText("");
+	    		target_element.setHint("0");
+	    	}
+	    	else{
+	    		target_element.setText(target_element_string);
+	    		Selection.setSelection(target_element.getText(), target_element.length());
+	    	}
+	    }
+	    catch(Exception e){
+	    	target_element.setText("");
+	    	target_element.setHint("0");
+	    }
+	    
+	    //Spinner minmax
+    	//Index "0" enspricht "min", "1" entspricht "max"
+    	////true bedeutet Minimierung, false bedeutet Maximierung
+	    if(target.getMinOrMax()){
+	    	minmax.setSelection(0);
+	    }
+	    else{
+	    	minmax.setSelection(1);
+	    }
+	    }
 	}
 	
 	public void increment_xi(){

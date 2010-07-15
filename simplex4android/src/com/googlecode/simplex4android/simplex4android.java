@@ -36,7 +36,7 @@ public class simplex4android extends Activity {
 	    setContentView(R.layout.main);
 
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
-	    if(this.getIntent().getBooleanExtra("currentProblem", false) == true){
+	    if(this.getIntent().getBooleanExtra("edit", false) == true){
 		    inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
 	    	btn_current.setEnabled(true);
 	    }
@@ -45,7 +45,7 @@ public class simplex4android extends Activity {
 	    btn_current.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
 	    		Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
-	        	InputCreateIntent.putExtra("currentProblem", true);
+	        	InputCreateIntent.putExtra("edit", true);
 	    		InputCreateIntent.putExtra("inputs", inputs);
 	    		startActivity(InputCreateIntent);
 	    	}

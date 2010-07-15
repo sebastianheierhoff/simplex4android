@@ -35,7 +35,7 @@ public class Target extends Input implements Serializable{
 	 * boolean der angibt ob Minimierung oder Maximierung vorliegt
 	 * @return true steht für Minimierung, false für Maximierung
 	 */
-	public boolean isMinOrMax() {
+	public boolean getMinOrMax() {
 		return minOrMax;
 	}
 	
@@ -52,17 +52,8 @@ public class Target extends Input implements Serializable{
 	 * @param setting 0=primal, 1=dual
 	 * @throws IOException falls ungültiger Wert gesetzt werden soll.
 	 */
-	public void setUserSettings(int setting) throws IOException{
-		ArrayList<Integer> settings = new ArrayList<Integer>();
-		for(int i=0;i<2;i++){
-			settings.add(new Integer(i));
-		}
-		if(settings.contains(new Integer(setting))){
+	public void setUserSettings(int setting){
 			this.userSettings = setting;
-		}else{
-			throw new IOException("Ungültige Settings!");
-		}
-		
 	}
 	
 	/**
