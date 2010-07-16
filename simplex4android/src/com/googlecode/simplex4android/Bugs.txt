@@ -10,8 +10,10 @@ Bitte eintragen:
 		
 	TargetEdit:
 		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen. 
-		Es gibt aber keine Prüfung in den Constraints, dass diese nicht vorhandenen xi dann dort nicht verwendet werden dürfen.
-		Vorschlag: Ein xi darf nur eingefügt werden, wenn x(i-1) existiert!
+			Es gibt aber keine Prüfung in den Constraints, dass diese nicht vorhandenen xi dann dort nicht verwendet werden dürfen.
+			Vorschlag: Ein xi darf nur eingefügt werden, wenn x(i-1) existiert!
+		Es können nachträglich xi entfernt liegen, die einen kleineren Index als das größte aufweisen.
+			Dafür gibt es keine Prüfung oder Behandlung, was beim Rechnen zwangsweise zu Grütze führt!
 		
 		
 	InputsLoad:
