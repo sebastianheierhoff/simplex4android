@@ -871,7 +871,6 @@ public abstract class SimplexLogic {
 			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
-			printPhases(phases);
 			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
 			return secondPhaseDual(phases);
 		}
@@ -927,7 +926,6 @@ public abstract class SimplexLogic {
 		}
 		calcDeltaByF((SimplexProblemDual)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
-		printPhases(phases);
 		try{
 			do{	
 				SimplexProblemDual current = (SimplexProblemDual) phases[1].getLastElement();
