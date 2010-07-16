@@ -98,8 +98,6 @@ public class ConstraintEdit extends Activity {
 	    		}
 	    	}
 		});
-
-	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 1);
 	    
 	    //Textfeld Constraint-Target-Value
 	    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
@@ -119,8 +117,6 @@ public class ConstraintEdit extends Activity {
 	    		}
 	    	}
 		});
-
-	    imm.hideSoftInputFromWindow(constraint_target_value.getWindowToken(), 1);
 	    
 	    //Keyboard-Buttons
 	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
