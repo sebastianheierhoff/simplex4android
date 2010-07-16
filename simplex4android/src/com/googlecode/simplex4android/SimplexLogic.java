@@ -1,7 +1,6 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.zip.DataFormatException;
 
 /**
@@ -15,10 +14,10 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblemPrimal addArtificialVars(SimplexProblemPrimal problem){
-		if(problem.getPivots().length>=problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
+		if(problem.getNoPivots()==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
-		int[] pivots = findPivotRows(problem);
+		int[] pivots = problem.getPivots();
 
 		double[] target = problem.getTarget();
 		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
@@ -28,8 +27,8 @@ public abstract class SimplexLogic {
 
 		for(int i=0;i<problem.getNoRows()-1;i++){
 			boolean set = true;
-			for(int j=0;j<pivots.length;j++){ // Suche, ob Pivotspalte bereits enthalten
-				if(i==pivots[j]){
+			for(int j=0;j<target.length-1;j++){ // Suche, ob Pivotspalte bereits enthalten
+				if(j==pivots[i]){
 					set = false;
 				}
 			}			
@@ -38,8 +37,6 @@ public abstract class SimplexLogic {
 			}
 		}
 		calcDeltas(problem);
-		findPivots(problem);
-		//calcXByF(problem);
 		return problem;
 	}
 
@@ -48,21 +45,20 @@ public abstract class SimplexLogic {
 	 * @return SimplexProblem für die Zweiphasenmethode, null, wenn keine künstlichen Variablen eingefügt werden mussten
 	 */
 	public static SimplexProblemDual addArtificialVars(SimplexProblemDual problem){
-		if(problem.getPivots().length>=problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
+		if(problem.getNoPivots()==problem.getNoRows()-1){ // Anzahl der Pivotspalten entspricht der der Zeilen
 			return null; // Hinzufügen von künstlichen Variablen nicht nötig
 		}
-		int[] pivots = findPivotRows(problem);
+		int[] pivots = problem.getPivots();
 
 		double[] target = problem.getTarget();
 		for(int i=0;i<target.length;i++){ // alle Kosten auf 0 setzen
 			target[i]=0;
 		}
 		problem.setTarget(target);
-
 		for(int i=0;i<problem.getNoRows()-1;i++){
 			boolean set = true;
-			for(int j=0;j<pivots.length;j++){ // Suche, ob Pivotspalte bereits enthalten
-				if(i==pivots[j]){
+			for(int j=0;j<target.length-1;j++){ // Suche, ob Pivotspalte bereits enthalten
+				if(j==pivots[i]){
 					set = false;
 				}
 			}			
@@ -71,8 +67,6 @@ public abstract class SimplexLogic {
 			}
 		}
 		calcDeltas(problem);
-		findPivots(problem);
-		//calcDeltaByF(problem);
 		return problem;
 	}
 
@@ -103,7 +97,10 @@ public abstract class SimplexLogic {
 	 * @param problem zu bearbeitendes SimplexTableau
 	 */
 	public static void calcDeltas(SimplexProblem problem){
-		int[] pivots = findPivotsSorted(problem);
+		int[] pivots = problem.getPivots();
+//		for(int i=0;i<pivots.length;i++){
+//			System.out.println(pivots[i]);
+//		}
 		for(int i = 0; i<problem.getNoColumns(); i++){ //alle Spalten
 			double delta = 0;
 			for(int k = 0; k<problem.getNoRows()-1; k++){ // alle Zeilen
@@ -327,37 +324,38 @@ public abstract class SimplexLogic {
 		return pivots;
 	}
 
-	/**
-	 * Gibt ein Array mit den Pivotspalten aus.
-	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
-	 * @return Array mit den Pivotspalten
-	 */
-	public static void findPivots(SimplexProblem problem){
-		ArrayList<Integer> pivots = new ArrayList<Integer>();
-		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
-			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
-			int noo = 0;//Anzahl Einsen
-			for(int k = 0; k<problem.getNoRows()-1; k++){ //For-Schleife, durchläuft alle Zeilen
-				if(problem.getField(k,i) != 0.0 && problem.getField(k,i) != 1.0){
-					noo = 0;
-					break; //Abbruch des Durchlaufs, falls die Zahl an Stelle k != 0 bzw. != 1
-				}
-				else{
-					if(problem.getField(k,i) == 1){ 
-						posOfOne = k;
-						noo++; //Anzahl Einsen um 1 erhöhen, falls Zelle[k][i] = 1
-					}
-					if(noo > 1){
-						break; //Abbruch, falls mehr als eine 1 in einer Spalte gefunden wird
-					}
-				}
-			}
-			if(noo == 1){
-				pivots.add(i);
-			}
-		}
-		problem.setPivots(pivots);
-	}
+//	/**
+//	 * Gibt ein Array mit den Pivotspalten aus.
+//	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
+//	 * @return Array mit den Pivotspalten
+//	 */
+//	public static void findPivots(SimplexProblem problem){
+//		ArrayList<Integer> pivots = new ArrayList<Integer>();
+//		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
+//			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
+//			int noo = 0;//Anzahl Einsen
+//			for(int k = 0; k<problem.getNoRows()-1; k++){ //For-Schleife, durchläuft alle Zeilen
+//				if(problem.getField(k,i) != 0.0 && problem.getField(k,i) != 1.0){
+//					noo = 0;
+//					break; //Abbruch des Durchlaufs, falls die Zahl an Stelle k != 0 bzw. != 1
+//				}
+//				else{
+//					if(problem.getField(k,i) == 1){ 
+//						posOfOne = k;
+//						noo++; //Anzahl Einsen um 1 erhöhen, falls Zelle[k][i] = 1
+//					}
+//					if(noo > 1){
+//						break; //Abbruch, falls mehr als eine 1 in einer Spalte gefunden wird
+//					}
+//				}
+//			}
+//			if(noo == 1){
+//				pivots.add(i);
+//			}
+//		}
+//		problem.setPivots(pivots);
+//	}
+	
 	/**
 	 * Gibt ein int-Array mit den Pivotspalten aus. 
 	 * An Stelle i steht, in welcher Spalte eine 1 der Pivotspalte steht.
@@ -365,8 +363,11 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
 	 * @return Array mit den Pivotspalten
 	 */
-	public static int[] findPivotsSorted(SimplexProblem problem){
+	public static void findPivots(SimplexProblem problem){
 		int[] pivots = new int[problem.getNoRows()-1];
+		for(int i=0;i<pivots.length;i++){
+			pivots[i]=-1;
+		}
 		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
 			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
 			int noo = 0;//Anzahl Einsen
@@ -389,7 +390,7 @@ public abstract class SimplexLogic {
 				pivots[posOfOne]= i;
 			}
 		}
-		return pivots;
+		problem.setPivots(pivots);
 	}
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
@@ -400,7 +401,8 @@ public abstract class SimplexLogic {
 	 */
 	public static SimplexProblem gauss(SimplexProblem problem, int zeile, int spalte) throws IOException{
 		double pivotElement = problem.getField(zeile, spalte);
-
+		//ersetzen der alten Pivotspalte in pivots im Prolbem durch die neue
+		problem.setSinglePivot(zeile, spalte);
 		//Normalisierung der neuen Pivotzeile
 		if(pivotElement==0 || pivotElement==Double.POSITIVE_INFINITY || pivotElement==Double.NEGATIVE_INFINITY){
 			throw new IOException("Pivotelement ist gleich Null oder Unendlich.");
@@ -462,7 +464,6 @@ public abstract class SimplexLogic {
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemDual spp = (SimplexProblemDual)gauss(problem, choosePivotRowDual(problem), choosePivotColumnDual(problem));
-				findPivots(spp);
 				if(checkDualOptimal(spp)){
 					problem.setOptimal();
 				}				
@@ -498,7 +499,6 @@ public abstract class SimplexLogic {
 		try {
 			if(problem.getOptimal()!= true){				
 				SimplexProblemPrimal spp = (SimplexProblemPrimal)gauss(problem, choosePivotRow(problem), choosePivotColumn(problem));
-				findPivots(spp);
 				if(checkOptimal(spp)){
 					problem.setOptimal();
 				}				
@@ -539,7 +539,7 @@ public abstract class SimplexLogic {
 		for(int i=0;i<x.length;i++){
 			if(x[i]<0){
 				for(int j=0;j<problem.getRow(i).length;j++){
-					if(problem.getRow(i)[j]<0)
+					if(problem.getRow(i)[j]<0 && problem.getLastRow()[j]<0)
 						return true;
 				}
 			}
@@ -616,6 +616,7 @@ public abstract class SimplexLogic {
 		SimplexProblemPrimal tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
+			
 			//Prüfung ob schon optimal und ob überhaupt lösbar bzw transformiert werden muss
 			try{
 				if(checkOptimal(tmp)){
@@ -678,12 +679,13 @@ public abstract class SimplexLogic {
 			}
 		}
 		phaseTwoProblem.setColumn(problemEndFirstPhase.getLastColumn(), firstProblem.getTarget().length-1);
+		phaseTwoProblem.setPivots(problemEndFirstPhase.getPivots());
 		calcDeltas(phaseTwoProblem);
-		findPivots(phaseTwoProblem);
 		if(checkOptimal(phaseTwoProblem)){
 			phaseTwoProblem.setOptimal();
 			calcDeltaByF(phaseTwoProblem);
 		}		
+//		System.out.println(phaseTwoProblem);
 		return phaseTwoProblem;
 	}
 
@@ -707,12 +709,13 @@ public abstract class SimplexLogic {
 			}
 		}
 		phaseTwoProblem.setColumn(problemEndFirstPhase.getLastColumn(), firstProblem.getTarget().length-1);
+		phaseTwoProblem.setPivots(problemEndFirstPhase.getPivots());
 		calcDeltas(phaseTwoProblem);
-		findPivots(phaseTwoProblem);
 		if(checkOptimal(phaseTwoProblem)){
 			phaseTwoProblem.setOptimal();
 			calcXByF(phaseTwoProblem);
 		}		
+//		System.out.println(phaseTwoProblem);
 		return phaseTwoProblem;
 	}
 
@@ -727,20 +730,7 @@ public abstract class SimplexLogic {
 		}
 		return tmpXByF;
 	}
-
-	//	/**
-	//	 * erstellt ein int[] komplett mit nullen in der größer von pivots
-	//	 * @param problem
-	//	 * @return int[] in Größe von pivots mit nullen
-	//	 */	
-	//	public static int[] initializePivotsWithNull(SimplexProblem problem){
-	//		int[] tmpPivots = new int[problem.getNoRows()-1];
-	//		for(int i=0;i<tmpPivots.length;i++){
-	//			tmpPivots[i]=0;
-	//		}
-	//		return tmpPivots;
-	//	}
-
+	
 	/**
 	 * erstellt ein double [] komplett mit nullen in der größer von deltaByF
 	 * @param problem
@@ -781,6 +771,7 @@ public abstract class SimplexLogic {
 	 * transformiert ein primales Problem in ein duales Problem
 	 */
 	public static SimplexProblemDual transformProblem(SimplexProblemPrimal problem){
+//		System.out.println(problem.tableauToHtml());
 		SimplexProblemDual dualProblem = new SimplexProblemDual(problem.getTableau(),problem.getTarget());
 		calcDeltas(dualProblem);
 		calcDeltaByF(dualProblem);
@@ -873,14 +864,14 @@ public abstract class SimplexLogic {
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
 				}else{
-					phases[1].addElement(null);
-					return phases;
+					
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
 			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
+			printPhases(phases);
 			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
 			return secondPhaseDual(phases);
 		}
@@ -924,9 +915,7 @@ public abstract class SimplexLogic {
 					}else{
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
-				}else{
-					phases[1].addElement(null);
-					return phases;
+				
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
@@ -934,12 +923,13 @@ public abstract class SimplexLogic {
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
-			return firstPhaseDual(phases);
+			return secondPhasePrimal(phases);
 		}
 		calcDeltaByF((SimplexProblemDual)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
+		printPhases(phases);
 		try{
-			do{
+			do{	
 				SimplexProblemDual current = (SimplexProblemDual) phases[1].getLastElement();
 				current = SimplexLogic.simplex(current);
 				if(current!=null)phases[1].addElement(current.clone());

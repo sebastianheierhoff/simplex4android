@@ -13,7 +13,7 @@ import java.util.Arrays;
 public abstract class SimplexProblem {
 	private ArrayList<ArrayList<Double>> tableau; 
 	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert im Tableau berechnen zu können
-	private ArrayList<Integer> pivots; //Basisspalten
+	private int[] pivots;//Basisspalten
 	private boolean optimal;
 
 	//SETTINGS!!!
@@ -29,8 +29,10 @@ public abstract class SimplexProblem {
 		this.tableau = new ArrayList<ArrayList<Double>>();
 		this.tableau.add(new ArrayList<Double>()); // Zeile der delta-Werte hinzufügen
 		this.target = new ArrayList<Double>();
-		this.pivots = new ArrayList<Integer>();
 		this.optimal = false;
+		pivots = new int[this.getNoRows()-1];
+//		this.initializePivotsWithMinusOne();
+		
 	}
 
 	/**
@@ -64,6 +66,8 @@ public abstract class SimplexProblem {
 			this.addRow(row);
 		}
 		this.optimal = false;
+		pivots = new int[this.getNoRows()-1];
+//		this.initializePivotsWithMinusOne();
 
 	}
 
@@ -76,18 +80,21 @@ public abstract class SimplexProblem {
 		this.tableau = this.convertTo2DArrayList(tableau);
 		this.target = this.convertToDblArrayList(target);		
 		this.optimal = false;
+		pivots = new int[this.getNoRows()-1];
+//		this.initializePivotsWithMinusOne();
 	}
 
 	/**
 	 * Fügt eine weitere Pivospalte (z.B. als künstliche oder Schlupfvariable) an vorletzter Stelle des Tableaus ein. 
 	 * Die Eins befindet sich in der Zeile mit Index c, die neue Variable wird mit Kosten 1 in der Zielfunktion hinzugefügt.
-	 * @param c Index der Zeile, für die Eins der neuen Pivotspalte
+	 * @param row Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
-	public void addArtificialVar(int c){
+	public void addArtificialVar(int row){
+//		System.out.println(row);
 		// Pivotspalte ergänzen
 		for(int i=0;i<this.tableau.size();i++){
-			if(i==c){
-				this.tableau.get(c).add(this.tableau.get(c).size()-1,new Double(1));
+			if(i==row){
+				this.tableau.get(row).add(this.tableau.get(row).size()-1,new Double(1));
 			}else{
 				this.tableau.get(i).add(this.tableau.get(i).size()-1,new Double(0));
 			}
@@ -96,7 +103,8 @@ public abstract class SimplexProblem {
 		// Einfügen der neuen Variable in die Zielfunktion inkl. Verschiebung des Zielwerts
 		this.target.add(this.target.size()-1,new Double(1));
 		// Einfügen der neuen Pivotspalte in die Basis
-		this.pivots.add(c,new Integer(this.target.size()-2));	
+		this.pivots[row] = this.target.size()-2;
+		//this.pivots.add(row,new Integer(this.target.size()-2));	
 	}
 
 	/**
@@ -138,6 +146,14 @@ public abstract class SimplexProblem {
 	 */
 	public abstract SimplexProblem clone();
 
+	public int[] clonePivots(){
+		int[]tmp = new int[pivots.length];
+		for (int i=0;i<pivots.length;i++){
+			tmp[i] = pivots[i];
+		}
+		return tmp;
+	}
+	
 	/**
 	 * Überführt das übergebene zweidimensionale Array in ein ArrayList<ArrayList<Double>>.
 	 * @param array zu überführendes zweidimensionales Array
@@ -274,9 +290,22 @@ public abstract class SimplexProblem {
 	 * @return Indizes der Pivotspalten
 	 */
 	public int[] getPivots() {
-		return this.convertToIntArray(this.pivots);
+		return this.pivots;
 	}
 
+	/**
+	 * Gibt die Anzahl der gespeicherten Pivotspalten zurück (Es kann mehr geben,
+	 * es werden aber nur so viele gefunden wie benötigt werden)
+	 * @return Anzahl Pivotspalten
+	 */
+	public int getNoPivots(){
+		int noPivots = 0;
+		for(int i=0;i<this.pivots.length;i++){
+			if(this.pivots[i] != -1)noPivots++;
+		}
+		return noPivots;
+	}
+	
 	/**
 	 * Gibt Zeile i aus.
 	 * @param i Index der auszugebenen Zeile
@@ -294,7 +323,7 @@ public abstract class SimplexProblem {
 		String solution = "";
 		if(this.getOptimal()){
 			double[] xSolutions = new double[this.getNoColumns()-2];
-			int[] pivots = SimplexLogic.findPivotsSorted(this);
+			int[] pivots = this.getPivots();
 			// Lösungen einspeichern
 			for(int i=0; i<pivots.length;i++){
 				xSolutions[pivots[i]] = this.getField(i, this.getNoColumns()-1);
@@ -336,6 +365,17 @@ public abstract class SimplexProblem {
 	}
 
 	/**
+	 * Füllt pivots komplett mit -1
+	 */	
+	public void initializePivotsWithMinusOne(){
+		int[] tmpPivots = new int[this.getNoRows()-1];
+		for(int i=0;i<tmpPivots.length;i++){
+			tmpPivots[i]=-1;
+		}
+		this.pivots = tmpPivots;
+	}
+
+	/**
 	 * Setzt Spalte j.
 	 * @param c übergebene Spalte
 	 * @param j Index der zu verändernden Spalte
@@ -364,19 +404,21 @@ public abstract class SimplexProblem {
 	}
 
 	/**
-	 * Gibt die Pivotspaltentabelle aus.
+	 * Speichert die Pivotspaltentabelle.
 	 * @param pivots Indizes der zu setzendenden Pivotspalten
 	 */
-	public void setPivots(ArrayList<Integer> pivots) {
+	public void setPivots(int[] pivots) {
 		this.pivots = pivots;
 	}
 
 	/**
-	 * Gibt die Pivotspaltentabelle aus.
-	 * @param pivots Indizes der zu setzendenden Pivotspalten
+	 * setzt an Stelle row in pivots den Wert column.
+	 * Achtung: die Indizes fangen bei null an! 
+	 * @param row Zeile des Tableaus in der sich die Pivotspalte ändert
+	 * @param column Spalte der neuen Pivotspalte
 	 */
-	public void setPivots(int[] pivots) {
-		this.pivots = this.convertToIntArrayList(pivots);
+	public void setSinglePivot(int row, int column) {
+		this.pivots[row] = column;
 	}
 
 	/**
