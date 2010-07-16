@@ -3,17 +3,14 @@ package com.googlecode.simplex4android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class InputsLoad extends Activity {
 	
@@ -25,21 +22,38 @@ public class InputsLoad extends Activity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.inputs_load);
 
-	        mInputsDb = new InputsDb();
-	        try{
-	        	mInputsDb.readInputs();
+	        try {
+				mInputsDb = new InputsDb();
+	        } catch (Exception ex) {
+				ex.printStackTrace();
 	        }
-	        catch(Exception e){
-	        	//TODO: Fehlermeldung ausgeben!
-	        }
-
-	        ListView listInputs = (ListView) findViewById(R.id.list_problems);
+				
+	        ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 	        try{
-	            ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row, mInputsDb.getNames());
-	            listInputs.setAdapter(adapter);
-	        }catch(NegativeArraySizeException nase){
+	            adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row, mInputsDb.getNames());
+	            lv_problems.setAdapter(adapter_list_problems);
+	        }catch(Exception ex){
 	        	
 	        }
+	        
+		    //Zurück-Button
+		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
+		    btn_cancel.setOnClickListener(new OnClickListener() {
+		        public void onClick(View v) {
+		        	finish();
+		     	}
+		    });
+		    
+		    //Neues-Problem-Button
+		    final Button btn_new_problem= (Button) findViewById(R.id.btn_new_problem);
+		    btn_new_problem.setOnClickListener(new OnClickListener() {
+		        public void onClick(View v) {
+		        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+		        	InputCreateIntent.putExtra("create", true);
+		        	startActivity(InputCreateIntent);
+		        }
+		    });
+		    
 	    }
 	    
 		public void DeleteClickHandler(View v){
@@ -47,40 +61,31 @@ public class InputsLoad extends Activity {
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
 	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
-//	        inputs.remove(position +1);
+	        mInputsDb.removeInput(position);
 	        hideOrShowEmptyText();
 		}
 
 		public void EditClickHandler(View v)
 		{
-//	        Target target = (Target) inputs.get(0);
-//	        Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-//	        ConstraintEditIntent.putExtra("target", target);
-//	        ConstraintEditIntent.putExtra("maxi_old", target.getValues().size());
-//	        ConstraintEditIntent.putExtra("edit", true);
-//	    	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
+			ListView lv_problems = (ListView) findViewById(R.id.list_problems);
+			RelativeLayout rl_row = (RelativeLayout)v.getParent();
+	        int position = lv_problems.indexOfChild(rl_row);
+	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
+	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+	        InputsEditIntent.putExtra("edit", true);
+	        InputsEditIntent.putExtra("id", position);
+	    	startActivity(InputsEditIntent);
 		}
 
 		private void hideOrShowEmptyText(){
-//			TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
-//			ViewGroup.LayoutParams params_target = txt_target_empty.getLayoutParams();
-//			if(inputs.get(0) != null){
-//				params_target.height = 0;
-//			}
-//			else{
-//				params_target.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-//			}
-//			txt_target_empty.requestLayout();
-//
-//			TextView txt_constraint_empty = (TextView) findViewById(R.id.text_constraint_empty);
-//			ViewGroup.LayoutParams params_constraint = txt_constraint_empty.getLayoutParams();
-//			if(inputs.size()>1){
-//				params_constraint.height = 0;
-//			}
-//			else{
-//				params_constraint.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-//				
-//			}
-//			txt_constraint_empty.requestLayout();
+			TextView text_list_empty = (TextView) findViewById(R.id.text_list_empty);
+			ViewGroup.LayoutParams params_text_list_empty = text_list_empty.getLayoutParams();
+			if(mInputsDb.getListOfInputs().isEmpty()){
+				params_text_list_empty.height = 0;
+			}
+			else{
+				params_text_list_empty.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			}
+			text_list_empty.requestLayout();
 		}
 }

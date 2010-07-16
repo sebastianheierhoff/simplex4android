@@ -11,46 +11,37 @@ import java.util.ArrayList;
 //Klasse zum Laden/Speichern von Zielfunktionen/Nebenbedingungen - TODO: Kommentare hinzufügen
 //TODO: Kann man die Klasse statisch machen??? Brauche ich umbeding ein Objekt?
 
-
 /**
  * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
  */
 public class InputsDb {
 
-	private ArrayList<ArrayList<Input>> listOfInputs = new ArrayList<ArrayList<Input>>(); //Liste zum Speichern von Problemen
+	private ArrayList<ArrayList<Input>> listOfInputs;//Liste zum Speichern von Problemen
 
 	/**
 	 * Leerer Konstruktor zum Anlegen der Liste der Probleme
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public InputsDb(){}
-
-	/**
-	 * Konstruktor um Liste der zu speichernden Probleme zu erstellen und direkt das erste einzufügen.
-	 * @param problem
-	 */
-	public InputsDb(ArrayList<Input> input){
-		listOfInputs.add(input);
+	public InputsDb() throws ClassNotFoundException, IOException{
+		listOfInputs = new ArrayList<ArrayList<Input>>(); 
+		this.readInputs();
 	}
 
 	/**
 	 * Methode zum Hinzufügen eines Problems
 	 * @param problem
+	 * @throws IOException 
 	 */
-	public void addInput(ArrayList<Input> input){
+	public void addInput(ArrayList<Input> input) throws IOException{
 		listOfInputs.add(input);
+		this.saveInputs();
 	}
 
-	protected ArrayList<ArrayList<Double>> convertTo2DArrayList(double[][] array){
-		ArrayList<ArrayList<Double>> tableau = new ArrayList<ArrayList<Double>>();
-		for(int i=0;i<array.length;i++){
-			tableau.add(i,new ArrayList<Double>());
-			for(int j=0;j<array[0].length;j++){
-				tableau.get(i).add(j,new Double(array[i][j]));
-			}
-		}
-		return tableau;
+	public void removeInput(int position){
+		listOfInputs.remove(position);
 	}
-
+	
 	/**
 	 * Gibt Array mit den Namen der einzelnen Namen der Probleme zurück.
 	 * @return String[] mit den Namen der Probleme
@@ -88,8 +79,9 @@ public class InputsDb {
 	 * @param i Index, an dem eingefügt werden soll.
 	 * @param problem einzufügendes Problem
 	 * @throws IndexOutOfBoundsException falls i<0
+	 * @throws IOException 
 	 */
-	public void setInput(int i, ArrayList<Input> input) throws IndexOutOfBoundsException{
+	public void setInput(int i, ArrayList<Input> input) throws IndexOutOfBoundsException, IOException{
 		if(i>=(this.listOfInputs.size())){
 			this.addInput(input);
 		}else{
