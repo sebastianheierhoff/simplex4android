@@ -23,6 +23,9 @@ Bitte eintragen:
 	SimplexHistoryShow:
 		"Zurück" ohne Funktion
 		"-1.0" füht zu Zeilenumbruch in den Zellen
+		
+	Startseite:
+		Problem gespeichert -> aktuelles Tableau -> leeres Problem -> keine Zielfunktion vorhanden -> ZF kann nicht editiert oder anlegt werden!
 
 [Logik]
 double[]target = {-300,-500,0,-50,0,0,0,0,0,0};
