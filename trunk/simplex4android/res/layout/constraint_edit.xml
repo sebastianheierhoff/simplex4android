@@ -64,6 +64,7 @@
 			android:layout_height="45dip"
 	        android:hint="z.B. 10" 
 	        android:background="@drawable/textfield_default" 
+	        android:inputType="none"
 	        android:gravity="bottom"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
