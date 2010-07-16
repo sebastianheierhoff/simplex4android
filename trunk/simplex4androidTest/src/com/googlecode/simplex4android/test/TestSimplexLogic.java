@@ -102,7 +102,11 @@ public class TestSimplexLogic extends TestCase {
 		assertTrue(SimplexLogic.checkInput("0"));
 		assertTrue(SimplexLogic.checkInput("2"));
 		assertTrue(SimplexLogic.checkInput("2.0"));
+		assertTrue(SimplexLogic.checkInput("600"));
+		assertTrue(SimplexLogic.checkInput("2.005"));
 		assertTrue(SimplexLogic.checkInput("-2/5"));
+		assertTrue(!SimplexLogic.checkInput("00"));
+		assertTrue(!SimplexLogic.checkInput("-00"));
 		assertTrue(!SimplexLogic.checkInput("2/0"));
 		assertTrue(!SimplexLogic.checkInput("/2"));
 		assertTrue(!SimplexLogic.checkInput("-"));
