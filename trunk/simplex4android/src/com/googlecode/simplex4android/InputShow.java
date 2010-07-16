@@ -77,6 +77,7 @@ public class InputShow extends Activity{
         adapter_list_constraint.setNotifyOnChange(true);
         ListView lv_target = (ListView) findViewById(R.id.list_target);
         lv_target.setAdapter(adapter_list_target);
+        lv_target.refreshDrawableState();
         ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
         lv_constraint.setAdapter(adapter_list_constraint);
         
@@ -88,6 +89,7 @@ public class InputShow extends Activity{
 	        	ShowMainIntent.putExtra("inputs", inputs); 
 	            ShowMainIntent.putExtra("edit", true);
 	        	startActivity(ShowMainIntent);
+	        	finish();
 	     	}
 	    });
 	    
@@ -227,7 +229,6 @@ public class InputShow extends Activity{
         	case TARGET_CREATE_RESULT:
             	try{
             		target = (Target) data.getSerializableExtra("target");
-            		//target = TargetEdit.target;
             		adapter_list_target.insert(target.toString(),0);
             		inputs.set(0, target);
         		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
@@ -308,20 +309,14 @@ public class InputShow extends Activity{
 
 	private void fillData() {
         if(inputs.get(0) != null){
-			String[] target_string = new String[1];
-		    target_string[0] = inputs.get(0).toString();
-	        adapter_list_target = new ArrayAdapter<String>(this, R.layout.listview_target, R.id.tv_row, target_string);
-	    }
+			adapter_list_target.clear();
+		    adapter_list_target.add(inputs.get(0).toString());
+        }
         if(inputs.size()>1){
-			List<Input> constraints = inputs.subList(1, inputs.size());
-	        String[] constraints_string = new String[constraints.size()];
-	        Iterator<Input> iter = constraints.iterator(); 
-	        int i = 0;
-	        while(iter.hasNext() ) { 
-	            constraints_string[i] = iter.next().toString();
-	            i++;
-	        }
-	        adapter_list_constraint = new ArrayAdapter<String>(this, R.layout.listview_constraint, R.id.tv_row, constraints_string);
+    		adapter_list_constraint.clear();
+    		for(int i=1;i<inputs.size();i++){ // durch alle Inputs
+    			adapter_list_constraint.add(inputs.get(i).toString());
+    		}
         }
 	}
 
