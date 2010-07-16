@@ -32,8 +32,8 @@ PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
 	
 Optional: 
 Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
-Seite wechseln durch "Wischen" nach links/rechts (Max)
-Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) 
+Seite wechseln durch "Wischen" nach links/rechts (Max) http://developer.android.com/guide/topics/ui/ui-events.html
+Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) http://www.customblog.de/2009/android/mit-android-sensoren-auslesen.html
 Sprachausgabe
 
 [Erledigt]
