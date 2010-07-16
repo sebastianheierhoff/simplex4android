@@ -103,6 +103,7 @@ public class ConstraintEdit extends Activity {
 	    
 	    //Textfeld Constraint-Target-Value
 	    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    constraint_target_value.setRawInputType(android.text.InputType.TYPE_NULL);
 	    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	    		if(b==true){

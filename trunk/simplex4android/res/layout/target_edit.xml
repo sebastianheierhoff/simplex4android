@@ -66,12 +66,14 @@
 			android:background="@drawable/textfield_default"
 			android:layout_width="92dip"
 			android:layout_height="45dip"
+			android:inputType="none"
 	        android:gravity="bottom" 
 	        android:hint="z.B. 10" 
 	        />
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
+			android:enabled="false"
 			android:layout_width="wrap_content" 
 			android:layout_height="45dip"
 	        android:gravity="bottom" />
