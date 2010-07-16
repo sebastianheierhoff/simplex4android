@@ -86,8 +86,6 @@ public class TargetEdit extends Activity {
 	    	}
 		});
 	    
-	    imm.hideSoftInputFromWindow(target_element.getWindowToken(), 0);
-	    
 	    //Keyboard-Button
 	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
 									R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
