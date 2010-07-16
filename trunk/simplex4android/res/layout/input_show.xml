@@ -54,7 +54,7 @@
     <LinearLayout
     	android:id="@+id/viewgroup_constraint" 
     	android:layout_width="fill_parent"
-    	android:layout_height="145dip"
+    	android:layout_height="140dip"
     	android:orientation="vertical"
     	android:layout_below="@id/text_constraint">
   	<ListView 

@@ -1,22 +1,17 @@
-[Aktuell]
-Erkennen ob dual oder primal gelöst wird/lösbar, Methoden zum Prüfen schreiben, Testfälle				
-Zulässigkeit der Probleme prüfen!, EINSTELLUNGEN: z.B. boolean für dualen Simplex???
-
-Wie viele Nebenbedinungen braucht man mindestens?
-
-HTML-Tabelle (Max), aktuelles Pivot-Element rot hervorheben!!!
-Speichern/Laden, was passiert, wenn ich ein Problem, dass ich geladen habe, wieder speichern möchte? werden dann beliebig viele Probleme angelegt, kriege ich einen Dialog und kann entscheiden, was zu tun ist, etc?
-
+Textfelder: grauer Rand oben
+Speichern/Laden -> Exceptions
+Ergebnis anzeigen (auf der jeweils letzen Seite, unter dem Tableau)
+nächster Schritt (dualer/primaler Simplex-Algorithmus), Art des aktuellen Tableaus anzeigen
+Textfelder/Listview horizontal scrollbar machen, wenn Zielfunktion/NB zu lang
+Schatten (oben/unten) an ListViews entfernen
+Ausgabetabelle auf Bildschirmbreite skalieren
+Aktuelle Einstellung anzeigen (Selektor durch Radiobuttons ersetzen, Abbruch-Button, falls man Einstellungen nicht ändern möchte)
+Laden von Target/Constraints: Runden der Werte auf zwei Nachkommastellen, ansonsten mühselige Eingabe
+Icon.png überarbeiten
+Wie viele NB braucht man mindestens? Recherche!
 GUI inkl. Testen (jeder 30min per Hand! - oder Eike 2 Sekunden :-()
-
-Anzeige und Aufbereitung der Lösung!!! (Methode geschrieben, GUI noch nicht fertig)
-
-Getter/Setter -> Exceptions
-Fehlermeldungen (Wann, warum, was?)
-Icon unter "Alle Programme" (icon.png)
-
+Getter/Setter -> Exceptions, Fehlermeldungen (Wann, warum, was?)
 u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
-
 Anforderungen prüfen (siehe MAC-Folien, OSI)
 
 Anleitung/Handbuch vorbereiten (Layout, erste Formulierungen, Screenshots, etc.): 
@@ -25,6 +20,7 @@ Anleitung/Handbuch vorbereiten (Layout, erste Formulierungen, Screenshots, etc.)
 
 Bekannte Schwächen: 	aufgrund des kleinen Displays wird die Eingabe großer Probleme eher umständlich, insb. das Anzeigen
 						keine korrekte Implementierung von Brüchen sondern Typecast zu Double und damit u.U. Ungenauigkeit, insb. in der Anzeige Runden auf 2 Nachkommastellen, aber: intern weiterhin als double!
+				WICHTIG: Wir gehen davon aus, dass Eingaben lediglich über den Touch-Screen erfolgen, Hardware-Tastatur nicht deaktiviert, Prüfung der Eingabe aber unvollständig
 
 PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
 	1. Folie: Name des Projektes, unsere Namen
@@ -40,7 +36,9 @@ Seite wechseln durch "Wischen" nach links/rechts (Max)
 Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) 
 Sprachausgabe
 
-Erledigt:
+[Erledigt]
+Erkennen ob dual oder primal gelöst wird/lösbar, Methoden zum Prüfen schreiben, Testfälle				
+Zulässigkeit der Probleme prüfen!, EINSTELLUNGEN: z.B. boolean für dualen Simplex???
 Zyklusschutz: choose-Methoden dahingehend angepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
 Testfälle (Stefan)
 Virtuelle Maschine (Sebastian)
