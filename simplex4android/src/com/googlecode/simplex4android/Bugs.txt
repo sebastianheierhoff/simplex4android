@@ -9,8 +9,9 @@ Bitte eintragen:
 		Textfeld wird schlecht gefüllt, sobald eine Ziffer zu viel eingefügt wird, zeigt das Textfeld nur noch diese eine Ziffer an.
 		
 	TargetEdit:
-		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen:
-			-> 2x1 + 3x2 + 5x3 -> min
+		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen. 
+		Es gibt aber keine Prüfung in den Constraints, dass diese nicht vorhandenen xi dann dort nicht verwendet werden dürfen.
+		Vorschlag: Ein xi darf nur eingefügt werden, wenn x(i-1) existiert!
 		
 		
 	InputsLoad:
