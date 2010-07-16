@@ -195,6 +195,18 @@ public abstract class SimplexLogic {
 
 			}
 		}
+		int first = s.indexOf("0");
+		int last = s.lastIndexOf("0");
+		if(first!=last){ // mind. zwei Nullen
+			if(first==0){
+				if((first+1)==last){ // zwei Nullen zu Beginn des Strings
+					return false;
+				}
+			}else if((first+1)==last && s.charAt(first-1)=='-'){ // zwei Nullen zu Beginn des String mit führendem Minus
+				return false;
+			} 
+		
+		}
 		return true;
 	}
 
