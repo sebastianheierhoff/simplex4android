@@ -1,5 +1,6 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -68,8 +69,12 @@ public class SimplexLocal {
 		input.add(c3);
 		
 		
-		InputsDb save = new InputsDb(input);
-		InputsDb read = new InputsDb();
+		InputsDb read = null;
+		try {
+			read = new InputsDb();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		try{
 			//save.saveProblems();
 		}catch(Exception e){
