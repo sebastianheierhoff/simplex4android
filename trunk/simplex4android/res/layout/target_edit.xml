@@ -63,6 +63,7 @@
 	   	<EditText 
 			android:id="@+id/edittext_target_element" 
 			android:text="" 
+			android:background="@drawable/textfield_default"
 			android:layout_width="92dip"
 			android:layout_height="45dip"
 	        android:gravity="bottom" 
