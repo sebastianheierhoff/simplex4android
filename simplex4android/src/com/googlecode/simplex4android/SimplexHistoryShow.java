@@ -64,7 +64,7 @@ public class SimplexHistoryShow extends Activity {
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
         		
         		findViewById(R.id.btn_previous).setEnabled(false);
-	        	findViewById(R.id.btn_first).setEnabled(true);
+	        	findViewById(R.id.btn_first).setEnabled(false);
 	        }
 	    });	    
 	    

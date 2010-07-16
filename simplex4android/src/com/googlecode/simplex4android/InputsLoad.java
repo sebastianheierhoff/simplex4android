@@ -51,6 +51,7 @@ public class InputsLoad extends Activity {
 		        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
 		        	InputCreateIntent.putExtra("create", true);
 		        	startActivity(InputCreateIntent);
+		        	finish();
 		        }
 		    });
 		    
