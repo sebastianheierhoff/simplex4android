@@ -29,11 +29,12 @@
  	<Spinner 
  		android:id="@+id/spinner_gtltoreq"
  		android:layout_width="80dip"
- 		android:layout_height="wrap_content" 
+ 		android:layout_height="wrap_content"
  		android:drawSelectorOnTop="false"/>
 	<EditText 
 		android:id="@+id/edittext_constraint_target_value"
 		android:background="@drawable/textfield_default"
+		android:inputType="none"
         android:layout_width="62dip"
         android:layout_height="45dip"
 		android:layout_gravity="bottom"/>
@@ -69,6 +70,7 @@
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
+			android:enabled="false"
 			android:layout_width="wrap_content" 
 			android:layout_height="45dip"
 	        android:gravity="bottom"/>

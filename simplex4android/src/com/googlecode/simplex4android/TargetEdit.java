@@ -72,6 +72,7 @@ public class TargetEdit extends Activity {
 	    
 	    //Textfeld Target-Element
 	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    target_element.setRawInputType(android.text.InputType.TYPE_NULL);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
 	        	EditText text = (EditText) findViewById(R.id.edittext_target_element);
