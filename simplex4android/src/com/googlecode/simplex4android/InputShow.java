@@ -61,7 +61,6 @@ public class InputShow extends Activity{
 	    }
 	    else if(this.getIntent().getBooleanExtra("edit", false)){
 	    	inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
-	    	fillData();
 	    }
 	    else{
 			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
@@ -80,6 +79,7 @@ public class InputShow extends Activity{
         lv_target.refreshDrawableState();
         ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
         lv_constraint.setAdapter(adapter_list_constraint);
+    	fillData();
         
 	    //Zurück-Button
 	    final Button back = (Button) findViewById(R.id.btn_cancel);
