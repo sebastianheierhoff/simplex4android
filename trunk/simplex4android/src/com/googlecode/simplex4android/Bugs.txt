@@ -8,6 +8,10 @@ Bitte eintragen:
 		Textfeld Fehler ... weiße linie wie auch auf targetedit
 		Textfeld wird schlecht gefüllt, sobald eine Ziffer zu viel eingefügt wird, zeigt das Textfeld nur noch diese eine Ziffer an.
 		
+	TargetEdit:
+		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen:
+			-> 2x1 + 3x2 + 5x3 -> min
+		
 		
 	InputsLoad:
 		"Neues Problem" ohne Funktion
