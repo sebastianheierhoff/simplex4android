@@ -84,8 +84,7 @@ public class Constraint extends Input implements Serializable{
 		int length = ois.readInt();
 		for(int i=0;i<length;i++){
 			this.values.add(ois.readDouble());
-		}		
-		ois.close();
+		}
 	}
 
 	/**
@@ -100,7 +99,6 @@ public class Constraint extends Input implements Serializable{
 		oos.writeInt(length);
 		for(int i=0;i<length;i++){
 			oos.writeDouble(this.values.get(i));
-		}		
-		oos.close();
+		}
 	}
 }
