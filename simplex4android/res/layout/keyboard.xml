@@ -76,6 +76,7 @@
   		android:orientation="horizontal"
 		android:gravity="center_horizontal">
     <Button
+		android:background="@drawable/btn_square_overlay"
 		android:layout_width="45dip"
 	    android:layout_height="45dip"
 		android:layout_margin="0dip"
