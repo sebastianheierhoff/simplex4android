@@ -16,9 +16,10 @@ Bitte eintragen:
 			Dafür gibt es keine Prüfung oder Behandlung, was beim Rechnen zwangsweise zu Grütze führt!
 			
 	InputShow:
-		Simplex-Methode anzeigen oder Menü mit Dots ausstatten. So kann aktuellen Setting nicht eingesehen werden!
-		Das ist besonders wichtig bei einem geladenen Problem!		
-		
+		Simplex-Methode anzeigen oder Menü mit Dots ausstatten. 
+			So kann aktuellen Setting nicht eingesehen werden!
+			Das ist besonders wichtig bei einem geladenen Problem!	
+				
 	InputsLoad:
 		"Neues Problem" ohne Funktion
 		"Abbruch Button" ohne Funktion
