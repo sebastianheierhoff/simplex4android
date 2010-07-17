@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 //Klasse zum Laden/Speichern von Zielfunktionen/Nebenbedingungen - TODO: Kommentare hinzufügen
 //TODO: Kann man die Klasse statisch machen??? Brauche ich umbeding ein Objekt?
@@ -97,7 +96,6 @@ public class InputsDb {
 	 * @throws ClassNotFoundException	wird nur geschmissen wenn die Klasse SimplexProblem nicht gefunden wird
 	 * @throws IOException
 	 */	
-	@SuppressWarnings("unchecked")
 	public void readInputs() throws ClassNotFoundException, IOException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
@@ -108,10 +106,19 @@ public class InputsDb {
 			return; // Abbruch, keine Datei vorhanden.
 		}
 		ois = new ObjectInputStream(fis);
-		Object[] input = (Object[]) ois.readObject();
-		this.listOfInputs = new ArrayList<ArrayList<Input>>();
-		for(int i=0;i<input.length;i++){
-			this.listOfInputs.add((ArrayList<Input>)input[i]);
+		int length = ois.readInt();
+		for(int i=0;i<length;i++){ // für alle Probleme
+			ArrayList<Input> input = new ArrayList<Input>();
+			int size = ois.readInt();
+			Target t = new Target(); // für die Zielfunktion
+			t.readObject(ois);
+			input.add(t);
+			for(int j=1;j<size;j++){ // für die einzelnen Nebenbedingungen jedes Problems
+				Constraint c = new Constraint();
+				c.readObject(ois);
+				input.add(c);
+			}
+			this.listOfInputs.add(input);
 		}		
 		ois.close();		
 	}
@@ -123,7 +130,15 @@ public class InputsDb {
 	public void saveInputs()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProblems.dat", false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(listOfInputs.toArray());
+		int length = this.listOfInputs.size();
+		oos.writeInt(length);
+		for(int i=0;i<length;i++){ // für alle Probleme
+			int size = this.listOfInputs.get(i).size();
+			oos.writeInt(size);
+			for(int j=0;j<size;j++){ // für die einzelnen Inputs jedes Problems
+				this.listOfInputs.get(i).get(j).writeObject(oos);
+			}			
+		}		
 		oos.close();
 	}	
 }
