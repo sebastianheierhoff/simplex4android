@@ -10,6 +10,7 @@ import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
@@ -63,6 +64,9 @@ public class InputsDb {
 	}
 	
 	public void writeFile(Context context) throws Exception {
+		if(!context.deleteFile("simplexProblems.dat")){
+			Toast.makeText(context, "File gelöscht", Toast.LENGTH_SHORT);
+		}
 		FileOutputStream fos = context.openFileOutput("simplexProblems.dat", Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(listOfInputs);
