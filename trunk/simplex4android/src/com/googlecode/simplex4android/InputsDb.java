@@ -52,7 +52,7 @@ public class InputsDb {
 	 * @param input zu speicherndes Problem (an Index i muss ein Objekt der Klasse Target stehen)
 	 * @throws Exception
 	 */
-	public void addInput(Context context, ArrayList<Input> input) throws Exception{
+	public void addProblem(Context context, ArrayList<Input> input) throws Exception{
 		this.readFile(context);
 		listOfInputs.add(input);
 		this.writeFile(context);
@@ -65,7 +65,7 @@ public class InputsDb {
 	 * @param input zu setzendes Problem
 	 * @throws Exception
 	 */
-	public void setInput(Context context, int i, ArrayList<Input> input) throws Exception{
+	public void setProblem(Context context, int i, ArrayList<Input> input) throws Exception{
 		this.readFile(context);
 		this.listOfInputs.set(i, input);
 		this.writeFile(context);
@@ -77,7 +77,7 @@ public class InputsDb {
 	 * @param position Index i des zu entfernenden Problems
 	 * @throws Exception
 	 */
-	public void removeInput(Context context, int position) throws Exception{
+	public void removeProblem(Context context, int position) throws Exception{
 		this.readFile(context);
 		listOfInputs.remove(position);
 		this.writeFile(context);
@@ -88,7 +88,7 @@ public class InputsDb {
 	 * @param i 
 	 * @return Problem an Index i
 	 */
-	public ArrayList<Input> getInput(int i){
+	public ArrayList<Input> getProblem(int i){
 		return listOfInputs.get(i);	
 	}
 	
