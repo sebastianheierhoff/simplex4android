@@ -25,7 +25,7 @@ public class InputsLoad extends Activity {
 	        setContentView(R.layout.inputs_load);
 
 	        try {
-				mInputsDb = new InputsDb();
+				mInputsDb = new InputsDb(InputsLoad.this);
 	        } catch (Exception ex) {
 				ex.printStackTrace();
 	        }
@@ -65,7 +65,7 @@ public class InputsLoad extends Activity {
 	        int position = lv_problems.indexOfChild(rl_row);
 	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
 	        try{
-	        	mInputsDb.removeInput(position);
+	        	mInputsDb.removeInput(InputsLoad.this, position);
 	        }
 	        catch(Exception ex){
 	        }	

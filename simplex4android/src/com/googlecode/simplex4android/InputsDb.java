@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
+import android.content.Context;
+
 /**
  * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
  */
@@ -16,9 +18,9 @@ public class InputsDb {
 
 	private ArrayList<ArrayList<Input>> listOfInputs;//Liste zum Speichern von Problemen
 
-	public InputsDb() throws StreamCorruptedException, IOException, ClassNotFoundException{
+	public InputsDb(Context context) throws StreamCorruptedException, IOException, ClassNotFoundException{
 		listOfInputs = new ArrayList<ArrayList<Input>>();
-		this.readFile();
+		this.readFile(context);
 	}
 	
 	public void setListOfInputs(ArrayList<ArrayList<Input>> listOfInputs){
@@ -29,23 +31,23 @@ public class InputsDb {
 		return this.listOfInputs;
 	}
 	
-	public void addInput(ArrayList<Input> input) throws Exception{
+	public void addInput(Context context, ArrayList<Input> input) throws Exception{
 		listOfInputs.add(input);
-		this.writeFile();
+		this.writeFile(context);
 	}
 
-	public void setInput(int i, ArrayList<Input> input) throws Exception{
+	public void setInput(Context context, int i, ArrayList<Input> input) throws Exception{
 		if(i>=(this.listOfInputs.size())){
-			this.addInput(input);
+			this.addInput(context, input);
 		}else{
 			this.listOfInputs.set(i, input);
 		}
 	}
 	
-	public void removeInput(int position) throws Exception{
-		this.readFile();
+	public void removeInput(Context context, int position) throws Exception{
+		this.readFile(context);
 		listOfInputs.remove(position);
-		this.writeFile();
+		this.writeFile(context);
 	}
 	
 	public ArrayList<Input> getInput(int i){
@@ -60,21 +62,19 @@ public class InputsDb {
 		return s;
 	}
 	
-	public void writeFile() throws Exception {
-		FileOutputStream fos = new FileOutputStream("simplexProblems.dat", false);
+	public void writeFile(Context context) throws Exception {
+		FileOutputStream fos = context.openFileOutput("simplexProblems.dat", Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-
 		oos.writeObject(listOfInputs);
 		oos.flush();
 		oos.close();
-
 	}
 
 	@SuppressWarnings("unchecked")
-	public void readFile() throws StreamCorruptedException, IOException, ClassNotFoundException{
+	public void readFile(Context context) throws StreamCorruptedException, IOException, ClassNotFoundException{
 		FileInputStream fis = null;
 		try{
-			fis = new FileInputStream("simplexProblems.dat");
+			fis = context.openFileInput("simplexProblems.dat");
 		}
 		catch(FileNotFoundException e){
 			return; // Abbruch, keine Datei vorhanden.
