@@ -22,15 +22,15 @@ public class InputsLoad extends Activity {
 
 	    /** Called when the activity is first created. */
 	    public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
+	    	super.onCreate(savedInstanceState);
 	        setContentView(R.layout.inputs_load);
 
-	        try {
+	    	try {
 				mInputsDb = new InputsDb(InputsLoad.this);
 	        } catch (Exception ex) {
 				ex.printStackTrace();
 	        }
-				
+
 	        ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 	        try{
 	            lv_problems.setAdapter(adapter_list_problems);
@@ -42,6 +42,7 @@ public class InputsLoad extends Activity {
 	        }catch(Exception ex){
 	        	
 	        }
+
 	        
 		    //Zurück-Button
 		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
