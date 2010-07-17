@@ -33,7 +33,6 @@ public class InputsLoad extends Activity {
 
 	        ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 	        try{
-	            lv_problems.setAdapter(adapter_list_problems);
 	        	adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row);
 	    		listOfInputs = mInputsDb.getListOfInputs();
 	            for(int i=1;i<listOfInputs.size();i++){ // durch alle Inputs
@@ -42,7 +41,8 @@ public class InputsLoad extends Activity {
 	        }catch(Exception ex){
 	        	
 	        }
-
+            lv_problems.setAdapter(adapter_list_problems);
+            lv_problems.refreshDrawableState();
 	        
 		    //Zurück-Button
 		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
