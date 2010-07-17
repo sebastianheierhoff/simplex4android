@@ -43,6 +43,7 @@ public class InputsLoad extends Activity {
 	        }
             lv_problems.setAdapter(adapter_list_problems);
             lv_problems.refreshDrawableState();
+            hideOrShowEmptyText();
 	        
 		    //Zurück-Button
 		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
@@ -99,6 +100,14 @@ public class InputsLoad extends Activity {
 			}
 			else{
 				params_text_list_empty.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			}
+			text_list_empty.requestLayout();
+			
+			if(mInputsDb.getListOfInputs().isEmpty()){
+				params_text_list_empty.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			}
+			else{
+				params_text_list_empty.height = 0;
 			}
 			text_list_empty.requestLayout();
 		}
