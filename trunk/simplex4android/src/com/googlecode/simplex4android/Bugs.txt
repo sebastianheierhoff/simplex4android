@@ -14,7 +14,10 @@ Bitte eintragen:
 			Vorschlag: Ein xi darf nur eingefügt werden, wenn x(i-1) existiert!
 		Es können nachträglich xi entfernt werden, die einen kleineren Index als das größte aufweisen.
 			Dafür gibt es keine Prüfung oder Behandlung, was beim Rechnen zwangsweise zu Grütze führt!
-		
+			
+	InputShow:
+		Simplex-Methode anzeigen oder Menü mit Dots ausstatten. So kann aktuellen Setting nicht eingesehen werden!
+		Das ist besonders wichtig bei einem geladenen Problem!		
 		
 	InputsLoad:
 		"Neues Problem" ohne Funktion
