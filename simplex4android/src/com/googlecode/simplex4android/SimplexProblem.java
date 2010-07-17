@@ -68,7 +68,6 @@ public abstract class SimplexProblem {
 		this.optimal = false;
 		pivots = new int[this.getNoRows()-1];
 //		this.initializePivotsWithMinusOne();
-
 	}
 
 	/**

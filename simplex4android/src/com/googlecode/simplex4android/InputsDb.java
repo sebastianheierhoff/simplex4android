@@ -64,8 +64,12 @@ public class InputsDb {
 	}
 	
 	public void writeFile(Context context) throws Exception {
-		if(!context.deleteFile("simplexProblems.dat")){
-			Toast.makeText(context, "File gelöscht", Toast.LENGTH_SHORT);
+		try{
+			context.getFileStreamPath("simplexProblems.dat").delete();
+			Toast.makeText(context, "Datei gelöscht!", Toast.LENGTH_SHORT);
+		}
+		catch(Exception ex){
+			Toast.makeText(context, "Fehler beim Löschen der Datei!", Toast.LENGTH_SHORT);
 		}
 		FileOutputStream fos = context.openFileOutput("simplexProblems.dat", Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
