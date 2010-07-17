@@ -83,7 +83,7 @@ public class Constraint extends Input implements Serializable{
 		this.sign = ois.readInt();
 		int length = ois.readInt();
 		for(int i=0;i<length;i++){
-			this.values.add((Double)ois.readObject());
+			this.values.add(ois.readDouble());
 		}		
 		ois.close();
 	}
@@ -99,7 +99,7 @@ public class Constraint extends Input implements Serializable{
 		int length = this.values.size();
 		oos.writeInt(length);
 		for(int i=0;i<length;i++){
-			oos.writeObject(this.values.get(i));
+			oos.writeDouble(this.values.get(i));
 		}		
 		oos.close();
 	}
