@@ -1,6 +1,8 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -179,25 +181,15 @@ public abstract class Input implements Serializable{
 	}
 	
 	/**
-	 * Always treat de-serialization as a full-blown constructor, by
-	 * validating the final state of the de-serialized object.
+	 * Lesemethode zum Auslesen einer Nebenbedingung.
+	 * @param aInputStream 
 	 */
-	private void readObject(java.io.ObjectInputStream aInputStream) throws ClassNotFoundException, IOException{
-		aInputStream.defaultReadObject();
-
-		//make defensive copy of the mutable Date field
-		this.values = new ArrayList<Double>(values);
-
-
-		//ensure that object state has not been corrupted or tampered with maliciously
-	}
+	protected abstract void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException;
 
 	/**
-	 * This is the default implementation of writeObject.
-	 * Customise if necessary.
+	 * Methode zum Speichern einer Nebenbedingung.
+	 * @param oos
+	 * @throws IOException
 	 */
-	private void writeObject(java.io.ObjectOutputStream aOutputStream) throws IOException {
-		//perform the default serialization for all non-transient, non-static fields
-		aOutputStream.defaultWriteObject();
-	}
+	protected abstract void writeObject(ObjectOutputStream oos) throws IOException;
 }

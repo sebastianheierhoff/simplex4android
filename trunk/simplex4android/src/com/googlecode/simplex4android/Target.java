@@ -4,17 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 @SuppressWarnings("serial")
 public class Target extends Input implements Serializable{
 	private boolean minOrMax;	// true bedeutet Minimierung, false bedeutet Maximierung
 	private int userSettings; 	// legt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems fest
-								// 0=primal, 1=dual;
+	// 0=primal, 1=dual;
 
 	/**
 	 * Standardkonstruktor
@@ -22,7 +17,7 @@ public class Target extends Input implements Serializable{
 	public Target() {
 		super();
 	}
-	
+
 	/**
 	 * Gibt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems zurück.
 	 * @return 0=primal, 1=dual
@@ -30,7 +25,7 @@ public class Target extends Input implements Serializable{
 	public int getUserSettings(){
 		return this.userSettings;
 	}
-	
+
 	/**
 	 * boolean der angibt ob Minimierung oder Maximierung vorliegt
 	 * @return true steht für Minimierung, false für Maximierung
@@ -38,7 +33,7 @@ public class Target extends Input implements Serializable{
 	public boolean getMinOrMax() {
 		return minOrMax;
 	}
-	
+
 	/**
 	 * boolean der angibt ob Minimierung oder Maximierung vorliegt
 	 * @param minOrMax true steht für Minimierung, false für Maximierung
@@ -46,16 +41,16 @@ public class Target extends Input implements Serializable{
 	public void setMinOrMax(boolean minOrMax) {
 		this.minOrMax = minOrMax;
 	}
-	
+
 	/**
 	 * Setzt die vom Benutzer gewünschten Settings für das Lösen eines SimplexProblems.
 	 * @param setting 0=primal, 1=dual
 	 * @throws IOException falls ungültiger Wert gesetzt werden soll.
 	 */
 	public void setUserSettings(int setting){
-			this.userSettings = setting;
+		this.userSettings = setting;
 	}
-	
+
 	/**
 	 * Gibt die Zielfunktion (komplett) als String aus.
 	 */
@@ -71,26 +66,32 @@ public class Target extends Input implements Serializable{
 	}
 
 	/**
-	  * Always treat de-serialization as a full-blown constructor, by
-	  * validating the final state of the de-serialized object.
-	  */
-	   private void readObject(
-	     ObjectInputStream aInputStream
-	   ) throws ClassNotFoundException, IOException {
-	     //always perform the default de-serialization first
-	     aInputStream.defaultReadObject();
-	     //make defensive copy of the mutable Date field
-	     //fDateOpened = new Date( fDateOpened.getTime() );
-	  }
+	 * Lesemethode zum Auslesen einer Zielfunktion.
+	 * @param aInputStream 
+	 */
+	protected void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		this.minOrMax = ois.readBoolean();
+		this.userSettings = ois.readInt();
+		int length = ois.readInt();
+		for(int i=0;i<length;i++){
+			this.values.add((Double)ois.readObject());
+		}		
+		ois.close();
+	}
 
-	    /**
-	    * This is the default implementation of writeObject.
-	    * Customise if necessary.
-	    */
-	    private void writeObject(
-	      ObjectOutputStream aOutputStream
-	    ) throws IOException {
-	      //perform the default serialization for all non-transient, non-static fields
-	      aOutputStream.defaultWriteObject();
-	    }
+	/**
+	 * Methode zum Speichern einer Zielfunktion.
+	 * @param oos
+	 * @throws IOException
+	 */
+	protected void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.writeBoolean(minOrMax);
+		oos.writeInt(userSettings);
+		int length = this.values.size();
+		oos.writeInt(length);
+		for(int i=0;i<length;i++){
+			oos.writeObject(this.values.get(i));
+		}		
+		oos.close();
+	}
 }
