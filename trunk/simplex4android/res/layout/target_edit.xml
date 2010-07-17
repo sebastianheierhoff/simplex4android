@@ -26,7 +26,8 @@
 		android:layout_height="wrap_content"
         android:hint="z.B. 7x1 + 13x2 + 12x3"
         android:layout_width="320dip"
-        android:scrollHorizontally="true"/>
+        android:scrollHorizontally="true"
+        android:scrollbars="horizontal"/>
 	<TextView
 		android:id="@+id/text_eq"
 		android:visibility="visible"
@@ -66,17 +67,18 @@
 			android:text="" 
 			android:background="@drawable/textfield_default"
 			android:layout_width="92dip"
-			android:layout_height="45dip"
+			android:layout_height="52dip"
 			android:inputType="none"
 	        android:gravity="bottom" 
 	        android:hint="z.B. 10" 
-	        android:scrollHorizontally="true"/>
+	        android:scrollHorizontally="true"
+	        android:scrollbars="horizontal"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
 			android:enabled="false"
 			android:layout_width="wrap_content" 
-			android:layout_height="45dip"
+			android:layout_height="52dip"
 	        android:gravity="bottom" />
 		<Button
 			android:id="@+id/btn_x_plus"
