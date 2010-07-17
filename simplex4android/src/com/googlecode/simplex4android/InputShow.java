@@ -307,16 +307,6 @@ public class InputShow extends Activity{
     	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
 	
-	public void TargetDeleteClickHandler(View v){
-        inputs.set(0, null);
-        adapter_list_target.clear();
-        hideOrShowEmptyTexts();
-	    Toast.makeText(InputShow.this,"Zielfunktion gelöscht. Bitte neue Zielfunktion eingeben.",Toast.LENGTH_LONG).show();
-        Intent TargetCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
-    	TargetCreateIntent.putExtra("create", true);
-    	startActivityForResult(TargetCreateIntent, TARGET_CREATE_REQUEST);
-    }
-
 	public void TargetEditClickHandler(View v){
         Target target = (Target) inputs.get(0);
         Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
