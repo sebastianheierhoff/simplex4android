@@ -27,7 +27,8 @@
         android:hint="z.B. 7x1 + 13x2 + 12x3"
         android:layout_width="320dip"
         android:scrollHorizontally="true"
-        android:scrollbars="horizontal"/>
+        android:scrollbars="horizontal"
+        android:scrollbarStyle="insideInset"/>
 	<TextView
 		android:id="@+id/text_eq"
 		android:visibility="visible"

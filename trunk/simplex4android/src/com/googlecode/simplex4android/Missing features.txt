@@ -1,6 +1,7 @@
 Bitte eintragen:
 [GUI]
 	Eingabe (Constraint/Target)
+		Bei zu großen Zahlen wird ein Exponent angezeigt!
 		Felder ändern Größe bei zu langer Eingabe (target, target_value) - Vorschlag: max_height?, scrollable?
 
 	ConstraintEdit:
@@ -30,3 +31,7 @@ Bitte eintragen:
 [Logik]
 	1. Phase
 		Kein Abbruch, wenn in 1. Phase keine optimale Lösung gefunden wurde/werden kann.
+		
+[Tests]
+	TestSimplexLogic: 
+		nach geänderten Methoden Testfälle an neue Rückgabewerte anpassen.
