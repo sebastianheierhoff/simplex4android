@@ -5,7 +5,7 @@
 	android:layout_height="fill_parent" 
 	android:background="@color/white">
 	<HorizontalScrollView
-		android:layout_width="428dip"
+		android:layout_width="420dip"
 		android:layout_height="fill_parent">
 	 <TextView 
 	 	android:id="@+id/tv_row"
@@ -14,9 +14,7 @@
 	 	android:padding="10dip"
 	 	android:textColor="@color/black"
 	 	android:layout_width="fill_parent"
-	 	android:layout_height="fill_parent"
-	 	android:layout_gravity="center_vertical|center_horizontal|center"
-	 	android:scrollHorizontally="true"/>
+	 	android:layout_height="fill_parent"/>
 	</HorizontalScrollView>
 	<Button 
  	    android:id="@+id/btn_edit"
