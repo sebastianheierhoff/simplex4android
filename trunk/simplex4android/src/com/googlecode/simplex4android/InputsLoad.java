@@ -1,5 +1,7 @@
 package com.googlecode.simplex4android;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,8 +64,12 @@ public class InputsLoad extends Activity {
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
 	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
-	        mInputsDb.removeInput(position);
-	        hideOrShowEmptyText();
+	        try{
+	        	mInputsDb.removeInput(position);
+	        }
+	        catch(Exception ex){
+	        }	
+        	hideOrShowEmptyText();
 		}
 
 		public void EditClickHandler(View v)
