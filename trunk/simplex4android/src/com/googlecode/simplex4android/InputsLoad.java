@@ -84,7 +84,7 @@ public class InputsLoad extends Activity {
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
 	        ArrayList<Input> inputs = mInputsDb.getInput(position);
-	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
+	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
 	        InputsEditIntent.putExtra("inputs", inputs);
 	        InputsEditIntent.putExtra("edit", true);
 	        InputsEditIntent.putExtra("id", position);
