@@ -30,3 +30,7 @@ Bitte eintragen:
 [Logik]
 	1. Phase
 		Kein Abbruch, wenn in 1. Phase keine optimale Lösung gefunden wurde/werden kann.
+		
+[Tests]
+	TestSimplexLogic: 
+		nach geänderten Methoden Testfälle an neue Rückgabewerte anpassen.
