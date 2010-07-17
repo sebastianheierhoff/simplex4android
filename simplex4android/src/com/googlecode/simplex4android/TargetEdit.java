@@ -180,10 +180,6 @@ public class TargetEdit extends Activity {
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	        	EditText target = (EditText) findViewById(R.id.edittext_target);
-	        	target.setHorizontalScrollBarEnabled(false);
-	        	target.setHorizontalScrollBarEnabled(true);
-	        	target.computeScroll();
-
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
 	        		double value;
 	        		if(target_element.getText().toString().equals("")){

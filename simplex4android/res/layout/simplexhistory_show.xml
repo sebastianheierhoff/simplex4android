@@ -20,21 +20,21 @@
     	android:id="@+id/btn_last"
     	android:background="@drawable/btn_last"
         android:layout_width="wrap_content"
-        android:layout_height="45dip"
+        android:layout_height="wrap_content"
         android:layout_below="@id/webview_tableau"
         android:layout_alignParentRight="true" />
     <Button
         android:id="@+id/btn_next"
     	android:background="@drawable/btn_next"
         android:layout_width="wrap_content"
-        android:layout_height="45dip"
+        android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/btn_last"
         android:layout_alignTop="@id/btn_last" />
     <Button
         android:id="@+id/btn_previous"
         android:background="@drawable/btn_previous"
         android:layout_width="wrap_content"
-        android:layout_height="45dip"
+        android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/btn_next"
         android:layout_alignTop="@id/btn_next"
         android:enabled="false" />
@@ -42,7 +42,7 @@
         android:id="@+id/btn_first"
     	android:background="@drawable/btn_first"
         android:layout_width="wrap_content"
-        android:layout_height="45dip"
+        android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/btn_previous"
         android:layout_alignTop="@id/btn_previous"
         android:enabled="false" />
@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
-	    android:text="Zurück"
+	    android:text="@string/back"
 	    android:gravity="bottom"/> 
 	<Button
     	android:id="@+id/btn_switchphases"
