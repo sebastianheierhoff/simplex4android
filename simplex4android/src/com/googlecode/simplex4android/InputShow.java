@@ -296,7 +296,7 @@ public class InputShow extends Activity{
         int position = lv_constraint.indexOfChild(rl_row);
         adapter_list_constraint.remove(adapter_list_constraint.getItem(position));
         inputs.remove(position +1);
-        if(inputs.size()<1){
+        if(inputs.size()<=1){
         	 findViewById(R.id.btn_start).setEnabled(false);
         }
         hideOrShowEmptyTexts();

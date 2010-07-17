@@ -38,11 +38,8 @@ public class InputsDb {
 	}
 
 	public void setInput(Context context, int i, ArrayList<Input> input) throws Exception{
-		if(i>=(this.listOfInputs.size())){
-			this.addInput(context, input);
-		}else{
-			this.listOfInputs.set(i, input);
-		}
+		this.listOfInputs.set(i, input);
+		this.writeFile(context);
 	}
 	
 	public void removeInput(Context context, int position) throws Exception{
