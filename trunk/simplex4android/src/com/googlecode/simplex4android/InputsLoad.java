@@ -52,7 +52,7 @@ public class InputsLoad extends Activity {
 	        try{
 	        	adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row);
 	    		listOfInputs = mInputsDb.getListOfInputs();
-	            for(int i=1;i<listOfInputs.size();i++){ // durch alle Inputs
+	            for(int i=0;i<listOfInputs.size();i++){ // durch alle Inputs
 	    			adapter_list_problems.add(listOfInputs.get(i).get(0).toString());
 	    		}
 	        }catch(Exception ex){
