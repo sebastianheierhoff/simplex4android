@@ -53,6 +53,7 @@ public class InputsDb {
 	 * @throws Exception
 	 */
 	public void addInput(Context context, ArrayList<Input> input) throws Exception{
+		this.readFile(context);
 		listOfInputs.add(input);
 		this.writeFile(context);
 	}
@@ -65,6 +66,7 @@ public class InputsDb {
 	 * @throws Exception
 	 */
 	public void setInput(Context context, int i, ArrayList<Input> input) throws Exception{
+		this.readFile(context);
 		this.listOfInputs.set(i, input);
 		this.writeFile(context);
 	}
@@ -109,13 +111,7 @@ public class InputsDb {
 	 * @throws Exception 
 	 */
 	public void writeFile(Context context) throws Exception {
-		try{
-			context.getFileStreamPath("simplexProblems.dat").delete();
-			Toast.makeText(context, "Datei gelöscht!", Toast.LENGTH_SHORT);
-		}
-		catch(Exception ex){
-			Toast.makeText(context, "Fehler beim Löschen der Datei!", Toast.LENGTH_SHORT);
-		}
+		context.getFileStreamPath("simplexProblems.dat").delete();
 		FileOutputStream fos = context.openFileOutput("simplexProblems.dat", Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(listOfInputs);

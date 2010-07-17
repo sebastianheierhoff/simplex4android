@@ -39,7 +39,8 @@ public class simplex4android extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
-
+	    //this.getFileStreamPath("simplexProblems.dat").delete(); //Löschen der "Datenbank"
+	    
 	    //Ressourcen
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
 	    final Button btn_new = (Button) findViewById(R.id.btn_new);
