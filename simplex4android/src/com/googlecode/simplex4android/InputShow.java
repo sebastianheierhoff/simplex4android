@@ -151,7 +151,7 @@ public class InputShow extends Activity{
 	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.setInput(InputShow.this, id, inputs);
+									data.setProblem(InputShow.this, id, inputs);
 								} catch (Exception ex) {
 									Toast.makeText(InputShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
 									return;
@@ -167,7 +167,7 @@ public class InputShow extends Activity{
 	    				.setNeutralButton("Als neues Problem", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.addInput(InputShow.this, inputs);
+									data.addProblem(InputShow.this, inputs);
 								} catch (Exception e) {
 									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 									return;
@@ -180,7 +180,7 @@ public class InputShow extends Activity{
 	    			}
 	    			else{
 	    				try {
-							data.addInput(InputShow.this, inputs);
+							data.addProblem(InputShow.this, inputs);
 						} catch (Exception ex) {
 							Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 							ex.printStackTrace();

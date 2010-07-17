@@ -87,7 +87,7 @@ public class InputsLoad extends Activity {
 	        int position = lv_problems.indexOfChild(rl_row);
 	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
 	        try{
-	        	mInputsDb.removeInput(InputsLoad.this, position);
+	        	mInputsDb.removeProblem(InputsLoad.this, position);
 	        }
 	        catch(Exception ex){
 	        }	
@@ -99,7 +99,7 @@ public class InputsLoad extends Activity {
 			ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
-	        ArrayList<Input> inputs = mInputsDb.getInput(position);
+	        ArrayList<Input> inputs = mInputsDb.getProblem(position);
 	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
 	        InputsEditIntent.putExtra("inputs", inputs);
 	        InputsEditIntent.putExtra("edit", true);
