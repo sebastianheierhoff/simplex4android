@@ -6,7 +6,7 @@
  	<TextView
         android:id="@+id/text_label"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dip"
         android:textColor="@color/black"
         android:layout_marginLeft="2dip"
         android:text="Gespeicherte Probleme:"/>
