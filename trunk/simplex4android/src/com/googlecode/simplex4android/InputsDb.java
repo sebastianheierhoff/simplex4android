@@ -1,6 +1,7 @@
 package com.googlecode.simplex4android;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -42,6 +43,7 @@ public class InputsDb {
 	}
 	
 	public void removeInput(int position) throws Exception{
+		this.readFile();
 		listOfInputs.remove(position);
 		this.writeFile();
 	}
@@ -70,7 +72,13 @@ public class InputsDb {
 
 	@SuppressWarnings("unchecked")
 	public void readFile() throws StreamCorruptedException, IOException, ClassNotFoundException{
-		FileInputStream fis = new FileInputStream("simplexProblems.dat");
+		FileInputStream fis = null;
+		try{
+			fis = new FileInputStream("simplexProblems.dat");
+		}
+		catch(FileNotFoundException e){
+			return; // Abbruch, keine Datei vorhanden.
+		}
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		listOfInputs = (ArrayList<ArrayList<Input>>) ois.readObject();
 		ois.close();
