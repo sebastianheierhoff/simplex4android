@@ -179,17 +179,4 @@ public abstract class Input implements Serializable{
 		
 		return re;
 	}
-	
-	/**
-	 * Lesemethode zum Auslesen einer Nebenbedingung.
-	 * @param aInputStream 
-	 */
-	protected abstract void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException;
-
-	/**
-	 * Methode zum Speichern einer Nebenbedingung.
-	 * @param oos
-	 * @throws IOException
-	 */
-	protected abstract void writeObject(ObjectOutputStream oos) throws IOException;
 }

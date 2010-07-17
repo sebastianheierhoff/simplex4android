@@ -66,30 +66,26 @@ public class Target extends Input implements Serializable{
 	}
 
 	/**
-	 * Lesemethode zum Auslesen einer Zielfunktion.
-	 * @param aInputStream 
-	 */
-	protected void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-		this.minOrMax = ois.readBoolean();
-		this.userSettings = ois.readInt();
-		int length = ois.readInt();
-		for(int i=0;i<length;i++){
-			this.values.add(ois.readDouble());
-		}
-	}
+	  * Always treat de-serialization as a full-blown constructor, by
+	  * validating the final state of the de-serialized object.
+	  */
+	   private void readObject(
+	     ObjectInputStream aInputStream
+	   ) throws ClassNotFoundException, IOException {
+	     //always perform the default de-serialization first
+	     aInputStream.defaultReadObject();
+	     //make defensive copy of the mutable Date field
+	     //fDateOpened = new Date( fDateOpened.getTime() );
+	  }
 
-	/**
-	 * Methode zum Speichern einer Zielfunktion.
-	 * @param oos
-	 * @throws IOException
-	 */
-	protected void writeObject(ObjectOutputStream oos) throws IOException {
-		oos.writeBoolean(minOrMax);
-		oos.writeInt(userSettings);
-		int length = this.values.size();
-		oos.writeInt(length);
-		for(int i=0;i<length;i++){
-			oos.writeDouble(this.values.get(i));
-		}
-	}
+	    /**
+	    * This is the default implementation of writeObject.
+	    * Customise if necessary.
+	    */
+	    private void writeObject(
+	      ObjectOutputStream aOutputStream
+	    ) throws IOException {
+	      //perform the default serialization for all non-transient, non-static fields
+	      aOutputStream.defaultWriteObject();
+	    }
 }
