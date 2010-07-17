@@ -109,18 +109,18 @@ public class SimplexProblemPrimal extends SimplexProblem {
 			else html = html + "<tr align=right><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRow(this)==i && SimplexLogic.choosePivotColumn(this)==j){
-					html = html  + "<td bgcolor=#CC0000>";
+					html = html  + "<td nowrap bgcolor=#CC0000>";
 				}else{
-					html = html  + "<td>";
+					html = html  + "<td nowrap>";
 				}
 				html = html + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
 			//x/f noch hinten dran hängen
 			if((xByF.get(i)<=0) || (xByF.get(i)== Double.POSITIVE_INFINITY)){
-				html = html + "<td> &#8211; </td>";
+				html = html + "<td nowrap> &#8211; </td>";
 			}
 			else{
-				html = html + "<td>"+ (Math.round(xByF.get(i)*100.)/100.)+"</td>";
+				html = html + "<td nowrap>"+ (Math.round(xByF.get(i)*100.)/100.)+"</td>";
 			}
 			html = html + "</tr>\n";
 		}

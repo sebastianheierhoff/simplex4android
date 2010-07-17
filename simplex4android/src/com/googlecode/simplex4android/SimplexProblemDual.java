@@ -112,9 +112,9 @@ public class SimplexProblemDual extends SimplexProblem {
 			else html = html + "<tr align=right><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
-					html = html  + "<td bgcolor=#CC0000>";
+					html = html  + "<td nowrap bgcolor=#CC0000>";
 				}else{
-					html = html  + "<td>";
+					html = html  + "<td nowrap>";
 				}
 				html = html + (Math.round((this.getTableau()[i][j])*100.)/100.)+"</td>";
 			}
@@ -123,17 +123,17 @@ public class SimplexProblemDual extends SimplexProblem {
 		// Letzte Zeile: extra behandlung für delta-Wert
 		html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<this.getTableau()[0].length;i++){
-			if(pivots.length <= this.getNoPivots())html = html + "<td>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
-			else html = html + "<td>" + "&#8211;" +"</td>";
+			if(pivots.length <= this.getNoPivots())html = html + "<td nowrap>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
+			else html = html + "<td nowrap>" + "&#8211;" +"</td>";
 		}
 		html = html + "</tr>\n";
 		// allerletzte Zeile mit den delta/f-Werten
 		html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
 		for(int i=0;i<deltaByF.size();i++){
-			if(deltaByF.get(i)>0)html = html + "<td>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
-			else html = html + "<td>&#8211;</td>";
+			if(deltaByF.get(i)>0)html = html + "<td nowrap>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
+			else html = html + "<td nowrap>&#8211;</td>";
 		}
-		html = html + "</tr>\n";
+		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}
