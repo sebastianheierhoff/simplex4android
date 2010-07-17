@@ -38,7 +38,7 @@ public class InputShow extends Activity{
 	private static int id;
 	private static ArrayList<Input> inputs;
 	private static InputsDb data;
-	private static SimplexHistory[] simplexhistoryarray;
+	private SimplexHistory[] simplexhistoryarray;
 	private static ArrayAdapter<String> adapter_list_constraint;
 	private static ArrayAdapter<String> adapter_list_target;
 	private static final String[] settings = {"Primal", "Dual"};
