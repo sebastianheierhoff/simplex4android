@@ -38,8 +38,9 @@ public class InputsDb {
 		this.saveInputs();
 	}
 
-	public void removeInput(int position){
+	public void removeInput(int position) throws IOException{
 		listOfInputs.remove(position);
+		this.saveInputs();
 	}
 	
 	/**
