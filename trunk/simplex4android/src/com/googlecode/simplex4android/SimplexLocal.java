@@ -79,10 +79,10 @@ public class SimplexLocal {
 
 		InputsDb save;
 		try{
-			save = new InputsDb();
-			System.out.println(save.getListOfInputs().isEmpty());
-			save.addInput(input1);
-			save.addInput(input2);
+			//save = new InputsDb();
+			//System.out.println(save.getListOfInputs().isEmpty());
+			//save.addInput(input1);
+			//save.addInput(input2);
 			System.out.println("Speichern durchgeführt!");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -92,15 +92,15 @@ public class SimplexLocal {
 		try{
 			System.out.println();
 			System.out.println("Erstes Problem:");
-			System.out.println(save.getInput(0).get(0));
-			System.out.println(save.getInput(1).get(0));
+			//System.out.println(save.getInput(0).get(0));
+			//System.out.println(save.getInput(1).get(0));
 		}catch(NullPointerException npe1){
 			npe1.printStackTrace();
 		}
 
 		InputsDb read;
 		try{
-			read = new InputsDb();
+			//read = new InputsDb();
 			System.out.println();	
 			System.out.println("Laden durchgeführt!");
 		}catch(Exception e){
@@ -111,8 +111,8 @@ public class SimplexLocal {
 		try{		
 			System.out.println();			
 			System.out.println("Erstes Problem:");
-			System.out.println(read.getInput(0).get(0));
-			System.out.println(read.getInput(1).get(0));
+			//System.out.println(read.getInput(0).get(0));
+			//System.out.println(read.getInput(1).get(0));
 		}catch(NullPointerException npe2){
 			npe2.printStackTrace();
 		}

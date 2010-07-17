@@ -24,7 +24,7 @@ public class InputShow extends Activity{
 	
 	private static ArrayList<Input> inputs;
 	static SimplexHistory[] simplexhistoryarray;
-	private static InputsDb data;
+	private InputsDb data;
 
 	private static ArrayAdapter<String> adapter_list_constraint;
 	private static ArrayAdapter<String> adapter_list_target;
@@ -134,7 +134,7 @@ public class InputShow extends Activity{
 	    	public void onClick(View v) {
 	    		if(inputs.size()>0){
 	    			try{
-	    				data = new InputsDb();
+	    				data = new InputsDb(InputShow.this);
 	    			}
 	    			catch(Exception ex){
 						Toast.makeText(InputShow.this,"Fehler beim Speichern1!",Toast.LENGTH_LONG).show();
@@ -147,7 +147,7 @@ public class InputShow extends Activity{
 	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.setInput(InputShow.this.getIntent().getIntExtra("id", -1), inputs);
+									data.setInput(InputShow.this, InputShow.this.getIntent().getIntExtra("id", -1), inputs);
 								} catch (Exception ex) {
 									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
 									return;
@@ -163,7 +163,7 @@ public class InputShow extends Activity{
 	    				.setNeutralButton("Als neues Problem", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.addInput(inputs);
+									data.addInput(InputShow.this, inputs);
 								} catch (Exception e) {
 									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
 									return;
@@ -176,9 +176,10 @@ public class InputShow extends Activity{
 	    			}
 	    			else{
 	    				try {
-							data.addInput(inputs);
+							data.addInput(InputShow.this, inputs);
 						} catch (Exception ex) {
-							Toast.makeText(InputShow.this,"Fehler beim Speichern2!",Toast.LENGTH_LONG).show();
+							Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
+							ex.printStackTrace();
 							return;
 						}
 	    				int id = data.getListOfInputs().size()-1;
