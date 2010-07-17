@@ -7,10 +7,16 @@ Bitte eintragen:
 	ConstraintEdit:
 		Textfeld Fehler ... weiße linie wie auch auf targetedit
 		Textfeld wird schlecht gefüllt, sobald eine Ziffer zu viel eingefügt wird, zeigt das Textfeld nur noch diese eine Ziffer an.
+		Textfelder ungleich hoch
+		Fadings kleiner (5dip)
+		Hinzufügen nicht bündig mit dem Keyboard (alles vergrößern)
 		
 	TargetEdit:
 		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen.
 		Es können nachträglich xi entfernt werden, die einen kleineren Index als das größte aufweisen.
+		x1 zu hoch
+		Fadings kleiner (5dip)
+		Hinzufügen nicht bündig mit dem Keyboard (alles vergrößern)
 			
 	InputShow:
 		Simplex-Methode anzeigen oder Menü mit Dots ausstatten. 
@@ -19,6 +25,8 @@ Bitte eintragen:
 		Löscht man die ZF wird man aufgefordert, eine neue anzulegen.
 			Allerdings gehen dann beim Klick auf "Zurück" alle Nebenbedingungen verloren.
 			An der Stelle würde man erwarten, mit zurück zurück zur Übersicht zu kommen.
+		Scrollbar zu groß
+		Buttons nicht auf einer Linie
 				
 	InputsLoad:
 		
@@ -27,6 +35,7 @@ Bitte eintragen:
 		"-1.0" füht zu Zeilenumbruch in den Zellen
 		
 	Startseite:
+		vertikal zentrieren
 
 [Logik]
 	1. Phase
