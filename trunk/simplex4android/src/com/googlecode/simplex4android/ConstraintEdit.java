@@ -291,7 +291,7 @@ public class ConstraintEdit extends Activity {
 	    	target.setText(constraint.valuesToString());
 	    	//Textfeld Target-Element
 	    	try{
-	    		String target_element_string = String.valueOf(constraint.getValue(0));
+	    		String target_element_string = String.valueOf(Math.round(constraint.getValue(0)*100.)/100.);
 	    		if(target_element_string.equals("0.0")){
 	    			target_element.setText("");
 	    			target_element.setHint("0");
@@ -306,7 +306,7 @@ public class ConstraintEdit extends Activity {
 	    		target_element.setHint("0");
 	    	}
 	    	//Textfeld Target-Value
-	    	constraint_target_value.setText(String.valueOf(constraint.getTargetValue()));
+	    	constraint_target_value.setText(String.valueOf(Math.round(constraint.getTargetValue()*100)/100));
 	    	//Spinner gtltoreq
 	    	//Index "0" enspricht "<=", "2" entspricht "=" und "1" entspricht ">="
 	    	//Sign "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="

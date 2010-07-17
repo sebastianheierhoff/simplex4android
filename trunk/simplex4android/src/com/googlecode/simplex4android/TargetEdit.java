@@ -247,7 +247,7 @@ public class TargetEdit extends Activity {
 
     	//Textfeld Target-Element
 	    try{
-	    	String target_element_string = String.valueOf(target.getValue(0));
+	    	String target_element_string = String.valueOf(Math.round(target.getValue(0)*100.)/100.);
 	    	if(target_element_string.equals("0.0")){
 	    		target_element.setText("");
 	    		target_element.setHint("0");
