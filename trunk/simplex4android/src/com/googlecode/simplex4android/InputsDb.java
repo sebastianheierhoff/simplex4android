@@ -32,13 +32,14 @@ public class InputsDb {
 	 * Methode zum Hinzufügen eines Problems
 	 * @param problem
 	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public void addInput(ArrayList<Input> input) throws IOException{
+	public void addInput(ArrayList<Input> input) throws IOException, ClassNotFoundException{
 		listOfInputs.add(input);
 		this.saveInputs();
 	}
 
-	public void removeInput(int position) throws IOException{
+	public void removeInput(int position) throws IOException, ClassNotFoundException{
 		listOfInputs.remove(position);
 		this.saveInputs();
 	}
@@ -68,10 +69,9 @@ public class InputsDb {
 	 * Gibt das Problem an Stelle i zurück.
 	 * @param i Index des zu übergebenen Problems
 	 * @return Problem an Stelle i
-	 * @throws IndexOutOfBoundsException falls i<0 || i>=size
 	 */
-	public ArrayList<Input> getInput(int i) throws IndexOutOfBoundsException{
-		return this.listOfInputs.get(i);	
+	public ArrayList<Input> getInput(int i){
+		return listOfInputs.get(i);	
 	}
 	
 	/**
@@ -81,8 +81,9 @@ public class InputsDb {
 	 * @param problem einzufügendes Problem
 	 * @throws IndexOutOfBoundsException falls i<0
 	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public void setInput(int i, ArrayList<Input> input) throws IndexOutOfBoundsException, IOException{
+	public void setInput(int i, ArrayList<Input> input) throws IndexOutOfBoundsException, IOException, ClassNotFoundException{
 		if(i>=(this.listOfInputs.size())){
 			this.addInput(input);
 		}else{
@@ -96,6 +97,7 @@ public class InputsDb {
 	 * @throws ClassNotFoundException	wird nur geschmissen wenn die Klasse SimplexProblem nicht gefunden wird
 	 * @throws IOException
 	 */	
+	@SuppressWarnings("unchecked")
 	public void readInputs() throws ClassNotFoundException, IOException{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
@@ -106,20 +108,8 @@ public class InputsDb {
 			return; // Abbruch, keine Datei vorhanden.
 		}
 		ois = new ObjectInputStream(fis);
-		int length = ois.readInt();
-		for(int i=0;i<length;i++){ // für alle Probleme
-			ArrayList<Input> input = new ArrayList<Input>();
-			int size = ois.readInt();
-			Target t = new Target(); // für die Zielfunktion
-			t.readObject(ois);
-			input.add(t);
-			for(int j=1;j<size;j++){ // für die einzelnen Nebenbedingungen jedes Problems
-				Constraint c = new Constraint();
-				c.readObject(ois);
-				input.add(c);
-			}
-			this.listOfInputs.add(input);
-		}		
+		ArrayList<ArrayList<Input>> input = (ArrayList<ArrayList<Input>>) ois.readObject();
+		this.listOfInputs = input;
 		ois.close();		
 	}
 
@@ -130,15 +120,7 @@ public class InputsDb {
 	public void saveInputs()throws IOException{
 		FileOutputStream fos = new FileOutputStream("simplexProblems.dat", false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		int length = this.listOfInputs.size();
-		oos.writeInt(length);
-		for(int i=0;i<length;i++){ // für alle Probleme
-			int size = this.listOfInputs.get(i).size();
-			oos.writeInt(size);
-			for(int j=0;j<size;j++){ // für die einzelnen Inputs jedes Problems
-				this.listOfInputs.get(i).get(j).writeObject(oos);
-			}			
-		}		
+		oos.writeObject(listOfInputs);
 		oos.close();
 	}	
 }
