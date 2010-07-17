@@ -84,12 +84,13 @@ public class SimplexLocal {
 			save.addInput(input1);
 			save.addInput(input2);
 			save.saveInputs();
+			System.out.println("Speichern durchgeführt!");
 		}catch(Exception e) {
 			e.printStackTrace();
 			save = null;
+			System.out.println("Fehler beim Speichern!");
 		}
 		try{
-			System.out.println("Speichern durchgeführt!");
 			System.out.println();
 			System.out.println("Erstes Problem:");
 			System.out.println(save.getInput(0).get(0).toString());
@@ -107,13 +108,15 @@ public class SimplexLocal {
 		try{
 			read = new InputsDb();
 			read.readInputs();
+			System.out.println();	
+			System.out.println("Laden durchgeführt!");
+			System.out.println(Arrays.toString(read.getListOfInputs().toArray()));
 		}catch(Exception e){
 			e.printStackTrace();
 			read = null;
+			System.out.println("Fehler beim Laden!");
 		}
-		try{
-			System.out.println();
-			System.out.println("Laden durchgeführt!");
+		try{		
 			System.out.println();			
 			System.out.println("Erstes Problem:");
 			System.out.println(read.getInput(0).get(0).toString());
