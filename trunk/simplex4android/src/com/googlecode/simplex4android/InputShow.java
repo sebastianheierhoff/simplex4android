@@ -22,33 +22,39 @@ import android.widget.Toast;
 
 public class InputShow extends Activity{
 	
-	private static ArrayList<Input> inputs;
-	static SimplexHistory[] simplexhistoryarray;
-	private InputsDb data;
-
-	private static ArrayAdapter<String> adapter_list_constraint;
-	private static ArrayAdapter<String> adapter_list_target;
-
-	private static final String[] settings = {"Primal", "Dual"};
-	
-	//TODO: Anpassen!
 	//ResultCodes
-	static final int CONSTRAINT_EDIT_RESULT = 1;
-	static final int CONSTRAINT_CREATE_RESULT = 2;
-	static final int TARGET_EDIT_RESULT = 3;
-	static final int TARGET_CREATE_RESULT = 4;
+	private static final int CONSTRAINT_EDIT_RESULT = 1;
+	private static final int CONSTRAINT_CREATE_RESULT = 2;
+	private static final int TARGET_EDIT_RESULT = 3;
+	private static final int TARGET_CREATE_RESULT = 4;
 	
 	//RequestCodes
-	static final int CONSTRAINT_EDIT_REQUEST = 1;
-	static final int CONSTRAINT_CREATE_REQUEST = 2;
-	static final int TARGET_EDIT_REQUEST = 3;
-	static final int TARGET_CREATE_REQUEST = 4;
+	private static final int CONSTRAINT_EDIT_REQUEST = 1;
+	private static final int CONSTRAINT_CREATE_REQUEST = 2;
+	private static final int TARGET_EDIT_REQUEST = 3;
+	private static final int TARGET_CREATE_REQUEST = 4;
+	
+	//Ressourcen
+	private static int id;
+	private static ArrayList<Input> inputs;
+	private static InputsDb data;
+	private static SimplexHistory[] simplexhistoryarray;
+	private static ArrayAdapter<String> adapter_list_constraint;
+	private static ArrayAdapter<String> adapter_list_target;
+	private static final String[] settings = {"Primal", "Dual"};
 	
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.input_show);
-	    
+	   
+    	//Ressourcen
+        final Button back = (Button) findViewById(R.id.btn_cancel); //Zurück-Button
+    	final Button constraint_new = (Button) findViewById(R.id.btn_new_constraint); //
+    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
+    	final Button btn_save = (Button) findViewById(R.id.btn_save);
+    	final Button btn_start = (Button) findViewById(R.id.btn_start);
+    	
 	    //Behandlung der verschiedenen Intents
     	if(this.getIntent().getBooleanExtra("create", false)){
 	    	inputs = new ArrayList<Input>();
@@ -59,6 +65,7 @@ public class InputShow extends Activity{
 	    }
 	    else if(this.getIntent().getBooleanExtra("edit", false)){
 	    	inputs = (ArrayList<Input>) this.getIntent().getSerializableExtra("inputs");
+	    	id = this.getIntent().getIntExtra("id", -1);
 	    }
 	    else{
 			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
@@ -80,19 +87,18 @@ public class InputShow extends Activity{
     	fillData();
         
 	    //Zurück-Button
-	    final Button back = (Button) findViewById(R.id.btn_cancel);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 		    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
 	        	ShowMainIntent.putExtra("inputs", inputs); 
 	            ShowMainIntent.putExtra("edit", true);
+	            ShowMainIntent.putExtra("id", -1);
 	        	startActivity(ShowMainIntent);
 	        	finish();
 	     	}
 	    });
 	    
 	    //Nebenbedingung hinzufügen - Button
-    	final Button constraint_new = (Button) findViewById(R.id.btn_new_constraint);
 	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
@@ -102,7 +108,6 @@ public class InputShow extends Activity{
 	    });
 
 	    //"Einstellungen ändern" - Button
-    	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
 	    btn_settings.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	    	    //Dialog, um Einstellungen vorzunehmen
@@ -129,7 +134,6 @@ public class InputShow extends Activity{
 	    if(inputs.get(0) == null) btn_settings.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde, da die Settings in der Zielfunktion gespeichert werden.
 
 	    //Speichern-Button
-    	final Button btn_save = (Button) findViewById(R.id.btn_save);
 	    btn_save.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v) {
 	    		if(inputs.size()>0){
@@ -140,7 +144,7 @@ public class InputShow extends Activity{
 						Toast.makeText(InputShow.this,"Fehler beim Speichern1!",Toast.LENGTH_LONG).show();
 						return;
 	    			}
-	    			if(InputShow.this.getIntent().getBooleanExtra("edit", false)){//Falls das Problem geladen wurde
+	    			if(InputShow.this.getIntent().getBooleanExtra("edit", false) && InputShow.this.getIntent().getIntExtra("id", -1) != -1){//Falls das Problem geladen wurde
 	    				AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
 	    				builder.setMessage("Problem überschreiben?")
 	    				.setCancelable(false)
@@ -194,7 +198,6 @@ public class InputShow extends Activity{
 	    if(inputs.get(0) == null) btn_save.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde.
 	    
 		//Start-Button
-		final Button btn_start = (Button) findViewById(R.id.btn_start);
 		btn_start.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {				
 				if(((Target)inputs.get(0)).getUserSettings()==0){ //je nach Einstellung ein Problem erzeugen
@@ -224,7 +227,6 @@ public class InputShow extends Activity{
 		if(inputs.size() <= 1) btn_start.setEnabled(false); //Button deaktiviert, solange nicht mindestens eine NB angelegt wurde.
 	}
 
-	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		Target target;
 		Constraint constraint;
