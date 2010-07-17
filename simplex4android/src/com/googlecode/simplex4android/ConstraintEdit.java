@@ -252,7 +252,18 @@ public class ConstraintEdit extends Activity {
         			target_element.requestFocus();
 	        	}
 	        	else{
-	        		constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
+	        		try{
+	        			constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
+	        		}
+	        		catch(Exception ex){
+	        			try{
+		        			constraint.setTargetValue(Input.fractionToDbl(target_value.getText().toString()));
+	        			}
+	        			catch(Exception ex2){
+	        				Toast.makeText(ConstraintEdit.this,"Fehler beim Typecast!",Toast.LENGTH_LONG).show();
+	        				return;
+	        			}
+	        		}
 	        		Intent ConstraintEditIntent = new Intent().putExtra("constraint", constraint);
 	        		if(ConstraintEdit.this.getIntent().getBooleanExtra("edit", false)){
 		        		ConstraintEditIntent.putExtra("id", ConstraintEdit.this.getIntent().getIntExtra("id", -1));

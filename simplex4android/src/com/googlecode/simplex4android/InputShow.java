@@ -153,7 +153,7 @@ public class InputShow extends Activity{
 	    						try {
 									data.setInput(InputShow.this, id, inputs);
 								} catch (Exception ex) {
-									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
+									Toast.makeText(InputShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
 									return;
 								}
 	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
