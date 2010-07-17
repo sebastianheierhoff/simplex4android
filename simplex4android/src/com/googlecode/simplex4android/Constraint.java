@@ -68,7 +68,7 @@ public class Constraint extends Input implements Serializable{
 		}else if(this.sign==1){
 			s += " \u2265 ";
 		}
-		s += this.targetValue;
+		s += String.valueOf(Math.round(this.targetValue*100.)/100.);
 		return s;
 	}
 
