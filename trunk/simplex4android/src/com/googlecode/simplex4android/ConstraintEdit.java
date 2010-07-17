@@ -31,13 +31,27 @@ public class ConstraintEdit extends Activity {
 	static final int TARGET_EDIT_REQUEST = 3;
 	static final int TARGET_CREATE_REQUEST = 4;
 
-	protected static Constraint constraint;
-	private EditText addto;
+	//Ressourcen
+	private static Constraint constraint;
+	private static EditText addto;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.constraint_edit);
-	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+	    //Ressourcen
+		final Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
+	    final EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    final EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
+	    final EditText target = (EditText) findViewById(R.id.edittext_target);
+	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
+				R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
+				R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
+	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
+	    final Button x_minus = (Button) findViewById(R.id.btn_x_minus);
+	    final Button add_target_element = (Button) findViewById(R.id.btn_add_target_element);
+    	final Button add = (Button) findViewById(R.id.btn_add);
+    	final Button back = (Button) findViewById(R.id.btn_cancel);
 
 	    //Behandlung der verschiedenen Intents
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
@@ -51,7 +65,6 @@ public class ConstraintEdit extends Activity {
 	    addto.requestFocus();
 
 	    //Spinner gtltoreq
-		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
 		ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
 		adapter_gtltoreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		gtltoreq.setAdapter(adapter_gtltoreq);
@@ -75,7 +88,6 @@ public class ConstraintEdit extends Activity {
 	    });
 	    
 	    //Textfeld Target-Element
-	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setRawInputType(android.text.InputType.TYPE_NULL);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -93,7 +105,6 @@ public class ConstraintEdit extends Activity {
 		});
 	    
 	    //Textfeld Constraint-Target-Value
-	    EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
 	    constraint_target_value.setRawInputType(android.text.InputType.TYPE_NULL);
 	    constraint_target_value.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -112,10 +123,6 @@ public class ConstraintEdit extends Activity {
 		});
 	    
 	    //Keyboard-Buttons
-	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
-									R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
-									R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
-		
 		for(int i=0; i<keyboardButtons.length; i++){
 			Button[] btns = new Button[keyboardButtons.length];
 			btns[i] = (Button) findViewById(keyboardButtons[i]);
@@ -143,7 +150,6 @@ public class ConstraintEdit extends Activity {
 		}
 		
 	    //Hinzufügen-Button
-	    final Button add_target_element = (Button) findViewById(R.id.btn_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -180,7 +186,6 @@ public class ConstraintEdit extends Activity {
 	    
 	    
 	    //"Xi erhöhen"-Button
-	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
 	    x_plus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -195,7 +200,6 @@ public class ConstraintEdit extends Activity {
 	    });
 
 	    //"Xi verringern"-Button
-	    final Button x_minus = (Button) findViewById(R.id.btn_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
@@ -203,9 +207,6 @@ public class ConstraintEdit extends Activity {
 	    		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
 	    		if(edittext_x_value>1){
 	    			edittext_x_value--;
-//	    			if(edittext_x_value==1){
-//	    				V.setEnabled(false);
-//	    			}
 	    			edittext_x.setText("x" + edittext_x_value);
 		    		try{
 		    			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));
@@ -235,7 +236,6 @@ public class ConstraintEdit extends Activity {
 	    });
 	    
 	    //Fertig-Button
-    	final Button add = (Button) findViewById(R.id.btn_add);
 	    add.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	    	    EditText target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
@@ -267,8 +267,7 @@ public class ConstraintEdit extends Activity {
 	    });
 	    
 		//Zurück-Button
-    	final Button back = (Button) findViewById(R.id.btn_cancel);
-	    back.setOnClickListener(new OnClickListener() {
+    	back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	setResult(RESULT_CANCELED);
 	        	finish();
@@ -277,43 +276,38 @@ public class ConstraintEdit extends Activity {
 	    
 	    //Constraint laden, falls "edit" == true
 	    if(this.getIntent().getBooleanExtra("edit", false) == true){
-
-	    //Textfeld Target
-	    EditText target = (EditText) findViewById(R.id.edittext_target);
-	    target.setText(constraint.valuesToString());
-
-    	//Textfeld Target-Element
-	    try{
-	    	String target_element_string = String.valueOf(constraint.getValue(0));
-	    	if(target_element_string.equals("0.0")){
+	    	//Textfeld Target
+	    	target.setText(constraint.valuesToString());
+	    	//Textfeld Target-Element
+	    	try{
+	    		String target_element_string = String.valueOf(constraint.getValue(0));
+	    		if(target_element_string.equals("0.0")){
+	    			target_element.setText("");
+	    			target_element.setHint("0");
+	    		}
+	    		else{
+	    			target_element.setText(target_element_string);
+	    			Selection.setSelection(target_element.getText(), target_element.length());
+	    		}
+	    	}
+	    	catch(Exception e){
 	    		target_element.setText("");
 	    		target_element.setHint("0");
 	    	}
-	    	else{
-	    		target_element.setText(target_element_string);
-	    		Selection.setSelection(target_element.getText(), target_element.length());
+	    	//Textfeld Target-Value
+	    	constraint_target_value.setText(String.valueOf(constraint.getTargetValue()));
+	    	//Spinner gtltoreq
+	    	//Index "0" enspricht "<=", "2" entspricht "=" und "1" entspricht ">="
+	    	//Sign "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
+	    	if(constraint.getSign() == -1){
+	    		gtltoreq.setSelection(0);
 	    	}
-	    }
-	    catch(Exception e){
-	    	target_element.setText("");
-	    	target_element.setHint("0");
-	    }
-	    
-	    //Textfeld Target-Value
-	    constraint_target_value.setText(String.valueOf(constraint.getTargetValue()));
-   
-	    //Spinner gtltoreq
-    	//Index "0" enspricht "<=", "2" entspricht "=" und "1" entspricht ">="
-    	//Sign "-1" enspricht "<=", "0" entspricht "=" und "1" entspricht ">="
-	    if(constraint.getSign() == -1){
-	    	gtltoreq.setSelection(0);
-	    }
-	    else if(constraint.getSign() == 0){
-	    	gtltoreq.setSelection(2);
-	    }
-	    else{
-	    	gtltoreq.setSelection(1);
-	    }
+	    	else if(constraint.getSign() == 0){
+	    		gtltoreq.setSelection(2);
+	    	}
+	    	else{
+	    		gtltoreq.setSelection(1);
+	    	}
 	    }
     }	
 	

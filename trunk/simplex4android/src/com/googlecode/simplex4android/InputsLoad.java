@@ -16,22 +16,39 @@ import android.widget.TextView;
 
 public class InputsLoad extends Activity {
 	
+	//ResultCodes
+	private static final int CONSTRAINT_EDIT_RESULT = 1;
+	private static final int CONSTRAINT_CREATE_RESULT = 2;
+	private static final int TARGET_EDIT_RESULT = 3;
+	private static final int TARGET_CREATE_RESULT = 4;
+	
+	//RequestCodes
+	private static final int CONSTRAINT_EDIT_REQUEST = 1;
+	private static final int CONSTRAINT_CREATE_REQUEST = 2;
+	private static final int TARGET_EDIT_REQUEST = 3;
+	private static final int TARGET_CREATE_REQUEST = 4;
+	
+	//Ressourcen
 	private static ArrayAdapter<String> adapter_list_problems;
 	private ArrayList<ArrayList<Input>> listOfInputs;
 	private InputsDb mInputsDb;
 
-	    /** Called when the activity is first created. */
+	/** Called when the activity is first created. */
 	    public void onCreate(Bundle savedInstanceState) {
 	    	super.onCreate(savedInstanceState);
 	        setContentView(R.layout.inputs_load);
 
+	        //Ressourcen
+	        final ListView lv_problems = (ListView) findViewById(R.id.list_problems);
+		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
+		    final Button btn_new_problem= (Button) findViewById(R.id.btn_new_problem);
+	        
 	    	try {
 				mInputsDb = new InputsDb(InputsLoad.this);
 	        } catch (Exception ex) {
 				ex.printStackTrace();
 	        }
 
-	        ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 	        try{
 	        	adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row);
 	    		listOfInputs = mInputsDb.getListOfInputs();
@@ -46,7 +63,6 @@ public class InputsLoad extends Activity {
             hideOrShowEmptyText();
 	        
 		    //Zurück-Button
-		    final Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		    btn_cancel.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
 		        	finish();
@@ -54,7 +70,6 @@ public class InputsLoad extends Activity {
 		    });
 		    
 		    //Neues-Problem-Button
-		    final Button btn_new_problem= (Button) findViewById(R.id.btn_new_problem);
 		    btn_new_problem.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
 		        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
@@ -100,14 +115,6 @@ public class InputsLoad extends Activity {
 			}
 			else{
 				params_text_list_empty.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-			}
-			text_list_empty.requestLayout();
-			
-			if(mInputsDb.getListOfInputs().isEmpty()){
-				params_text_list_empty.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-			}
-			else{
-				params_text_list_empty.height = 0;
 			}
 			text_list_empty.requestLayout();
 		}

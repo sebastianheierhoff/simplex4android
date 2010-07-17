@@ -1,31 +1,56 @@
 package com.googlecode.simplex4android;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
 public class SimplexHistoryShow extends Activity {
 	
-	SimplexHistory[] simplexhistoryarray;
-	SimplexHistory current;
-	int currenti;
-	int currentphase;
-	WebView mWebView;
-	String tableauToHtml;
+	//ResultCodes
+	private static final int CONSTRAINT_EDIT_RESULT = 1;
+	private static final int CONSTRAINT_CREATE_RESULT = 2;
+	private static final int TARGET_EDIT_RESULT = 3;
+	private static final int TARGET_CREATE_RESULT = 4;
+	
+	//RequestCodes
+	private static final int CONSTRAINT_EDIT_REQUEST = 1;
+	private static final int CONSTRAINT_CREATE_REQUEST = 2;
+	private static final int TARGET_EDIT_REQUEST = 3;
+	private static final int TARGET_CREATE_REQUEST = 4;
+	
+	//Ressourcen
+	private static ArrayAdapter<String> adapter_list_problems;
+	private static ArrayList<ArrayList<Input>> listOfInputs;
+	private static InputsDb mInputsDb;
+	private static SimplexHistory[] simplexhistoryarray;
+	private static SimplexHistory current;
+	private static int currenti;
+	private static int currentphase;
+	private static WebView mWebView;
+	private static String tableauToHtml;
 
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
 
-    	//simplexhistoryarray = this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	//Ressourcen
+    	final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
+    	final Button btn_first = (Button) findViewById(R.id.btn_first);
+    	final Button btn_previous = (Button) findViewById(R.id.btn_previous);
+    	final Button btn_next = (Button) findViewById(R.id.btn_next);
+    	final Button btn_last = (Button) findViewById(R.id.btn_last);
+    	
     	simplexhistoryarray = InputShow.simplexhistoryarray;
     	
-    	final Button btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
     	if(simplexhistoryarray[0] != null){
     		currentphase = 1;
     		current = simplexhistoryarray[0];
@@ -53,7 +78,6 @@ public class SimplexHistoryShow extends Activity {
 
 
     	//First-Button
-    	final Button btn_first = (Button) findViewById(R.id.btn_first);
 	    btn_first.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	findViewById(R.id.btn_next).setEnabled(true);
@@ -69,7 +93,6 @@ public class SimplexHistoryShow extends Activity {
 	    });	    
 	    
 	    //Previous-Button
-    	final Button btn_previous = (Button) findViewById(R.id.btn_previous);
 	    btn_previous.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	findViewById(R.id.btn_next).setEnabled(true);
@@ -86,7 +109,6 @@ public class SimplexHistoryShow extends Activity {
 	    });	  
 	    
 	    //Next-Button
-    	final Button btn_next = (Button) findViewById(R.id.btn_next);
 	    btn_next.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	findViewById(R.id.btn_previous).setEnabled(true);
@@ -106,7 +128,6 @@ public class SimplexHistoryShow extends Activity {
 	    });	    
 	    
 	    //Last-Button
-    	final Button btn_last = (Button) findViewById(R.id.btn_last);
 	    btn_last.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v) {
 	        	findViewById(R.id.btn_previous).setEnabled(true);
@@ -152,9 +173,13 @@ public class SimplexHistoryShow extends Activity {
 	    //Zurück-Button (zurück zur InputShow)
     	final Button btn_back = (Button) findViewById(R.id.btn_back);
 	    btn_back.setOnClickListener(new OnClickListener() {
-	    	public void onClick(View v) {
-	    		//Zurück zu InputShow
-	    		//TODO: Code einfügen
+	    	@SuppressWarnings("unchecked")
+			public void onClick(View v) {
+		        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+		        InputsEditIntent.putExtra("inputs", (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
+		        InputsEditIntent.putExtra("edit", true);
+		        InputsEditIntent.putExtra("id", SimplexHistoryShow.this.getIntent().getIntExtra("id", -1));
+		    	startActivity(InputsEditIntent);
 	    	}
 	    });
 

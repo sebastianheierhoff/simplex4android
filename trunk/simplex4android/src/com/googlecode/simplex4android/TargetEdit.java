@@ -32,15 +32,26 @@ public class TargetEdit extends Activity {
 	static final int TARGET_EDIT_REQUEST = 3;
 	static final int TARGET_CREATE_REQUEST = 4;
 	
-	static Target target = new Target();
+	//Ressourcen
+	private static Target target = new Target();
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.target_edit);
 
-	    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+	    //Ressources
+		final Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
+	    final EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+	    final int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
+				R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
+				R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
+	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
+	    final Button x_minus = (Button) findViewById(R.id.btn_x_minus);
+	    final Button add_target_element = (Button) findViewById(R.id.btn_add_target_element);
+    	final Button add = (Button) findViewById(R.id.btn_add);
+	    final Button back = (Button) findViewById(R.id.btn_back);
 
+	    
 	    //Behandlung der verschiedenen Intents
 	    if(this.getIntent().getBooleanExtra("create", false) ==  true){
 	    	target = new Target();
@@ -49,12 +60,11 @@ public class TargetEdit extends Activity {
 	    	target = (Target) this.getIntent().getSerializableExtra("target"); //Target laden
 	    }
     
+	    
 		//Spinner minmax
-		Spinner minmax = (Spinner) findViewById(R.id.spinner_minmax);
 		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
 		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		minmax.setAdapter(adapter_minmax);
-
 	    minmax.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		    	//Index "0" enspricht "min", "1" entspricht "max"
@@ -71,7 +81,6 @@ public class TargetEdit extends Activity {
 	    });
 	    
 	    //Textfeld Target-Element
-	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    target_element.setRawInputType(android.text.InputType.TYPE_NULL);
 	    target_element.setOnFocusChangeListener(new OnFocusChangeListener(){
 	    	public void onFocusChange(View v, boolean b){
@@ -87,10 +96,6 @@ public class TargetEdit extends Activity {
 		});
 	    
 	    //Keyboard-Button
-	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
-									R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
-									R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
-		
 		for(int i=0; i<keyboardButtons.length; i++){
 			Button[] btns = new Button[keyboardButtons.length];
 			btns[i] = (Button) findViewById(keyboardButtons[i]);
@@ -119,7 +124,6 @@ public class TargetEdit extends Activity {
 		}
 		
 	    //"Xi erhöhen"-Button
-	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
 	    OnClickListener x_plus_action = new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -135,7 +139,6 @@ public class TargetEdit extends Activity {
 	    x_plus.setOnClickListener (x_plus_action);
 	    
 	    //"Xi verringern"-Button
-	    final Button x_minus = (Button) findViewById(R.id.btn_x_minus);
 	    x_minus.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
 	    		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
@@ -172,7 +175,6 @@ public class TargetEdit extends Activity {
 	    });
 
 		//Hinzufügen-Button
-	    final Button add_target_element = (Button) findViewById(R.id.btn_add_target_element);
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -208,7 +210,6 @@ public class TargetEdit extends Activity {
 		});
 	    
 	    //Fertig-Button
-    	final Button add = (Button) findViewById(R.id.btn_add);
 	    add.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	    	    EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -230,7 +231,6 @@ public class TargetEdit extends Activity {
 	    });
 	    
 	    //Zurück-Button
-	    final Button back = (Button) findViewById(R.id.btn_back);
 	    back.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	setResult(RESULT_CANCELED);
