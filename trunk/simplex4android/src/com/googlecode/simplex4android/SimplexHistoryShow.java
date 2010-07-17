@@ -28,9 +28,6 @@ public class SimplexHistoryShow extends Activity {
 	private static final int TARGET_CREATE_REQUEST = 4;
 	
 	//Ressourcen
-	private static ArrayAdapter<String> adapter_list_problems;
-	private static ArrayList<ArrayList<Input>> listOfInputs;
-	private static InputsDb mInputsDb;
 	private static SimplexHistory[] simplexhistoryarray;
 	private static SimplexHistory current;
 	private static int currenti;
@@ -167,6 +164,8 @@ public class SimplexHistoryShow extends Activity {
 	    		//Buttons btn_first und btn_previous deaktivieren
 	        	findViewById(R.id.btn_first).setEnabled(false);
 	        	findViewById(R.id.btn_previous).setEnabled(false);
+	        	findViewById(R.id.btn_next).setEnabled(false);
+	        	findViewById(R.id.btn_last).setEnabled(false);
 	    	}
 	    });
 
