@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -179,6 +180,10 @@ public class TargetEdit extends Activity {
 	    	public void onClick(View v){
 	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	        	EditText target = (EditText) findViewById(R.id.edittext_target);
+	        	target.setHorizontalScrollBarEnabled(false);
+	        	target.setHorizontalScrollBarEnabled(true);
+	        	target.computeScroll();
+
 	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
 	        		double value;
 	        		if(target_element.getText().toString().equals("")){

@@ -1,5 +1,4 @@
 Textfelder: grauer Rand oben
-Speichern/Laden -> Exceptions
 Ergebnis anzeigen (auf der jeweils letzen Seite, unter dem Tableau)
 nächster Schritt (dualer/primaler Simplex-Algorithmus), Art des aktuellen Tableaus anzeigen
 Textfelder/Listview horizontal scrollbar machen, wenn Zielfunktion/NB zu lang
@@ -37,6 +36,7 @@ Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) http://www.custom
 Sprachausgabe
 
 [Erledigt]
+Speichern/Laden -> Exceptions
 Erkennen ob dual oder primal gelöst wird/lösbar, Methoden zum Prüfen schreiben, Testfälle				
 Zulässigkeit der Probleme prüfen!, EINSTELLUNGEN: z.B. boolean für dualen Simplex???
 Zyklusschutz: choose-Methoden dahingehend angepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
