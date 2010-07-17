@@ -9,50 +9,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:text="Aktuelles Tableau:"/>
+        android:text="Tutorial:"/>
     <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
   	  	android:id="@+id/webview_tableau"
 		android:layout_below="@id/label"
 		android:layout_margin="5dip"
    		android:layout_width="fill_parent"
    		android:layout_height="200dip"	/>
-    <Button
-    	android:id="@+id/btn_last"
-    	android:background="@drawable/btn_last"
-        android:layout_width="wrap_content"
-        android:layout_height="45dip"
-        android:layout_below="@id/webview_tableau"
-        android:layout_alignParentRight="true" />
-    <Button
-        android:id="@+id/btn_next"
-    	android:background="@drawable/btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="45dip"
-        android:layout_toLeftOf="@id/btn_last"
-        android:layout_alignTop="@id/btn_last" />
-    <Button
-        android:id="@+id/btn_previous"
-        android:background="@drawable/btn_previous"
-        android:layout_width="wrap_content"
-        android:layout_height="45dip"
-        android:layout_toLeftOf="@id/btn_next"
-        android:layout_alignTop="@id/btn_next"
-        android:enabled="false" />
-    <Button
-        android:id="@+id/btn_first"
-    	android:background="@drawable/btn_first"
-        android:layout_width="wrap_content"
-        android:layout_height="45dip"
-        android:layout_toLeftOf="@id/btn_previous"
-        android:layout_alignTop="@id/btn_previous"
-        android:enabled="false" />
-    <TextView
-        android:id="@+id/textview_navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/btn_first"
-        android:layout_alignBaseline="@id/btn_first"
-        android:text="Navigation:"/>
 	<ImageView 
 		android:id="@+id/imageview_logo"
 		android:src="@drawable/simplex4android_logo"
@@ -70,13 +33,4 @@
 	    android:layout_alignParentBottom="true"
 	    android:text="Zurück"
 	    android:gravity="bottom"/> 
-	<Button
-    	android:id="@+id/btn_switchphases"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/btn_back"
-	    android:layout_alignParentBottom="true"
-        android:text="2. Phase"
-        android:gravity="bottom"
-        android:visibility="invisible" />
 </RelativeLayout>
