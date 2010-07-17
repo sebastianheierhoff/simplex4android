@@ -4,11 +4,7 @@
 
 package com.googlecode.simplex4android;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -112,15 +108,19 @@ public class InputShow extends Activity{
 	    	    //Dialog, um Einstellungen vorzunehmen
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
 	        	builder.setTitle("Simplex-Methode");
-	        	builder.setItems(settings, new DialogInterface.OnClickListener() {
-	        		public void onClick(DialogInterface dialog, int item) {
+	        	builder.setSingleChoiceItems(settings, ((Target) inputs.get(0)).getUserSettings(), new DialogInterface.OnClickListener() {
+	        	    public void onClick(DialogInterface dialog, int item) {
 	        			if(settings[item].equals("Primal")){
 	        				((Target) inputs.get(0)).setUserSettings(0);
+	        				dialog.cancel();
 	        			}
 	        			else{
 	        				((Target) inputs.get(0)).setUserSettings(1);
+	        				dialog.cancel();
 	        			}
-	        			Toast.makeText(getApplicationContext(), settings[item] +"e Simplex-Methode gewählt!", Toast.LENGTH_SHORT).show();    }});
+	        			Toast.makeText(getApplicationContext(), settings[item] +"e Simplex-Methode gewählt!", Toast.LENGTH_SHORT).show();
+	        	    }
+	        	});
 	        	AlertDialog alert = builder.create();
 	        	alert.show();
 	        }
@@ -190,6 +190,8 @@ public class InputShow extends Activity{
 	    	}
 	    });
 
+	    if(inputs.get(0) == null) btn_save.setEnabled(false); //Button deaktiviert, solange keine Zielfunktion angelegt wurde.
+	    
 		//Start-Button
 		final Button btn_start = (Button) findViewById(R.id.btn_start);
 		btn_start.setOnClickListener(new OnClickListener() {
@@ -217,8 +219,11 @@ public class InputShow extends Activity{
 				startActivity(SHShowIntent);
 			}
 		});
+
+		if(inputs.size() <= 1) btn_start.setEnabled(false); //Button deaktiviert, solange nicht mindestens eine NB angelegt wurde.
 	}
 
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		Target target;
 		Constraint constraint;
@@ -234,7 +239,9 @@ public class InputShow extends Activity{
         		adapter_list_target.insert(target.toString(),0);
         		inputs.set(0, target);
     		    Toast.makeText(InputShow.this,"Zielfunktion bearbeitet",Toast.LENGTH_LONG).show();
-    		    break;
+            	findViewById(R.id.btn_settings).setEnabled(true);
+            	findViewById(R.id.btn_save).setEnabled(true);
+            	break;
         	case TARGET_CREATE_RESULT:
             	try{
             		target = (Target) data.getSerializableExtra("target");
@@ -246,6 +253,8 @@ public class InputShow extends Activity{
             	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
             	}
+            	findViewById(R.id.btn_settings).setEnabled(true);
+            	findViewById(R.id.btn_save).setEnabled(true);
             	break;
         	case CONSTRAINT_EDIT_RESULT:
         		constraint = (Constraint) data.getSerializableExtra("constraint");
@@ -268,6 +277,7 @@ public class InputShow extends Activity{
             	catch(Exception ex){
 	    			Toast.makeText(InputShow.this,ex.getMessage(),Toast.LENGTH_LONG).show();
             	}
+            	findViewById(R.id.btn_start).setEnabled(true);
             	break;
 			default:
                 break;
