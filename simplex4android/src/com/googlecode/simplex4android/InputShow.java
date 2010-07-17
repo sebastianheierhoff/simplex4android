@@ -38,7 +38,7 @@ public class InputShow extends Activity{
 	private static int id;
 	private static ArrayList<Input> inputs;
 	private static InputsDb data;
-	private SimplexHistory[] simplexhistoryarray;
+	static SimplexHistory[] simplexhistoryarray;
 	private static ArrayAdapter<String> adapter_list_constraint;
 	private static ArrayAdapter<String> adapter_list_target;
 	private static final String[] settings = {"Primal", "Dual"};
@@ -92,7 +92,7 @@ public class InputShow extends Activity{
 		    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
 	        	ShowMainIntent.putExtra("inputs", inputs); 
 	            ShowMainIntent.putExtra("edit", true);
-	            ShowMainIntent.putExtra("id", -1);
+	            ShowMainIntent.putExtra("id", id);
 	        	startActivity(ShowMainIntent);
 	        	finish();
 	     	}
@@ -141,27 +141,27 @@ public class InputShow extends Activity{
 	    				data = new InputsDb(InputShow.this);
 	    			}
 	    			catch(Exception ex){
-						Toast.makeText(InputShow.this,"Fehler beim Speichern1!",Toast.LENGTH_LONG).show();
+						Toast.makeText(InputShow.this,"Fehler beim Anlegen der Datei!",Toast.LENGTH_SHORT).show();
 						return;
 	    			}
-	    			if(InputShow.this.getIntent().getBooleanExtra("edit", false) && InputShow.this.getIntent().getIntExtra("id", -1) != -1){//Falls das Problem geladen wurde
+	    			if(InputShow.this.getIntent().getBooleanExtra("edit", false) && id != -1){//Falls das Problem geladen wurde
 	    				AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
 	    				builder.setMessage("Problem überschreiben?")
 	    				.setCancelable(false)
 	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.setInput(InputShow.this, InputShow.this.getIntent().getIntExtra("id", -1), inputs);
+									data.setInput(InputShow.this, id, inputs);
 								} catch (Exception ex) {
-									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
+									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 									return;
 								}
-	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_LONG).show();
+	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
 	    					}       
 	    				})
 	    				.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
-	    						dialog.cancel();
+	    						dialog.cancel(); //Dialog schließen
 	    					}
 	    				})
 	    				.setNeutralButton("Als neues Problem", new DialogInterface.OnClickListener() {
@@ -169,10 +169,10 @@ public class InputShow extends Activity{
 	    						try {
 									data.addInput(InputShow.this, inputs);
 								} catch (Exception e) {
-									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
+									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 									return;
 								}
-	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_LONG).show();
+	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
 	    					}
 	    				});
 	    				AlertDialog alert = builder.create();
@@ -182,12 +182,12 @@ public class InputShow extends Activity{
 	    				try {
 							data.addInput(InputShow.this, inputs);
 						} catch (Exception ex) {
-							Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_LONG).show();
+							Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 							ex.printStackTrace();
 							return;
 						}
-	    				int id = data.getListOfInputs().size()-1;
-	    				Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_LONG).show();
+	    				id = data.getListOfInputs().size()-1;
+	    				Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
 	    				InputShow.this.getIntent().putExtra("edit", true);
 	    				InputShow.this.getIntent().putExtra("id", id);
 	    			}
@@ -219,6 +219,8 @@ public class InputShow extends Activity{
 					}
 				}
 				Intent SHShowIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryShow");
+				SHShowIntent.putExtra("inputs", inputs);
+				SHShowIntent.putExtra("id", id);
 				//SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe //TODO: Serializable implementieren
 				startActivity(SHShowIntent);
 			}
@@ -294,6 +296,9 @@ public class InputShow extends Activity{
         int position = lv_constraint.indexOfChild(rl_row);
         adapter_list_constraint.remove(adapter_list_constraint.getItem(position));
         inputs.remove(position +1);
+        if(inputs.size()<1){
+        	 findViewById(R.id.btn_start).setEnabled(false);
+        }
         hideOrShowEmptyTexts();
 	}
 	
