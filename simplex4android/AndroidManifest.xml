@@ -6,7 +6,7 @@
     <application android:icon="@drawable/icon" android:label="@string/app_name">
       	<activity android:name=".simplex4android"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,27 +15,32 @@
         </activity>
       	<activity android:name=".InputShow"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
         </activity>
       	<activity android:name=".InputsLoad"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
         </activity>
       	<activity android:name=".ConstraintEdit"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
         </activity>
       	<activity android:name=".TargetEdit"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
         </activity>
-              	<activity android:name=".SimplexHistoryShow"
+       	<activity android:name=".SimplexHistoryShow"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:screenOrientation="landscape">
+        </activity>
+       	<activity android:name=".Tutorial"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:screenOrientation="landscape">
         </activity>
 	</application>

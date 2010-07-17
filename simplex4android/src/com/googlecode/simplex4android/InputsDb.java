@@ -53,7 +53,6 @@ public class InputsDb {
 	 * @throws Exception
 	 */
 	public void addProblem(Context context, ArrayList<Input> input) throws Exception{
-		this.readFile(context);
 		listOfInputs.add(input);
 		this.writeFile(context);
 	}
@@ -66,7 +65,6 @@ public class InputsDb {
 	 * @throws Exception
 	 */
 	public void setProblem(Context context, int i, ArrayList<Input> input) throws Exception{
-		this.readFile(context);
 		this.listOfInputs.set(i, input);
 		this.writeFile(context);
 	}
@@ -78,7 +76,6 @@ public class InputsDb {
 	 * @throws Exception
 	 */
 	public void removeProblem(Context context, int position) throws Exception{
-		this.readFile(context);
 		listOfInputs.remove(position);
 		this.writeFile(context);
 	}

@@ -151,9 +151,15 @@ public class InputShow extends Activity{
 	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.setProblem(InputShow.this, id, inputs);
-								} catch (Exception ex) {
-									Toast.makeText(InputShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
+									data.setProblem(InputShow.this, InputShow.this.id, inputs);
+								}
+	    						catch (Exception ex) {
+		    						try{
+		    							data.addProblem(InputShow.this, inputs);
+		    						}
+		    						catch(Exception ex1){
+			    						Toast.makeText(InputShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
+		    						}
 									return;
 								}
 	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
@@ -172,7 +178,10 @@ public class InputShow extends Activity{
 									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 									return;
 								}
-	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+			    				id = data.getListOfInputs().size()-1;
+			    				Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+			    				InputShow.this.getIntent().putExtra("edit", true);
+			    				InputShow.this.getIntent().putExtra("id", id);
 	    					}
 	    				});
 	    				AlertDialog alert = builder.create();
