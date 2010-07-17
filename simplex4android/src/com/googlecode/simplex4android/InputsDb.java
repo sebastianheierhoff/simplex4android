@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //Klasse zum Laden/Speichern von Zielfunktionen/Nebenbedingungen - TODO: Kommentare hinzufügen
 //TODO: Kann man die Klasse statisch machen??? Brauche ich umbeding ein Objekt?
@@ -108,6 +109,7 @@ public class InputsDb {
 		}
 		ois = new ObjectInputStream(fis);
 		Object[] input = (Object[]) ois.readObject();
+		System.out.println(Arrays.toString(input));
 		for(int i=0;i<input.length;i++){
 			listOfInputs.add((ArrayList<Input>)input[i]);
 		}		
@@ -119,7 +121,7 @@ public class InputsDb {
 	 * @throws IOException
 	 */	
 	public void saveInputs()throws IOException{
-		FileOutputStream fos = new FileOutputStream("simplexProbleme.dat");
+		FileOutputStream fos = new FileOutputStream("simplexProblems.dat", false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(listOfInputs.toArray());
 		oos.close();

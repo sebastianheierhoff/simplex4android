@@ -10,16 +10,16 @@ import java.util.Arrays;
  * @author Simplex4Android
  */
 public class SimplexLocal {
-	
+
 	public SimplexLocal(){
 	}
-	
+
 	public static void main(String[] args){
 		boolean debug = true;
 		SimplexHistory sh = new SimplexHistory();
-		
+
 		//Settings lesen, SimplexSettings erzeugen
-		
+
 		//Eingabe lesen
 		//Beispiel-Tableau
 		//double[][] tableau = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{0,0,0,0,0,0,0}};
@@ -36,14 +36,20 @@ public class SimplexLocal {
 		//double[][] tab = {{-1.5,3,0,0,5,-1,6},{0,1,0,5,0,-1,3},{0.5,-1,5,0,0,1,1},{0,0,0,0,0,0,0}};
 		//Beispiel-Zielfunktion - Zielfunktion muss um eine 0 verlängert werden, um Zielwert berechnen zu können!!!
 		//double[] target = {1,2,7,5,0,0,0}; 
-		
+
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
-		Target t = new Target();
-		t.setValue(0,1);
-		t.setValue(1,2);
-		t.setValue(2,3);
-		t.setMinOrMax(false);
+		Target t1 = new Target();
+		t1.setValue(0,1);
+		t1.setValue(1,2);
+		t1.setValue(2,3);
+		t1.setMinOrMax(false);
 		
+		Target t2 = new Target();
+		t2.setValue(0,7);
+		t2.setValue(1,8);
+		t2.setValue(2,9);
+		t2.setMinOrMax(false);
+
 		Constraint c1 = new Constraint();
 		c1.setValue(0, 1);
 		c1.setSign(-1);
@@ -52,88 +58,122 @@ public class SimplexLocal {
 		c2.setValue(1, 1);
 		c2.setSign(0);
 		c2.setTargetValue(10);
+		
 		Constraint c3 = new Constraint();
 		c3.setValue(2, 1);
 		c3.setSign(1);
 		c3.setTargetValue(20);
 		Constraint c4 = new Constraint();
-		c4.setValue(1, 0);
-		c4.setValue(2, 1);
-		c4.setSign(1);
-		c4.setTargetValue(20);
-		
-		ArrayList<Input> input = new ArrayList<Input>();
-		input.add(t);
-		input.add(c1);
-		input.add(c2);
-		input.add(c3);
-		
-		
-		InputsDb read = null;
-		try {
-			read = new InputsDb();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		c4.setValue(3, 1);
+		c4.setSign(-1);
+		c4.setTargetValue(40);
+
+		ArrayList<Input> input1 = new ArrayList<Input>();
+		input1.add(t1);
+		input1.add(c1);
+		input1.add(c2);
+		ArrayList<Input> input2 = new ArrayList<Input>();
+		input2.add(t2);
+		input2.add(c3);
+		input2.add(c4);
+
+
+		InputsDb save;
 		try{
-			//save.saveProblems();
-		}catch(Exception e){
+			save = new InputsDb();
+			save.addInput(input1);
+			save.addInput(input2);
+			save.saveInputs();
+		}catch(Exception e) {
 			e.printStackTrace();
+			save = null;
 		}
 		try{
+			System.out.println("Speichern durchgeführt!");
+			System.out.println();
+			System.out.println("Erstes Problem:");
+			System.out.println(save.getInput(0).get(0).toString());
+			System.out.println(save.getInput(0).get(1).toString());
+			System.out.println(save.getInput(0).get(2).toString());
+			System.out.println("Zweites Problem:");
+			System.out.println(save.getInput(1).get(0).toString());
+			System.out.println(save.getInput(1).get(1).toString());
+			System.out.println(save.getInput(1).get(2).toString());
+		}catch(NullPointerException npe1){
+			npe1.printStackTrace();
+		}
+
+		InputsDb read;
+		try{
+			read = new InputsDb();
 			read.readInputs();
 		}catch(Exception e){
 			e.printStackTrace();
+			read = null;
 		}
-		
-		
+		try{
+			System.out.println();
+			System.out.println("Laden durchgeführt!");
+			System.out.println();			
+			System.out.println("Erstes Problem:");
+			System.out.println(read.getInput(0).get(0).toString());
+			System.out.println(read.getInput(0).get(1).toString());
+			System.out.println(read.getInput(0).get(2).toString());
+			System.out.println("Zweites Problem:");
+			System.out.println(read.getInput(1).get(0).toString());
+			System.out.println(read.getInput(1).get(1).toString());
+			System.out.println(read.getInput(1).get(2).toString());
+		}catch(NullPointerException npe2){
+			npe2.printStackTrace();
+		}
+
+
 		//SimplexLogic.findPivots(firstProblem);
 		//SimplexLogic.calcDeltas(firstProblem);
 		//double[] deltas = {2.5,-4,0,0,0,2,22};
-//		System.out.println(Arrays.toString(firstProblem.getPivots()));
-//		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
-//		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
+		//		System.out.println(Arrays.toString(firstProblem.getPivots()));
+		//		System.out.println(firstProblem.targetToString()); // KOMISCHE TARGET,PRÜFEN!!!
+		//		System.out.println(Arrays.toString(firstProblem.getRow(firstProblem.getNoRows()-1))); // MACHT GRÜTZE, PRÜFEN!!!
 		//sh.addElement(firstProblem);
 		//sh.toString();
-//		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
-//		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
-//		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
-//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
-//
-//		//SimplexProblem in History einfügen
-//		firstProblem.setField(0, 4, 5.0);
-//		firstProblem.setField(1, 3, 5.0);
-//		firstProblem.setField(2, 2, 5.0);
-//		System.out.println(firstProblem.getField(0, 4));
-//		System.out.println(firstProblem.getField(1, 3));
-//		System.out.println(firstProblem.getField(2, 2));
-//		firstProblem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(firstProblem);
-//		System.out.println(firstProblem.getField(0, 6));
-//		System.out.println(firstProblem.getField(1, 7));
-//		System.out.println(firstProblem.getField(2, 8));
-//		sh.addElement(firstProblem);
-//				
+		//		if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
+		//		if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
+		//		if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
+		//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
+		//
+		//		//SimplexProblem in History einfügen
+		//		firstProblem.setField(0, 4, 5.0);
+		//		firstProblem.setField(1, 3, 5.0);
+		//		firstProblem.setField(2, 2, 5.0);
+		//		System.out.println(firstProblem.getField(0, 4));
+		//		System.out.println(firstProblem.getField(1, 3));
+		//		System.out.println(firstProblem.getField(2, 2));
+		//		firstProblem = (SimplexProblemPrimal) SimplexLogic.addArtificialVars(firstProblem);
+		//		System.out.println(firstProblem.getField(0, 6));
+		//		System.out.println(firstProblem.getField(1, 7));
+		//		System.out.println(firstProblem.getField(2, 8));
+		//		sh.addElement(firstProblem);
+		//				
 		//if(debug == true){System.out.println("Tableau: \n" + firstProblem.tableauToString());} 
 		//if(debug == true){System.out.println("Zielfunktion: " + firstProblem.targetToString());}
 		//if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(firstProblem.getPivots()));}
-//		
-//		
-//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
-//
+		//		
+		//		
+		//		//if(debug == true){System.out.println("HTML: "+ firstProblem.tableauToHtml());}
+		//
 		//SimplexLogic auf SimplexProblem(e) ausführen, bis optimale Lösung gefunden, dabei Ausgabe aller Zwischenschritte
-//		do{
-//			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
-//			current = SimplexLogic.simplex(current);
-//
-//			//Debug-Ausgabe
-//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
-//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
-//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
-//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
-//			
-//			sh.addElement(current);
-//		}
-//		while(sh.getLastElement().getOptimal()!=true);
+		//		do{
+		//			SimplexProblemDual current = (SimplexProblemDual) sh.getLastElement();
+		//			current = SimplexLogic.simplex(current);
+		//
+		//			//Debug-Ausgabe
+		//			if(debug == true){System.out.println("Tableau: \n" + current.tableauToString());}
+		//			if(debug == true){System.out.println("Basisspalten: " + Arrays.toString(current.getPivots()));}
+		//			if(debug == true){System.out.println("Optimal: "+current.getOptimal());}
+		//			if(debug == true){System.out.println("HTML: "+current.tableauToHtml());}
+		//			
+		//			sh.addElement(current);
+		//		}
+		//		while(sh.getLastElement().getOptimal()!=true);
 	}	
-	
 }
