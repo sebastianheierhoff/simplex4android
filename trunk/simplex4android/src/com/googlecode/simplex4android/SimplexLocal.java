@@ -77,11 +77,15 @@ public class SimplexLocal {
 		input2.add(c3);
 		input2.add(c4);
 
+		ArrayList<ArrayList<Input>> save_list = new ArrayList<ArrayList<Input>>();
+		save_list.add(input1);
+		save_list.add(input2);
 
 		InputsDb save;
 		try{
 			save = new InputsDb();
-			save.addInput(input1);
+			save.readFile();
+			save.setListOfInputs(save_list);
 			System.out.println("Speichern durchgeführt!");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -98,8 +102,10 @@ public class SimplexLocal {
 		}
 
 		InputsDb read;
+		ArrayList<ArrayList<Input>> read_list = null; 
 		try{
 			read = new InputsDb();
+			read_list = read.getListOfInputs();
 			System.out.println();	
 			System.out.println("Laden durchgeführt!");
 		}catch(Exception e){
@@ -110,8 +116,7 @@ public class SimplexLocal {
 		try{		
 			System.out.println();			
 			System.out.println("Erstes Problem:");
-			ArrayList<ArrayList<Input>> inputs = read.getListOfInputs();
-			System.out.println(inputs.get(0));
+			System.out.println(read_list.get(0));
 		}catch(NullPointerException npe2){
 			npe2.printStackTrace();
 		}
