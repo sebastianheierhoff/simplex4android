@@ -20,7 +20,6 @@ public class InputsDb {
 		this.readFile();
 	}
 	
-	
 	public void setListOfInputs(ArrayList<ArrayList<Input>> listOfInputs){
 		this.listOfInputs = listOfInputs;
 	}
@@ -29,8 +28,38 @@ public class InputsDb {
 		return this.listOfInputs;
 	}
 	
+	public void addInput(ArrayList<Input> input) throws Exception{
+		listOfInputs.add(input);
+		this.writeFile();
+	}
+
+	public void setInput(int i, ArrayList<Input> input) throws Exception{
+		if(i>=(this.listOfInputs.size())){
+			this.addInput(input);
+		}else{
+			this.listOfInputs.set(i, input);
+		}
+	}
+	
+	public void removeInput(int position) throws Exception{
+		listOfInputs.remove(position);
+		this.writeFile();
+	}
+	
+	public ArrayList<Input> getInput(int i){
+		return listOfInputs.get(i);	
+	}
+	
+	public String[] getNames() throws NegativeArraySizeException{
+		String[] s = new String[listOfInputs.size()-1];
+		for(int i=0;i<listOfInputs.size();i++){
+			s[i] = listOfInputs.get(i).get(0).toString();
+		}
+		return s;
+	}
+	
 	public void writeFile() throws Exception {
-		FileOutputStream fos = new FileOutputStream("simplexProblems.dat");
+		FileOutputStream fos = new FileOutputStream("simplexProblems.dat", false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 		oos.writeObject(listOfInputs);
