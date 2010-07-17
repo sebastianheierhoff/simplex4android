@@ -33,7 +33,6 @@ public class ConstraintEdit extends Activity {
 
 	protected static Constraint constraint;
 	private EditText addto;
-	private int maxi; //Höchstes xi in der Zielfunktion
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -51,12 +50,6 @@ public class ConstraintEdit extends Activity {
 	    addto = (EditText) findViewById(R.id.edittext_target_element);
 	    addto.requestFocus();
 
-	    maxi = this.getIntent().getIntExtra("maxi", 0);
-	    if(maxi == 0){
-        	setResult(RESULT_CANCELED);
-	    	finish();
-	    }
-	    
 	    //Spinner gtltoreq
 		Spinner gtltoreq = (Spinner) findViewById(R.id.spinner_gtltoreq);
 		ArrayAdapter<CharSequence> adapter_gtltoreq = ArrayAdapter.createFromResource(this, R.array.spinner_gtltoreq_values, android.R.layout.simple_spinner_item); 
@@ -177,9 +170,7 @@ public class ConstraintEdit extends Activity {
 	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
 		        	constraint.setValue(i, value);
 	    			target.setText(constraint.valuesToString());
-	    			if(i+1<maxi){
 	    				increment_xi();
-	    			}
 	        	}
 	    		else{
 	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
@@ -330,13 +321,7 @@ public class ConstraintEdit extends Activity {
 		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 		int edittext_x_value = Integer.valueOf(edittext_x.getText().toString().substring(1)).intValue();
-		if(edittext_x_value == maxi){
-			Toast.makeText(ConstraintEdit.this,"Fehler! Höchstes xi in der Zielfunktion = " + maxi,Toast.LENGTH_LONG).show();
-		    //Meldung: Höher geht nicht, da höchste xi in der Zielfunktion = maxi
-		}
-		else{
-			edittext_x_value++;//inkrementieren
-		}    			
+		edittext_x_value++;//inkrementieren
 		edittext_x.setText("x" + edittext_x_value);
 		try{
 			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));

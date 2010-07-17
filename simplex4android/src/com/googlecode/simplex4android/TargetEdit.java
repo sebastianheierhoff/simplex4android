@@ -220,8 +220,6 @@ public class TargetEdit extends Activity {
 	        		Intent TargetEditIntent = new Intent().putExtra("target", target);
 	        		if(TargetEdit.this.getIntent().getBooleanExtra("edit", false)){
 	        			setResult(TARGET_EDIT_RESULT, TargetEditIntent);
-		        		TargetEditIntent.putExtra("maxi_old", TargetEdit.this.getIntent().getIntExtra("maxi_old", -1));
-
 	        		}
 	        		else{
 	        			setResult(TARGET_CREATE_RESULT, TargetEditIntent);

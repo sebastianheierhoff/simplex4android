@@ -109,9 +109,9 @@ public class InputsDb {
 		}
 		ois = new ObjectInputStream(fis);
 		Object[] input = (Object[]) ois.readObject();
-		System.out.println(Arrays.toString(input));
+		this.listOfInputs = new ArrayList<ArrayList<Input>>();
 		for(int i=0;i<input.length;i++){
-			listOfInputs.add((ArrayList<Input>)input[i]);
+			this.listOfInputs.add((ArrayList<Input>)input[i]);
 		}		
 		ois.close();		
 	}

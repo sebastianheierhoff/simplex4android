@@ -100,7 +100,6 @@ public class InputShow extends Activity{
 	    constraint_new.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	        	Intent ConstraintCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ConstraintEdit");
-	        	ConstraintCreateIntent.putExtra("maxi", inputs.get(0).getValues().size());
 	        	ConstraintCreateIntent.putExtra("create", true);
 	        	startActivityForResult(ConstraintCreateIntent, CONSTRAINT_CREATE_REQUEST);
 	        }
@@ -231,31 +230,11 @@ public class InputShow extends Activity{
         		break;
         	case TARGET_EDIT_RESULT:
         		target = (Target) data.getSerializableExtra("target");
-        		int maxi_old = data.getIntExtra("maxi_old", -1);
         		adapter_list_target.remove(adapter_list_target.getItem(0));
         		adapter_list_target.insert(target.toString(),0);
         		inputs.set(0, target);
     		    Toast.makeText(InputShow.this,"Zielfunktion bearbeitet",Toast.LENGTH_LONG).show();
-        		
-        		//Constraints beschneiden, falls Target kürzer geworden ist.
-    		    int maxi_new = target.getValues().size();
-    		    if(maxi_new < maxi_old){
-    		    	if(inputs.size()>=2){ // nur Target in inputs enthalten
-    		    		adapter_list_constraint.clear();
-    		    		for(int i=1;i<inputs.size();i++){ // durch alle Inputs
-    		    			if(maxi_new<inputs.get(i).getValues().size()){ // Constraint enthält ungültige xi
-    		    				int del = inputs.get(i).getValues().size() - inputs.get(0).getValues().size(); // Anzahl zu löschender xi
-    		    				for(int j=0;j<del;j++){ // del-mal letztes xi löschen
-    		    					inputs.get(i).getValues().remove(inputs.get(i).getValues().size()-1);
-    		    				}
-    		    			}
-    		    			adapter_list_constraint.add(inputs.get(i).toString());
-    		    		}
-    		    		Toast.makeText(InputShow.this,"Ungültige xi aus den Nebenbedingungen entfernt.",Toast.LENGTH_LONG).show();
-		    			
-    		    	}
-    		    }
-        		break;
+    		    break;
         	case TARGET_CREATE_RESULT:
             	try{
             		target = (Target) data.getSerializableExtra("target");
@@ -314,7 +293,6 @@ public class InputShow extends Activity{
         ConstraintEditIntent.putExtra("constraint", constraint);
         ConstraintEditIntent.putExtra("edit", true);
         ConstraintEditIntent.putExtra("id", position);
-        ConstraintEditIntent.putExtra("maxi", inputs.get(0).getValues().size());
     	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
 	
@@ -332,7 +310,6 @@ public class InputShow extends Activity{
         Target target = (Target) inputs.get(0);
         Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
         ConstraintEditIntent.putExtra("target", target);
-        ConstraintEditIntent.putExtra("maxi_old", target.getValues().size());
         ConstraintEditIntent.putExtra("edit", true);
     	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
 	}
