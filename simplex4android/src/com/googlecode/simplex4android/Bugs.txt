@@ -14,7 +14,10 @@ Bitte eintragen:
 	InputShow:
 		Simplex-Methode anzeigen oder Menü mit Dots ausstatten. 
 			So kann aktuellen Setting nicht eingesehen werden!
-			Das ist besonders wichtig bei einem geladenen Problem!	
+			Das ist besonders wichtig bei einem geladenen Problem!
+		Löscht man die ZF wird man aufgefordert, eine neue anzulegen.
+			Allerdings gehen dann beim Klick auf "Zurück" alle Nebenbedingungen verloren.
+			An der Stelle würde man erwarten, mit zurück zurück zur Übersicht zu kommen.
 				
 	InputsLoad:
 		
