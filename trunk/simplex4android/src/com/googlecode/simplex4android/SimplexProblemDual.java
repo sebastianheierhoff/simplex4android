@@ -128,12 +128,20 @@ public class SimplexProblemDual extends SimplexProblem {
 		}
 		html = html + "</tr>\n";
 		// allerletzte Zeile mit den delta/f-Werten
-		html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
-		for(int i=0;i<deltaByF.size();i++){
-			if(deltaByF.get(i)>0)html = html + "<td nowrap>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
-			else html = html + "<td nowrap>&#8211;</td>";
+		if(deltaByF!=null){
+			html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
+			for(int i=0;i<deltaByF.size();i++){
+				if(deltaByF.get(i)>0)html = html + "<td nowrap>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
+				else html = html + "<td nowrap>&#8211;</td>";
+			}
+			html = html + "<td></td></tr>\n";
+		}else{
+			html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
+			for(int i=0;i<this.getTarget().length-1;i++){
+				html = html +"<td> &#8211; </td>";
+			}
+			html = html + "<td></td></tr>\n";
 		}
-		html = html + "<td></td></tr>\n";
 		html = html + "</table>\n</body>\n</html>";
 		return html;
 	}

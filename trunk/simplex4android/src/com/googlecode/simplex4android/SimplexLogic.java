@@ -813,7 +813,7 @@ public abstract class SimplexLogic {
 			phases[0].addElement(transformProblem((SimplexProblemPrimal)phases[0].getLastElement()));
 			return firstPhaseDual(phases);
 		}
-		if(phases[0].getLastElement().getLastColumn()[phases[0].getLastElement().getLastColumn().length-1]!=0)return phases;
+		if(Math.round(phases[0].getLastElement().getLastColumn()[phases[0].getLastElement().getLastColumn().length-1]*100000000.)/100000000.!=0)return phases;
 		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
 		if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
 			phases[0].deleteElement(phases[0].size()-2);
@@ -844,7 +844,7 @@ public abstract class SimplexLogic {
 			phases[0].addElement(transformProblem((SimplexProblemDual)phases[0].getLastElement()));
 			return firstPhasePrimal(phases);
 		}
-		if(phases[0].getLastElement().getLastColumn()[phases[0].getLastElement().getLastColumn().length-1]!=0)return phases;
+		if(Math.round(phases[0].getLastElement().getLastColumn()[phases[0].getLastElement().getLastColumn().length-1]*100000000.)/100000000.!=0)return phases;
 		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
 		if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
 			phases[0].deleteElement(phases[0].size()-2);
