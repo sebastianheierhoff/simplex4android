@@ -26,7 +26,9 @@
 		android:layout_height="52dip"
         android:hint="z.B. 7x1 + 13x2 + 12x3"
         android:layout_width="320dip"
-        android:scrollHorizontally="true"/>
+        android:scrollHorizontally="true"
+        android:fadingEdge="horizontal"
+	    android:fadingEdgeLength="20dip"/>
  	<Spinner 
  		android:id="@+id/spinner_gtltoreq"
  		android:layout_width="80dip"
@@ -39,7 +41,9 @@
         android:layout_width="62dip"
         android:layout_height="45dip"
 		android:layout_gravity="bottom"
-		android:scrollHorizontally="true"/>
+		android:scrollHorizontally="true"
+		android:fadingEdge="horizontal"
+	    android:fadingEdgeLength="5dip"/>
 	</LinearLayout>
 	<LinearLayout
 		android:orientation="horizontal"
@@ -69,7 +73,9 @@
 	        android:background="@drawable/textfield_default" 
 	        android:inputType="none"
 	        android:gravity="bottom"
-	        android:scrollHorizontally="true"/>
+	        android:scrollHorizontally="true"
+	        android:fadingEdge="horizontal"
+	        android:fadingEdgeLength="10dip"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
 			android:text="x1" 
