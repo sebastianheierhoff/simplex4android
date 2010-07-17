@@ -97,19 +97,19 @@ public class SimplexProblemDual extends SimplexProblem {
 		//1. Zeile: Zielfunktion
 		html = html + "<tr align=right>\n<td></td><td></td>";		// direkt inkl. zwei leeren Einträgen 
 		for(int i=0;i<this.getTarget().length-1;i++){
-			html = html + "<td>" + (Math.round(this.getTarget()[i]*100.)/100.) + "</td>";
+			html = html + "<td nowrap>" + (Math.round(this.getTarget()[i]*100.)/100.) + "</td>";
 		}
 		html = html + "<td></td></tr>\n";
 		//2. Zeile: zwei Zeilen frei Durchnummerierung der Spalten + x +x/f
 		html = html + "<tr align=right><td></td><td></td>";		// direkt inkl. zwei leeren Einträgen
 		for(int i=0;i<this.getTarget().length-1;i++){
-			html = html +"<td>"+ (i+1) +"</td>";
+			html = html +"<td nowrap>"+ (i+1) +"</td>";
 		}
-		html = html + "<td>x</td>";
+		html = html + "<td nowrap>x</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td>"+ this.getTarget()[pivots[i]]+"</td><td>" +(pivots[i]+1) +"</td>";
-			else html = html + "<tr align=right><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
+			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ this.getTarget()[pivots[i]]+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
+			else html = html + "<tr align=right nowrap><td>"+"&#8211;"+"</td><td nowrap>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
 					html = html  + "<td nowrap bgcolor=#CC0000>";
