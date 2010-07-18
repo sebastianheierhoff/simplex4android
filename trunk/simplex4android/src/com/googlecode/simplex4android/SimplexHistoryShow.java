@@ -243,6 +243,10 @@ public class SimplexHistoryShow extends Activity {
 			}
 			// Ausgabestring erstellen
 			for(int i=0; i<xSolutions.length;i++){
+				int count = 0;
+				if((count%5)==0){ // Umbrechen nach 5 Variablen
+					solution += "\n";
+				}
 				if(!(xSolutions[i]==0)){
 					if(solution.equals("")){
 						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
@@ -250,7 +254,15 @@ public class SimplexHistoryShow extends Activity {
 					else{
 						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
 					}		
+				}else{
+					if(solution.equals("")){
+						solution += "x" +(i+1) + " = " + 0;
+					}
+					else{
+						solution += ", x" +(i+1) + " = " + 0;	
+					}	
 				}
+				count++;
 			}
 		}
 		return solution;
