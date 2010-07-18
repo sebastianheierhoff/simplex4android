@@ -1,39 +1,11 @@
-Textfelder: grauer Rand oben
-Ergebnis anzeigen (auf der jeweils letzen Seite, unter dem Tableau)
 nächster Schritt (dualer/primaler Simplex-Algorithmus), Art des aktuellen Tableaus anzeigen
-Textfelder/Listview horizontal scrollbar machen, wenn Zielfunktion/NB zu lang
-Schatten (oben/unten) an ListViews entfernen
 Ausgabetabelle auf Bildschirmbreite skalieren
-Aktuelle Einstellung anzeigen (Selektor durch Radiobuttons ersetzen, Abbruch-Button, falls man Einstellungen nicht ändern möchte)
 Laden von Target/Constraints: Runden der Werte auf zwei Nachkommastellen, ansonsten mühselige Eingabe
-Icon.png überarbeiten
-Wie viele NB braucht man mindestens? Recherche!
 GUI inkl. Testen (jeder 30min per Hand! - oder Eike 2 Sekunden :-()
 Getter/Setter -> Exceptions, Fehlermeldungen (Wann, warum, was?)
-u.U. Hilfetexte für Eingabe, etc. durch langes Klicken??? oder: Verweis auf HTML-Doku, die über die Startseite zu erreichen ist.
-Anforderungen prüfen (siehe MAC-Folien, OSI)
 
-Anleitung/Handbuch vorbereiten (Layout, erste Formulierungen, Screenshots, etc.): 
-	Formulierungen:
-		besonders gut zum Schummeln in Klausuren, oder auch als Prof, wenn man keine Ahnung hat und peinliche Situationen an der Tafel vermeiden will/dabei gleichzeitig "HIP" sein möchte
-
-Bekannte Schwächen: 	aufgrund des kleinen Displays wird die Eingabe großer Probleme eher umständlich, insb. das Anzeigen
-						keine korrekte Implementierung von Brüchen sondern Typecast zu Double und damit u.U. Ungenauigkeit, insb. in der Anzeige Runden auf 2 Nachkommastellen, aber: intern weiterhin als double!
-				WICHTIG: Wir gehen davon aus, dass Eingaben lediglich über den Touch-Screen erfolgen, Hardware-Tastatur nicht deaktiviert, Prüfung der Eingabe aber unvollständig
-
-PowerPoint-Master vorbereiten!!!, mögliche Folieninhalte:
-	1. Folie: Name des Projektes, unsere Namen
-	2. 		: Warum Android?
-	3. 		: Besonderheiten: Entwicklung auf Android
-	4. 		: Code-Schnipsel: Layout-Files, GUI, besondere Methoden der Logik (???)
-	5. 		: Lessons-Learned: 	1. DU SOLLST AUF DEIN ECLIPSE HÖREN, denn ECLIPSE HAT IMMER RECHT
-								2. SOLLTE ECLIPSE EINMAL NICHT RECHT HABEN, TRITT AUTOMATISCH REGEL 1 in KRAFT 
-	
 Optional: 
-Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
 Seite wechseln durch "Wischen" nach links/rechts (Max) http://developer.android.com/guide/topics/ui/ui-events.html
-Anfangen zu rechnen durch starkes Schütteln -> Recherche (Max) http://www.customblog.de/2009/android/mit-android-sensoren-auslesen.html
-Sprachausgabe
 
 [Erledigt]
 Speichern/Laden -> Exceptions
@@ -42,3 +14,12 @@ Zulässigkeit der Probleme prüfen!, EINSTELLUNGEN: z.B. boolean für dualen Simple
 Zyklusschutz: choose-Methoden dahingehend angepasst, dass bei mehreren Möglichkeiten immer die Zeile/Spalte mit dem kleinsten Index gewählt wird.
 Testfälle (Stefan)
 Virtuelle Maschine (Sebastian)
+Textfelder: grauer Rand oben
+Ergebnis anzeigen (auf der jeweils letzen Seite, unter dem Tableau)
+Textfelder/Listview horizontal scrollbar machen, wenn Zielfunktion/NB zu lang
+Schatten (oben/unten) an ListViews entfernen
+Aktuelle Einstellung anzeigen (Selektor durch Radiobuttons ersetzen, Abbruch-Button, falls man Einstellungen nicht ändern möchte)
+Icon.png überarbeiten
+Wie viele NB braucht man mindestens? Recherche!
+Anforderungen prüfen (siehe MAC-Folien, OSI)
+Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
