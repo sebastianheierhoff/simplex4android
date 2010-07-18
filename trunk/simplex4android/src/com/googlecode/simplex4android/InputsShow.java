@@ -54,6 +54,7 @@ public class InputsShow extends Activity{
     	final Button btn_settings = (Button) findViewById(R.id.btn_settings);
     	final Button btn_save = (Button) findViewById(R.id.btn_save);
     	final Button btn_start = (Button) findViewById(R.id.btn_start);
+    	id = -1;
     	
 	    //Behandlung der verschiedenen Intents
     	if(this.getIntent().getBooleanExtra("create", false)){
