@@ -63,7 +63,6 @@ public abstract class SimplexProblem implements Serializable{
 			}
 		}
 		if(longestRow!=-1){
-			System.out.println(target.size());
 			for(int i=target.size()-1;0<lengthLR-target.size();){
 				target.add(i,new Double(0)); // target
 			}	
