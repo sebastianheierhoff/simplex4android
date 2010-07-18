@@ -27,12 +27,12 @@ public class SimplexHistoryShow extends Activity {
 	private static int currentphase;
 	private static SimplexHistory current;
 	private static int currenti;
-	private static int lasti;
 	private static boolean twoPhases;
+	private static boolean solutionShown;
+
 	private static WebView mWebView;
 	private static String tableauToHtml;
-    private long lastTouchTime = -1;
-    
+	
     private static TextView label;
     private static TextView txt_solution;
     private static TextView txt_solution_label;
@@ -41,10 +41,13 @@ public class SimplexHistoryShow extends Activity {
 	private static Button btn_previous; 
     private static Button btn_next;
     private static Button btn_last;
-
+    private static Button btn_back;
     
-	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+	/**
+	 * Methode, die beim Aufruf der Activity aufgerufen wird
+	 */
+    public void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
 
     	//Ressourcen
@@ -53,19 +56,16 @@ public class SimplexHistoryShow extends Activity {
     	btn_previous = (Button) findViewById(R.id.btn_previous);
     	btn_next = (Button) findViewById(R.id.btn_next);
     	btn_last = (Button) findViewById(R.id.btn_last);
+    	btn_back = (Button) findViewById(R.id.btn_back);
     	label = (TextView) findViewById(R.id.label);
     	txt_solution = (TextView) findViewById(R.id.txt_solution);
     	txt_solution_label = (TextView) findViewById(R.id.txt_solution_label);
     	
-    	try{
-    	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
-    	}
-    	catch(Exception ex){
-    		simplexhistoryarray = InputsShow.simplexhistoryarray;
-    		Toast.makeText(SimplexHistoryShow.this, "Fehler", Toast.LENGTH_LONG);
-    	}
-    
-    	currenti = 0;
+    	//simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	simplexhistoryarray = InputsShow.simplexhistoryarray;
+
+    	currenti = 0; //Aktueller Index
+    	
     	//Werden beide Phasen der 2-Phasen Methode durchgeführt?
     	if(simplexhistoryarray[0] != null && simplexhistoryarray[1] != null){ //beide Phasen werden durchlaufen
     		twoPhases = true;
@@ -75,19 +75,18 @@ public class SimplexHistoryShow extends Activity {
     		twoPhases = false;
     	}
     	
-    	//findCurrentPhase();
+    	//setCurrentPhase();
     	if(simplexhistoryarray[0] == null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
     		currentphase = 2;
     		current = simplexhistoryarray[1];
-    		//btn_switchphases.setVisibility(View.VISIBLE); //unnötig
     	}
     	else{
     		currentphase = 1;
     		current = simplexhistoryarray[0];
     	}
     	
-    	findLastI();
     	changeLabel();
+    	enableButtons();
 
     	mWebView = (WebView) findViewById(R.id.webview_tableau);
     	mWebView.setWebViewClient(new WebViewClient());
@@ -96,94 +95,58 @@ public class SimplexHistoryShow extends Activity {
 
     	tableauToHtml = current.getFirstElement().tableauToHtml();
     	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-    	
-    	//LongClick to showSolution();
-    	mWebView.setOnLongClickListener(new OnLongClickListener() {
-    		public boolean onLongClick(View v){
-    			showSolution(SimplexHistoryShow.this);
-    			return false;
-    		}});
     		
     	//First-Button
 	    btn_first.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	if(currenti >= lasti-1){
-	        		findViewById(R.id.btn_next).setEnabled(true);
-	        		findViewById(R.id.btn_last).setEnabled(true);
-	        	}
-	        	
 	        	currenti=0;
 	        	tableauToHtml = current.getFirstElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
 	        	changeLabel();
-	        	
-        		findViewById(R.id.btn_previous).setEnabled(false);
-	        	findViewById(R.id.btn_first).setEnabled(false);
+	        	enableButtons();
 	        }
 	    });	    
 	    
 	    //Previous-Button
 	    btn_previous.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	if(currenti >= lasti-1){
-	        		findViewById(R.id.btn_next).setEnabled(true);
-	        		findViewById(R.id.btn_last).setEnabled(true);
-	        	}
-
 	        	currenti--;
 	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
 	        	changeLabel();
-	        	
-	        	if(currenti == 0){
-	        		findViewById(R.id.btn_previous).setEnabled(false);
-		        	findViewById(R.id.btn_first).setEnabled(false);
-	        	}
+	        	enableButtons();
 	        }
 	    });	  
 	    
 	    //Next-Button
 	    btn_next.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	findViewById(R.id.btn_previous).setEnabled(true);
-	        	findViewById(R.id.btn_first).setEnabled(true);
-
 	        	currenti++;
 	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
         		mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 
 	        	changeLabel();
-        		
-	        	if(currenti == lasti){
-    	        	findViewById(R.id.btn_next).setEnabled(false);
-	        		findViewById(R.id.btn_last).setEnabled(false);
-	        	}
+	        	enableButtons();
 	        }
 	    });	    
 	    
 	    //Last-Button
 	    btn_last.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v) {
-	        	findViewById(R.id.btn_previous).setEnabled(true);
-	        	findViewById(R.id.btn_first).setEnabled(true);
-	        	
 	        	currenti = current.size()-1;
 	    		tableauToHtml = current.getLastElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
 	        	changeLabel();
-
-	        	findViewById(R.id.btn_next).setEnabled(false);
-	        	findViewById(R.id.btn_last).setEnabled(false);
+	        	enableButtons();
 	    	}
 	    });
 	    
 	    //2.Phase Button (unsichtbar wenn keine 1. Phase notwendig)
 	    btn_switchphases.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v) {
-	    		//TODO: Code einfügen
 	    		if(currentphase == 1){
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 2;
@@ -203,17 +166,20 @@ public class SimplexHistoryShow extends Activity {
 	        	tableauToHtml = current.getFirstElement().tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
+	        	solutionShown = false;
+	        	
 	        	changeLabel();
+	        	enableButtons();
+	        	
 	    		//Buttons btn_first und btn_previous deaktivieren
 	        	findViewById(R.id.btn_first).setEnabled(false);
 	        	findViewById(R.id.btn_previous).setEnabled(false);
-	        	findViewById(R.id.btn_next).setEnabled(false);
-	        	findViewById(R.id.btn_last).setEnabled(false);
+	        	findViewById(R.id.btn_next).setEnabled(true);
+	        	findViewById(R.id.btn_last).setEnabled(true);
 	    	}
 	    });
 
 	    //Zurück-Button (zurück zur InputShow)
-    	final Button btn_back = (Button) findViewById(R.id.btn_back);
 	    btn_back.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("unchecked")
 			public void onClick(View v) {
@@ -226,55 +192,72 @@ public class SimplexHistoryShow extends Activity {
 	    });
 	}	
 
+    /**
+     * Öffnet ein Dialogfenster mit der Lösung der aktuellen Phase, "" falls das Tableau nicht optimal ist.
+     * @param context - Context der aktuellen Aktivity/Application
+     */
 	public void showSolution(Context context){
-    	//letztes Element der 1. Phase == null -> keine optimale Lösung auffindbar, 2. Phase ebenfalls == null
-    	
-		//ansonsten letztes Element der 1. Phase optimal
-    	
-    	//letztes Element der 2. Phase == null -> keine optimale Lösung auffindbar
-    	
-    	//ansonsten letztes Element der 2. Phase optimal
-		Dialog dialog = new Dialog(context);
-		dialog.setContentView(R.layout.dialog);
-		dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
-		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText(current.getElement(lasti).getSolution());
-		dialog.show();
-		dialog.setCanceledOnTouchOutside(true);
+		if(!solutionShown){
+			Dialog dialog = new Dialog(context);
+			dialog.setContentView(R.layout.dialog);
+			dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
+			TextView text = (TextView) dialog.findViewById(R.id.text);
+			text.setText(current.getLastElement().getSolution());
+			dialog.show();
+			dialog.setCanceledOnTouchOutside(true);
+		}
+		solutionShown = true;
 	}
 	
-	public void findLastI(){
-		if(current.getLastElement() == null){
-			lasti = current.size()-2;
+	/**
+	 * Aktiviert/Deaktiviert die Navigationsbuttons abhängig davon, welches Tableau gerade angezeigt wird
+	 */
+	public void enableButtons(){
+    	btn_next.setEnabled(true);
+    	btn_last.setEnabled(true);
+		btn_previous.setEnabled(true);
+    	btn_first.setEnabled(true);
+		if(currenti == 0 && currenti+1 <= current.size()-1){
+	    	btn_next.setEnabled(false);
+	    	btn_last.setEnabled(false);
+			btn_previous.setEnabled(false);
+			btn_first.setEnabled(false);
 		}
-		else{
-			lasti = current.size()-1;
+		else if(currenti == 0 ){
+			btn_previous.setEnabled(false);
+			btn_first.setEnabled(false);
+    	}
+		else if(currenti+1 <= current.size()-1){
+			btn_next.setEnabled(false);
+			btn_last.setEnabled(false);
 		}
 	}
 	
+	/**
+	 * Anpassen der Label txt_label, txt_solution_label, txt_solution abhängig davon, ob zwei Phasen durchlaufen werden und welches Tableau gerade angezeigt wird.
+	 */
 	public void changeLabel(){
 		//Label anpassen, je nachdem, um das wie vielte Tableau es sich handelt
-		if(currenti == lasti){
+		if(currenti == current.size()-1){
 			if(twoPhases){
-				label.setText("Letztes Tableau ("+ currentphase +". Phase): Lange Klicken zeigt Lösung!");
+				label.setText("Letztes Tableau ("+ currentphase +". Phase):");
 				txt_solution_label.setVisibility(View.VISIBLE);
 				txt_solution_label.setText("Lösung ("+ currentphase +". Phase):");
 			}
 			else{
-				label.setText("Letztes Tableau: Lange Klicken zeigt Lösung!");
+				label.setText("Letztes Tableau:");
 				txt_solution_label.setVisibility(View.VISIBLE);
 				txt_solution_label.setText("Lösung:");
 			}
+			showSolution(SimplexHistoryShow.this);
 			txt_solution.setVisibility(View.VISIBLE);
-			String solution_string = current.getElement(lasti).getSolution();
+			String solution_string = current.getLastElement().getSolution();
 			if(solution_string.equals("")){
 				txt_solution.setText("Keine optimale Lösung gefunden"); //Lösung anzeigen
 			}
 			else{
 				txt_solution.setText(solution_string);
 			}
-			btn_next.setEnabled(false);
-			btn_last.setEnabled(false);
 		}
 		else if(currenti == 0){
 			if(twoPhases){
