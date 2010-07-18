@@ -296,14 +296,14 @@ public class SimplexHistoryShow extends Activity {
 					solution += "\n";
 				}
 				if(!(xSolutions[i]==0)){
-					if(solution.equals("") || (count%5)==0){
+					if(solution.equals("") || (count%4)==0){
 						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
 					}
 					else{
 						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
 					}		
 				}else{
-					if(solution.equals("") || (count%5)==0){
+					if(solution.equals("") || (count%4)==0){
 						solution += "x" +(i+1) + " = " + 0;
 					}
 					else{
