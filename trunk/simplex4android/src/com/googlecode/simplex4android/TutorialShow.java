@@ -8,20 +8,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+/**
+ * Activity zum Anzeigen des Tutorials
+ * @author Sebastian Hanschke
+ */
 public class TutorialShow extends Activity {
 	
-	SimplexHistory[] simplexhistoryarray;
-	SimplexHistory current;
-	int currenti;
-	int currentphase;
+	//Ressourcen
 	WebView mWebView;
-	String tableauToHtml;
 
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.tutorial_show);
 
-    	mWebView = (WebView) findViewById(R.id.webview_tableau);
+    	mWebView = (WebView) findViewById(R.id.webview_tutorial);
     	mWebView.setWebViewClient(new WebViewClient());
     	mWebView.getSettings().setJavaScriptEnabled(true);
 
