@@ -167,15 +167,9 @@ public class SimplexHistoryShow extends Activity {
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
 	        	solutionShown = false;
-	        	
+
 	        	changeLabel();
 	        	enableButtons();
-	        	
-	    		//Buttons btn_first und btn_previous deaktivieren
-	        	findViewById(R.id.btn_first).setEnabled(false);
-	        	findViewById(R.id.btn_previous).setEnabled(false);
-	        	findViewById(R.id.btn_next).setEnabled(true);
-	        	findViewById(R.id.btn_last).setEnabled(true);
 	    	}
 	    });
 
@@ -217,17 +211,17 @@ public class SimplexHistoryShow extends Activity {
     	btn_last.setEnabled(true);
 		btn_previous.setEnabled(true);
     	btn_first.setEnabled(true);
-		if(currenti == 0 && currenti+1 <= current.size()-1){
-	    	btn_next.setEnabled(false);
-	    	btn_last.setEnabled(false);
-			btn_previous.setEnabled(false);
+    	if(currenti == 0 && currenti == current.size()-1){
+			btn_next.setEnabled(false);
+			btn_last.setEnabled(false);
+    		btn_previous.setEnabled(false);
 			btn_first.setEnabled(false);
 		}
 		else if(currenti == 0 ){
 			btn_previous.setEnabled(false);
 			btn_first.setEnabled(false);
     	}
-		else if(currenti+1 <= current.size()-1){
+		else if(currenti == current.size()-1){
 			btn_next.setEnabled(false);
 			btn_last.setEnabled(false);
 		}
@@ -237,17 +231,23 @@ public class SimplexHistoryShow extends Activity {
 	 * Anpassen der Label txt_label, txt_solution_label, txt_solution abhängig davon, ob zwei Phasen durchlaufen werden und welches Tableau gerade angezeigt wird.
 	 */
 	public void changeLabel(){
-		//Label anpassen, je nachdem, um das wie vielte Tableau es sich handelt
+		String typeOfProblem;
+		if(current.getElement(currenti).getClass().equals(SimplexProblemPrimal.class)){
+			typeOfProblem = "primal";
+		}
+		else{
+			typeOfProblem = "dual";
+		}
 		if(currenti == current.size()-1){
 			if(twoPhases){
-				label.setText("Letztes Tableau ("+ currentphase +". Phase):");
+				label.setText("Letztes Tableau ("+ currentphase +". Phase, " + typeOfProblem+ "):");
 				txt_solution_label.setVisibility(View.VISIBLE);
 				txt_solution_label.setText("Lösung ("+ currentphase +". Phase):");
 			}
 			else{
-				label.setText("Letztes Tableau:");
+				label.setText("Letztes Tableau ("+ typeOfProblem+ "):");
 				txt_solution_label.setVisibility(View.VISIBLE);
-				txt_solution_label.setText("Lösung:");
+				txt_solution_label.setText("Lösung ("+ typeOfProblem+ "):");
 			}
 			showSolution(SimplexHistoryShow.this);
 			txt_solution.setVisibility(View.VISIBLE);
@@ -261,20 +261,20 @@ public class SimplexHistoryShow extends Activity {
 		}
 		else if(currenti == 0){
 			if(twoPhases){
-				label.setText("Starttableau: ("+ currentphase +". Phase):");
+				label.setText("Starttableau: ("+ currentphase +". Phase " + typeOfProblem+ "):");
 			}
 			else{
-				label.setText("Starttableau:");
+				label.setText("Starttableau ("+ typeOfProblem+ "):");
 			}
 			txt_solution_label.setVisibility(View.INVISIBLE);
 			txt_solution.setVisibility(View.INVISIBLE);
 		}
 		else{
 			if(twoPhases){
-				label.setText("Aktuelles Tableau ("+ currentphase +". Phase):");
+				label.setText("Aktuelles Tableau ("+ currentphase +". Phase " + typeOfProblem+ "):");
 			}
 			else{
-				label.setText("Aktuelles Tableau:");
+				label.setText("Aktuelles Tableau ("+ typeOfProblem+ "):");
 			}
 			txt_solution_label.setVisibility(View.INVISIBLE);
 			txt_solution.setVisibility(View.INVISIBLE);

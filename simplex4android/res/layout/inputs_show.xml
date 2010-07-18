@@ -9,6 +9,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+		android:layout_marginLeft="10dip"
+		android:layout_marginTop="10px"
+        android:textSize="14dip"
+		android:textStyle="bold"
         android:text="Aktuelles Problem:"/>
 	<TextView
         android:id="@+id/text_target"
