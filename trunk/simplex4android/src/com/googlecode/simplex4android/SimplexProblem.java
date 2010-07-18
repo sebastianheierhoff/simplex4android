@@ -343,9 +343,14 @@ public abstract class SimplexProblem implements Serializable{
 			// Ausgabestring erstellen
 			for(int i=0; i<xSolutions.length;i++){
 				if(!(xSolutions[i]==0)){
-					solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.) +",";	
+					if(solution.equals("")){
+						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
+					}
+					else{
+						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
+					}		
 				}
-			}			
+			}
 		}
 		return solution;
 	}
