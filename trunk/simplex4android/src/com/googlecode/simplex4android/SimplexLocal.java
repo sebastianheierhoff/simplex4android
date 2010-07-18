@@ -77,7 +77,7 @@ public class SimplexLocal {
 		input2.add(c3);
 		input2.add(c4);
 
-		InputsDb save;
+		ProblemsDb save;
 		try{
 			//save = new InputsDb();
 			//System.out.println(save.getListOfInputs().isEmpty());
@@ -98,7 +98,7 @@ public class SimplexLocal {
 			npe1.printStackTrace();
 		}
 
-		InputsDb read;
+		ProblemsDb read;
 		try{
 			//read = new InputsDb();
 			System.out.println();	

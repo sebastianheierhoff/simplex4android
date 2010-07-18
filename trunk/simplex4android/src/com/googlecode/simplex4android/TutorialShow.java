@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-public class Tutorial extends Activity {
+public class TutorialShow extends Activity {
 	
 	SimplexHistory[] simplexhistoryarray;
 	SimplexHistory current;
@@ -19,7 +19,7 @@ public class Tutorial extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-    	setContentView(R.layout.tutorial);
+    	setContentView(R.layout.tutorial_show);
 
     	mWebView = (WebView) findViewById(R.id.webview_tableau);
     	mWebView.setWebViewClient(new WebViewClient());

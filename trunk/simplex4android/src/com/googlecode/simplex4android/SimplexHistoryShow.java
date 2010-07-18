@@ -3,14 +3,19 @@ package com.googlecode.simplex4android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SimplexHistoryShow extends Activity {
@@ -34,7 +39,8 @@ public class SimplexHistoryShow extends Activity {
 	private static int currentphase;
 	private static WebView mWebView;
 	private static String tableauToHtml;
-
+    private long lastTouchTime = -1;
+	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
     	setContentView(R.layout.simplexhistory_show);
@@ -46,16 +52,7 @@ public class SimplexHistoryShow extends Activity {
     	final Button btn_next = (Button) findViewById(R.id.btn_next);
     	final Button btn_last = (Button) findViewById(R.id.btn_last);
     	
-    	simplexhistoryarray = InputShow.simplexhistoryarray;
-    	
-    	
-    	//letztes Element der 1. Phase == null -> keine optimale Lösung auffindbar, 2. Phase ebenfalls == null
-    	
-    	//ansonsten letztes Element der 1. Phase optimal
-    	
-    	//letztes Element der 2. Phase == null -> keine optimale Lösung auffindbar
-    	
-    	//ansonsten letztes Element der 2. Phase optimal
+    	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
     	
     	if(simplexhistoryarray[0] == null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
     		currentphase = 2;
@@ -78,6 +75,22 @@ public class SimplexHistoryShow extends Activity {
 
     	tableauToHtml = current.getFirstElement().tableauToHtml();
     	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+    	
+    	mWebView.setOnTouchListener(new OnTouchListener() {
+    		public boolean onTouch(View arg0, MotionEvent mev) {
+    			if(mev.getAction() == MotionEvent.ACTION_UP) {
+    				long thisTime = System.currentTimeMillis();
+    				if (thisTime - lastTouchTime < 250) {
+    					lastTouchTime = -1;
+    					showSolution();
+    				} else {
+    					lastTouchTime = thisTime;
+    				}
+    			}
+    			return false;
+    		}
+    	});
+
     	
     	//First-Button
 	    btn_first.setOnClickListener(new OnClickListener() {
@@ -186,7 +199,28 @@ public class SimplexHistoryShow extends Activity {
 		    	startActivity(InputsEditIntent);
 	    	}
 	    });
-
-	
 	}	
+	
+	public void checkOptimal(){
+    	//letztes Element der 1. Phase == null -> keine optimale Lösung auffindbar, 2. Phase ebenfalls == null
+    	
+		//ansonsten letztes Element der 1. Phase optimal
+    	
+    	//letztes Element der 2. Phase == null -> keine optimale Lösung auffindbar
+    	
+    	//ansonsten letztes Element der 2. Phase optimal
+
+	}
+	
+	public void showSolution(){
+		Context mContext = getApplicationContext();
+		Dialog dialog = new Dialog(mContext);
+		dialog.setContentView(R.layout.dialog_showsolution);
+		dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
+		TextView text = (TextView) dialog.findViewById(R.id.text);
+		text.setText("Hello, this is a custom dialog!");
+		ImageView image = (ImageView) dialog.findViewById(R.id.image);
+	}
+	
+	
 }

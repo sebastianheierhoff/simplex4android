@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class InputsLoad extends Activity {
+public class ProblemsLoad extends Activity {
 	
 	//ResultCodes
 	private static final int CONSTRAINT_EDIT_RESULT = 1;
@@ -31,12 +31,12 @@ public class InputsLoad extends Activity {
 	//Ressourcen
 	private static ArrayAdapter<String> adapter_list_problems;
 	private ArrayList<ArrayList<Input>> listOfInputs;
-	private InputsDb mInputsDb;
+	private ProblemsDb data;
 
 	/** Called when the activity is first created. */
 	    public void onCreate(Bundle savedInstanceState) {
 	    	super.onCreate(savedInstanceState);
-	        setContentView(R.layout.inputs_load);
+	        setContentView(R.layout.problems_load);
 
 	        //Ressourcen
 	        final ListView lv_problems = (ListView) findViewById(R.id.list_problems);
@@ -44,14 +44,14 @@ public class InputsLoad extends Activity {
 		    final Button btn_new_problem= (Button) findViewById(R.id.btn_new_problem);
 	        
 	    	try {
-				mInputsDb = new InputsDb(InputsLoad.this);
+				data = new ProblemsDb(ProblemsLoad.this);
 	        } catch (Exception ex) {
 				ex.printStackTrace();
 	        }
 
 	        try{
-	        	adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_inputs, R.id.tv_row);
-	    		listOfInputs = mInputsDb.getListOfInputs();
+	        	adapter_list_problems = new ArrayAdapter<String>(this, R.layout.listview_problems, R.id.tv_row);
+	    		listOfInputs = data.getListOfInputs();
 	            for(int i=0;i<listOfInputs.size();i++){ // durch alle Inputs
 	    			adapter_list_problems.add(listOfInputs.get(i).get(0).toString());
 	    		}
@@ -87,7 +87,7 @@ public class InputsLoad extends Activity {
 	        int position = lv_problems.indexOfChild(rl_row);
 	        adapter_list_problems.remove(adapter_list_problems.getItem(position));
 	        try{
-	        	mInputsDb.removeProblem(InputsLoad.this, position);
+	        	data.removeProblem(ProblemsLoad.this, position);
 	        }
 	        catch(Exception ex){
 	        }	
@@ -99,7 +99,7 @@ public class InputsLoad extends Activity {
 			ListView lv_problems = (ListView) findViewById(R.id.list_problems);
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
-	        ArrayList<Input> inputs = mInputsDb.getProblem(position);
+	        ArrayList<Input> inputs = data.getProblem(position);
 	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
 	        InputsEditIntent.putExtra("inputs", inputs);
 	        InputsEditIntent.putExtra("edit", true);
@@ -110,7 +110,7 @@ public class InputsLoad extends Activity {
 		private void hideOrShowEmptyText(){
 			TextView text_list_empty = (TextView) findViewById(R.id.text_list_empty);
 			ViewGroup.LayoutParams params_text_list_empty = text_list_empty.getLayoutParams();
-			if(!mInputsDb.getListOfInputs().isEmpty()){
+			if(!data.getListOfInputs().isEmpty()){
 				params_text_list_empty.height = 0;
 			}
 			else{
