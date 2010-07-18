@@ -16,18 +16,6 @@ import android.widget.TextView;
 
 public class ProblemsLoad extends Activity {
 	
-	//ResultCodes
-	private static final int CONSTRAINT_EDIT_RESULT = 1;
-	private static final int CONSTRAINT_CREATE_RESULT = 2;
-	private static final int TARGET_EDIT_RESULT = 3;
-	private static final int TARGET_CREATE_RESULT = 4;
-	
-	//RequestCodes
-	private static final int CONSTRAINT_EDIT_REQUEST = 1;
-	private static final int CONSTRAINT_CREATE_REQUEST = 2;
-	private static final int TARGET_EDIT_REQUEST = 3;
-	private static final int TARGET_CREATE_REQUEST = 4;
-	
 	//Ressourcen
 	private static ArrayAdapter<String> adapter_list_problems;
 	private ArrayList<ArrayList<Input>> listOfInputs;
