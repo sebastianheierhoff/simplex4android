@@ -100,7 +100,7 @@ public class ProblemsLoad extends Activity {
 			RelativeLayout rl_row = (RelativeLayout)v.getParent();
 	        int position = lv_problems.indexOfChild(rl_row);
 	        ArrayList<Input> inputs = data.getProblem(position);
-	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
 	        InputsEditIntent.putExtra("inputs", inputs);
 	        InputsEditIntent.putExtra("edit", true);
 	        InputsEditIntent.putExtra("id", position);
