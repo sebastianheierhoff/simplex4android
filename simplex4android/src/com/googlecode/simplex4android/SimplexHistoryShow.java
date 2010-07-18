@@ -209,8 +209,8 @@ public class SimplexHistoryShow extends Activity {
 	    	}
 	    });
 	}	
-	
-	public void checkOptimal(){
+
+	public void showSolution(Context context){
     	//letztes Element der 1. Phase == null -> keine optimale Lösung auffindbar, 2. Phase ebenfalls == null
     	
 		//ansonsten letztes Element der 1. Phase optimal
@@ -218,15 +218,12 @@ public class SimplexHistoryShow extends Activity {
     	//letztes Element der 2. Phase == null -> keine optimale Lösung auffindbar
     	
     	//ansonsten letztes Element der 2. Phase optimal
-
-	}
-	
-	public void showSolution(Context context){
+		
 		Dialog dialog = new Dialog(context);
 		dialog.setContentView(R.layout.dialog_showsolution);
 		dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
 		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText(current.getLastElement().getSolution());
+		text.setText(current.getElement(lasti).getSolution());
 		dialog.show();
 		dialog.setCanceledOnTouchOutside(true);
 	}
