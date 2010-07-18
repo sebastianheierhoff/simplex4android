@@ -548,13 +548,6 @@ public abstract class SimplexLogic {
 		findPivots(problem);
 		problem.setDeltaByF(initializDeltaByFwithNull(problem));
 		phases[0].addElement(problem.clone());
-		//		
-		//		printPhases(phases);
-		//		
-		//		int[] pivots =phases[0].getLastElement().getPivots();
-		//		for(int i=0;i<pivots.length;i++){
-		//			System.out.println(pivots[i]);
-		//		}
 		SimplexProblemDual tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
@@ -859,12 +852,9 @@ public abstract class SimplexLogic {
 					}else{
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
-				}else{
-					
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
@@ -880,7 +870,6 @@ public abstract class SimplexLogic {
 			}
 			while(phases[1].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem wird in dualer Form weiterbearbeitet
 			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
@@ -910,11 +899,9 @@ public abstract class SimplexLogic {
 					}else{
 						throw new DataFormatException ("Typ des Problems muss gewechselt werden");
 					}
-				
 				}
 			}
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
@@ -930,7 +917,6 @@ public abstract class SimplexLogic {
 			}
 			while(phases[1].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ // Problem wird in primaler Form weiterbearbeitet
 			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
