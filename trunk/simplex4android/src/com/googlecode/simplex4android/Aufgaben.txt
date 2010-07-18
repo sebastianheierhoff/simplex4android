@@ -1,6 +1,3 @@
-nächster Schritt (dualer/primaler Simplex-Algorithmus), Art des aktuellen Tableaus anzeigen
-Ausgabetabelle auf Bildschirmbreite skalieren
-Laden von Target/Constraints: Runden der Werte auf zwei Nachkommastellen, ansonsten mühselige Eingabe
 GUI inkl. Testen (jeder 30min per Hand! - oder Eike 2 Sekunden :-()
 Getter/Setter -> Exceptions, Fehlermeldungen (Wann, warum, was?)
 
@@ -23,3 +20,6 @@ Icon.png überarbeiten
 Wie viele NB braucht man mindestens? Recherche!
 Anforderungen prüfen (siehe MAC-Folien, OSI)
 Recherche: Eingabe über Hardware/Emulator-Tastatur verhindern -> Recherche
+nächster Schritt (dualer/primaler Simplex-Algorithmus), Art des aktuellen Tableaus anzeigen
+Ausgabetabelle auf Bildschirmbreite skalieren
+Laden von Target/Constraints: Runden der Werte auf zwei Nachkommastellen, ansonsten mühselige Eingabe

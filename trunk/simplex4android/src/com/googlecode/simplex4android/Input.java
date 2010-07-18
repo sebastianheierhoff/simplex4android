@@ -1,18 +1,22 @@
 package com.googlecode.simplex4android;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Oberklasse für Input-Objekte, das erste Methoden defintiert und implementiert.
+ * @author Simplex4Android
+ *
+ */
+@SuppressWarnings("serial")
 public abstract class Input implements Serializable{
-	private static final long serialVersionUID = -625837735271333974L;
-	/**
-	 * @serial
-	 */
+
 	protected ArrayList<Double> values;
 	
+	/**
+	 * Standardkonstruktor
+	 */
 	public Input(){
 		values = new ArrayList<Double>();
 	}
