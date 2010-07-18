@@ -161,7 +161,6 @@ public class SimplexHistoryShow extends Activity {
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 	        	
 	        	solutionShown = false;
-
 	        	changeLabel();
 	        	enableButtons();
 	    	}
@@ -188,7 +187,12 @@ public class SimplexHistoryShow extends Activity {
 		if(!solutionShown){
 			Dialog dialog = new Dialog(context);
 			dialog.setContentView(R.layout.dialog);
-			dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
+			if(twoPhases){
+				dialog.setTitle("Lösung ("+ currentphase +". Phase):");
+			}
+			else{
+				dialog.setTitle("Lösung:");
+			}
 			TextView text = (TextView) dialog.findViewById(R.id.text);
 			String solution_string = current.getLastElement().getSolution();
 			if(solution_string.equals("")){
@@ -197,8 +201,6 @@ public class SimplexHistoryShow extends Activity {
 			else{
 				text.setText(solution_string);
 			}
-		
-			
 			text.setText(current.getLastElement().getSolution());
 			dialog.show();
 			dialog.setCanceledOnTouchOutside(true);
