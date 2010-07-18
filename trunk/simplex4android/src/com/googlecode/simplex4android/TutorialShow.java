@@ -1,6 +1,7 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +25,9 @@ public class TutorialShow extends Activity {
     	mWebView = (WebView) findViewById(R.id.webview_tutorial);
     	mWebView.setWebViewClient(new WebViewClient());
     	mWebView.getSettings().setJavaScriptEnabled(true);
-
+    	mWebView.getSettings().setBuiltInZoomControls(true);
+		mWebView.loadUrl("file:///android_asset/tutorial.html");
+    	
     	//mWebView.loadData(tutorial, "text/html", "utf-8");
     	
 	    //Zurück-Button
