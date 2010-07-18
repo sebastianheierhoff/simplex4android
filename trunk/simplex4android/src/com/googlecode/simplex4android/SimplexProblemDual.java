@@ -115,7 +115,7 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 		html = html + "<td nowrap>x</td>";
 		//ab der 3. Zeile: das eigentliche Tableau, die ersten beiden Spalten auch wie im Tableau + x/f
 		for(int i=0;i<this.getTableau().length-1;i++){			//so oft ausführen wie es Zeilen-1 im Tableau gibt
-			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ this.getTarget()[pivots[i]]+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
+			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ + Math.round(this.getTarget()[pivots[i]]*100.)/100.+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
 			else html = html + "<tr align=right nowrap><td>"+"&#8211;"+"</td><td nowrap>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
 				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
