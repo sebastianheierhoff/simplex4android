@@ -5,6 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * Datenhaltungklasse zur Repräsentation von Nebenbedingungen.
+ * Es wird abgespeichert, ob es sich um ein Minimierungs- oder Maximierungsproblem handelt und welche Rechenmethode der User gewählt hat.
+ * @author Simplex4Android
+ *
+ */
 @SuppressWarnings("serial")
 public class Target extends Input implements Serializable{
 	private boolean minOrMax;	// true bedeutet Minimierung, false bedeutet Maximierung

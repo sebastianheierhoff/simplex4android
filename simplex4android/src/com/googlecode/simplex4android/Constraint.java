@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Datenhaltungklasse zur Repräsentation von Nebenbedingungen.
- * Nebenbedingungen können in Gleichheits- oder Ungleichheitsform ("<=" und ">=") eingegeben werden. Direkt beim Erstellen werde sie in Gleichheitsform gebracht und mit den nötigen Schlupfvariablen versehen.
+ * Nebenbedingungen können in Gleichheits- oder Ungleichheitsform ("<=" und ">=") eingegeben werden. 
  * @author Simplex4Android
  *
  */
