@@ -48,9 +48,18 @@ public class SimplexHistoryShow extends Activity {
     	
     	simplexhistoryarray = InputShow.simplexhistoryarray;
     	
-    	if(simplexhistoryarray[0] != null){
-    		currentphase = 1;
-    		current = simplexhistoryarray[0];
+    	
+    	//letztes Element der 1. Phase == null -> keine optimale Lösung auffindbar, 2. Phase ebenfalls == null
+    	
+    	//ansonsten letztes Element der 1. Phase optimal
+    	
+    	//letztes Element der 2. Phase == null -> keine optimale Lösung auffindbar
+    	
+    	//ansonsten letztes Element der 2. Phase optimal
+    	
+    	if(simplexhistoryarray[0] == null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
+    		currentphase = 2;
+    		current = simplexhistoryarray[1];
     		btn_switchphases.setVisibility(View.VISIBLE);
     	}
     	else if(simplexhistoryarray[1] != null){
@@ -70,10 +79,6 @@ public class SimplexHistoryShow extends Activity {
     	tableauToHtml = current.getFirstElement().tableauToHtml();
     	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
     	
-    	// ... although note that there are restrictions on what this HTML can do.
-    	// See the JavaDocs for loadData() and loadDataWithBaseURL() for more info.
-
-
     	//First-Button
 	    btn_first.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
