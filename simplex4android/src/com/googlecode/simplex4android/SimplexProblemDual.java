@@ -1,11 +1,18 @@
 package com.googlecode.simplex4android;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SimplexProblemDual extends SimplexProblem {
+/**
+ * Datenhaltungsklasse SimplexProblem zur Repräsentation von dualen SimplexProblemen
+ * Inhalt: SimplexTableau, Zielfunktion, Pivotspalten, deltaByF-Zeile und ein boolean, ob es optimal ist.
+ * @author Simplex4Android
+ */
+@SuppressWarnings("serial")
+public class SimplexProblemDual extends SimplexProblem implements Serializable{
 
 	private ArrayList<Double> deltaByF; //Zeile unter dem Tableau für den dualen Simplex
-	
+
 	/**
 	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
 	 * Die Zeile der delta-Werte ist bereits enthalten.
@@ -14,7 +21,7 @@ public class SimplexProblemDual extends SimplexProblem {
 		super();
 		this.deltaByF = new ArrayList<Double>();
 	}
-	
+
 	/**
 	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
 	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
@@ -24,7 +31,7 @@ public class SimplexProblemDual extends SimplexProblem {
 		super(input);
 		this.deltaByF = new ArrayList<Double>();
 	}
-	
+
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
@@ -34,7 +41,7 @@ public class SimplexProblemDual extends SimplexProblem {
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
 	}
-	
+
 	/**
 	 * Klont das aktuelle Problem. 
 	 */
@@ -46,9 +53,9 @@ public class SimplexProblemDual extends SimplexProblem {
 		clone.setTarget(this.getTarget());
 		clone.setPivots(this.clonePivots());
 		return clone;
-		
+
 	}
-	
+
 	/**
 	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
 	 * @return Array mit den x/f-Werten für jede Zeile
@@ -56,7 +63,7 @@ public class SimplexProblemDual extends SimplexProblem {
 	public double[] getDeltaByF() {
 		return this.convertToDblArray(this.deltaByF);
 	}
-	
+
 	/**
 	 * Überschreibt die delta/f-Werte.
 	 * @param deltaByF neue delta/f-Werte
@@ -64,10 +71,10 @@ public class SimplexProblemDual extends SimplexProblem {
 	public void setDeltaByF(double[] deltaByF) {
 		this.deltaByF = this.convertToDblArrayList(deltaByF);
 	}
-	
+
 	/**
-	 * set Optimal Methode, die zusätzlich deltaByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
-	 * wird auch benötigt, falls z.B. das Tableau in der zweiten Phase direkt optimal ist und die tableauToHtml genutzt werden soll.
+	 * Methode, die zusätzlich deltaByF mit Nullen auffüllt. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 * Wird auch benötigt, falls z.B. das Tableau in der zweiten Phase direkt optimal ist und die tableauToHtml genutzt werden soll.
 	 */
 	public void setOptimal(){
 		super.setOptimal();
@@ -79,10 +86,10 @@ public class SimplexProblemDual extends SimplexProblem {
 			deltaByF.add(0.0);
 		}
 	}
-	
-	/**Methode die das komplette Simplex-Tableau für den dualen Simplex als HTML-String zurückgibt.
-	 * 
-	 * @return komplettes Tableau als Duales Problem als String in Html 
+
+	/**
+	 * Methode, die das komplette Simplex-Tableau für den dualen Simplex als HTML-String zurückgibt.
+	 * @return komplettes Tableau als duales Problem als String in Html 
 	 */
 	@Override
 	public String tableauToHtml(){
