@@ -67,8 +67,8 @@
 			android:id="@+id/edittext_target_element" 
 			android:text="" 
 			android:background="@drawable/textfield_default"
-			android:layout_width="92dip"
-			android:layout_height="45dip"
+			android:layout_width="146dip"
+			android:layout_height="52dip"
 			android:inputType="none"
 	        android:gravity="bottom" 
 	        android:hint="z.B. 10" 
@@ -81,25 +81,25 @@
 			android:text="x1" 
 			android:enabled="false"
 			android:layout_width="wrap_content" 
-			android:layout_height="45dip"
+			android:layout_height="52dip"
 	        android:gravity="bottom" />
 		<Button
 			android:id="@+id/btn_x_plus"
 		    android:background="@drawable/btn_x_plus"
-			android:layout_height="45dip"
-			android:layout_width="45dip"
+			android:layout_height="50dip"
+			android:layout_width="51dip"
 		    android:layout_gravity="bottom" />
 		<Button
 			android:id="@+id/btn_x_minus"
 		    android:background="@drawable/btn_x_minus"
-			android:layout_height="45dip"
-			android:layout_width="45dip"
+			android:layout_height="50dip"
+			android:layout_width="51dip"
 		    android:layout_gravity="bottom"/>
 		<Button
 			android:id="@+id/btn_add_target_element"
 			android:background="@drawable/btn_add"
-			android:layout_height="45dip"
-			android:layout_width="92dip"
+			android:layout_height="50dip"
+			android:layout_width="102dip"
 		    android:layout_gravity="bottom"/>
 		</LinearLayout>	
 		<LinearLayout
@@ -129,12 +129,12 @@
 		<Button 
 			android:id="@+id/btn_back"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="52dip"
 			android:text="Zurück"/>
 		<Button 
 			android:id="@+id/btn_add"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="52dip"
 			android:text="Fertig"/>
 	</LinearLayout>
 	<ImageView 
