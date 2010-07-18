@@ -201,7 +201,6 @@ public class SimplexHistoryShow extends Activity {
 			else{
 				text.setText(solution_string);
 			}
-			text.setText(current.getLastElement().getSolution());
 			dialog.show();
 			dialog.setCanceledOnTouchOutside(true);
 		}
