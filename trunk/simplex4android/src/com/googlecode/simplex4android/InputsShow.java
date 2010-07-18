@@ -43,6 +43,12 @@ public class InputsShow extends Activity{
 	private static ArrayAdapter<String> adapter_list_target;
 	private static final String[] settings = {"Primal", "Dual"};
 	
+	
+	/**
+	 * Wird aufgerufen, wenn die Activity gestartet wird
+	 * Hier werden alle Initialisierungen und UI Settings vorgenommen. 
+	 * @param savedInstanceState 
+	 */
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);

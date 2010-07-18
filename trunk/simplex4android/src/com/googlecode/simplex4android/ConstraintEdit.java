@@ -1,14 +1,12 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +14,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
-
+/**
+ * Activity zum Erzeugen/Bearbeiten von Nebenbedingungen (Constraints),
+ * @params CONSTRAINT_EDIT_INTENT (mit zu bearbeitender Nebenbedingung) oder CONSTRAINT_CREATE_INTENT
+ * @return CONSTRAINT_EDIT_RESULT oder CONSTRAINT_CREATE_RESULT mit der erstellten/bearbeiteten Nebenbedingung
+ * @author simplex4android: Sebastian Hanschke
+ *
+ */
 public class ConstraintEdit extends Activity {
 
 	//ResultCodes
@@ -35,6 +39,11 @@ public class ConstraintEdit extends Activity {
 	private static Constraint constraint;
 	private static EditText addto;
 	
+	/**
+	 * Wird aufgerufen, wenn die Activity gestartet wird
+	 * Hier werden alle Initialisierungen und UI Settings vorgenommen. 
+	 * @param savedInstanceState 
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.constraint_edit);
@@ -44,7 +53,7 @@ public class ConstraintEdit extends Activity {
 	    final EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
 	    final EditText constraint_target_value = (EditText) findViewById(R.id.edittext_constraint_target_value);
 	    final EditText target = (EditText) findViewById(R.id.edittext_target);
-	    int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
+	    final int[] keyboardButtons = {	R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, 
 				R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9,
 				R.id.btn_minus, R.id.btn_divide, R.id.btn_decimal, R.id.btn_backspace};
 	    final Button x_plus = (Button) findViewById(R.id.btn_x_plus);
@@ -61,6 +70,7 @@ public class ConstraintEdit extends Activity {
 	    	constraint = (Constraint) this.getIntent().getSerializableExtra("constraint"); //Constraint laden
 	    }
 	    
+	    //TextFeld, zu dem hinzugefügt werden soll
 	    addto = (EditText) findViewById(R.id.edittext_target_element);
 	    addto.requestFocus();
 
@@ -322,6 +332,10 @@ public class ConstraintEdit extends Activity {
 	    }
     }	
 	
+	/**
+	 * Methode zum Erhöhen des xi-Wertes abhängig vom Inhalt des aktuellen Feldes 
+	 * (Beachte: Eingabe in dieses Feld zur Zeit deaktivert)
+	 */
 	public void increment_xi(){
 		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
@@ -329,7 +343,7 @@ public class ConstraintEdit extends Activity {
 		edittext_x_value++;//inkrementieren
 		edittext_x.setText("x" + edittext_x_value);
 		try{
-			String target_value =String.valueOf(constraint.getValue(edittext_x_value-1));
+			String target_value = String.valueOf(constraint.getValue(edittext_x_value-1));
 			if(target_value.equals("0.0")){
 				target_element.setText("");
 				target_element.setHint("0");

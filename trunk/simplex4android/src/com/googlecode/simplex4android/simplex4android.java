@@ -8,25 +8,30 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class simplex4android extends Activity {
-	
-/*	
+/**	
  * Startet entweder 
- *		Activity um neues Problem anzulegen, oder 
- *		ListView um Probleme zu laden
- *		lädt View zum ändern/anlegen von Problemen mit gespeicherten Werten
+ *		a) Activity um neues Problem anzulegen, oder 
+ *		b) ListView um Probleme zu laden
+ *		c) Tutorial (WebView)
+ *	
  */	
+public class simplex4android extends Activity {
 	
 	//Ressourcen
 	private static ArrayList<Input> inputs;
 	private static int id;
     
+	/**
+	 * Wird aufgerufen, wenn die Activity gestartet wird
+	 * Hier werden alle Initialisierungen und UI Settings vorgenommen. 
+	 * @param savedInstanceState 
+	 */
     @SuppressWarnings("unchecked")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.main);
-	    //this.getFileStreamPath("simplexProblems.dat").delete(); //Löschen der "Datenbank"
+	    //this.getFileStreamPath("simplexProblems.dat").delete(); //Auskommentieren und Programm starten, um die "Datenbank" zu löschen
 	    
 	    //Ressourcen
 	    final Button btn_current = (Button) findViewById(R.id.btn_current);
