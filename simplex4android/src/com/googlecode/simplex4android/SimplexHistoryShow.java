@@ -20,23 +20,13 @@ import android.widget.Toast;
 
 public class SimplexHistoryShow extends Activity {
 	
-	//ResultCodes
-	private static final int CONSTRAINT_EDIT_RESULT = 1;
-	private static final int CONSTRAINT_CREATE_RESULT = 2;
-	private static final int TARGET_EDIT_RESULT = 3;
-	private static final int TARGET_CREATE_RESULT = 4;
-	
-	//RequestCodes
-	private static final int CONSTRAINT_EDIT_REQUEST = 1;
-	private static final int CONSTRAINT_CREATE_REQUEST = 2;
-	private static final int TARGET_EDIT_REQUEST = 3;
-	private static final int TARGET_CREATE_REQUEST = 4;
-	
 	//Ressourcen
 	private static SimplexHistory[] simplexhistoryarray;
+	private static int currentphase;
 	private static SimplexHistory current;
 	private static int currenti;
-	private static int currentphase;
+	private static int lasti;
+	private static boolean twoPhases;
 	private static WebView mWebView;
 	private static String tableauToHtml;
     private long lastTouchTime = -1;
@@ -52,29 +42,33 @@ public class SimplexHistoryShow extends Activity {
     	final Button btn_next = (Button) findViewById(R.id.btn_next);
     	final Button btn_last = (Button) findViewById(R.id.btn_last);
     	
-    	try{
-    		simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
-    	}
-    	catch(Exception ex){
-    		simplexhistoryarray = InputsShow.simplexhistoryarray;
-    		Toast.makeText(this, "Fehler beim Typecast", Toast.LENGTH_SHORT);
-    	}
-    	
-    	if(simplexhistoryarray[0] != null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
-    		currentphase = 1;
-    		current = simplexhistoryarray[0];
+    	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	currenti = 0;
+
+    	//Werden beide Phasen der 2-Phasen Methode durchgeführt?
+    	if(simplexhistoryarray[0] != null && simplexhistoryarray[1] != null){ //beide Phasen werden durchlaufen
     		btn_switchphases.setVisibility(View.VISIBLE);
     	}
-    	else if(simplexhistoryarray[1] != null){
+
+    	//findCurrentPhase();
+    	if(simplexhistoryarray[0] == null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
     		currentphase = 2;
     		current = simplexhistoryarray[1];
-    		btn_switchphases.setVisibility(View.INVISIBLE);
+    		//btn_switchphases.setVisibility(View.VISIBLE); //unnötig
     	}
     	else{
-			Toast.makeText(SimplexHistoryShow.this,"Unbekannter Fehler.",Toast.LENGTH_LONG).show();
+    		currentphase = 1;
+    		current = simplexhistoryarray[0];
     	}
     	
-    	currenti = 0;
+    	//findLastI()
+    	if(current.getLastElement() == null){
+    		lasti = current.size()-2;
+    	}
+    	else{
+    		lasti = current.size()-1;
+    	}
+
     	mWebView = (WebView) findViewById(R.id.webview_tableau);
     	mWebView.setWebViewClient(new WebViewClient());
     	mWebView.getSettings().setJavaScriptEnabled(true);
@@ -82,18 +76,21 @@ public class SimplexHistoryShow extends Activity {
     	tableauToHtml = current.getFirstElement().tableauToHtml();
     	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
     	
+    	//DoubleTap to showSolution();
     	mWebView.setOnTouchListener(new OnTouchListener() {
     		public boolean onTouch(View arg0, MotionEvent mev) {
+    		if(currenti == simplexhistoryarray[currentphase-1].size()-1){
     			if(mev.getAction() == MotionEvent.ACTION_UP) {
     				long thisTime = System.currentTimeMillis();
     				if (thisTime - lastTouchTime < 250) {
     					lastTouchTime = -1;
-    					showSolution();
+    					showSolution(SimplexHistoryShow.this);
     				} else {
     					lastTouchTime = thisTime;
     				}
     			}
-    			return false;
+    		}
+			return false;
     		}
     	});
     	
@@ -217,14 +214,14 @@ public class SimplexHistoryShow extends Activity {
 
 	}
 	
-	public void showSolution(){
-		Context mContext = getApplicationContext();
-		Dialog dialog = new Dialog(mContext);
+	public void showSolution(Context context){
+		Dialog dialog = new Dialog(context);
 		dialog.setContentView(R.layout.dialog_showsolution);
 		dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
 		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText("Hello, this is a custom dialog!");
+		text.setText(current.getLastElement().getSolution());
 		dialog.show();
+		dialog.setCanceledOnTouchOutside(true);
 	}
 	
 	
