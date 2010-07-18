@@ -573,7 +573,6 @@ public abstract class SimplexLogic {
 			}
 			calcDeltaByF(tmp);
 			phases[0].addElement(tmp.clone());
-			printPhases(phases);
 			phases = firstPhaseDual(phases);
 		}else{
 			phases[0] = null;
@@ -814,7 +813,6 @@ public abstract class SimplexLogic {
 		try{
 			do{
 				SimplexProblemDual current = (SimplexProblemDual) phases[0].getLastElement();
-				System.out.println(current.tableauToHtml());
 				current = SimplexLogic.simplex(current);
 				if(current!=null)phases[0].addElement(current.clone());
 			}
