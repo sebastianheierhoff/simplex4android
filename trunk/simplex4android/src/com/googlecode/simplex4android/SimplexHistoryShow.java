@@ -52,17 +52,11 @@ public class SimplexHistoryShow extends Activity {
     	final Button btn_next = (Button) findViewById(R.id.btn_next);
     	final Button btn_last = (Button) findViewById(R.id.btn_last);
     	
-    	try{
-    		simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
-    	}
-    	catch(Exception ex){
-    		Toast.makeText(this, "Typecast Fehler!", Toast.LENGTH_SHORT);
-    		simplexhistoryarray = InputsShow.simplexhistoryarray;
-    	}
+    	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
     	
-    	if(simplexhistoryarray[0] == null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
-    		currentphase = 2;
-    		current = simplexhistoryarray[1];
+    	if(simplexhistoryarray[0] != null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
+    		currentphase = 1;
+    		current = simplexhistoryarray[0];
     		btn_switchphases.setVisibility(View.VISIBLE);
     	}
     	else if(simplexhistoryarray[1] != null){
