@@ -527,7 +527,7 @@ public abstract class SimplexLogic {
 		double[] x = problem.getLastColumn();
 		for(int i=0;i<x.length-1;i++){
 			if(x[i]<0){
-				for(int j=0;j<problem.getRow(i).length;j++){
+				for(int j=0;j<problem.getRow(i).length-1;j++){
 					if(problem.getRow(i)[j]<0 && problem.getLastRow()[j]<0)
 						return true;
 				}
@@ -573,6 +573,7 @@ public abstract class SimplexLogic {
 			}
 			calcDeltaByF(tmp);
 			phases[0].addElement(tmp.clone());
+			printPhases(phases);
 			phases = firstPhaseDual(phases);
 		}else{
 			phases[0] = null;
@@ -721,7 +722,7 @@ public abstract class SimplexLogic {
 	 * @return double[] in Größe von  deltaByF mit nullen
 	 */
 	public static double[] initializDeltaByFwithNull(SimplexProblemDual problem){
-		double[] tmpDeltaByF = new double[problem.getNoColumns()];
+		double[] tmpDeltaByF = new double[problem.getNoColumns()-1];
 		for(int i=0;i<tmpDeltaByF.length;i++){
 			tmpDeltaByF[i]=0;
 		}
@@ -813,6 +814,7 @@ public abstract class SimplexLogic {
 		try{
 			do{
 				SimplexProblemDual current = (SimplexProblemDual) phases[0].getLastElement();
+				System.out.println(current.tableauToHtml());
 				current = SimplexLogic.simplex(current);
 				if(current!=null)phases[0].addElement(current.clone());
 			}
@@ -940,9 +942,10 @@ public abstract class SimplexLogic {
 				System.out.println(tmp[0].getElement(i).tableauToHtml());
 			}
 		}
-		for(int i=0;i<tmp[1].size();i++){
-			System.out.println("Phase 2");
-			System.out.println(tmp[1].getElement(i).tableauToHtml());
+		if(tmp[1]!=null)
+			for(int i=0;i<tmp[1].size();i++){
+				System.out.println("Phase 2");
+				System.out.println(tmp[1].getElement(i).tableauToHtml());
 		}
 	}
 }
