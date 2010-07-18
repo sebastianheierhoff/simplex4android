@@ -216,7 +216,7 @@ public abstract class SimplexLogic {
 		double[] deltas = problem.getLastRow();
 		//double[] deltas = problem.getRow(problem.getNoRows()-1);
 		for(int i=0;i<deltas.length-1;i++){
-			if(deltas[i]>0){
+			if(Math.round(deltas[i]*10000000000.)/10000000000.>0){
 				return false;
 			}
 		}
