@@ -3,13 +3,18 @@ package com.googlecode.simplex4android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -94,7 +99,7 @@ public class ProblemsLoad extends Activity {
 	        InputsEditIntent.putExtra("id", position);
 	    	startActivity(InputsEditIntent);
 		}
-
+   	
 		private void hideOrShowEmptyText(){
 			TextView text_list_empty = (TextView) findViewById(R.id.text_list_empty);
 			ViewGroup.LayoutParams params_text_list_empty = text_list_empty.getLayoutParams();

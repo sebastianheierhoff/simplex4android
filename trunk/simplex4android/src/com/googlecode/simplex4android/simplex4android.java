@@ -18,18 +18,6 @@ public class simplex4android extends Activity {
  *		laden Ausgabe, Zurückbtn, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
  */	
 	
-	//ResultCodes
-	private static final int CONSTRAINT_EDIT_RESULT = 1;
-	private static final int CONSTRAINT_CREATE_RESULT = 2;
-	private static final int TARGET_EDIT_RESULT = 3;
-	private static final int TARGET_CREATE_RESULT = 4;
-	
-	//RequestCodes
-	private static final int CONSTRAINT_EDIT_REQUEST = 1;
-	private static final int CONSTRAINT_CREATE_REQUEST = 2;
-	private static final int TARGET_EDIT_REQUEST = 3;
-	private static final int TARGET_CREATE_REQUEST = 4;
-    
 	//Ressourcen
 	private static ArrayList<Input> inputs;
 	private static int id;
