@@ -196,7 +196,7 @@ public class SimplexHistoryShow extends Activity {
 			TextView text = (TextView) dialog.findViewById(R.id.text);
 			String solution_string = current.getLastElement().getSolution();
 			if(solution_string.equals("")){
-				text.setText("Keine optimale Lösung gefunden"); //Lösung anzeigen
+				text.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
 			}
 			else{
 				text.setText(solution_string);
@@ -256,7 +256,7 @@ public class SimplexHistoryShow extends Activity {
 			txt_solution.setVisibility(View.VISIBLE);
 			String solution_string = current.getLastElement().getSolution();
 			if(solution_string.equals("")){
-				txt_solution.setText("Keine optimale Lösung gefunden"); //Lösung anzeigen
+				txt_solution.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
 			}
 			else{
 				txt_solution.setText(solution_string);
