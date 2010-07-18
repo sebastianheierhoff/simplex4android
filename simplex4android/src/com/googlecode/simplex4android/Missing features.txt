@@ -2,20 +2,14 @@ Bitte eintragen:
 [GUI]
 	Eingabe (Constraint/Target)
 		Bei zu großen Zahlen wird ein Exponent angezeigt!
-		Felder ändern Größe bei zu langer Eingabe (target, target_value) - Vorschlag: max_height?, scrollable?
 
 	ConstraintEdit:
-		Textfeld Fehler ... weiße linie wie auch auf targetedit
-		Textfeld wird schlecht gefüllt, sobald eine Ziffer zu viel eingefügt wird, zeigt das Textfeld nur noch diese eine Ziffer an.
 		Textfelder ungleich hoch
-		Fadings kleiner (5dip)
 		Hinzufügen nicht bündig mit dem Keyboard (alles vergrößern)
 		
 	TargetEdit:
 		Es ist möglich eine Zielfunktion anzulegen und dabei Variablen zu überspringen.
 		Es können nachträglich xi entfernt werden, die einen kleineren Index als das größte aufweisen.
-		x1 zu hoch
-		Fadings kleiner (5dip)
 		Hinzufügen nicht bündig mit dem Keyboard (alles vergrößern)
 			
 	InputShow:
@@ -29,6 +23,7 @@ Bitte eintragen:
 		Buttons nicht auf einer Linie
 				
 	InputsLoad:
+		aktuell keine Fehler/Probleme bekannt! :)
 		
 	SimplexHistoryShow:
 		"Zurück" ohne Funktion

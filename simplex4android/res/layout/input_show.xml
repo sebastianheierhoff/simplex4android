@@ -31,7 +31,10 @@
         android:layout_height="fill_parent" 
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dip"
-        android:layout_marginLeft="5dip" />
+        android:layout_marginLeft="5dip"
+        android:fadingEdge="none"
+        android:fadeScrollbars="true"
+	 	android:scrollbarFadeDuration="100"/>
     <TextView 
     	android:id="@+id/text_target_empty"
     	android:layout_width="wrap_content"
