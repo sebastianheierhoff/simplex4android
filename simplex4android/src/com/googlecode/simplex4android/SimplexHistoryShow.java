@@ -25,6 +25,8 @@ public class SimplexHistoryShow extends Activity {
 	private static int currenti;
 	private static boolean twoPhases;
 	private static boolean solutionShown;
+	private int id;
+	private static ArrayList<Input> inputs;
 
 	private static WebView mWebView;
 	private static String tableauToHtml;
@@ -61,6 +63,7 @@ public class SimplexHistoryShow extends Activity {
     	simplexhistoryarray = InputsShow.simplexhistoryarray;
 
     	currenti = 0; //Aktueller Index
+    	solutionShown = false;
     	
     	//Werden beide Phasen der 2-Phasen Methode durchgeführt?
     	if(simplexhistoryarray[0] != null && simplexhistoryarray[1] != null){ //beide Phasen werden durchlaufen
@@ -177,14 +180,23 @@ public class SimplexHistoryShow extends Activity {
 						AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
 						builder.setMessage("Wohin?")
 						       .setCancelable(false)
-						       .setPositiveButton("Startseite", new DialogInterface.OnClickListener() {
+						       .setPositiveButton("Startseite \n", new DialogInterface.OnClickListener() {
 						           public void onClick(DialogInterface dialog, int id) {
-						                
+								    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
+									    inputs = (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs");
+									    id = SimplexHistoryShow.this.getIntent().getIntExtra("id", -1);
+								    	ShowMainIntent.putExtra("inputs", inputs); 
+							            ShowMainIntent.putExtra("edit", true);
+							            ShowMainIntent.putExtra("id", id);
+							        	startActivity(ShowMainIntent);
+							        	finish();
 						           }
 						       })
 						       .setNegativeButton("Aktuelles Problem", new DialogInterface.OnClickListener() {
 						           public void onClick(DialogInterface dialog, int id) {
 						        	   returnToInputsShow();
+						        	   solutionShown = false;
+						        	   finish();
 						           }
 						       });
 						AlertDialog alert = builder.create();
@@ -243,10 +255,6 @@ public class SimplexHistoryShow extends Activity {
 			}
 			// Ausgabestring erstellen
 			for(int i=0; i<xSolutions.length;i++){
-				int count = 0;
-				if((count%5)==0){ // Umbrechen nach 5 Variablen
-					solution += "\n";
-				}
 				if(!(xSolutions[i]==0)){
 					if(solution.equals("")){
 						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
@@ -254,15 +262,7 @@ public class SimplexHistoryShow extends Activity {
 					else{
 						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
 					}		
-				}else{
-					if(solution.equals("")){
-						solution += "x" +(i+1) + " = " + 0;
-					}
-					else{
-						solution += ", x" +(i+1) + " = " + 0;	
-					}	
 				}
-				count++;
 			}
 		}
 		return solution;
