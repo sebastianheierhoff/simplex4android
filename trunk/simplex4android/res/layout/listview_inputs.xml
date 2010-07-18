@@ -6,7 +6,9 @@
 	android:background="@color/white">
 	 <HorizontalScrollView
 	 	android:layout_width="374dip"
-	 	android:layout_height="fill_parent">
+	 	android:layout_height="fill_parent"
+	 	android:fadeScrollbars="true"
+	 	android:scrollbarFadeDuration="100">
 	 <TextView 
 	 	android:id="@+id/tv_row"
 	 	android:text="Zeile"
@@ -19,6 +21,7 @@
 	</HorizontalScrollView>
 	<Button 
 	    android:id="@+id/btn_delete"
+	    android:layout_marginRight="5dip"
 	    android:background="@drawable/btn_delete"
 	    android:layout_width="wrap_content"
 	    android:layout_height="44dip"
