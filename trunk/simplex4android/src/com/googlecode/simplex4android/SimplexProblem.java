@@ -1,16 +1,15 @@
 package com.googlecode.simplex4android;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * Datenhaltungsklasse SimplexProblem zur Repräsentation des SimplexTableaus und der Zielfunktion.
- * 
- * Das Tableau wird durch eine ArrayList bestehend aus ArrayLists (Zeilen) gefüllt mit DoubleObjekten repräsentiert.
+ * Datenhaltungsklasse SimplexProblem zur Repräsentation von SimplexProblemen, Inhalt: SimplexTableau und Zielfunktion.
+ * Inhalt: SimplexTableau, Zielfunktion, Pivotspalten und ein boolean, ob es optimal ist.
  * @author Simplex4Android
  */
-public abstract class SimplexProblem {
+@SuppressWarnings("serial")
+public abstract class SimplexProblem implements Serializable{
 	private ArrayList<ArrayList<Double>> tableau; 
 	private ArrayList<Double> target; //Zielfunktion mit zusätzlicher 0, um den Zielwert im Tableau berechnen zu können
 	private int[] pivots;//Basisspalten
@@ -31,8 +30,8 @@ public abstract class SimplexProblem {
 		this.target = new ArrayList<Double>();
 		this.optimal = false;
 		pivots = new int[this.getNoRows()-1];
-//		this.initializePivotsWithMinusOne();
-		
+		//		this.initializePivotsWithMinusOne();
+
 	}
 
 	/**
@@ -67,7 +66,7 @@ public abstract class SimplexProblem {
 		}
 		this.optimal = false;
 		pivots = new int[this.getNoRows()-1];
-//		this.initializePivotsWithMinusOne();
+		//		this.initializePivotsWithMinusOne();
 	}
 
 	/**
@@ -80,7 +79,6 @@ public abstract class SimplexProblem {
 		this.target = this.convertToDblArrayList(target);		
 		this.optimal = false;
 		pivots = new int[this.getNoRows()-1];
-//		this.initializePivotsWithMinusOne();
 	}
 
 	/**
@@ -89,7 +87,7 @@ public abstract class SimplexProblem {
 	 * @param row Index der Zeile, für die Eins der neuen Pivotspalte
 	 */
 	public void addArtificialVar(int row){
-//		System.out.println(row);
+		//		System.out.println(row);
 		// Pivotspalte ergänzen
 		for(int i=0;i<this.tableau.size();i++){
 			if(i==row){
@@ -141,7 +139,8 @@ public abstract class SimplexProblem {
 	}
 
 	/**
-	 * abstrakte Methode um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können
+	 * Abstrakte Methode, um ein SimplexProblem-Objekt zu klonen und somit eine History abbilden zu können.
+	 * @return geklontes SimplexProblem
 	 */
 	public abstract SimplexProblem clone();
 
@@ -152,7 +151,7 @@ public abstract class SimplexProblem {
 		}
 		return tmp;
 	}
-	
+
 	/**
 	 * Überführt das übergebene zweidimensionale Array in ein ArrayList<ArrayList<Double>>.
 	 * @param array zu überführendes zweidimensionales Array
@@ -269,6 +268,19 @@ public abstract class SimplexProblem {
 	}
 
 	/**
+	 * Gibt die Anzahl der gespeicherten Pivotspalten zurück (Es kann mehr geben,
+	 * es werden aber nur so viele gefunden wie benötigt werden)
+	 * @return Anzahl Pivotspalten
+	 */
+	public int getNoPivots(){
+		int noPivots = 0;
+		for(int i=0;i<this.pivots.length;i++){
+			if(this.pivots[i] != -1)noPivots++;
+		}
+		return noPivots;
+	}
+
+	/**
 	 * Gibt die Anzahl der Zeilen aus.
 	 * @return Anzahl der Zeilen
 	 */
@@ -292,19 +304,6 @@ public abstract class SimplexProblem {
 		return this.pivots;
 	}
 
-	/**
-	 * Gibt die Anzahl der gespeicherten Pivotspalten zurück (Es kann mehr geben,
-	 * es werden aber nur so viele gefunden wie benötigt werden)
-	 * @return Anzahl Pivotspalten
-	 */
-	public int getNoPivots(){
-		int noPivots = 0;
-		for(int i=0;i<this.pivots.length;i++){
-			if(this.pivots[i] != -1)noPivots++;
-		}
-		return noPivots;
-	}
-	
 	/**
 	 * Gibt Zeile i aus.
 	 * @param i Index der auszugebenen Zeile
@@ -364,17 +363,6 @@ public abstract class SimplexProblem {
 	}
 
 	/**
-	 * Füllt pivots komplett mit -1
-	 */	
-	public void initializePivotsWithMinusOne(){
-		int[] tmpPivots = new int[this.getNoRows()-1];
-		for(int i=0;i<tmpPivots.length;i++){
-			tmpPivots[i]=-1;
-		}
-		this.pivots = tmpPivots;
-	}
-
-	/**
 	 * Setzt Spalte j.
 	 * @param c übergebene Spalte
 	 * @param j Index der zu verändernden Spalte
@@ -411,16 +399,6 @@ public abstract class SimplexProblem {
 	}
 
 	/**
-	 * setzt an Stelle row in pivots den Wert column.
-	 * Achtung: die Indizes fangen bei null an! 
-	 * @param row Zeile des Tableaus in der sich die Pivotspalte ändert
-	 * @param column Spalte der neuen Pivotspalte
-	 */
-	public void setSinglePivot(int row, int column) {
-		this.pivots[row] = column;
-	}
-
-	/**
 	 * Setzt Zeile i.
 	 * @param r übergebene Zeile
 	 * @param i Index der zu ändernden Zeile
@@ -429,6 +407,16 @@ public abstract class SimplexProblem {
 		for(int a=0;a<r.length;a++){
 			this.tableau.get(i).set(a,new Double(r[a]));
 		}
+	}
+
+	/**
+	 * setzt an Stelle row in pivots den Wert column.
+	 * Achtung: die Indizes fangen bei null an! 
+	 * @param row Zeile des Tableaus in der sich die Pivotspalte ändert
+	 * @param column Spalte der neuen Pivotspalte
+	 */
+	public void setSinglePivot(int row, int column) {
+		this.pivots[row] = column;
 	}
 
 	/**
@@ -466,7 +454,7 @@ public abstract class SimplexProblem {
 	}
 
 	/**
-	 * abstrakte Methode um das Tableau in HTML darzustellen
+	 * Abstrakte Methode, um das Tableau in HTML darzustellen.
 	 * @return String mit HTML-Code als Inhalt für eine Tabelle
 	 */
 	public abstract String tableauToHtml();	

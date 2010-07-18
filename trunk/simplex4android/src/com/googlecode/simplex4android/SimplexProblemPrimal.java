@@ -1,20 +1,26 @@
 package com.googlecode.simplex4android;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SimplexProblemPrimal extends SimplexProblem {
+/**
+ * Datenhaltungsklasse SimplexProblem zur Repräsentation von SimplexProblemen, Inhalt: SimplexTableau und Zielfunktion.
+ * Inhalt: SimplexTableau, Zielfunktion, Pivotspalten, xByF-Spalte und ein boolean, ob es optimal ist.
+ * @author Simplex4Android
+ */
+@SuppressWarnings("serial")
+public class SimplexProblemPrimal extends SimplexProblem implements Serializable{
 
 	private ArrayList<Double> xByF; //
-	
+
 	/**
 	 * Standardkonstruktor für ein leeres SimplexProblem zum anschließenden Hinzufügen der Zielfunktion und Nebenbedingungen.
-	 * Die Zeile der delta-Werte ist bereits enthalten.
 	 */
 	public SimplexProblemPrimal(){
 		super();
 		this.xByF = new ArrayList<Double>();
 	}
-	
+
 	/**
 	 * Konstruktor, der eine ArrayList mit Input-Objekten übergeben bekommt. 
 	 * An erster Stellte muss dabei stehts die Zielfunktion vom Typ Target stehen.
@@ -24,7 +30,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		super(input);
 		this.xByF = new ArrayList<Double>();
 	}
-	
+
 	/**
 	 * Stellt ein SimplexTableau inklusive Zielfunktion zur Verfügung.
 	 * @param tableau
@@ -34,9 +40,10 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		super(tableau, target);
 		SimplexLogic.findPivots(this);
 	}
-	
+
 	/**
-	 * gibt ein Klon vom aktuellen Objekt zurück
+	 * Gibt ein Klon vom aktuellen Objekt zurück.
+	 * @return Klon vom aktuellen Objekt
 	 */
 	@Override
 	public SimplexProblem clone() {
@@ -47,7 +54,7 @@ public class SimplexProblemPrimal extends SimplexProblem {
 		clone.setPivots(this.clonePivots());
 		return clone;
 	}
-	
+
 	/**
 	 * Gibt ein Array mit den x/f-Werten für jede Zeile zurück.
 	 * @return Array mit den x/f-Werten für jede Zeile
@@ -55,9 +62,9 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	public double[] getXByF() {
 		return this.convertToDblArray(this.xByF);
 	}
-	
+
 	/**
-	 * set Optimal Methode, die zusätzlich xByF mit nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
+	 * Methode, die zusätzlich xByF mit Nullen auffült. Dies führt dazu, dass im Optimum nur - angezeigt werden.
 	 */
 	public void setOptimal(){
 		super.setOptimal();
@@ -76,9 +83,9 @@ public class SimplexProblemPrimal extends SimplexProblem {
 	public void setXByF(double[] xByF) {
 		this.xByF = this.convertToDblArrayList(xByF);
 	}
-	
-	/**erstellt HTML-Code als String für das primale Problem.
-	 * 
+
+	/**
+	 * Erstellt HTML-Code als String für das primale Problem.
 	 * @return komplettes Tableau als String in Html 
 	 */
 	@Override
