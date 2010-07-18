@@ -213,7 +213,8 @@ public abstract class SimplexLogic {
 	 * @return true, wenn optimal, sonst false
 	 */
 	public static boolean checkOptimal(SimplexProblem problem){
-		double[] deltas = problem.getRow(problem.getNoRows()-1);
+		double[] deltas = problem.getLastRow();
+		//double[] deltas = problem.getRow(problem.getNoRows()-1);
 		for(int i=0;i<deltas.length-1;i++){
 			if(deltas[i]>0){
 				return false;
@@ -323,38 +324,6 @@ public abstract class SimplexLogic {
 		}
 		return pivots;
 	}
-
-//	/**
-//	 * Gibt ein Array mit den Pivotspalten aus.
-//	 * @param problem SimplexProblem, für das die Pivotspalten bestimmt werden sollen.
-//	 * @return Array mit den Pivotspalten
-//	 */
-//	public static void findPivots(SimplexProblem problem){
-//		ArrayList<Integer> pivots = new ArrayList<Integer>();
-//		for(int i = 0; i<problem.getNoColumns(); i++){ //For-Schleife, durchläuft alle Spalten
-//			int posOfOne = 0;// Speichert die Position der ersten gefundenen 1 in einer Spalte
-//			int noo = 0;//Anzahl Einsen
-//			for(int k = 0; k<problem.getNoRows()-1; k++){ //For-Schleife, durchläuft alle Zeilen
-//				if(problem.getField(k,i) != 0.0 && problem.getField(k,i) != 1.0){
-//					noo = 0;
-//					break; //Abbruch des Durchlaufs, falls die Zahl an Stelle k != 0 bzw. != 1
-//				}
-//				else{
-//					if(problem.getField(k,i) == 1){ 
-//						posOfOne = k;
-//						noo++; //Anzahl Einsen um 1 erhöhen, falls Zelle[k][i] = 1
-//					}
-//					if(noo > 1){
-//						break; //Abbruch, falls mehr als eine 1 in einer Spalte gefunden wird
-//					}
-//				}
-//			}
-//			if(noo == 1){
-//				pivots.add(i);
-//			}
-//		}
-//		problem.setPivots(pivots);
-//	}
 	
 	/**
 	 * Gibt ein int-Array mit den Pivotspalten aus. 
@@ -487,7 +456,7 @@ public abstract class SimplexLogic {
 		if(checkOptimal(problem)){
 			problem.setOptimal();
 		}else{
-			if(!solveablePrimal(problem)){
+			if(!(solveablePrimal(problem)&&solveablePrimalXByF(problem))){
 				if(!solveableDual(problem)){
 					throw new IOException ("Das Problem ist nicht lösbar!");
 				}else{
@@ -533,13 +502,30 @@ public abstract class SimplexLogic {
 	}
 
 	/**
+	 * überprüft ob noch xByF-Werte vorhanden sind mit denen weitergerechnet werden kann.
+	 * Das bedeutet, dass xByF Werte enthält die gleich positiveInfinity sind 
+	 */
+	public static boolean solveablePrimalXByF(SimplexProblemPrimal problem){
+		double[]xByF = problem.getXByF();
+		int nOUXByF = 0; //Anzahl der xByF-Werte die größter null und ungleich positiv undendlich sind
+		for(int i=0;i<xByF.length;i++){
+			if(!(xByF[i]==Double.POSITIVE_INFINITY || xByF[i]<=0)){
+				nOUXByF++;
+			}
+		}
+		if(nOUXByF>0)return true;
+		else return false;
+		
+	}
+	
+	/**
 	 * Stellt fest, ob ein duales Problem im aktuellen Zustand lösbar ist
 	 * @param problem Primales Simplexproblem
 	 * @return boolean, der angibt, ob das Problem lösbar ist
 	 */
 	public static boolean solveableDual(SimplexProblem problem){
 		double[] x = problem.getLastColumn();
-		for(int i=0;i<x.length;i++){
+		for(int i=0;i<x.length-1;i++){
 			if(x[i]<0){
 				for(int j=0;j<problem.getRow(i).length;j++){
 					if(problem.getRow(i)[j]<0 && problem.getLastRow()[j]<0)
@@ -779,6 +765,7 @@ public abstract class SimplexLogic {
 //		System.out.println(problem.tableauToHtml());
 		SimplexProblemDual dualProblem = new SimplexProblemDual(problem.getTableau(),problem.getTarget());
 		calcDeltas(dualProblem);
+		System.out.println(dualProblem.tableauToHtml());
 		calcDeltaByF(dualProblem);
 		return dualProblem;
 	}
@@ -886,7 +873,7 @@ public abstract class SimplexLogic {
 		calcXByF((SimplexProblemPrimal)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
 		try{
-			do{
+			do{ 
 				SimplexProblemPrimal current = (SimplexProblemPrimal) phases[1].getLastElement();
 				current = SimplexLogic.simplex(current);
 				if(current!=null)phases[1].addElement(current.clone());
@@ -896,7 +883,7 @@ public abstract class SimplexLogic {
 			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ //Problem wird in dualer Form weiterbearbeitet
-			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[0].getLastElement()));
+			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
 			return secondPhaseDual(phases);
 		}
 		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
@@ -946,7 +933,7 @@ public abstract class SimplexLogic {
 			phases[1].addElement(null);
 			return phases;
 		}catch(DataFormatException e){ // Problem wird in primaler Form weiterbearbeitet
-			phases[1].addElement(transformProblem((SimplexProblemDual)phases[0].getLastElement()));
+			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
 			return secondPhasePrimal(phases);
 		}
 		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
