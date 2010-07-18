@@ -3,8 +3,10 @@ package com.googlecode.simplex4android;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -170,13 +172,30 @@ public class SimplexHistoryShow extends Activity {
 	    btn_back.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("unchecked")
 			public void onClick(View v) {
-		        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
-		        InputsEditIntent.putExtra("inputs", (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
-		        InputsEditIntent.putExtra("edit", true);
-		        InputsEditIntent.putExtra("id", SimplexHistoryShow.this.getIntent().getIntExtra("id", -1));
-		    	startActivity(InputsEditIntent);
-	    	}
-	    });
+				if(currenti == current.size()-1 && currentphase == 2){
+					if(!twoPhases || currentphase == 2){
+						AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
+						builder.setMessage("Wohin?")
+						       .setCancelable(false)
+						       .setPositiveButton("Startseite", new DialogInterface.OnClickListener() {
+						           public void onClick(DialogInterface dialog, int id) {
+						                
+						           }
+						       })
+						       .setNegativeButton("Aktuelles Problem", new DialogInterface.OnClickListener() {
+						           public void onClick(DialogInterface dialog, int id) {
+						           }
+						       });
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+				}
+				else{
+					returnToInputsShow();
+					
+				}
+			}
+		});
 	}	
 
     /**
@@ -284,4 +303,16 @@ public class SimplexHistoryShow extends Activity {
 			txt_solution.setVisibility(View.INVISIBLE);
 		}
 	}
+
+	/**
+	 * 
+	 */
+	public void returnToInputsShow(){
+		Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
+		InputsEditIntent.putExtra("inputs", (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
+		InputsEditIntent.putExtra("edit", true);
+		InputsEditIntent.putExtra("id", SimplexHistoryShow.this.getIntent().getIntExtra("id", -1));
+		startActivity(InputsEditIntent);
+	}
+
 }
