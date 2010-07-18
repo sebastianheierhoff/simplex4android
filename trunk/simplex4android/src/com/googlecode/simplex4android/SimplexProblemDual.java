@@ -128,7 +128,7 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 			html = html + "</tr>\n";
 		}
 		// Letzte Zeile: extra behandlung für delta-Wert
-		html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
+		html = html + "<tr align=right><td></td><td>&#x3b4;</td>"; //inkl. zwei leerfelder
 		for(int i=0;i<this.getTableau()[0].length;i++){
 			if(pivots.length <= this.getNoPivots())html = html + "<td nowrap>" + (Math.round((this.getTableau()[(this.getTableau().length-1)][i])*100.)/100.) +"</td>";
 			else html = html + "<td nowrap>" + "&#8211;" +"</td>";
@@ -136,7 +136,7 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 		html = html + "</tr>\n";
 		// allerletzte Zeile mit den delta/f-Werten
 		if(deltaByF!=null){
-			html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
+			html = html + "<tr align=right><td></td><td>&#x3b4;/x</td>"; //inkl. zwei leerfelder
 			for(int i=0;i<deltaByF.size();i++){
 				if(deltaByF.get(i)>0)html = html + "<td nowrap>" + (Math.round(deltaByF.get(i)*100.)/100.) +"</td>";
 				else html = html + "<td nowrap>&#8211;</td>";
