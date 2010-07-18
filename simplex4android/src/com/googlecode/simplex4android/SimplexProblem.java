@@ -334,7 +334,7 @@ public abstract class SimplexProblem implements Serializable{
 	public String getSolution(){
 		String solution = "";
 		if(this.getOptimal()){
-			double[] xSolutions = new double[this.getNoColumns()-2];
+			double[] xSolutions = new double[this.getNoColumns()-1];
 			int[] pivots = this.getPivots();
 			// Lösungen einspeichern
 			for(int i=0; i<pivots.length;i++){
