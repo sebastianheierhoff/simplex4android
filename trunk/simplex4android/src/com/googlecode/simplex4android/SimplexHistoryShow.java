@@ -184,6 +184,7 @@ public class SimplexHistoryShow extends Activity {
 						       })
 						       .setNegativeButton("Aktuelles Problem", new DialogInterface.OnClickListener() {
 						           public void onClick(DialogInterface dialog, int id) {
+						        	   returnToInputsShow();
 						           }
 						       });
 						AlertDialog alert = builder.create();
@@ -213,7 +214,7 @@ public class SimplexHistoryShow extends Activity {
 				dialog.setTitle("Lösung:");
 			}
 			TextView text = (TextView) dialog.findViewById(R.id.text);
-			String solution_string = current.getLastElement().getSolution();
+			String solution_string = solutionToString(current.getLastElement());
 			if(solution_string.equals("")){
 				text.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
 			}
@@ -224,6 +225,35 @@ public class SimplexHistoryShow extends Activity {
 			dialog.setCanceledOnTouchOutside(true);
 		}
 		solutionShown = true;
+	}
+	
+	/**
+	 * Gibt die Lösung des SimlexProblems zurück, sofern dieses bereits optimal ist.
+	 * @return Lösungsstring, Leerstring falls nicht optimal.
+	 * @param 
+	 */
+	public String solutionToString(SimplexProblem problem){
+		String solution = "";
+		if(problem.getOptimal()){
+			double[] xSolutions = new double[problem.getNoColumns()-1];
+			int[] pivots = problem.getPivots();
+			// Lösungen einspeichern
+			for(int i=0; i<pivots.length;i++){
+				xSolutions[pivots[i]] = problem.getField(i, problem.getNoColumns()-1);
+			}
+			// Ausgabestring erstellen
+			for(int i=0; i<xSolutions.length;i++){
+				if(!(xSolutions[i]==0)){
+					if(solution.equals("")){
+						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
+					}
+					else{
+						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
+					}		
+				}
+			}
+		}
+		return solution;
 	}
 	
 	/**
@@ -273,7 +303,7 @@ public class SimplexHistoryShow extends Activity {
 				txt_solution_label.setText("Lösung ("+ typeOfProblem+ "):");
 			}
 			txt_solution.setVisibility(View.VISIBLE);
-			String solution_string = current.getLastElement().getSolution();
+			String solution_string = solutionToString(current.getLastElement());
 			if(solution_string.equals("")){
 				txt_solution.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
 			}
