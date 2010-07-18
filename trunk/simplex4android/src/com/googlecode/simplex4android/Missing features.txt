@@ -19,10 +19,9 @@ Bitte eintragen:
 		aktuell keine Fehler/Probleme bekannt! :)
 		
 	SimplexHistoryShow:
-		"Zurück" ohne Funktion
-		"-1.0" füht zu Zeilenumbruch in den Zellen
 		
 	Startseite:
+		aktuell keine Fehler/Probleme bekannt! :)
 
 [Logik]
 	1. Phase
