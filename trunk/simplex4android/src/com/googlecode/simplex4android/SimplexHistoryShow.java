@@ -3,22 +3,16 @@ package com.googlecode.simplex4android;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SimplexHistoryShow extends Activity {
 	
@@ -261,7 +255,7 @@ public class SimplexHistoryShow extends Activity {
 		}
 		else if(currenti == 0){
 			if(twoPhases){
-				label.setText("Starttableau: ("+ currentphase +". Phase " + typeOfProblem+ "):");
+				label.setText("Starttableau: ("+ currentphase +". Phase, " + typeOfProblem+ "):");
 			}
 			else{
 				label.setText("Starttableau ("+ typeOfProblem+ "):");
@@ -271,7 +265,7 @@ public class SimplexHistoryShow extends Activity {
 		}
 		else{
 			if(twoPhases){
-				label.setText("Aktuelles Tableau ("+ currentphase +". Phase " + typeOfProblem+ "):");
+				label.setText("Aktuelles Tableau ("+ currentphase +". Phase, " + typeOfProblem+ "):");
 			}
 			else{
 				label.setText("Aktuelles Tableau ("+ typeOfProblem+ "):");

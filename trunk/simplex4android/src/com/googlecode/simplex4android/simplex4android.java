@@ -15,7 +15,6 @@ public class simplex4android extends Activity {
  *		Activity um neues Problem anzulegen, oder 
  *		ListView um Probleme zu laden
  *		lädt View zum ändern/anlegen von Problemen mit gespeicherten Werten
- *		laden Ausgabe, Zurückbtn, um wieder auf den HomeScreen zurück zu gelangen, Speichern Button, um zur ListView zurück zu kehren
  */	
 	
 	//Ressourcen
@@ -53,7 +52,7 @@ public class simplex4android extends Activity {
 	    	}
 	    });
 	    
-	    //Neues Problema anlegen - Button
+	    //Neues Problem anlegen - Button
 	    btn_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
 	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
