@@ -361,6 +361,7 @@ public abstract class SimplexLogic {
 		}
 		problem.setPivots(pivots);
 	}
+	
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
 	 * @param zeile Index der Zeile des Pivotelements
@@ -787,7 +788,10 @@ public abstract class SimplexLogic {
 			}
 			while(phases[0].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[0].addElement(null);
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
+				phases[0].deleteElement(phases[0].size()-2);
+			}
 			return phases;
 		}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 			phases[0].addElement(transformProblem((SimplexProblemPrimal)phases[0].getLastElement()));
@@ -818,7 +822,10 @@ public abstract class SimplexLogic {
 			}
 			while(phases[0].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
-			phases[0].addElement(null);
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
+				phases[0].deleteElement(phases[0].size()-2);
+			}
 			return phases;
 		}catch(DataFormatException e){ //weiterbearbeitung des Problems in primaler Form
 			phases[0].addElement(transformProblem((SimplexProblemDual)phases[0].getLastElement()));
