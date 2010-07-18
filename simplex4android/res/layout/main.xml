@@ -21,25 +21,25 @@
 	    <Button
 	    	android:id="@+id/btn_current"
 	        android:layout_width="fill_parent"
-	        android:layout_height="45dip"
+	        android:layout_height="52dip"
 	        android:text="Aktuelles Problem"
 	        android:enabled="false" />
 		<!-- Neues Problem -->
 	    <Button
 	    	android:id="@+id/btn_new"
 	        android:layout_width="fill_parent"
-	        android:layout_height="45dip"
+	        android:layout_height="52dip"
 	        android:text="Neues Problem" />
 	    <!-- Problem laden-->
 	    <Button
 	        android:id="@+id/btn_load"
 	        android:layout_width="fill_parent"
-	        android:layout_height="45dip"
+	        android:layout_height="52dip"
 	        android:text="Problem laden" />
 	    <Button
 	        android:id="@+id/btn_tutorial"
 	        android:layout_width="fill_parent"
-	        android:layout_height="45dip"
+	        android:layout_height="52dip"
 	        android:text="Tutorial/Dokumentation" />    
 	</LinearLayout>
 </RelativeLayout>

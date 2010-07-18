@@ -32,7 +32,7 @@
  	<Spinner 
  		android:id="@+id/spinner_gtltoreq"
  		android:layout_width="80dip"
- 		android:layout_height="52dip"
+ 		android:layout_height="wrap_content"
  		android:drawSelectorOnTop="false"/>
 	<EditText 
 		android:id="@+id/edittext_constraint_target_value"
@@ -67,8 +67,8 @@
 	   	<EditText 
 			android:id="@+id/edittext_target_element" 
 			android:text="" 
-			android:layout_width="92dip"
-			android:layout_height="45dip"
+			android:layout_width="146dip"
+			android:layout_height="52dip"
 	        android:hint="z.B. 10" 
 	        android:background="@drawable/textfield_default" 
 	        android:inputType="none"
@@ -78,28 +78,29 @@
 	        android:fadingEdgeLength="5dip"/>
 	   	<EditText 
 			android:id="@+id/edittext_x" 
+			android:background="@drawable/textfield_disabled"
 			android:text="x1" 
 			android:enabled="false"
 			android:layout_width="wrap_content" 
-			android:layout_height="45dip"
+			android:layout_height="52dip"
 	        android:gravity="bottom"/>
 		<Button
 			android:id="@+id/btn_x_plus"
 			android:background="@drawable/btn_x_plus_normal"
-			android:layout_height="45dip"
-			android:layout_width="45dip"
+			android:layout_height="50dip"
+			android:layout_width="51dip"
 		    android:layout_gravity="bottom" />
 		<Button
 			android:id="@+id/btn_x_minus"
 			android:background="@drawable/btn_x_minus_normal"
-			android:layout_height="45dip"
-			android:layout_width="45dip"
+			android:layout_height="50dip"
+			android:layout_width="51dip"
 		    android:layout_gravity="bottom"/>
 		<Button
 			android:id="@+id/btn_add_target_element"
 			android:background="@drawable/btn_add"
-			android:layout_height="45dip"
-			android:layout_width="92dip"
+			android:layout_height="50dip"
+			android:layout_width="102dip"
 		    android:layout_gravity="bottom"/>
 		</LinearLayout>	
 		<LinearLayout
@@ -126,11 +127,6 @@
 	 	android:layout_gravity="right"
 	 	android:layout_height="wrap_content"
 	 	android:layout_width="wrap_content">
-	<!--<Button
-		android:id="@+id/btn_add_another_constraint"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Weitere &#10; Nebenbedingung"/>	-->
 	<LinearLayout
 	 	android:layout_alignParentBottom="true"
 	 	android:orientation="horizontal"
@@ -140,15 +136,16 @@
 		<Button 
 			android:id="@+id/btn_cancel"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="52dip"
 			android:text="Abbruch"
 			android:gravity="bottom"/>
 		<Button 
 			android:id="@+id/btn_add"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="52dip"
 			android:layout_weight="0.7"
-			android:text="Fertig" android:gravity="bottom"/>
+			android:text="Fertig"
+			android:gravity="bottom"/>
 	</LinearLayout>
 	</LinearLayout>
 	<ImageView 
