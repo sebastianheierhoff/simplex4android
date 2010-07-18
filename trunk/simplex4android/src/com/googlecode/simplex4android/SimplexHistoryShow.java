@@ -190,6 +190,15 @@ public class SimplexHistoryShow extends Activity {
 			dialog.setContentView(R.layout.dialog);
 			dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
 			TextView text = (TextView) dialog.findViewById(R.id.text);
+			String solution_string = current.getLastElement().getSolution();
+			if(solution_string.equals("")){
+				text.setText("Keine optimale Lösung gefunden"); //Lösung anzeigen
+			}
+			else{
+				text.setText(solution_string);
+			}
+		
+			
 			text.setText(current.getLastElement().getSolution());
 			dialog.show();
 			dialog.setCanceledOnTouchOutside(true);
@@ -243,7 +252,6 @@ public class SimplexHistoryShow extends Activity {
 				txt_solution_label.setVisibility(View.VISIBLE);
 				txt_solution_label.setText("Lösung ("+ typeOfProblem+ "):");
 			}
-			showSolution(SimplexHistoryShow.this);
 			txt_solution.setVisibility(View.VISIBLE);
 			String solution_string = current.getLastElement().getSolution();
 			if(solution_string.equals("")){
@@ -252,6 +260,7 @@ public class SimplexHistoryShow extends Activity {
 			else{
 				txt_solution.setText(solution_string);
 			}
+			showSolution(SimplexHistoryShow.this);
 		}
 		else if(currenti == 0){
 			if(twoPhases){
