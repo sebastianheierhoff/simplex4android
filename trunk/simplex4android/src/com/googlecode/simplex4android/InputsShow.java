@@ -231,7 +231,7 @@ public class InputsShow extends Activity{
 				Intent SHShowIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryShow");
 				SHShowIntent.putExtra("inputs", inputs);
 				SHShowIntent.putExtra("id", id);
-				SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe //TODO: Serializable implementieren
+				SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe
 				startActivity(SHShowIntent);
 			}
 		});
