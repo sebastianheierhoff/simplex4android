@@ -52,7 +52,13 @@ public class SimplexHistoryShow extends Activity {
     	final Button btn_next = (Button) findViewById(R.id.btn_next);
     	final Button btn_last = (Button) findViewById(R.id.btn_last);
     	
-    	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	try{
+    		simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	}
+    	catch(Exception ex){
+    		simplexhistoryarray = InputsShow.simplexhistoryarray;
+    		Toast.makeText(this, "Fehler beim Typecast", Toast.LENGTH_SHORT);
+    	}
     	
     	if(simplexhistoryarray[0] != null){ //1. Phase == null -> 1. Phase nicht nötig, direkt in 2. Phase
     		currentphase = 1;
@@ -90,7 +96,6 @@ public class SimplexHistoryShow extends Activity {
     			return false;
     		}
     	});
-
     	
     	//First-Button
 	    btn_first.setOnClickListener(new OnClickListener() {
@@ -219,7 +224,7 @@ public class SimplexHistoryShow extends Activity {
 		dialog.setTitle("Lösung"); //1. Phase/2. Phase einfügen!
 		TextView text = (TextView) dialog.findViewById(R.id.text);
 		text.setText("Hello, this is a custom dialog!");
-		ImageView image = (ImageView) dialog.findViewById(R.id.image);
+		dialog.show();
 	}
 	
 	
