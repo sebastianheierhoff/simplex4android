@@ -19,6 +19,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+/**
+ * Activity zum Erzeugen/Bearbeiten von Zielfunktionen (Targets),
+ * @params TARGET_EDIT_INTENT (mit zu bearbeitender Zielfunktion) oder TARGET_CREATE_INTENT
+ * @return TARGET_EDIT_RESULT oder TARGET_CREATE_RESULT mit der erstellten/bearbeiteten Zielfunktion
+ * @author simplex4android: Sebastian Hanschke
+ *
+ */
 public class TargetEdit extends Activity {
 
 	//ResultCodes
@@ -66,7 +73,6 @@ public class TargetEdit extends Activity {
 	    	target = (Target) this.getIntent().getSerializableExtra("target"); //Target laden
 	    }
     
-	    
 		//Spinner minmax
 		ArrayAdapter<CharSequence> adapter_minmax = ArrayAdapter.createFromResource(this, R.array.spinner_minmax_values, android.R.layout.simple_spinner_item); 
 		adapter_minmax.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -280,6 +286,10 @@ public class TargetEdit extends Activity {
 	    }
 	}
 	
+	/**
+	 * Methode zum Erhöhen des xi-Wertes abhängig vom Inhalt des aktuellen Feldes 
+	 * (Beachte: Eingabe in dieses Feld zur Zeit deaktivert)
+	 */
 	public void increment_xi(){
 		EditText edittext_x = (EditText) findViewById(R.id.edittext_x); 
 		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);

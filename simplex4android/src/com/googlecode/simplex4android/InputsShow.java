@@ -1,7 +1,3 @@
-
-//TODO: Buttons deaktivieren, solange sie nicht benutzt werden dürfen
-//TODO: Prüfungen einbauen, ob gespeichert/gestartet werden kann (Eingaben korrekt, etc.)
-
 package com.googlecode.simplex4android;
 
 import java.util.ArrayList;
@@ -20,6 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Activity zum Anzeigen von Problemen (d.h. einem Target und mehreren Constraints) 
+ * @author simplex4android: Sebastian Hanschke
+ *
+ */
 public class InputsShow extends Activity{
 	
 	//ResultCodes
@@ -245,16 +246,22 @@ public class InputsShow extends Activity{
 		if(inputs.size() <= 1) btn_start.setEnabled(false); //Button deaktiviert, solange nicht mindestens eine NB angelegt wurde.
 	}
 
+	/**
+	 * Handelt Results aufgerufener Aktivities
+	 * @param requestCode RequestCode mit dem die Activity aufgerufen wurde
+	 * @param resultCode ResultCode, den die Activity zurückgibt
+	 * @param data Zurückgegebene Daten
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		Target target;
 		Constraint constraint;
 		switch (resultCode) {
-        	case RESULT_CANCELED:
+        	case RESULT_CANCELED: //Abbruch
         		if(requestCode == TARGET_CREATE_REQUEST){
         			finish();
         		}
         		break;
-        	case TARGET_EDIT_RESULT:
+        	case TARGET_EDIT_RESULT: //Zielfunktion bearbeitet
         		target = (Target) data.getSerializableExtra("target");
         		adapter_list_target.remove(adapter_list_target.getItem(0));
         		adapter_list_target.insert(target.toString(),0);
@@ -263,7 +270,7 @@ public class InputsShow extends Activity{
             	findViewById(R.id.btn_settings).setEnabled(true);
             	findViewById(R.id.btn_save).setEnabled(true);
             	break;
-        	case TARGET_CREATE_RESULT:
+        	case TARGET_CREATE_RESULT: //Zielfunktion angelegt
             	try{
             		target = (Target) data.getSerializableExtra("target");
             		adapter_list_target.insert(target.toString(),0);
@@ -277,7 +284,7 @@ public class InputsShow extends Activity{
             	findViewById(R.id.btn_settings).setEnabled(true);
             	findViewById(R.id.btn_save).setEnabled(true);
             	break;
-        	case CONSTRAINT_EDIT_RESULT:
+        	case CONSTRAINT_EDIT_RESULT: //Nebenbedingung bearbeitet
         		constraint = (Constraint) data.getSerializableExtra("constraint");
         		int position = data.getIntExtra("id", -1);
         		inputs.set(position+1, constraint);
@@ -285,7 +292,7 @@ public class InputsShow extends Activity{
         		adapter_list_constraint.insert(constraint.toString(), position);
     		    Toast.makeText(InputsShow.this,"Nebenbedingung bearbeitet",Toast.LENGTH_LONG).show();
         		break;
-        	case CONSTRAINT_CREATE_RESULT:
+        	case CONSTRAINT_CREATE_RESULT: //Nebenbedingung angelegt
             	try{
             		constraint = (Constraint) data.getSerializableExtra("constraint");
             		inputs.add(constraint);
@@ -305,8 +312,12 @@ public class InputsShow extends Activity{
         }
 		hideOrShowEmptyTexts();
     }
-
-	public void ConstraintDeleteClickHandler(View v){
+	
+	/**
+	 * Handelt Klicks auf den Löschen-Button einer Nebenbedingung
+	 * @param v 
+	 */
+	public void ConstraintDeleteClickHandler(View v){ 
 		ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
 		RelativeLayout rl_row = (RelativeLayout)v.getParent();
         int position = lv_constraint.indexOfChild(rl_row);
@@ -318,6 +329,10 @@ public class InputsShow extends Activity{
         hideOrShowEmptyTexts();
 	}
 	
+	/**
+	 * Handelt Klicks auf den Bearbeiten-Button einer Nebenbedingung
+	 * @param v
+	 */
 	public void ConstraintEditClickHandler(View v){
 		ListView lv_constraint = (ListView) findViewById(R.id.list_constraint);
 		RelativeLayout rl_row = (RelativeLayout)v.getParent();
@@ -330,6 +345,10 @@ public class InputsShow extends Activity{
     	startActivityForResult(ConstraintEditIntent, CONSTRAINT_EDIT_REQUEST);
 	}
 	
+	/**
+	 * Handelt Klick auf den Bearbeiten-Button einer Zielfunktion
+	 * @param v
+	 */
 	public void TargetEditClickHandler(View v){
         Target target = (Target) inputs.get(0);
         Intent ConstraintEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TargetEdit");
@@ -338,7 +357,10 @@ public class InputsShow extends Activity{
     	startActivityForResult(ConstraintEditIntent, TARGET_EDIT_REQUEST);
 	}
 
-	private void fillData() {
+	/**
+	 * Lädt Zielfunktion und Nebenbedingungen in die entsprechenden ListViews bzw. aktualisiert diese.
+	 */
+	private void fillData() { //Daten laden
         if(inputs.get(0) != null){
 			adapter_list_target.clear();
 		    adapter_list_target.add(inputs.get(0).toString());
@@ -351,6 +373,9 @@ public class InputsShow extends Activity{
         }
 	}
 
+	/**
+	 * Blendet die Meldung "Keine Zielfunktion vorhanden. Bitte anlegen!" (text_target_empty) bzw. "Keine Nebenbedingung vorhanden. Bitte anlegen!" (text_constraint_empty) aus bzw. ein.
+	 */
 	private void hideOrShowEmptyTexts(){
 		TextView txt_target_empty = (TextView) findViewById(R.id.text_target_empty);
 		ViewGroup.LayoutParams params_target = txt_target_empty.getLayoutParams();

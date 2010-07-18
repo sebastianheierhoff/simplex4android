@@ -19,6 +19,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * Activity zum Anzeigen einer Liste von Problemen (anhand ihrer Zielfunktionen), die aus einer ProblemsDb geladen wurden.
+ * Probleme können per Klick auf die entsprechenden Buttons geladen und gelöscht werden.
+ * @author Sebastian Hanschke
+ *
+ */
 public class ProblemsLoad extends Activity {
 	
 	//Ressourcen
@@ -78,6 +84,10 @@ public class ProblemsLoad extends Activity {
 
     }
 
+    /**
+     * Handelt Klicks auf den Löschen-Button eines Problems
+     * @param v
+     */
     public void DeleteClickHandler(View v){
     	ListView lv_problems = (ListView) findViewById(R.id.list_problems);
     	RelativeLayout rl_row = (RelativeLayout)v.getParent();
@@ -91,6 +101,10 @@ public class ProblemsLoad extends Activity {
     	hideOrShowEmptyText();
     }
 
+    /**
+     * Handelt Klicks auf den Edit-Button eines Problems (das Problem wird in InputsShow geöffnet)
+     * @param v
+     */
     public void EditClickHandler(View v)
     {
     	ListView lv_problems = (ListView) findViewById(R.id.list_problems);
@@ -104,6 +118,9 @@ public class ProblemsLoad extends Activity {
     	startActivity(InputsEditIntent);
     }
 
+	/**
+	 * Blendet die Meldung "Keine Probleme vorhanden. Bitte anlegen!" (text_list_empty) ein oder aus.
+	 */
     private void hideOrShowEmptyText(){
     	TextView text_list_empty = (TextView) findViewById(R.id.text_list_empty);
     	ViewGroup.LayoutParams params_text_list_empty = text_list_empty.getLayoutParams();

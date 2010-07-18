@@ -16,6 +16,11 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Activity zum Anzeigen des 2-Phasen-Simplexes
+ * @author simplex4android: Sebastian Hanschke
+ *
+ */
 public class SimplexHistoryShow extends Activity {
 	
 	//Ressourcen
@@ -226,13 +231,19 @@ public class SimplexHistoryShow extends Activity {
 				dialog.setTitle("Lösung:");
 			}
 			TextView text = (TextView) dialog.findViewById(R.id.text);
+
 			String solution_string = solutionToToast(current.getLastElement());
+			if(!(solution_string.equals("") && simplexhistoryarray[1] == null)){
+				solution_string += "\n\n" + "Zielwert größer 0, zulässiger Bereich des Ausgangsproblems leer! \n" +
+						"\u2192 Keine 2. Phase!";
+			}
 			if(solution_string.equals("")){
 				text.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
 			}
 			else{
 				text.setText(solution_string);
 			}
+
 			dialog.show();
 			dialog.setCanceledOnTouchOutside(true);
 		}
@@ -292,18 +303,18 @@ public class SimplexHistoryShow extends Activity {
 			// Ausgabestring erstellen
 			int count = 0;
 			for(int i=0; i<xSolutions.length;i++){
-				if((count%4)==0 && count!=0){ // Umbrechen nach 5 Variablen
+				if((count%5)==0 && count!=0){ // Umbrechen nach 5 Variablen
 					solution += "\n";
 				}
 				if(!(xSolutions[i]==0)){
-					if(solution.equals("") || (count%4)==0){
+					if(solution.equals("") || (count%5)==0){
 						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
 					}
 					else{
 						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
 					}		
 				}else{
-					if(solution.equals("") || (count%4)==0){
+					if(solution.equals("") || (count%5)==0){
 						solution += "x" +(i+1) + " = " + 0;
 					}
 					else{
@@ -395,8 +406,9 @@ public class SimplexHistoryShow extends Activity {
 	}
 
 	/**
-	 * 
+	 * Methode, bei deren Aufruf zur Activity InputsShow zurückgekehrt wird.
 	 */
+	@SuppressWarnings("unchecked")
 	public void returnToInputsShow(){
 		Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
 		InputsEditIntent.putExtra("inputs", (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
