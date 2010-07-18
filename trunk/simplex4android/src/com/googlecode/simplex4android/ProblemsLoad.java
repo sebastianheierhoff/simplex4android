@@ -65,7 +65,7 @@ public class ProblemsLoad extends Activity {
 		    //Neues-Problem-Button
 		    btn_new_problem.setOnClickListener(new OnClickListener() {
 		        public void onClick(View v) {
-		        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+		        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
 		        	InputCreateIntent.putExtra("create", true);
 		        	startActivity(InputCreateIntent);
 		        	finish();
