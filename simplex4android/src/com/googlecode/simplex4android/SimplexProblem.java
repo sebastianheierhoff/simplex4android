@@ -328,34 +328,6 @@ public abstract class SimplexProblem implements Serializable{
 	}
 
 	/**
-	 * Gibt die Lösung des SimlexProblems zurück, sofern dieses bereits optimal ist.
-	 * @return Lösungsstring, Leerstring falls nicht optimal.
-	 */
-	public String getSolution(){
-		String solution = "";
-		if(this.getOptimal()){
-			double[] xSolutions = new double[this.getNoColumns()-1];
-			int[] pivots = this.getPivots();
-			// Lösungen einspeichern
-			for(int i=0; i<pivots.length;i++){
-				xSolutions[pivots[i]] = this.getField(i, this.getNoColumns()-1);
-			}
-			// Ausgabestring erstellen
-			for(int i=0; i<xSolutions.length;i++){
-				if(!(xSolutions[i]==0)){
-					if(solution.equals("")){
-						solution += "x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);
-					}
-					else{
-						solution += ", x" +(i+1) + " = " + String.valueOf(Math.round(xSolutions[i]*10000.)/10000.);	
-					}		
-				}
-			}
-		}
-		return solution;
-	}
-
-	/**
 	 * Gibt das SimplexTableau aus.
 	 * @return SimplexTableau
 	 */
