@@ -57,7 +57,7 @@ public class simplex4android extends Activity {
 	    //Aktuelles Problem - Button
 	    btn_current.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	    		Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	    		Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
 	        	InputCreateIntent.putExtra("edit", true);
 	    		InputCreateIntent.putExtra("inputs", inputs);
 	    		InputCreateIntent.putExtra("id", id);
@@ -68,7 +68,7 @@ public class simplex4android extends Activity {
 	    //Neues Problema anlegen - Button
 	    btn_new.setOnClickListener(new OnClickListener() {
 	    	public void onClick(View v){
-	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputShow");
+	        	Intent InputCreateIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
 	        	InputCreateIntent.putExtra("create", true);
 	        	startActivity(InputCreateIntent);
 	    	}
@@ -77,7 +77,7 @@ public class simplex4android extends Activity {
 	    //Problem laden - Button
 	    btn_load.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	Intent InputsLoadIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsLoad");
+	        	Intent InputsLoadIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.ProblemsLoad");
 	        	startActivity(InputsLoadIntent);
 	        }
 	    });
@@ -87,7 +87,7 @@ public class simplex4android extends Activity {
 	        public void onClick(View v) {
 	            //TODO: WebView anlegen, HTML-Dokumentation einbinden.
 	        	Intent TutorialIntent = new Intent();
-	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.Tutorial");
+	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TutorialShow");
 	        	startActivity(TutorialIntent);
 	        }
 	    });

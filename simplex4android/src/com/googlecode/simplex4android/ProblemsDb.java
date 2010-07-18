@@ -15,7 +15,7 @@ import android.widget.Toast;
 /**
  * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
  */
-public class InputsDb {
+public class ProblemsDb {
 
 	private ArrayList<ArrayList<Input>> listOfInputs;//Liste zum Speichern von Problemen
 
@@ -26,7 +26,7 @@ public class InputsDb {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public InputsDb(Context context) throws StreamCorruptedException, IOException, ClassNotFoundException{
+	public ProblemsDb(Context context) throws StreamCorruptedException, IOException, ClassNotFoundException{
 		listOfInputs = new ArrayList<ArrayList<Input>>();
 		this.readFile(context);
 	}

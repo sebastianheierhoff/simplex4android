@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class InputShow extends Activity{
+public class InputsShow extends Activity{
 	
 	//ResultCodes
 	private static final int CONSTRAINT_EDIT_RESULT = 1;
@@ -35,10 +35,10 @@ public class InputShow extends Activity{
 	private static final int TARGET_CREATE_REQUEST = 4;
 	
 	//Ressourcen
-	private static int id;
+	private int id;
 	private static ArrayList<Input> inputs;
-	private static InputsDb data;
-	static SimplexHistory[] simplexhistoryarray;
+	private static ProblemsDb data;
+	private static SimplexHistory[] simplexhistoryarray;
 	private static ArrayAdapter<String> adapter_list_constraint;
 	private static ArrayAdapter<String> adapter_list_target;
 	private static final String[] settings = {"Primal", "Dual"};
@@ -46,7 +46,7 @@ public class InputShow extends Activity{
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-    	setContentView(R.layout.input_show);
+    	setContentView(R.layout.inputs_show);
 	   
     	//Ressourcen
         final Button back = (Button) findViewById(R.id.btn_cancel); //Zurück-Button
@@ -68,7 +68,7 @@ public class InputShow extends Activity{
 	    	id = this.getIntent().getIntExtra("id", -1);
 	    }
 	    else{
-			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+			Toast.makeText(InputsShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
 	    }
 	
 	    //Anzeigen/Ausbleden der Meldungen "Keine Nebenbedinung/Zielfunktion eingegeben."
@@ -111,7 +111,7 @@ public class InputShow extends Activity{
 	    btn_settings.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
 	    	    //Dialog, um Einstellungen vorzunehmen
-	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputsShow.this);
 	        	builder.setTitle("Simplex-Methode");
 	        	builder.setSingleChoiceItems(settings, ((Target) inputs.get(0)).getUserSettings(), new DialogInterface.OnClickListener() {
 	        	    public void onClick(DialogInterface dialog, int item) {
@@ -138,31 +138,31 @@ public class InputShow extends Activity{
 	    	public void onClick(View v) {
 	    		if(inputs.size()>0){
 	    			try{
-	    				data = new InputsDb(InputShow.this);
+	    				data = new ProblemsDb(InputsShow.this);
 	    			}
 	    			catch(Exception ex){
-						Toast.makeText(InputShow.this,"Fehler beim Anlegen der Datei!",Toast.LENGTH_SHORT).show();
+						Toast.makeText(InputsShow.this,"Fehler beim Anlegen der Datei!",Toast.LENGTH_SHORT).show();
 						return;
 	    			}
-	    			if(InputShow.this.getIntent().getBooleanExtra("edit", false) && id != -1){//Falls das Problem geladen wurde
-	    				AlertDialog.Builder builder = new AlertDialog.Builder(InputShow.this);
+	    			if(InputsShow.this.getIntent().getBooleanExtra("edit", false) && id != -1){//Falls das Problem geladen wurde
+	    				AlertDialog.Builder builder = new AlertDialog.Builder(InputsShow.this);
 	    				builder.setMessage("Problem überschreiben?")
 	    				.setCancelable(false)
 	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.setProblem(InputShow.this, InputShow.this.id, inputs);
+									data.setProblem(InputsShow.this, InputsShow.this.id, inputs);
 								}
 	    						catch (Exception ex) {
 		    						try{
-		    							data.addProblem(InputShow.this, inputs);
+		    							data.addProblem(InputsShow.this, inputs);
 		    						}
 		    						catch(Exception ex1){
-			    						Toast.makeText(InputShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
+			    						Toast.makeText(InputsShow.this,"Fehler beim Überschreiben!",Toast.LENGTH_SHORT).show();
 		    						}
 									return;
 								}
-	    						Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+	    						Toast.makeText(InputsShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
 	    					}       
 	    				})
 	    				.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
@@ -173,15 +173,15 @@ public class InputShow extends Activity{
 	    				.setNeutralButton("Als neues Problem", new DialogInterface.OnClickListener() {
 	    					public void onClick(DialogInterface dialog, int id) {
 	    						try {
-									data.addProblem(InputShow.this, inputs);
+									data.addProblem(InputsShow.this, inputs);
 								} catch (Exception e) {
-									Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
+									Toast.makeText(InputsShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 									return;
 								}
 			    				id = data.getListOfInputs().size()-1;
-			    				Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
-			    				InputShow.this.getIntent().putExtra("edit", true);
-			    				InputShow.this.getIntent().putExtra("id", id);
+			    				Toast.makeText(InputsShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+			    				InputsShow.this.getIntent().putExtra("edit", true);
+			    				InputsShow.this.getIntent().putExtra("id", id);
 	    					}
 	    				});
 	    				AlertDialog alert = builder.create();
@@ -189,16 +189,16 @@ public class InputShow extends Activity{
 	    			}
 	    			else{
 	    				try {
-							data.addProblem(InputShow.this, inputs);
+							data.addProblem(InputsShow.this, inputs);
 						} catch (Exception ex) {
-							Toast.makeText(InputShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
+							Toast.makeText(InputsShow.this,"Fehler beim Speichern!",Toast.LENGTH_SHORT).show();
 							ex.printStackTrace();
 							return;
 						}
 	    				id = data.getListOfInputs().size()-1;
-	    				Toast.makeText(InputShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
-	    				InputShow.this.getIntent().putExtra("edit", true);
-	    				InputShow.this.getIntent().putExtra("id", id);
+	    				Toast.makeText(InputsShow.this,"Problem erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+	    				InputsShow.this.getIntent().putExtra("edit", true);
+	    				InputsShow.this.getIntent().putExtra("id", id);
 	    			}
 	    		}
 	    	}
@@ -215,7 +215,7 @@ public class InputShow extends Activity{
 						simplexhistoryarray = SimplexLogic.twoPhaseSimplex(problem); //2-Phasen Simplex auf dieses Problem anwenden, man erhält ein SimplexHistory[2]
 					}
 					catch(Exception ex){
-						Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+						Toast.makeText(InputsShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
 					}
 				}
 				else{
@@ -224,13 +224,13 @@ public class InputShow extends Activity{
 						simplexhistoryarray = SimplexLogic.twoPhaseSimplex(problem); //2-Phasen Simplex auf dieses Problem anwenden, man erhält ein SimplexHistory[2]
 					}
 					catch(Exception ex){
-						Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+						Toast.makeText(InputsShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
 					}
 				}
 				Intent SHShowIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.SimplexHistoryShow");
 				SHShowIntent.putExtra("inputs", inputs);
 				SHShowIntent.putExtra("id", id);
-				//SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe //TODO: Serializable implementieren
+				SHShowIntent.putExtra("simplexhistoryarray", simplexhistoryarray); //Weitergeben des Arrays an SimplexHistoryShow zur Ausgabe //TODO: Serializable implementieren
 				startActivity(SHShowIntent);
 			}
 		});
@@ -252,7 +252,7 @@ public class InputShow extends Activity{
         		adapter_list_target.remove(adapter_list_target.getItem(0));
         		adapter_list_target.insert(target.toString(),0);
         		inputs.set(0, target);
-    		    Toast.makeText(InputShow.this,"Zielfunktion bearbeitet",Toast.LENGTH_LONG).show();
+    		    Toast.makeText(InputsShow.this,"Zielfunktion bearbeitet",Toast.LENGTH_LONG).show();
             	findViewById(R.id.btn_settings).setEnabled(true);
             	findViewById(R.id.btn_save).setEnabled(true);
             	break;
@@ -261,11 +261,11 @@ public class InputShow extends Activity{
             		target = (Target) data.getSerializableExtra("target");
             		adapter_list_target.insert(target.toString(),0);
             		inputs.set(0, target);
-        		    Toast.makeText(InputShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
+        		    Toast.makeText(InputsShow.this,"Zielfunktion angelegt",Toast.LENGTH_LONG).show();
         		    findViewById(R.id.btn_settings).setEnabled(true);
             	}
             	catch(Exception ex){
-	    			Toast.makeText(InputShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
+	    			Toast.makeText(InputsShow.this,"Unbekannter Fehler",Toast.LENGTH_LONG).show();
             	}
             	findViewById(R.id.btn_settings).setEnabled(true);
             	findViewById(R.id.btn_save).setEnabled(true);
@@ -276,20 +276,20 @@ public class InputShow extends Activity{
         		inputs.set(position+1, constraint);
         		adapter_list_constraint.remove(adapter_list_constraint.getItem(position));
         		adapter_list_constraint.insert(constraint.toString(), position);
-    		    Toast.makeText(InputShow.this,"Nebenbedingung bearbeitet",Toast.LENGTH_LONG).show();
+    		    Toast.makeText(InputsShow.this,"Nebenbedingung bearbeitet",Toast.LENGTH_LONG).show();
         		break;
         	case CONSTRAINT_CREATE_RESULT:
             	try{
             		constraint = (Constraint) data.getSerializableExtra("constraint");
             		inputs.add(constraint);
             		adapter_list_constraint.add(constraint.toString());
-        		    Toast.makeText(InputShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
+        		    Toast.makeText(InputsShow.this,"Nebenbedingung angelegt",Toast.LENGTH_LONG).show();
             	}
             	catch(ClassCastException e){
-	    			Toast.makeText(InputShow.this,"Fehler: " + e.getMessage(),Toast.LENGTH_LONG).show();
+	    			Toast.makeText(InputsShow.this,"Fehler: " + e.getMessage(),Toast.LENGTH_LONG).show();
             	}
             	catch(Exception ex){
-	    			Toast.makeText(InputShow.this,ex.getMessage(),Toast.LENGTH_LONG).show();
+	    			Toast.makeText(InputsShow.this,ex.getMessage(),Toast.LENGTH_LONG).show();
             	}
             	findViewById(R.id.btn_start).setEnabled(true);
             	break;
