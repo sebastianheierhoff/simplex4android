@@ -91,7 +91,7 @@ public class SimplexProblemPrimal extends SimplexProblem implements Serializable
 	@Override
 	public String tableauToHtml(){
 		int[] pivots =this.getPivots();
-		String html = "\n<html>\n<body>\n<table border=1 cellspacing=0 width=100%>\n";
+		String html = "\n<html>\n<body>\n<table border=1 cellspacing=0 width=100&#0025;>\n";
 		//Spaltenbreite
 		html = html + "<colgroup><col width=13> <col width=13>";
 		for(int i=0;i<this.getTarget().length+1;i++){

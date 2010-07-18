@@ -35,6 +35,7 @@ public class SimplexHistoryShow extends Activity {
     
     private static TextView label;
     private static TextView txt_solution;
+    private static TextView txt_solution_label;
     private static Button btn_switchphases; 
 	private static Button btn_first; 
 	private static Button btn_previous; 
@@ -54,6 +55,7 @@ public class SimplexHistoryShow extends Activity {
     	btn_last = (Button) findViewById(R.id.btn_last);
     	label = (TextView) findViewById(R.id.label);
     	txt_solution = (TextView) findViewById(R.id.txt_solution);
+    	txt_solution_label = (TextView) findViewById(R.id.txt_solution_label);
     	
     	try{
     	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
@@ -189,7 +191,7 @@ public class SimplexHistoryShow extends Activity {
 		    		//Buttontext aktualisieren
 		    		((Button) v).setText("1. Phase");
 	    		}
-	    		if(currentphase == 2){
+	    		else if(currentphase == 2){
 		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
 		    		currentphase = 1;
 	    			current = simplexhistoryarray[0];
@@ -213,10 +215,10 @@ public class SimplexHistoryShow extends Activity {
 	    //Zurück-Button (zurück zur InputShow)
     	final Button btn_back = (Button) findViewById(R.id.btn_back);
 	    btn_back.setOnClickListener(new OnClickListener() {
-	    	@SuppressWarnings("unchecked")
+			@SuppressWarnings("unchecked")
 			public void onClick(View v) {
 		        Intent InputsEditIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.InputsShow");
-		        InputsEditIntent.putExtra("inputs", SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
+		        InputsEditIntent.putExtra("inputs", (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs"));
 		        InputsEditIntent.putExtra("edit", true);
 		        InputsEditIntent.putExtra("id", SimplexHistoryShow.this.getIntent().getIntExtra("id", -1));
 		    	startActivity(InputsEditIntent);
@@ -254,30 +256,45 @@ public class SimplexHistoryShow extends Activity {
 		//Label anpassen, je nachdem, um das wie vielte Tableau es sich handelt
 		if(currenti == lasti){
 			if(twoPhases){
-				label.setText("Letztes Tableau ("+ currentphase +". Phase) : Lange Klicken zeigt Lösung!");
+				label.setText("Letztes Tableau ("+ currentphase +". Phase): Lange Klicken zeigt Lösung!");
+				txt_solution_label.setVisibility(View.VISIBLE);
+				txt_solution_label.setText("Lösung ("+ currentphase +". Phase):");
 			}
 			else{
 				label.setText("Letztes Tableau: Lange Klicken zeigt Lösung!");
+				txt_solution_label.setVisibility(View.VISIBLE);
+				txt_solution_label.setText("Lösung:");
 			}
-			txt_solution.setText(current.getElement(lasti).getSolution()); //Lösung anzeigen
+			txt_solution.setVisibility(View.VISIBLE);
+			String solution_string = current.getElement(lasti).getSolution();
+			if(solution_string.equals("")){
+				txt_solution.setText("Keine optimale Lösung gefunden"); //Lösung anzeigen
+			}
+			else{
+				txt_solution.setText(solution_string);
+			}
 			btn_next.setEnabled(false);
 			btn_last.setEnabled(false);
 		}
 		else if(currenti == 0){
 			if(twoPhases){
-				label.setText("Starttableau: ("+ currentphase +". Phase) :");
+				label.setText("Starttableau: ("+ currentphase +". Phase):");
 			}
 			else{
 				label.setText("Starttableau:");
 			}
+			txt_solution_label.setVisibility(View.INVISIBLE);
+			txt_solution.setVisibility(View.INVISIBLE);
 		}
 		else{
 			if(twoPhases){
-				label.setText("Aktuelles Tableau ("+ currentphase +". Phase) :");
+				label.setText("Aktuelles Tableau ("+ currentphase +". Phase):");
 			}
 			else{
 				label.setText("Aktuelles Tableau:");
 			}
+			txt_solution_label.setVisibility(View.INVISIBLE);
+			txt_solution.setVisibility(View.INVISIBLE);
 		}
 	}
 }
