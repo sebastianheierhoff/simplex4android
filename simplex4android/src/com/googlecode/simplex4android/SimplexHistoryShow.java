@@ -42,7 +42,13 @@ public class SimplexHistoryShow extends Activity {
     	final Button btn_next = (Button) findViewById(R.id.btn_next);
     	final Button btn_last = (Button) findViewById(R.id.btn_last);
     	
+    	try{
     	simplexhistoryarray = (SimplexHistory[]) this.getIntent().getSerializableExtra("simplexhistoryarray");
+    	}
+    	catch(Exception ex){
+    		simplexhistoryarray = InputsShow.simplexhistoryarray;
+    		Toast.makeText(SimplexHistoryShow.this, "Fehler", Toast.LENGTH_LONG);
+    	}
     	currenti = 0;
 
     	//Werden beide Phasen der 2-Phasen Methode durchgeführt?
@@ -61,12 +67,11 @@ public class SimplexHistoryShow extends Activity {
     		current = simplexhistoryarray[0];
     	}
     	
-    	//findLastI()
-    	if(current.getLastElement() == null){
-    		lasti = current.size()-2;
-    	}
-    	else{
-    		lasti = current.size()-1;
+    	findLastI();
+    	
+    	if(currenti == lasti){
+    		btn_next.setEnabled(false);
+    		btn_last.setEnabled(false);
     	}
 
     	mWebView = (WebView) findViewById(R.id.webview_tableau);
@@ -79,7 +84,7 @@ public class SimplexHistoryShow extends Activity {
     	//DoubleTap to showSolution();
     	mWebView.setOnTouchListener(new OnTouchListener() {
     		public boolean onTouch(View arg0, MotionEvent mev) {
-    		if(currenti == simplexhistoryarray[currentphase-1].size()-1){
+    		if(currenti == lasti){
     			if(mev.getAction() == MotionEvent.ACTION_UP) {
     				long thisTime = System.currentTimeMillis();
     				if (thisTime - lastTouchTime < 250) {
@@ -97,8 +102,10 @@ public class SimplexHistoryShow extends Activity {
     	//First-Button
 	    btn_first.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	findViewById(R.id.btn_next).setEnabled(true);
-	        	findViewById(R.id.btn_last).setEnabled(true);
+	        	if(currenti >= lasti-1){
+	        		findViewById(R.id.btn_next).setEnabled(true);
+	        		findViewById(R.id.btn_last).setEnabled(true);
+	        	}
 	        	
 	        	currenti=0;
 	        	tableauToHtml = current.getFirstElement().tableauToHtml();
@@ -112,9 +119,11 @@ public class SimplexHistoryShow extends Activity {
 	    //Previous-Button
 	    btn_previous.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	        	findViewById(R.id.btn_next).setEnabled(true);
-	        	findViewById(R.id.btn_last).setEnabled(true);
-
+	        	if(currenti >= lasti-1){
+	        		findViewById(R.id.btn_next).setEnabled(true);
+	        		findViewById(R.id.btn_last).setEnabled(true);
+	        	}
+	        	
 	        	currenti--;
 	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
 	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
@@ -131,13 +140,11 @@ public class SimplexHistoryShow extends Activity {
 	        	findViewById(R.id.btn_previous).setEnabled(true);
 	        	findViewById(R.id.btn_first).setEnabled(true);
 
-	        	if(currenti+1 <= current.size()-1){
-	        		currenti++;
-	        	}
+	        	currenti++;
 	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
         		mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 
-        		if(currenti == current.size()-1){
+        		if(currenti == lasti){
     	        	findViewById(R.id.btn_next).setEnabled(false);
 	        		findViewById(R.id.btn_last).setEnabled(false);
 	        	}
@@ -224,5 +231,12 @@ public class SimplexHistoryShow extends Activity {
 		dialog.setCanceledOnTouchOutside(true);
 	}
 	
-	
+	public void findLastI(){
+		if(current.getLastElement() == null){
+			lasti = current.size()-2;
+		}
+		else{
+			lasti = current.size()-1;
+		}
+	}	
 }
