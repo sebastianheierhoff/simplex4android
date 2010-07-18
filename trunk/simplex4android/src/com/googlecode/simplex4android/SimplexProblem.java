@@ -52,7 +52,23 @@ public abstract class SimplexProblem implements Serializable{
 		// Tableau anlegen und mit Zeilen füllen
 		this.tableau = new ArrayList<ArrayList<Double>>();
 		ArrayList<Double> deltas = new ArrayList<Double>();
-		for(int i=0;i<this.target.size();i++){
+		
+		//Herausfinden ob die Zielfunktion oder eine Nebenbedingung länger ist
+		int longestRow = -1; //-1: Target ist mit am längsten, 0-n Nr der längsten Row (row i ist länger als Target)
+		int lengthLR = target.size(); //Länger der längsten Zeile
+		for(int i=0;i<input.size();i++){
+			if(input.get(i).getValues().size()+1>lengthLR){
+				longestRow = i;
+				lengthLR = input.get(i).getValues().size()+1;
+			}
+		}
+		if(longestRow!=-1){
+			System.out.println(target.size());
+			for(int i=target.size()-1;0<lengthLR-target.size();){
+				target.add(i,new Double(0)); // target
+			}	
+		}
+		for(int i=0;i<lengthLR;i++){  
 			deltas.add(new Double(0)); // delta-Zeile anlegen
 		}
 		this.tableau.add(deltas);
@@ -66,7 +82,6 @@ public abstract class SimplexProblem implements Serializable{
 		}
 		this.optimal = false;
 		pivots = new int[this.getNoRows()-1];
-		//		this.initializePivotsWithMinusOne();
 	}
 
 	/**
@@ -116,7 +131,7 @@ public abstract class SimplexProblem implements Serializable{
 			newRow.add(i, new Double(row.get(i)).doubleValue());
 		}
 		// Auffüllen der restlichen Variablen (fehlend zur Zielfunktion) mit 0
-		for(int i=0;i<(this.target.size()-(row.size()-1));i++){
+		for(int i=0;i<(this.getRow(0).length-(row.size()-1));i++){
 			newRow.add(new Double(0));
 		}
 		// evtl. Einfügen der Schlupfvariable inkl. Auffüllen von Nullen in anderen Zeilen
