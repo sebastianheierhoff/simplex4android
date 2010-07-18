@@ -36,6 +36,11 @@ public class TargetEdit extends Activity {
 	//Ressourcen
 	private static Target target = new Target();
 	
+	/**
+	 * Wird aufgerufen, wenn die Activity gestartet wird
+	 * Hier werden alle Initialisierungen und UI Settings vorgenommen. 
+	 * @param savedInstanceState 
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.target_edit);
