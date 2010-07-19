@@ -26,7 +26,7 @@ public class TutorialShow extends Activity {
     	mWebView.setWebViewClient(new WebViewClient());
     	mWebView.getSettings().setJavaScriptEnabled(true);
     	mWebView.getSettings().setBuiltInZoomControls(true);
-		mWebView.loadUrl("file:///android_asset/tutorial.html");
+		mWebView.loadUrl("file:///android_asset/tutorial.pdf");
     	
     	//mWebView.loadData(tutorial, "text/html", "utf-8");
     	

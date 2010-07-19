@@ -1,12 +1,16 @@
 package com.googlecode.simplex4android;
 
+import java.io.File;
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**	
  * Startet entweder 
@@ -83,6 +87,28 @@ public class simplex4android extends Activity {
 	        	startActivity(TutorialIntent);
 	        }
 	    });
+//	    btn_tutorial.setOnClickListener(new View.OnClickListener() { 
+//	    	public void onClick(View v) { 
+//	    		File file = new File(""); 
+//	    		Uri.fromFile("file:///android_asset/tutorial.html");
+//
+//	    		if (file.exists()) { 
+//	    			Uri path = Uri.fromFile(new File("assets/UserGuide.pdg"); 
+//	    			Intent intent = new Intent(Intent.ACTION_VIEW); 
+//	    			intent.setDataAndType(path, "application/pdf"); 
+//	    			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+//
+//	    			try { 
+//	    				startActivity(intent); 
+//	    			}  
+//	    			catch (ActivityNotFoundException e) { 
+//	    				Toast.makeText(simplex4android.this,  
+//	    						"Kein PDF-Viewer installiert",  
+//	    						Toast.LENGTH_SHORT).show(); 
+//	    			} 
+//	    		} 
+//	    	} 
+//	    }); 
 	}
 }    
 
