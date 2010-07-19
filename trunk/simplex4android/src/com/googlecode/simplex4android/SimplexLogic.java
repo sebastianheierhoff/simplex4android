@@ -307,25 +307,6 @@ public abstract class SimplexLogic {
 	}
 
 	/**
-	 * Findet die Einsen in den Pivotspalten und gibt deren Zeilenindizes zurück. 
-	 * An Stelle i des zurückgegebenen Arrays befindet sich der Zeilenindex der Pivotspalte an Index i der Pivottabelle im SimplexProblem.
-	 * @param problem SimpexProblem, für das die Zeilenindizes gefunden werden sollen.
-	 * @return Zeilenindizes der Einsen der Pivotspalten
-	 */
-	public static int[] findPivotRows(SimplexProblem problem){
-		int [] pivots = new int[problem.getPivots().length];
-		for(int i=0;i<problem.getPivots().length;i++){ // Zeilenindizes der Einsen in den Pivotspalten finden und einspeichern
-			double[] column = problem.getColumn(problem.getPivots()[i]);
-			for(int j=0;j<column.length;j++){ // Durch die Spalten
-				if(column[j]==1){ // Eins gefunden
-					pivots[i] = j;
-				}
-			}
-		}
-		return pivots;
-	}
-	
-	/**
 	 * Gibt ein int-Array mit den Pivotspalten aus. 
 	 * An Stelle i steht, in welcher Spalte eine 1 der Pivotspalte steht.
 	 * quasi die methode oben drüber nur in richtig
