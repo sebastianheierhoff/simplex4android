@@ -7,14 +7,10 @@ ergänzen: wir ersparen uns den Simplex zu erläutern: bekannt
 (Zyklusschutz)
 
 Handbuch:
-Screenshots beschneiden
+Screenshots beschneiden (HistoryShow fehlt!)
 in Dreamweaver schmeißen und aufhübschen (Hintergrund einfügen)
-in der App einbinden (automatisch wenn in Ordner assets tutorial.html)
+finale Version in der App einbinden
 natürlich drüberlesen
-
-Testfälle:
-laufen noch nicht
-
 
 [Aktuell]
 Erkennen ob dual oder primal gelöst wird/lösbar, Methoden zum Prüfen schreiben, Testfälle				
