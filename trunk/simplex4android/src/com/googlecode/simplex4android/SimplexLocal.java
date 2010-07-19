@@ -39,83 +39,98 @@ public class SimplexLocal {
 
 		//SimplexProblem erzeugen (aus Tableau, Target, SimplexSettings)
 		Target t1 = new Target();
-		t1.setValue(0,1);
-		t1.setValue(1,2);
-		t1.setValue(2,3);
-		t1.setMinOrMax(false);
+		t1.setValue(0,73);
+		t1.setValue(1,28);
+		t1.setValue(2,34);
+		t1.setMinOrMax(true);
 		
-		Target t2 = new Target();
-		t2.setValue(0,7);
-		t2.setValue(1,8);
-		t2.setValue(2,9);
-		t2.setMinOrMax(false);
+//		Target t2 = new Target();
+//		t2.setValue(0,7);
+//		t2.setValue(1,8);
+//		t2.setValue(2,9);
+//		t2.setMinOrMax(false);
 
 		Constraint c1 = new Constraint();
-		c1.setValue(0, 1);
+		c1.setValue(0, 16);
+		c1.setValue(1, 23.4);
+		c1.setValue(2, 0.25);
 		c1.setSign(-1);
-		c1.setTargetValue(5);
+		c1.setTargetValue(-22);
 		Constraint c2 = new Constraint();
-		c2.setValue(1, 1);
+		c2.setValue(0, 16);
+		c2.setValue(1, 23);
+		c2.setValue(2, 47);
 		c2.setSign(0);
-		c2.setTargetValue(10);
+		c2.setTargetValue(1.14);
 		
 		Constraint c3 = new Constraint();
-		c3.setValue(2, 1);
-		c3.setSign(1);
-		c3.setTargetValue(20);
-		Constraint c4 = new Constraint();
-		c4.setValue(3, 1);
-		c4.setSign(-1);
-		c4.setTargetValue(40);
+		c3.setValue(0, 44);
+		c3.setValue(1, 93);
+		c3.setValue(4, 44);
+		c3.setSign(0);
+		c3.setTargetValue(-33);
+//		Constraint c4 = new Constraint();
+//		c4.setValue(3, 1);
+//		c4.setSign(-1);
+//		c4.setTargetValue(40);
 
 		ArrayList<Input> input1 = new ArrayList<Input>();
 		input1.add(t1);
 		input1.add(c1);
 		input1.add(c2);
-		ArrayList<Input> input2 = new ArrayList<Input>();
-		input2.add(t2);
-		input2.add(c3);
-		input2.add(c4);
-
-		ProblemsDb save;
-		try{
-			//save = new InputsDb();
-			//System.out.println(save.getListOfInputs().isEmpty());
-			//save.addInput(input1);
-			//save.addInput(input2);
-			System.out.println("Speichern durchgeführt!");
-		}catch(Exception e) {
-			e.printStackTrace();
-			save = null;
-			System.out.println("Fehler beim Speichern!");
-		}
-		try{
-			System.out.println();
-			System.out.println("Erstes Problem:");
-			//System.out.println(save.getInput(0).get(0));
-			//System.out.println(save.getInput(1).get(0));
-		}catch(NullPointerException npe1){
-			npe1.printStackTrace();
-		}
-
-		ProblemsDb read;
-		try{
-			//read = new InputsDb();
-			System.out.println();	
-			System.out.println("Laden durchgeführt!");
-		}catch(Exception e){
-			e.printStackTrace();
-			read = null;
-			System.out.println("Fehler beim Laden!");
-		}
-		try{		
-			System.out.println();			
-			System.out.println("Erstes Problem:");
-			//System.out.println(read.getInput(0).get(0));
-			//System.out.println(read.getInput(1).get(0));
-		}catch(NullPointerException npe2){
-			npe2.printStackTrace();
-		}
+		input1.add(c3);
+		
+		
+		SimplexProblemPrimal tmp = new SimplexProblemPrimal(input1);
+		SimplexHistory[]history = SimplexLogic.twoPhaseSimplex(tmp);
+		
+		if(history[0]==null)System.out.println("2. ist null");
+		SimplexLogic.printPhases(history);
+		
+//		ArrayList<Input> input2 = new ArrayList<Input>();
+//		input2.add(t2);
+//		input2.add(c3);
+//		input2.add(c4);
+//
+//		ProblemsDb save;
+//		try{
+//			//save = new InputsDb();
+//			//System.out.println(save.getListOfInputs().isEmpty());
+//			//save.addInput(input1);
+//			//save.addInput(input2);
+//			System.out.println("Speichern durchgeführt!");
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//			save = null;
+//			System.out.println("Fehler beim Speichern!");
+//		}
+//		try{
+//			System.out.println();
+//			System.out.println("Erstes Problem:");
+//			//System.out.println(save.getInput(0).get(0));
+//			//System.out.println(save.getInput(1).get(0));
+//		}catch(NullPointerException npe1){
+//			npe1.printStackTrace();
+//		}
+//
+//		ProblemsDb read;
+//		try{
+//			//read = new InputsDb();
+//			System.out.println();	
+//			System.out.println("Laden durchgeführt!");
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			read = null;
+//			System.out.println("Fehler beim Laden!");
+//		}
+//		try{		
+//			System.out.println();			
+//			System.out.println("Erstes Problem:");
+//			//System.out.println(read.getInput(0).get(0));
+//			//System.out.println(read.getInput(1).get(0));
+//		}catch(NullPointerException npe2){
+//			npe2.printStackTrace();
+//		}
 
 
 		//SimplexLogic.findPivots(firstProblem);
