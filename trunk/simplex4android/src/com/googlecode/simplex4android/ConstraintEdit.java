@@ -1,6 +1,8 @@
 package com.googlecode.simplex4android;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Selection;
@@ -162,35 +164,7 @@ public class ConstraintEdit extends Activity {
 	    //Hinzufügen-Button
 	    add_target_element.setOnClickListener (new OnClickListener(){
 	    	public void onClick(View V){
-	        	EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
-	        	EditText target = (EditText) findViewById(R.id.edittext_target);
-	        	if(SimplexLogic.checkInput(target_element.getText().toString())){
-	        		double value;
-	        		if(target_element.getText().toString().equals("")){
-	        			value = 0.0;
-	        		}
-	        		else{
-	        			try{
-	        				value = Double.valueOf(target_element.getText().toString());
-	        			}
-	        			catch(Exception ex){
-	        				try{
-	        					value = Input.fractionToDbl(target_element.getText().toString());
-	        				}
-	        				catch(Exception ex2){
-	        	    			Toast.makeText(ConstraintEdit.this,"Fehler beim Typecast!",Toast.LENGTH_LONG).show();
-	        	    			return;
-	        				}
-	        			}
-	        		}
-	        		int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
-		        	constraint.setValue(i, value);
-	    			target.setText(constraint.valuesToString());
-	    				increment_xi();
-	        	}
-	    		else{
-	    			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
-	    		}
+	    		addTargetElement();
 	    	}
 		});
 	    
@@ -262,6 +236,30 @@ public class ConstraintEdit extends Activity {
         			target_element.requestFocus();
 	        	}
 	        	else{
+//	        		if(!target_element.getText().toString().equals("")){
+//	        			//Dialog
+//	        			
+//	    				AlertDialog.Builder builder = new AlertDialog.Builder(ConstraintEdit.this);
+//	    				builder.setMessage("Aktuelle Eingabe hinzufügen?")
+//	    				.setCancelable(false)
+//	    				.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+//	    					public void onClick(DialogInterface dialog, int id) {
+//	    						addTargetElement();
+//	    					}       
+//	    				})
+//	    				.setNegativeButton("Abbruch", new DialogInterface.OnClickListener() {
+//	    					public void onClick(DialogInterface dialog, int id) {
+//	    						dialog.cancel(); //Dialog schließen
+//	    						return;
+//	    					}
+//	    				})
+//	    				.setNeutralButton("Nein", new DialogInterface.OnClickListener() {
+//	    					public void onClick(DialogInterface dialog, int id) {
+//	    					}
+//	    				});
+//	    				AlertDialog alert = builder.create();
+//	    				alert.show();
+//	        		}
 	        		try{
 	        			constraint.setTargetValue(Double.valueOf(target_value.getText().toString()));
 	        		}
@@ -360,7 +358,41 @@ public class ConstraintEdit extends Activity {
 		catch(Exception e){
 			
 		}
-
+	}
+	
+	/**
+	 *TODO: KOMMENTAR HINZUFÜGEN!
+	 */
+	public void addTargetElement(){
+		EditText target_element = (EditText) findViewById(R.id.edittext_target_element);
+		EditText target = (EditText) findViewById(R.id.edittext_target);
+		if(SimplexLogic.checkInput(target_element.getText().toString())){
+			double value;
+			if(target_element.getText().toString().equals("")){
+				value = 0.0;
+			}
+			else{
+				try{
+					value = Double.valueOf(target_element.getText().toString());
+				}
+				catch(Exception ex){
+					try{
+						value = Input.fractionToDbl(target_element.getText().toString());
+					}
+					catch(Exception ex2){
+						Toast.makeText(ConstraintEdit.this,"Fehler beim Typecast!",Toast.LENGTH_LONG).show();
+						return;
+					}
+				}
+			}
+			int i = Integer.valueOf(((EditText) findViewById(R.id.edittext_x)).getText().toString().substring(1)).intValue()-1;
+			constraint.setValue(i, value);
+			target.setText(constraint.valuesToString());
+			increment_xi();
+		}
+		else{
+			Toast.makeText(ConstraintEdit.this,"Fehlerhafte Eingabe! Bitte korrigieren!",Toast.LENGTH_LONG).show();
+		}
 	}
 }
 
