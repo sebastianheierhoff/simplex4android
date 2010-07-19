@@ -184,7 +184,7 @@ public class SimplexHistoryShow extends Activity {
 					if(!twoPhases || currentphase == 2){
 						AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
 						builder.setMessage("Wohin?")
-						       .setCancelable(false)
+						       .setCancelable(true)
 						       .setPositiveButton("Startseite \n", new DialogInterface.OnClickListener() {
 						           public void onClick(DialogInterface dialog, int id) {
 								    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
@@ -205,6 +205,7 @@ public class SimplexHistoryShow extends Activity {
 						           }
 						       });
 						AlertDialog alert = builder.create();
+						alert.setCanceledOnTouchOutside(true);
 						alert.show();
 					}
 				}

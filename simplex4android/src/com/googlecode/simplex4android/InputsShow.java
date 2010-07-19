@@ -120,6 +120,7 @@ public class InputsShow extends Activity{
 	        public void onClick(View v) {
 	    	    //Dialog, um Einstellungen vorzunehmen
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(InputsShow.this);
+	        	builder.setCancelable(true);
 	        	builder.setTitle("Simplex-Methode");
 	        	builder.setSingleChoiceItems(settings, ((Target) inputs.get(0)).getUserSettings(), new DialogInterface.OnClickListener() {
 	        	    public void onClick(DialogInterface dialog, int item) {
