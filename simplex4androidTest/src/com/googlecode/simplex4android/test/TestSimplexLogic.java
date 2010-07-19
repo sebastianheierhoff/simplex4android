@@ -3,10 +3,8 @@ package com.googlecode.simplex4android.test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.zip.DataFormatException;
-
 import com.googlecode.simplex4android.SimplexHistory;
 import com.googlecode.simplex4android.SimplexLogic;
-import com.googlecode.simplex4android.SimplexProblem;
 import com.googlecode.simplex4android.SimplexProblemDual;
 import com.googlecode.simplex4android.SimplexProblemPrimal;
 
