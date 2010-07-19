@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-
 /**	
  * Startet entweder 
  *		a) Activity um neues Problem anzulegen, oder 
@@ -78,35 +77,11 @@ public class simplex4android extends Activity {
 	    //Tutorial - Button
 	    btn_tutorial.setOnClickListener(new OnClickListener() {
 	        public void onClick(View v) {
-	            //TODO: WebView anlegen, HTML-Dokumentation einbinden.
 	        	Intent TutorialIntent = new Intent();
 	            TutorialIntent.setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.TutorialShow");
 	        	startActivity(TutorialIntent);
 	        }
 	    });
-//	    btn_tutorial.setOnClickListener(new View.OnClickListener() { 
-//	    	public void onClick(View v) { 
-//	    		File file = new File(""); 
-//	    		Uri.fromFile("file:///android_asset/tutorial.html");
-//
-//	    		if (file.exists()) { 
-//	    			Uri path = Uri.fromFile(new File("assets/UserGuide.pdg"); 
-//	    			Intent intent = new Intent(Intent.ACTION_VIEW); 
-//	    			intent.setDataAndType(path, "application/pdf"); 
-//	    			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-//
-//	    			try { 
-//	    				startActivity(intent); 
-//	    			}  
-//	    			catch (ActivityNotFoundException e) { 
-//	    				Toast.makeText(simplex4android.this,  
-//	    						"Kein PDF-Viewer installiert",  
-//	    						Toast.LENGTH_SHORT).show(); 
-//	    			} 
-//	    		} 
-//	    	} 
-//	    }); 
-	}
-}    
-
+    }    
+}
 	    
