@@ -118,8 +118,10 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ + Math.round(this.getTarget()[pivots[i]]*100.)/100.+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
 			else html = html + "<tr align=right nowrap><td>"+"&#8211;"+"</td><td nowrap>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
-				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
-					html = html  + "<td nowrap bgcolor=#CC0000>";
+				if(SimplexLogic.solveableDual(this)){
+					if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
+						html = html  + "<td nowrap bgcolor=#CC0000>";
+					}
 				}else{
 					html = html  + "<td nowrap>";
 				}
