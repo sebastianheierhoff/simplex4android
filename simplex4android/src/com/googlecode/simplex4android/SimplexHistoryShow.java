@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +31,7 @@ public class SimplexHistoryShow extends Activity {
 	private static int currenti;
 	private static boolean twoPhases;
 	private static boolean solutionShown;
+	private static boolean dialogClosed;
 	private int id;
 	private static ArrayList<Input> inputs;
 
@@ -51,8 +53,9 @@ public class SimplexHistoryShow extends Activity {
 	 */
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
+    	View contentView = findViewById(R.layout.simplexhistory_show);
     	setContentView(R.layout.simplexhistory_show);
-
+    	
     	//Ressourcen
     	btn_switchphases = (Button) findViewById(R.id.btn_switchphases);
     	btn_first = (Button) findViewById(R.id.btn_first);
@@ -89,8 +92,26 @@ public class SimplexHistoryShow extends Activity {
     		current = simplexhistoryarray[0];
     	}
     	
-    	changeLabel();
-    	enableButtons();
+    	//Dialog, falls keine 1. Phase notwendig.
+    	if(!twoPhases){
+    			Dialog dialog = new Dialog(SimplexHistoryShow.this);
+    			dialog.setContentView(R.layout.dialog);
+    			dialog.setTitle("Simplex4Android:");
+    			TextView text = (TextView) dialog.findViewById(R.id.text);
+    			text.setText("Keine 1. Phase notwendig. Starte 2. Phase!");
+    			dialog.show();
+    			dialog.setCanceledOnTouchOutside(true);
+    			dialog.setOnDismissListener(new OnDismissListener(){
+    				public void onDismiss(DialogInterface dialog) {
+    		        	changeLabel();
+    		        	enableButtons();
+    				}
+    			});
+    	}
+    	else{
+        	changeLabel();
+        	enableButtons();
+    	}
 
     	mWebView = (WebView) findViewById(R.id.webview_tableau);
     	mWebView.setWebViewClient(new WebViewClient());
@@ -99,123 +120,123 @@ public class SimplexHistoryShow extends Activity {
 
     	tableauToHtml = current.getFirstElement().tableauToHtml();
     	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-    		
+
     	//First-Button
-	    btn_first.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	currenti=0;
-	        	tableauToHtml = current.getFirstElement().tableauToHtml();
-	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-	        	
-	        	changeLabel();
-	        	enableButtons();
-	        }
-	    });	    
-	    
-	    //Previous-Button
-	    btn_previous.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	currenti--;
-	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
-	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-	        	
-	        	changeLabel();
-	        	enableButtons();
-	        }
-	    });	  
-	    
-	    //Next-Button
-	    btn_next.setOnClickListener(new OnClickListener() {
-	        public void onClick(View v) {
-	        	currenti++;
-	        	tableauToHtml = current.getElement(currenti).tableauToHtml();
-        		mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+    	btn_first.setOnClickListener(new OnClickListener() {
+    		public void onClick(View v) {
+    			currenti=0;
+    			tableauToHtml = current.getFirstElement().tableauToHtml();
+    			mWebView.loadData(tableauToHtml, "text/html", "utf-8");
 
-	        	changeLabel();
-	        	enableButtons();
-	        }
-	    });	    
-	    
-	    //Last-Button
-	    btn_last.setOnClickListener(new OnClickListener() {
-	    	public void onClick(View v) {
-	        	currenti = current.size()-1;
-	    		tableauToHtml = current.getLastElement().tableauToHtml();
-	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-	        	
-	        	changeLabel();
-	        	enableButtons();
-	    	}
-	    });
-	    
-	    //2.Phase Button (unsichtbar wenn keine 1. Phase notwendig)
-	    btn_switchphases.setOnClickListener(new OnClickListener() {
-	    	public void onClick(View v) {
-	    		if(currentphase == 1){
-		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
-		    		currentphase = 2;
-	    			current = simplexhistoryarray[1];
-		    		//Buttontext aktualisieren
-		    		((Button) v).setText("1. Phase");
-	    		}
-	    		else if(currentphase == 2){
-		    		//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
-		    		currentphase = 1;
-	    			current = simplexhistoryarray[0];
-		    		//Buttontext aktualisieren
-		    		((Button) v).setText("2. Phase");
-	    		}
-	        	currenti = 0;
-	        	//WebView aktualisieren
-	        	tableauToHtml = current.getFirstElement().tableauToHtml();
-	        	mWebView.loadData(tableauToHtml, "text/html", "utf-8");
-	        	
-	        	solutionShown = false;
-	        	changeLabel();
-	        	enableButtons();
-	    	}
-	    });
+    			changeLabel();
+    			enableButtons();
+    		}
+    	});	    
 
-	    //Zurück-Button (zurück zur InputShow)
-	    btn_back.setOnClickListener(new OnClickListener() {
-			@SuppressWarnings("unchecked")
-			public void onClick(View v) {
-				if((currenti == current.size()-1 && currentphase == 2) || (currenti == current.size()-1 && !twoPhases)){
-					if(!twoPhases || currentphase == 2){
-						AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
-						builder.setMessage("Wohin?")
-						       .setCancelable(true)
-						       .setPositiveButton("Startseite \n", new DialogInterface.OnClickListener() {
-						           public void onClick(DialogInterface dialog, int id) {
-								    	Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
-									    inputs = (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs");
-									    id = SimplexHistoryShow.this.getIntent().getIntExtra("id", -1);
-								    	ShowMainIntent.putExtra("inputs", inputs); 
-							            ShowMainIntent.putExtra("edit", true);
-							            ShowMainIntent.putExtra("id", id);
-							        	startActivity(ShowMainIntent);
-							        	finish();
-						           }
-						       })
-						       .setNegativeButton("Aktuelles Problem", new DialogInterface.OnClickListener() {
-						           public void onClick(DialogInterface dialog, int id) {
-						        	   returnToInputsShow();
-						        	   solutionShown = false;
-						        	   finish();
-						           }
-						       });
-						AlertDialog alert = builder.create();
-						alert.setCanceledOnTouchOutside(true);
-						alert.show();
-					}
-				}
-				else{
-					returnToInputsShow();
-					
-				}
-			}
-		});
-	}	
+    	//Previous-Button
+    	btn_previous.setOnClickListener(new OnClickListener() {
+    		public void onClick(View v) {
+    			currenti--;
+    			tableauToHtml = current.getElement(currenti).tableauToHtml();
+    			mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+
+    			changeLabel();
+    			enableButtons();
+    		}
+    	});	  
+
+    	//Next-Button
+    	btn_next.setOnClickListener(new OnClickListener() {
+    		public void onClick(View v) {
+    			currenti++;
+    			tableauToHtml = current.getElement(currenti).tableauToHtml();
+    			mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+
+    			changeLabel();
+    			enableButtons();
+    		}
+    	});	    
+
+    	//Last-Button
+    	btn_last.setOnClickListener(new OnClickListener() {
+    		public void onClick(View v) {
+    			currenti = current.size()-1;
+    			tableauToHtml = current.getLastElement().tableauToHtml();
+    			mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+
+    			changeLabel();
+    			enableButtons();
+    		}
+    	});
+
+    	//2.Phase Button (unsichtbar wenn keine 1. Phase notwendig)
+    	btn_switchphases.setOnClickListener(new OnClickListener() {
+    		public void onClick(View v) {
+    			if(currentphase == 1){
+    				//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
+    				currentphase = 2;
+    				current = simplexhistoryarray[1];
+    				//Buttontext aktualisieren
+    				((Button) v).setText("1. Phase");
+    			}
+    			else if(currentphase == 2){
+    				//current auf SimplexHistory der 2. Phase setzen, currenti auf 0 setzen
+    				currentphase = 1;
+    				current = simplexhistoryarray[0];
+    				//Buttontext aktualisieren
+    				((Button) v).setText("2. Phase");
+    			}
+    			currenti = 0;
+    			//WebView aktualisieren
+    			tableauToHtml = current.getFirstElement().tableauToHtml();
+    			mWebView.loadData(tableauToHtml, "text/html", "utf-8");
+
+    			solutionShown = false;
+    			changeLabel();
+    			enableButtons();
+    		}
+    	});
+
+    	//Zurück-Button (zurück zur InputShow)
+    	btn_back.setOnClickListener(new OnClickListener() {
+    		@SuppressWarnings("unchecked")
+    		public void onClick(View v) {
+    			if((currenti == current.size()-1 && currentphase == 2) || (currenti == current.size()-1 && !twoPhases)){
+    				if(!twoPhases || currentphase == 2){
+    					AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
+    					builder.setMessage("Wohin?")
+    					.setCancelable(true)
+    					.setPositiveButton("Startseite \n", new DialogInterface.OnClickListener() {
+    						public void onClick(DialogInterface dialog, int id) {
+    							Intent ShowMainIntent = new Intent().setClassName("com.googlecode.simplex4android", "com.googlecode.simplex4android.simplex4android");
+    							inputs = (ArrayList<Input>) SimplexHistoryShow.this.getIntent().getSerializableExtra("inputs");
+    							id = SimplexHistoryShow.this.getIntent().getIntExtra("id", -1);
+    							ShowMainIntent.putExtra("inputs", inputs); 
+    							ShowMainIntent.putExtra("edit", true);
+    							ShowMainIntent.putExtra("id", id);
+    							startActivity(ShowMainIntent);
+    							finish();
+    						}
+    					})
+    					.setNegativeButton("Aktuelles Problem", new DialogInterface.OnClickListener() {
+    						public void onClick(DialogInterface dialog, int id) {
+    							returnToInputsShow();
+    							solutionShown = false;
+    							finish();
+    						}
+    					});
+    					AlertDialog alert = builder.create();
+    					alert.setCanceledOnTouchOutside(true);
+    					alert.show();
+    				}
+    			}
+    			else{
+    				returnToInputsShow();
+
+    			}
+    		}
+    	});
+    }
 
     /**
      * Öffnet ein Dialogfenster mit der Lösung der aktuellen Phase, "" falls das Tableau nicht optimal ist.
@@ -234,23 +255,20 @@ public class SimplexHistoryShow extends Activity {
 			TextView text = (TextView) dialog.findViewById(R.id.text);
 
 			String solution_string = solutionToToast(current.getLastElement());
-			if(!(solution_string.equals("") && simplexhistoryarray[1] == null)){
+			if(solution_string.equals("")){ //
+				solution_string = "Keine optimale Lösung gefunden."; //Lösung anzeigen
+			}
+			else if(simplexhistoryarray[1] == null){ //Lösung der 1. Phase gefunden, aber keine 2te Phase, da Zielwert >0
 				solution_string += "\n\n" + "Zielwert größer 0, zulässiger Bereich des Ausgangsproblems leer! \n" +
 						"\u2192 Keine 2. Phase!";
 			}
-			if(solution_string.equals("")){
-				text.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
-			}
-			else{
-				text.setText(solution_string);
-			}
-
+			text.setText(solution_string);
 			dialog.show();
 			dialog.setCanceledOnTouchOutside(true);
 		}
 		solutionShown = true;
 	}
-	
+
 	/**
 	 * Gibt die Lösung des SimlexProblems zurück, sofern dieses bereits optimal ist.
 	 * @return Lösungsstring, Leerstring falls nicht optimal.
@@ -363,46 +381,34 @@ public class SimplexHistoryShow extends Activity {
 		else{
 			typeOfProblem = "dual";
 		}
-		if(currenti == current.size()-1){
-			if(twoPhases){
+
+		if(currenti == 0 && currenti == current.size()-1){
+			label.setText("Start- und Endtableau: ("+ currentphase +". Phase, " + typeOfProblem+ "):");
+			showSolution(SimplexHistoryShow.this);
+		}
+		else{
+			if(currenti == 0){
+				label.setText("Starttableau: ("+ currentphase +". Phase, " + typeOfProblem+ "):");
+				txt_solution_label.setVisibility(View.INVISIBLE);
+				txt_solution.setVisibility(View.INVISIBLE);
+			}
+			else if(currenti == current.size()-1){
 				label.setText("Letztes Tableau ("+ currentphase +". Phase, " + typeOfProblem+ "):");
 				txt_solution_label.setVisibility(View.VISIBLE);
 				txt_solution_label.setText("Lösung ("+ currentphase +". Phase):");
-			}
-			else{
-				label.setText("Letztes Tableau ("+ typeOfProblem+ "):");
-				txt_solution_label.setVisibility(View.VISIBLE);
-				txt_solution_label.setText("Lösung ("+ typeOfProblem+ "):");
-			}
-			txt_solution.setVisibility(View.VISIBLE);
-			String solution_string = solutionToString(current.getLastElement());
-			if(solution_string.equals("")){
-				txt_solution.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
-			}
-			else{
+				txt_solution.setVisibility(View.VISIBLE);
+				String solution_string = solutionToString(current.getLastElement());
+				if(solution_string.equals("")){ //
+					txt_solution.setText("Keine optimale Lösung gefunden."); //Lösung anzeigen
+				}
 				txt_solution.setText(solution_string);
-			}
-			showSolution(SimplexHistoryShow.this);
-		}
-		else if(currenti == 0){
-			if(twoPhases){
-				label.setText("Starttableau: ("+ currentphase +". Phase, " + typeOfProblem+ "):");
+				showSolution(SimplexHistoryShow.this);
 			}
 			else{
-				label.setText("Starttableau ("+ typeOfProblem+ "):");
-			}
-			txt_solution_label.setVisibility(View.INVISIBLE);
-			txt_solution.setVisibility(View.INVISIBLE);
-		}
-		else{
-			if(twoPhases){
 				label.setText("Aktuelles Tableau ("+ currentphase +". Phase, " + typeOfProblem+ "):");
+				txt_solution_label.setVisibility(View.INVISIBLE);
+				txt_solution.setVisibility(View.INVISIBLE);
 			}
-			else{
-				label.setText("Aktuelles Tableau ("+ typeOfProblem+ "):");
-			}
-			txt_solution_label.setVisibility(View.INVISIBLE);
-			txt_solution.setVisibility(View.INVISIBLE);
 		}
 	}
 

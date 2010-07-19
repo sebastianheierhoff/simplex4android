@@ -136,6 +136,7 @@ public class InputsShow extends Activity{
 	        	    }
 	        	});
 	        	AlertDialog alert = builder.create();
+	        	alert.setCanceledOnTouchOutside(true);
 	        	alert.show();
 	        }
 	    });
