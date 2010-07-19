@@ -547,7 +547,7 @@ public abstract class SimplexLogic {
 					}
 				}
 			}catch(IOException e){// Problem gar nicht lösbar
-				phases[0].addElement(null);
+				phases[0].addElement(tmp);
 				return phases;
 			}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 				phases[0].addElement(transformProblem((SimplexProblemDual)tmp));
@@ -596,7 +596,7 @@ public abstract class SimplexLogic {
 					}
 				}
 			}catch(IOException e){// Problem gar nicht lösbar
-				phases[0].addElement(null);
+				phases[0].addElement(tmp);
 				return phases;
 			}catch(DataFormatException e){ //Problem in dualer Form weiterbearbeitbar
 				phases[0].addElement(transformProblem((SimplexProblemPrimal)tmp));
@@ -921,7 +921,7 @@ public abstract class SimplexLogic {
 	/**
 	 * Methode um ein SimplexHistory[] als HTML auf der Konsole auszugeben
 	 */
-	private static void printPhases(SimplexHistory[] tmp){
+	public static void printPhases(SimplexHistory[] tmp){
 		if(tmp[0]!=null){
 			for(int i=0;i<tmp[0].size();i++){
 
