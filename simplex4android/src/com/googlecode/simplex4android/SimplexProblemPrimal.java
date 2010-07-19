@@ -115,10 +115,9 @@ public class SimplexProblemPrimal extends SimplexProblem implements Serializable
 			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ Math.round(this.getTarget()[pivots[i]]*100.)/100.+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
 			else html = html + "<tr align=right><td>"+"&#8211;"+"</td><td>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
-				if(SimplexLogic.solveableDual(this)){
-					if(SimplexLogic.choosePivotRow(this)==i && SimplexLogic.choosePivotColumn(this)==j){
-						html = html  + "<td nowrap bgcolor=#CC0000>";
-					}
+				if(SimplexLogic.choosePivotRow(this)==i && SimplexLogic.choosePivotColumn(this)==j){
+					html = html  + "<td nowrap bgcolor=#CC0000>";
+
 				}else{
 					html = html  + "<td nowrap>";
 				}

@@ -93,6 +93,7 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 	 */
 	@Override
 	public String tableauToHtml(){
+		if(!SimplexLogic.solveableDual(this))deltaByF=null;
 		int[] pivots =this.getPivots();
 		String html = "\n<html>\n<body>\n<table border=1 cellspacing=0 width=100%25;>\n";
 		//Spaltenbreite
@@ -118,10 +119,8 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 			if(pivots.length <= this.getNoPivots())html = html + "<tr align=right><td nowrap>"+ + Math.round(this.getTarget()[pivots[i]]*100.)/100.+"</td><td nowrap>" +(pivots[i]+1) +"</td>";
 			else html = html + "<tr align=right nowrap><td>"+"&#8211;"+"</td><td nowrap>" +"&#8211;"+"</td>";
 			for(int j=0;j<this.getTableau()[0].length;j++){
-				if(SimplexLogic.solveableDual(this)){
-					if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
-						html = html  + "<td nowrap bgcolor=#CC0000>";
-					}
+				if(SimplexLogic.choosePivotRowDual(this)==i && SimplexLogic.choosePivotColumnDual(this)==j){
+					html = html  + "<td nowrap bgcolor=#CC0000>";
 				}else{
 					html = html  + "<td nowrap>";
 				}
@@ -145,7 +144,7 @@ public class SimplexProblemDual extends SimplexProblem implements Serializable{
 			}
 			html = html + "<td></td></tr>\n";
 		}else{
-			html = html + "<tr align=right><td></td><td></td>"; //inkl. zwei leerfelder
+			html = html + "<tr align=right><td></td><td>&#x3b4;/x</td>"; //inkl. zwei leerfelder
 			for(int i=0;i<this.getTarget().length-1;i++){
 				html = html +"<td> &#8211; </td>";
 			}
