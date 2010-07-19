@@ -180,7 +180,7 @@ public class SimplexHistoryShow extends Activity {
 	    btn_back.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("unchecked")
 			public void onClick(View v) {
-				if(currenti == current.size()-1 && currentphase == 2){
+				if((currenti == current.size()-1 && currentphase == 2) || (currenti == current.size()-1 && !twoPhases)){
 					if(!twoPhases || currentphase == 2){
 						AlertDialog.Builder builder = new AlertDialog.Builder(SimplexHistoryShow.this);
 						builder.setMessage("Wohin?")
