@@ -162,19 +162,11 @@ public class TestSimplexLogic extends TestCase {
 	}
 
 	/**
-	 * Prüft, ob die Zeilenindizes der Einsen in den Pivotspalten korrekt gefunden werden. 
-	 */
-	public void testFindPivotRows(){
-		int[] pivots = {2,1,0};
-		assertTrue(Arrays.equals(pivots, SimplexLogic.findPivotRows(this.problemPrimal)));
-	}
-
-	/**
 	 * Prüft, ob die Pivotspalten korrekt gefunden werden.
 	 */
 	public void testFindPivots(){
 		SimplexLogic.findPivots(this.problemPrimal);
-		int [] pivots = {2,3,4};
+		int [] pivots = {4,3,2};
 		assertTrue(Arrays.equals(pivots, this.problemPrimal.getPivots()));
 
 	}
@@ -212,7 +204,8 @@ public class TestSimplexLogic extends TestCase {
 	 * Testet, ob der Simplex-Schritt richtig durchgeführt wird.
 	 */
 	public void testSimplexDual(){
-		double[][] tableau = {{0,-2.5,0.5,1,-0.5,-1},{1.0,-0.5,1.5,-0.0,-0.5,2.0},{0,-4,-1,0,-1,4}};;
+		double[][] tableau = {{0,-2.5,0.5,1,-0.5,-1},{1.0,-0.5,1.5,-0.0,-0.5,2.0},{0,-4,-1,0,-1,4}};
+		SimplexLogic.calcDeltas(problemDual);
 		SimplexLogic.calcDeltaByF(problemDual);
 		try{
 			SimplexLogic.simplex(this.problemDual);
@@ -229,6 +222,8 @@ public class TestSimplexLogic extends TestCase {
 	 */
 	public void testSimplexPrimal(){
 		double[][] tableau = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
+		SimplexLogic.calcDeltas(problemPrimal);
+		SimplexLogic.calcXByF(problemPrimal);
 		try{
 			SimplexLogic.simplex(this.problemPrimal);
 		}catch(IOException e){
@@ -247,9 +242,9 @@ public class TestSimplexLogic extends TestCase {
 	public void testTwoPhaseSimplexPrimal(){
 		double[] target = {1,2,7,5,0,0,0};
 		double[][] startTableau = {{-1,2,1,0,1,0,7},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,0,0,0,0,0}};
-		SimplexProblemPrimal start = new SimplexProblemPrimal(startTableau, target);
+		problemPrimal = new SimplexProblemPrimal(startTableau, target);
 		SimplexHistory[] history = new SimplexHistory[2];
-		history = SimplexLogic.twoPhaseSimplex(start);
+		history = SimplexLogic.twoPhaseSimplex(problemPrimal);
 
 
 		// Wurden die künstlichen Variablen korrekt hinzugefügt?
@@ -260,38 +255,24 @@ public class TestSimplexLogic extends TestCase {
 		assertTrue(Arrays.equals(phaseOne0[3], history[0].getElement(1).getTableau()[3]));
 
 		// Richtiger Simplex-Schritt in Phase I?
-		double[][] phaseOne1 = {{-1,2,1,0,1,0,0,0,7},{0,1,0,1,0,-1,1,0,3},{1,-2,2,0,0,2,-2,1,2},{1,-2,2,0,0,2,-3,0,2}};
+		double[][] phaseOne1 = {{0,2,3,2,1,0,0,1,15},{0,1,0,1,0,-1,1,0,3},{1,0,2,2,0,0,0,1,8},{0,1,0,1,0,-1,0,-1,3}};
 		assertTrue(Arrays.equals(phaseOne1[0], history[0].getElement(2).getTableau()[0]));
 		assertTrue(Arrays.equals(phaseOne1[1], history[0].getElement(2).getTableau()[1]));
 		assertTrue(Arrays.equals(phaseOne1[2], history[0].getElement(2).getTableau()[2]));
 		assertTrue(Arrays.equals(phaseOne1[3], history[0].getElement(2).getTableau()[3]));
 
-		// Richtiger Simplex-Schritt in Phase I?
-		double[][] phaseOne2 = {{-1.5,3,0,0,1,-1,1,-0.5,6},{0,1,0,1,0,-1,1,0,3},{0.5,-1,1,0,0,1,-1,0.5,1},{0,0,0,0,0,0,-1,-1,0}};
-		assertTrue(Arrays.equals(phaseOne2[0], history[0].getElement(2).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseOne2[1], history[0].getElement(2).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseOne2[2], history[0].getElement(2).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseOne2[3], history[0].getElement(2).getTableau()[3]));
+		// Richtiger Simplex-Schritt in Phase I (letzter Schritt in Phase I)?
+		double[][] phaseOne2 = {{0,0,3,0,1,2,-2,1,9},{0,1,0,1,0,-1,1,0,3},{1,0,2,2,0,0,0,1,8},{0,0,0,0,0,0,-1,-1,0}};
+		assertTrue(Arrays.equals(phaseOne2[0], history[0].getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseOne2[1], history[0].getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseOne2[2], history[0].getElement(3).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseOne2[3], history[0].getElement(3).getTableau()[3]));
 
-		// Richtiges StartTableau in Phase II?
-		double[][] phaseTwo0 = {{-1.5,3,0,0,1,-1,6},{0,1,0,1,0,-1,3},{0.5,-1,1,0,0,1,1},{2.5,-4,0,0,0,2,22}};
-		assertTrue(Arrays.equals(phaseTwo0[0], history[1].getElement(0).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo0[1], history[1].getElement(0).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo0[2], history[1].getElement(0).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo0[3], history[1].getElement(0).getTableau()[3]));
-
-		// Richtiger Simplex-Schritt in Phase II?
-		double[][] phaseTwo1 = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,-2,2,0,0,2,2},{0,1,-5,0,0,-3,17}};
-		assertTrue(Arrays.equals(phaseTwo1[0], history[1].getElement(1).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo1[1], history[1].getElement(1).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo1[2], history[1].getElement(1).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo1[3], history[1].getElement(1).getTableau()[3]));
-
-		// Richtiger Simplex-Schritt in Phase II UND damit optimale Lösung gefunden?
+		// Richtiger Simplex-Schritt in Phase II UND damit optimale Lösung gefunden (gleichzeitig Starttableau der Phase II)?
 		double[][] phaseTwo2Optimal = {{0,0,3,0,1,2,9},{0,1,0,1,0,-1,3},{1,0,2,2,0,0,8},{0,0,-5,-1,0,-2,14}};
-		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history[1].getElement(3).getTableau()[0]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history[1].getElement(3).getTableau()[1]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history[1].getElement(3).getTableau()[2]));
-		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history[1].getElement(3).getTableau()[3]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history[1].getElement(0).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history[1].getElement(0).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history[1].getElement(0).getTableau()[2]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history[1].getElement(0).getTableau()[3]));
 	}
 }
