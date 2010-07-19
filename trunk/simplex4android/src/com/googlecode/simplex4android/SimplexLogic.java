@@ -75,19 +75,23 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
 	 */
 	public static void calcDeltaByF(SimplexProblemDual problem){
+		double[]tmp = new double[problem.getNoColumns()-1];
 		if(problem.getOptimal()!=true){
-			int row = choosePivotRowDual(problem);
-			double[] deltaByF = new double[problem.getNoColumns()-1];
-			double[] delta = problem.getLastRow();
-			for(int j = 0; j<problem.getNoColumns()-1; j++){
-				if(problem.getField(row, j)<0){
-					deltaByF[j] = (delta[j] / problem.getField(row, j));
+			if(solveableDual(problem)){
+				int row = choosePivotRowDual(problem);
+				double[] deltaByF = new double[problem.getNoColumns()-1];
+				double[] delta = problem.getLastRow();
+				for(int j = 0; j<problem.getNoColumns()-1; j++){
+					if(problem.getField(row, j)<0){
+						deltaByF[j] = (delta[j] / problem.getField(row, j));
+					}
+					else{
+						deltaByF[j] = -1;
+					}
 				}
-				else{
-					deltaByF[j] = -1;
-				}
+				tmp=deltaByF;
+				problem.setDeltaByF(deltaByF);
 			}
-			problem.setDeltaByF(deltaByF);
 		}
 	}
 
@@ -98,9 +102,9 @@ public abstract class SimplexLogic {
 	 */
 	public static void calcDeltas(SimplexProblem problem){
 		int[] pivots = problem.getPivots();
-//		for(int i=0;i<pivots.length;i++){
-//			System.out.println(pivots[i]);
-//		}
+		//		for(int i=0;i<pivots.length;i++){
+		//			System.out.println(pivots[i]);
+		//		}
 		for(int i = 0; i<problem.getNoColumns(); i++){ //alle Spalten
 			double delta = 0;
 			for(int k = 0; k<problem.getNoRows()-1; k++){ // alle Zeilen
@@ -202,7 +206,7 @@ public abstract class SimplexLogic {
 			}else if((first+1)==last && s.charAt(first-1)=='-'){ // zwei Nullen zu Beginn des String mit führendem Minus
 				return false;
 			} 
-		
+
 		}
 		return true;
 	}
@@ -247,6 +251,7 @@ public abstract class SimplexLogic {
 		int column = -1;
 		double min = Double.MAX_VALUE;
 		for(int i = problem.getNoColumns()-2; i>-1; i--){
+			//System.out.println(problem.getDeltaByF()[i]);
 			if(problem.getDeltaByF()[i]>0&&problem.getDeltaByF()[i]<min){
 				column = i;
 				min = problem.getDeltaByF()[i];
@@ -283,9 +288,15 @@ public abstract class SimplexLogic {
 		int row = -1;
 		double min = Double.MAX_VALUE;
 		for(int i=problem.getNoRows()-2; i>-1; i--){
-			if(problem.getTableau()[i][problem.getNoColumns()-1]<=min && problem.getTableau()[i][problem.getNoColumns()-1]<0){
-				min = problem.getTableau()[i][problem.getNoColumns()-1];
-				row = i;
+
+			if(problem.getTableau()[i][problem.getNoColumns()-1]<=min && 
+					problem.getTableau()[i][problem.getNoColumns()-1]<0){
+				for(int j=0;j<problem.getRow(i).length-1;j++){
+					if(problem.getRow(i)[j]<0&&problem.getLastRow()[j]<0){
+						min = problem.getTableau()[i][problem.getNoColumns()-1];
+						row = i;
+					}
+				}
 			}
 		}
 		return row;
@@ -342,7 +353,7 @@ public abstract class SimplexLogic {
 		}
 		problem.setPivots(pivots);
 	}
-	
+
 	/**
 	 * Führt für ein gegebenes Pivotelement an der Stelle (zeile,spalte) im SimplexTableau den Gauß-Algorithmus durch.
 	 * @param zeile Index der Zeile des Pivotelements
@@ -497,9 +508,9 @@ public abstract class SimplexLogic {
 		}
 		if(nOUXByF>0)return true;
 		else return false;
-		
+
 	}
-	
+
 	/**
 	 * Stellt fest, ob ein duales Problem im aktuellen Zustand lösbar ist
 	 * @param problem Primales Simplexproblem
@@ -581,7 +592,7 @@ public abstract class SimplexLogic {
 		SimplexProblemPrimal tmp = addArtificialVars(problem); 
 		if(tmp!=null){		//wenn künstliche Variablen hinzugefügt wurden
 			calcDeltas(tmp);
-			
+
 			//Prüfung ob schon optimal und ob überhaupt lösbar bzw transformiert werden muss
 			try{
 				if(checkOptimal(tmp)){
@@ -651,7 +662,7 @@ public abstract class SimplexLogic {
 			phaseTwoProblem.setOptimal();
 			calcDeltaByF(phaseTwoProblem);
 		}		
-//		System.out.println(phaseTwoProblem);
+		//		System.out.println(phaseTwoProblem);
 		return phaseTwoProblem;
 	}
 
@@ -681,7 +692,7 @@ public abstract class SimplexLogic {
 			phaseTwoProblem.setOptimal();
 			calcXByF(phaseTwoProblem);
 		}		
-//		System.out.println(phaseTwoProblem);
+		//		System.out.println(phaseTwoProblem);
 		return phaseTwoProblem;
 	}
 
@@ -696,7 +707,7 @@ public abstract class SimplexLogic {
 		}
 		return tmpXByF;
 	}
-	
+
 	/**
 	 * erstellt ein double [] komplett mit nullen in der größer von deltaByF
 	 * @param problem
@@ -737,10 +748,10 @@ public abstract class SimplexLogic {
 	 * transformiert ein primales Problem in ein duales Problem
 	 */
 	public static SimplexProblemDual transformProblem(SimplexProblemPrimal problem){
-//		System.out.println(problem.tableauToHtml());
+		//		System.out.println(problem.tableauToHtml());
 		SimplexProblemDual dualProblem = new SimplexProblemDual(problem.getTableau(),problem.getTarget());
 		calcDeltas(dualProblem);
-		System.out.println(dualProblem.tableauToHtml());
+		//System.out.println(dualProblem.tableauToHtml());
 		calcDeltaByF(dualProblem);
 		return dualProblem;
 	}
@@ -779,7 +790,7 @@ public abstract class SimplexLogic {
 			return firstPhaseDual(phases);
 		}
 		if(Math.round(phases[0].getLastElement().getLastColumn()[
-		    phases[0].getLastElement().getLastColumn().length-1]*100000000.)/100000000.!=0)return phases;
+		                                                         phases[0].getLastElement().getLastColumn().length-1]*100000000.)/100000000.!=0)return phases;
 		//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
 		if(compareArray(phases[0].getLastElement().getPivots(), phases[0].getElement(phases[0].size()-2).getPivots())){
 			phases[0].deleteElement(phases[0].size()-2);
@@ -859,6 +870,10 @@ public abstract class SimplexLogic {
 			}
 			while(phases[1].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[1].getLastElement().getPivots(), phases[1].getElement(phases[1].size()-2).getPivots())){
+				phases[1].deleteElement(phases[1].size()-2);
+			}
 			return phases;
 		}catch(DataFormatException e){ //Problem wird in dualer Form weiterbearbeitet
 			phases[1].addElement(transformProblem((SimplexProblemPrimal)phases[1].getLastElement()));
@@ -898,14 +913,21 @@ public abstract class SimplexLogic {
 		}
 		calcDeltaByF((SimplexProblemDual)phases[1].getLastElement());
 		phases[1].addElement(phases[1].getLastElement().clone());
+		//		System.out.println(solveableDual(phases[1].getLastElement()));
+		//printPhases(phases);
 		try{
 			do{	
 				SimplexProblemDual current = (SimplexProblemDual) phases[1].getLastElement();
 				current = SimplexLogic.simplex(current);
 				if(current!=null)phases[1].addElement(current.clone());
+				//System.out.println(current.tableauToHtml());
 			}
 			while(phases[1].getLastElement().getOptimal()!=true);
 		}catch(IOException e){// Problem gar nicht lösbar
+			//vorletztes Problem aus History entfernen, falls die letzten beiden gleich sind
+			if(compareArray(phases[1].getLastElement().getPivots(), phases[1].getElement(phases[1].size()-2).getPivots())){
+				phases[1].deleteElement(phases[1].size()-2);
+			}
 			return phases;
 		}catch(DataFormatException e){ // Problem wird in primaler Form weiterbearbeitet
 			phases[1].addElement(transformProblem((SimplexProblemDual)phases[1].getLastElement()));
@@ -933,6 +955,6 @@ public abstract class SimplexLogic {
 			for(int i=0;i<tmp[1].size();i++){
 				System.out.println("Phase 2");
 				System.out.println(tmp[1].getElement(i).tableauToHtml());
-		}
+			}
 	}
 }
