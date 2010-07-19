@@ -75,7 +75,6 @@ public abstract class SimplexLogic {
 	 * @param problem SimplexProblem, in dem delta/f-Werte berechnet werden sollen.
 	 */
 	public static void calcDeltaByF(SimplexProblemDual problem){
-		double[]tmp = new double[problem.getNoColumns()-1];
 		if(problem.getOptimal()!=true){
 			if(solveableDual(problem)){
 				int row = choosePivotRowDual(problem);
@@ -89,7 +88,6 @@ public abstract class SimplexLogic {
 						deltaByF[j] = -1;
 					}
 				}
-				tmp=deltaByF;
 				problem.setDeltaByF(deltaByF);
 			}
 		}

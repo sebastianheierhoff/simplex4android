@@ -1,7 +1,6 @@
 package com.googlecode.simplex4android;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,13 +30,9 @@ public class SimplexHistoryShow extends Activity {
 	private static int currenti;
 	private static boolean twoPhases;
 	private static boolean solutionShown;
-	private static boolean dialogClosed;
-	private int id;
 	private static ArrayList<Input> inputs;
-
 	private static WebView mWebView;
 	private static String tableauToHtml;
-	
     private static TextView label;
     private static TextView txt_solution;
     private static TextView txt_solution_label;
@@ -53,8 +48,7 @@ public class SimplexHistoryShow extends Activity {
 	 */
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	View contentView = findViewById(R.layout.simplexhistory_show);
-    	setContentView(R.layout.simplexhistory_show);
+     	setContentView(R.layout.simplexhistory_show);
     	
     	//Ressourcen
     	btn_switchphases = (Button) findViewById(R.id.btn_switchphases);

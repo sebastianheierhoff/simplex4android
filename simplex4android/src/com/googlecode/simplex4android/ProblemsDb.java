@@ -8,9 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
-
 import android.content.Context;
-import android.widget.Toast;
+
 
 /**
  * Klasse zum Speichern und Laden alles bisher erstellen SimplexProbleme in Simplex4Android.
