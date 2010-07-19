@@ -158,7 +158,7 @@ public class TestSimplexLogic extends TestCase {
 	 * Testet, ob die Pivotspalte in der dualen Simplex-Methode korrekt gewählt wird.
 	 */
 	public void testChoosePivotRowDual(){
-		assertEquals(1,SimplexLogic.choosePivotRowDual(problemDual));
+		assertEquals(-1,SimplexLogic.choosePivotRowDual(problemDual));
 	}
 
 	/**
@@ -275,4 +275,60 @@ public class TestSimplexLogic extends TestCase {
 		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history[1].getElement(0).getTableau()[2]));
 		assertTrue(Arrays.equals(phaseTwo2Optimal[3], history[1].getElement(0).getTableau()[3]));
 	}
+
+	/**
+	 * Testet, ob die ZweiPhasenSimplexMethode für ein dual zulässiges Problem korrekt durchgeführt wird.
+	 * Es werden alle Zwischenschritte kontrolliert.
+	 */
+	public void testTwoPhaseSimplexDual(){
+		double[][] tableauDual = {{0,-1,-3,-3,-2,1,0,-1},{-1,-5,-5,5,5,0,1,-1},{0,0,0,0,0,0,0,0}};
+		double[] targetDual = {10,55,75,15,5,0,0,0};
+		problemDual = new SimplexProblemDual(tableauDual, targetDual);
+		SimplexHistory[] history = new SimplexHistory[2];
+		history = SimplexLogic.twoPhaseSimplex(problemDual);
+
+
+		// 1.Tableau
+		double[][] phaseTwo0 = {{0.0,-1.0,-3.0,-3.0,-2.0,1.0,0.0,-1.0},{-1.0,-5.0,-5.0,5.0,5.0,0.0,1.0,-1.0},{-10.0,-55.0,-75.0,-15.0,-5.0,0.0,0.0,0.0}};
+		assertTrue(Arrays.equals(phaseTwo0[0], history[1].getElement(0).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo0[1], history[1].getElement(0).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo0[2], history[1].getElement(0).getTableau()[2]));
+		
+
+		// 2.Tableau
+		double[][] phaseTwo1 = {{-0.0,0.5,1.5,1.5,1.0,-0.5,-0.0,0.5},{-1.0,-7.5,-12.5,-2.5,0.0,2.5,1.0,-3.5},{-10.0,-52.5,-67.5,-7.5,0.0,-2.5,0.0,2.5}};
+		assertTrue(Arrays.equals(phaseTwo1[0], history[1].getElement(1).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo1[1], history[1].getElement(1).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo1[2], history[1].getElement(1).getTableau()[2]));
+		
+		// 3.Tableau
+		double[][] phaseTwo2 = {{-0.6,-4.0,-6.0,0.0,1.0,1.0,0.6,-1.6},{0.4,3.0,5.0,1.0,0.0,-1.0,-0.4,1.4},{-7.0,-30.0,-30.0,0.0,0.0,-10.0,-3.0,13.0}};
+		
+		// Aufgrund von Rundungsdifferenzen mit double-Werten, wird hier auf 10 Nachkommastellen gerundet
+		for(int i=0;i<history[1].getElement(2).getNoRows();i++){
+			for(int j=0;j<history[1].getElement(2).getNoColumns();j++){
+				history[1].getElement(2).setField(i, j, (Math.round(history[1].getElement(2).getField(i, j)*10000000000.)/10000000000.));
+			}
+		}
+		assertTrue(Arrays.equals(phaseTwo2[0], history[1].getElement(2).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo2[1], history[1].getElement(2).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo2[2], history[1].getElement(2).getTableau()[2]));
+		
+		// 4.Tableau
+		// Aufgrund von Rundungsdifferenzen mit double-Werten, wird hier auf 10 Nachkommastellen gerundet
+		double[][] phaseTwo2Optimal = {{0.1,2./3.,1.0,-0.0,-1./6.,-1./6.,-0.1,4./15.},{-0.1,-1./3.,0.0,1.0,5./6.,-1./6.,0.1,1./15.},{-4.0,-10.0,0.0,0.0,-5.0,-15.0,-6.0,21.0}};
+		for(int i=0;i<history[1].getElement(3).getNoRows();i++){
+			for(int j=0;j<history[1].getElement(3).getNoColumns();j++){
+				history[1].getElement(3).setField(i, j, (Math.round(history[1].getElement(3).getField(i, j)*10000000000.)/10000000000.));
+				phaseTwo2Optimal[i][j] = (Math.round(phaseTwo2Optimal[i][j]*10000000000.)/10000000000.);
+			}
+		}
+		//double[][] phaseTwo2Optimal = {{0.1,2/3,1.0,0.0,-1/6,-1/6,-0.1,4/15},{-0.1,-1/3,0.0,1.0,5/6,-1/6,0.1,1/15},{-4.0,-10.0,0.0,0.0,-5.0,-15.0,-6.0,21.0}};
+		assertTrue(Arrays.equals(phaseTwo2Optimal[0], history[1].getElement(3).getTableau()[0]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[1], history[1].getElement(3).getTableau()[1]));
+		assertTrue(Arrays.equals(phaseTwo2Optimal[2], history[1].getElement(3).getTableau()[2]));
+		
+	}
+
+
 }
